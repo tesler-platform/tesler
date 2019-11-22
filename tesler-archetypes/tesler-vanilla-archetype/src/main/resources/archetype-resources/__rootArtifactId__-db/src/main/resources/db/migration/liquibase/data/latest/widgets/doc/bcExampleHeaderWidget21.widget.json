@@ -1,0 +1,10 @@
+{
+  "name" : "bcExampleHeaderWidget21",
+  "title" : "Просмотр ПФ",
+  "type" : "HeaderWidget",
+  "bc" : "bcExample",
+  "showCondition" : [ ],
+  "fields" : [ ],
+  "axisFields" : [ ],
+  "chart" : [ ]
+}

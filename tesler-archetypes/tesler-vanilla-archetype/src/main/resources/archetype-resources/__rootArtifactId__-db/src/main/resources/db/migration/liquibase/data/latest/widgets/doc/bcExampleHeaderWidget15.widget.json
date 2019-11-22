@@ -1,0 +1,13 @@
+{
+  "name" : "bcExampleHeaderWidget15",
+  "title" : "Список контрагентов",
+  "type" : "HeaderWidget",
+  "bc" : "bcExample",
+  "showCondition" : [ ],
+  "fields" : [ ],
+  "axisFields" : [ ],
+  "chart" : [ ],
+  "options" : {
+    "bgColorKey" : "intendModeBgColor"
+  }
+}

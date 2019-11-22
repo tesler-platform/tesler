@@ -1,0 +1,21 @@
+{
+  "name": "admin",
+  "title": "Администрирование",
+  "primaryViewName": "linkdictionaries",
+  "primaryViews": [
+    "linkdictionaries"
+  ],
+  "navigation": {
+    "menu": [
+      {
+        "id": 1400,
+        "title": "Администрирование справочников",
+        "child": [
+          {
+            "viewName": "linkdictionaries"
+          }
+        ]
+      }
+    ]
+  }
+}

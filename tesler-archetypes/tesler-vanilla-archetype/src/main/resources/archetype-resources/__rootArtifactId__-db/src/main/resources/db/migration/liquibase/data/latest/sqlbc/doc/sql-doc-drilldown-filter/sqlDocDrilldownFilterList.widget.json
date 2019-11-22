@@ -1,0 +1,16 @@
+{
+  "name" : "sqlDocDrilldownFilterList",
+  "title" : "Фильтр при переходе",
+  "type" : "List",
+  "bc" : "sql-doc-drilldown-filter",
+  "showCondition" : [ ],
+  "fields" : [ {
+    "title" : "Дриллдаун фильтр",
+    "key" : "drilldown",
+    "type" : "input",
+    "drillDown" : true,
+    "drillDownKey" : "drilldown_url"
+  } ],
+  "axisFields" : [ ],
+  "chart" : [ ]
+}

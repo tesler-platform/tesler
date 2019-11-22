@@ -1,0 +1,10 @@
+{
+  "name" : "bcExampleForm7",
+  "title" : "Информация",
+  "type" : "Form",
+  "bc" : "bcExample",
+  "showCondition" : [ ],
+  "fields" : [ ],
+  "axisFields" : [ ],
+  "chart" : [ ]
+}

@@ -1,0 +1,14 @@
+{
+  "name" : "wfPostFuncTriggerWaitStepPickListPopup",
+  "title" : "Шаги",
+  "type" : "PickListPopup",
+  "bc" : "wfPostFuncTriggerWaitStep",
+  "showCondition" : [ ],
+  "fields" : [ {
+    "title" : "Название шага",
+    "key" : "name",
+    "type" : "input"
+  } ],
+  "axisFields" : [ ],
+  "chart" : [ ]
+}

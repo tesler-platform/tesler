@@ -1,0 +1,14 @@
+{
+  "name" : "sqlOrphanDataGrid",
+  "title" : "SQL Сирота",
+  "type" : "DataGrid",
+  "bc" : "sql-orphan",
+  "showCondition" : [ ],
+  "fields" : [ {
+    "title" : "Имя",
+    "key" : "name",
+    "type" : "input"
+  } ],
+  "axisFields" : [ ],
+  "chart" : [ ]
+}

@@ -1,0 +1,10 @@
+{
+  "name" : "bcExampleHeaderWidget9",
+  "title" : "Связь многие ко многим",
+  "type" : "HeaderWidget",
+  "bc" : "bcExample",
+  "showCondition" : [ ],
+  "fields" : [ ],
+  "axisFields" : [ ],
+  "chart" : [ ]
+}

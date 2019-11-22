@@ -1,0 +1,4 @@
+ID;TYPE;TYPE_DESC
+1;INTERNAL_ROLE;Роли пользователей
+2;TASK_TYPE;Типы задач
+3;TASK_CATEGORY;Категории задач

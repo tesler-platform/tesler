@@ -1,0 +1,10 @@
+{
+  "name" : "bcExampleHeaderWidget13",
+  "title" : "AssocListPopup",
+  "type" : "HeaderWidget",
+  "bc" : "bcExample",
+  "showCondition" : [ ],
+  "fields" : [ ],
+  "axisFields" : [ ],
+  "chart" : [ ]
+}

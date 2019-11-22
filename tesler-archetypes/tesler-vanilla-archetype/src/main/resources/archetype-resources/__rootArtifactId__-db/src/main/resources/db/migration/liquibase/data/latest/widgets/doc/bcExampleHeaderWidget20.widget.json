@@ -1,0 +1,10 @@
+{
+  "name" : "bcExampleHeaderWidget20",
+  "title" : "Файлы",
+  "type" : "HeaderWidget",
+  "bc" : "bcExample",
+  "showCondition" : [ ],
+  "fields" : [ ],
+  "axisFields" : [ ],
+  "chart" : [ ]
+}

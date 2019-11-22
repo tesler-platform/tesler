@@ -1,0 +1,46 @@
+[
+  {
+    "title": "Номер",
+    "key": "name",
+    "drillDown": true,
+    "type": "input"
+  },
+  {
+    "title": "Описание",
+    "key": "description",
+    "type": "text"
+  },
+  {
+    "title": "Статус",
+    "key": "statusCd",
+    "type": "dictionary"
+  },
+  {
+    "title": "Зоны риска",
+    "type": "multifield",
+    "fields": [
+      {
+        "title": "Зона присущего риска",
+        "key": "presentRiskZoneCd",
+        "type": "dictionary",
+        "bgColor": "presentRiskZoneCdBgColor"
+      },
+      {
+        "title": "Зона остаточного риска",
+        "key": "residualRiskZoneCd",
+        "type": "dictionary",
+        "bgColor": "residualRiskZoneCdBgColor"
+      }
+    ]
+  },
+  {
+    "title": "Зона присущего риска",
+    "key": "presentRiskZoneCd",
+    "type": "dictionary"
+  },
+  {
+    "title": "Зона остаточного риска",
+    "key": "residualRiskZoneCd",
+    "type": "dictionary"
+  }
+]

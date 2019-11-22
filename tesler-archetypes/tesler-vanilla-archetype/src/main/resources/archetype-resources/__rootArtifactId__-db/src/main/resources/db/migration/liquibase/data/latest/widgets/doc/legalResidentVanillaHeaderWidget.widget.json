@@ -1,0 +1,13 @@
+{
+  "name" : "legalResidentVanillaHeaderWidget",
+  "title" : "Контрагент: ${legalPersonName}",
+  "type" : "HeaderWidget",
+  "bc" : "legalResidentVanilla",
+  "showCondition" : [ ],
+  "fields" : [ ],
+  "axisFields" : [ ],
+  "chart" : [ ],
+  "options" : {
+    "bgColorKey" : "intendModeBgColor"
+  }
+}

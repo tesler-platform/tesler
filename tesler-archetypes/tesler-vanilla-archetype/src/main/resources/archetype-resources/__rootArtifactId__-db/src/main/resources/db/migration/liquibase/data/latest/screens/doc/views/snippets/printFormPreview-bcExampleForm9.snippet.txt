@@ -1,0 +1,9 @@
+     // для виджета типа Form
+     "fields": [
+       {
+         "label": "Загрузка файла",
+         "key": "fileName",
+         "type": "fileUpload",
+         "fileIdKey": "fileId"
+       }
+     ]

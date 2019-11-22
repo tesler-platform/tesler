@@ -1,0 +1,10 @@
+{
+  "name" : "bcExampleHeaderWidget19",
+  "title" : "ТАБ 4",
+  "type" : "HeaderWidget",
+  "bc" : "bcExample",
+  "showCondition" : [ ],
+  "fields" : [ ],
+  "axisFields" : [ ],
+  "chart" : [ ]
+}

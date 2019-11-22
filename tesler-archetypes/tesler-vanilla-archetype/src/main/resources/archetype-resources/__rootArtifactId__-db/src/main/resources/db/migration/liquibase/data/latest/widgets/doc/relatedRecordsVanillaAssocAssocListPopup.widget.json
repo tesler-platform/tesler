@@ -1,0 +1,18 @@
+{
+  "name" : "relatedRecordsVanillaAssocAssocListPopup",
+  "title" : "Vanilla2 Связанные записи",
+  "type" : "AssocListPopup",
+  "bc" : "relatedRecordsVanillaAssoc",
+  "showCondition" : [ ],
+  "fields" : [ {
+    "title" : "Тип",
+    "key" : "type",
+    "type" : "input"
+  }, {
+    "title" : "Название",
+    "key" : "name",
+    "type" : "input"
+  } ],
+  "axisFields" : [ ],
+  "chart" : [ ]
+}

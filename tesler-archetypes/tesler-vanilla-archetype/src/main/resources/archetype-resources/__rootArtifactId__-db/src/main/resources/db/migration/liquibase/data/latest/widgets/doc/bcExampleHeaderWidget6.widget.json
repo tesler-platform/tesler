@@ -1,0 +1,10 @@
+{
+  "name" : "bcExampleHeaderWidget6",
+  "title" : "Данные из разных источников (multisource)",
+  "type" : "HeaderWidget",
+  "bc" : "bcExample",
+  "showCondition" : [ ],
+  "fields" : [ ],
+  "axisFields" : [ ],
+  "chart" : [ ]
+}

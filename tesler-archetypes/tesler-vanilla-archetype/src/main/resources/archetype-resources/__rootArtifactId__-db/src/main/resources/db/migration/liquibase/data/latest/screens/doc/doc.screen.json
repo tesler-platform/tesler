@@ -1,0 +1,439 @@
+{
+  "name" : "doc",
+  "title" : "Документация",
+  "primaryViewName" : "oneWidgetView",
+  "primaryViews" : [ "oneWidgetView" ],
+  "navigation" : {
+    "menu" : [ {
+      "id" : 31300,
+      "title" : "Виды отображения информации на экране",
+      "child" : [ {
+        "id" : 31400,
+        "categoryName" : "В одну колонку",
+        "child" : [ {
+          "viewName" : "oneWidgetView"
+        } ]
+      }, {
+        "id" : 31500,
+        "categoryName" : "В две колонки",
+        "child" : [ {
+          "viewName" : "dashboardView"
+        } ]
+      }, {
+        "id" : 31600,
+        "categoryName" : "В одну и две колонки",
+        "child" : [ {
+          "viewName" : "oneTwoView"
+        } ]
+      }, {
+        "id" : 31700,
+        "categoryName" : "В четыре колонки",
+        "child" : [ {
+          "viewName" : "quadColumnView"
+        } ]
+      }, {
+        "id" : 31800,
+        "categoryName" : "В три колонки",
+        "child" : [ {
+          "viewName" : "tripleColumnView"
+        } ]
+      }, {
+        "id" : 31900,
+        "categoryName" : "В несколько колонок",
+        "child" : [ {
+          "viewName" : "tripleQuadView"
+        } ]
+      }, {
+        "id" : 32000,
+        "categoryName" : "Настраиваемая сетка",
+        "child" : [ {
+          "viewName" : "freeView"
+        } ]
+      }, {
+        "id" : 32100,
+        "categoryName" : "Настраиваемая видимость элементов",
+        "child" : [ {
+          "viewName" : "customizeView"
+        } ]
+      } ]
+    }, {
+      "id" : 32200,
+      "title" : "Виджеты",
+      "child" : [ {
+        "id" : 32300,
+        "categoryName" : "Таблица",
+        "child" : [ {
+          "viewName" : "list"
+        } ]
+      }, {
+        "id" : 32400,
+        "categoryName" : "Форма",
+        "child" : [ {
+          "viewName" : "form"
+        } ]
+      }, {
+        "id" : 32500,
+        "categoryName" : "Связь многие ко многим",
+        "child" : [ {
+          "viewName" : "docAssocListPopup"
+        } ]
+      }, {
+        "id" : 32600,
+        "categoryName" : "Администрирование",
+        "child" : [ {
+          "viewName" : "docWidgetCreator"
+        } ]
+      }, {
+        "id" : 32700,
+        "categoryName" : "Сводная таблица",
+        "child" : [ {
+          "viewName" : "docPivot"
+        } ]
+      }, {
+        "id" : 32800,
+        "categoryName" : "Сводная таблица (Двумерный фильтр)",
+        "child" : [ {
+          "viewName" : "docDimFilterPivot"
+        } ]
+      }, {
+        "id" : 32900,
+        "categoryName" : "Графики",
+        "child" : [ {
+          "viewName" : "docCharts"
+        }, {
+          "viewName" : "docChartsPivot"
+        }, {
+          "viewName" : "docChartsGroupPivot"
+        } ]
+      }, {
+        "id" : 33000,
+        "categoryName" : "Графы",
+        "child" : [ {
+          "viewName" : "docGraph"
+        } ]
+      }, {
+        "id" : 33100,
+        "categoryName" : "Тоггл-виджеты",
+        "child" : [ {
+          "viewName" : "toggle"
+        } ]
+      }, {
+        "id" : 33110,
+        "categoryName" : "Виджеты-сироты",
+        "child" : [ {
+          "viewName" : "orphan"
+        } ]
+      } ]
+    }, {
+      "id" : 33200,
+      "title" : "Контролы",
+      "child" : [ {
+        "id" : 33300,
+        "categoryName" : "Строки",
+        "child" : [ {
+          "viewName" : "text"
+        } ]
+      }, {
+        "id" : 33350,
+        "categoryName" : "Маски строк",
+        "child" : [ {
+          "viewName" : "textmask"
+        } ]
+      }, {
+        "id" : 33400,
+        "categoryName" : "Даты",
+        "child" : [ {
+          "viewName" : "date"
+        } ]
+      }, {
+        "id" : 33500,
+        "categoryName" : "Числа",
+        "child" : [ {
+          "viewName" : "number"
+        } ]
+      }, {
+        "id" : 33600,
+        "categoryName" : "Файлы",
+        "child" : [ {
+          "viewName" : "files"
+        } ]
+      }, {
+        "id" : 33610,
+        "categoryName" : "Источники файлов",
+        "child" : [ {
+          "viewName" : "filesdatasources"
+        } ]
+      }, {
+        "id" : 33700,
+        "categoryName" : "Выбор значения",
+        "child" : [ {
+          "viewName" : "choice"
+        } ]
+      }, {
+        "id" : 33800,
+        "categoryName" : "Подсказки для полей",
+        "child" : [ {
+          "viewName" : "fieldHints"
+        } ]
+      }, {
+        "id" : 33900,
+        "categoryName" : "Данные из разных источников",
+        "child" : [ {
+          "viewName" : "multisource"
+        } ]
+      }, {
+        "id" : 34000,
+        "categoryName" : "Просмотр ПФ",
+        "child" : [ {
+          "viewName" : "printFormPreview"
+        } ]
+      } ]
+    }, {
+      "id" : 34100,
+      "title" : "Функциональность",
+      "child" : [ {
+        "id" : 34200,
+        "categoryName" : "Выделение цветом ячеек",
+        "child" : [ {
+          "viewName" : "colorSelect"
+        } ]
+      }, {
+        "id" : 34300,
+        "categoryName" : "Пост-функции (пост-экшны)",
+        "child" : [ {
+          "viewName" : "postActions"
+        } ]
+      }, {
+        "id" : 34400,
+        "categoryName" : "Пре-функции (пре-экшны)",
+        "child" : [ {
+          "viewName" : "preActions"
+        } ]
+      }, {
+        "id" : 34500,
+        "categoryName" : "Заблокированные поля",
+        "child" : [ {
+          "viewName" : "disableField"
+        } ]
+      }, {
+        "id" : 34600,
+        "categoryName" : "Принудительное обновление",
+        "child" : [ {
+          "viewName" : "forceActive"
+        } ]
+      }, {
+        "id" : 34700,
+        "categoryName" : "Отчетная дата",
+        "child" : [ {
+          "viewName" : "reportDate"
+        } ]
+      }, {
+        "id" : 34800,
+        "categoryName" : "Пагинация",
+        "child" : [ {
+          "viewName" : "pagination"
+        } ]
+      }, {
+        "id" : 34900,
+        "categoryName" : "Ошибки",
+        "child" : [ {
+          "viewName" : "errors"
+        } ]
+      }, {
+        "id" : 35000,
+        "categoryName" : "Фильтрация при переходе",
+        "child" : [ {
+          "viewName" : "docDrilldownFilters"
+        } ]
+      }, {
+        "id" : 35100,
+        "categoryName" : "Поиск",
+        "child" : [ {
+          "id" : 35200,
+          "categoryName" : "Поиск",
+          "child" : [ {
+            "viewName" : "docSearch"
+          } ]
+        }, {
+          "id" : 35300,
+          "categoryName" : "Равно",
+          "child" : [ {
+            "viewName" : "exampleEquals"
+          } ]
+        }, {
+          "id" : 35400,
+          "categoryName" : "Больше",
+          "child" : [ {
+            "viewName" : "exampleGreaterThen"
+          } ]
+        }, {
+          "id" : 35500,
+          "categoryName" : "Меньше",
+          "child" : [ {
+            "viewName" : "exampleLessThen"
+          } ]
+        }, {
+          "id" : 35600,
+          "categoryName" : "Больше или равно",
+          "child" : [ {
+            "viewName" : "exampleGreaterOrEqualThen"
+          } ]
+        }, {
+          "id" : 35700,
+          "categoryName" : "Меньше или равно",
+          "child" : [ {
+            "viewName" : "exampleLessOrEqualThen"
+          } ]
+        }, {
+          "id" : 35800,
+          "categoryName" : "Указано",
+          "child" : [ {
+            "viewName" : "exampleSpecified"
+          } ]
+        }, {
+          "id" : 35900,
+          "categoryName" : "Содержит",
+          "child" : [ {
+            "viewName" : "exampleContains"
+          } ]
+        }, {
+          "id" : 36000,
+          "categoryName" : "Содержит одно из",
+          "child" : [ {
+            "viewName" : "exampleContainsOneOf"
+          } ]
+        }, {
+          "id" : 36100,
+          "categoryName" : "Равно одному из",
+          "child" : [ {
+            "viewName" : "exampleEqualsOneOf"
+          } ]
+        }, {
+          "id" : 36200,
+          "categoryName" : "SQL bind фильтры",
+          "child" : [ {
+            "viewName" : "docSqlBinds"
+          } ]
+        } ]
+      }, {
+        "id" : 36300,
+        "categoryName" : "Переходы",
+        "child" : [ {
+          "id" : 36400,
+          "categoryName" : "Типы переходов",
+          "child" : [ {
+            "viewName" : "drillDownTypes"
+          } ]
+        }, {
+          "id" : 36500,
+          "categoryName" : "Источники переходов",
+          "child" : [ {
+            "viewName" : "drillDownSources"
+          } ]
+        } ]
+      }, {
+        "id" : 36700,
+        "categoryName" : "Массовые изменения",
+        "child" : [ {
+          "viewName" : "bulkChanges"
+        } ]
+      }, {
+        "id" : 36800,
+        "categoryName" : "Редактируемые поля SQL сущности",
+        "child" : [ {
+          "viewName" : "editSqlBc"
+        } ]
+      }, {
+        "id" : 36850,
+        "categoryName" : "Флаг нередактируемости бк на ДТО",
+        "child" : [ {
+          "viewName" : "bcReadOnlyFlgField"
+        } ]
+      }, {
+        "id" : 36900,
+        "categoryName" : "Нередактируемая вью",
+        "child" : [ {
+          "viewName" : "readonlyView"
+        } ]
+      }, {
+        "id" : 37000,
+        "categoryName" : "Ограничение длины полей",
+        "child" : [ {
+          "viewName" : "fieldMaxLength"
+        } ]
+      }, {
+        "id" : 37050,
+        "categoryName" : "Ограничение количества вводимых символов",
+        "child" : [ {
+          "viewName" : "maxInput"
+        } ]
+      }, {
+        "id" : 37060,
+        "categoryName" : "Ограничение строк многострочного поля",
+        "child" : [ {
+          "viewName" : "textareaRowsLimit"
+        } ]
+      }, {
+        "id" : 37070,
+        "categoryName" : "Иконки для кнопок экшнов",
+        "child" : [ {
+          "viewName" : "actionIcon"
+        } ]
+      }, {
+        "id" : 37100,
+        "categoryName" : "Выгрузка CSV",
+        "child" : [ {
+          "viewName" : "docCsvExport"
+        } ]
+      } ]
+    }, {
+      "id" : 37200,
+      "title" : "Типы скрины",
+      "child" : [ {
+        "id" : 37300,
+        "categoryName" : "Связи компонент (BC) между собой",
+        "child" : [ {
+          "viewName" : "bcRelations"
+        } ]
+      }, {
+        "id" : 37400,
+        "categoryName" : "Связи компонент на разных View",
+        "child" : [ {
+          "viewName" : "viewRelations1"
+        }, {
+          "viewName" : "viewRelations2"
+        } ]
+      }, {
+        "id" : 37500,
+        "categoryName" : "AssocListPopup",
+        "child" : [ {
+          "viewName" : "assocListPopup"
+        } ]
+      }, {
+        "id" : 37600,
+        "categoryName" : "HeaderWidget",
+        "child" : [ {
+          "viewName" : "headerWidget"
+        } ]
+      }, {
+        "id" : 37700,
+        "categoryName" : "Переключатель View",
+        "child" : [ {
+          "viewName" : "viewTabs1"
+        }, {
+          "id" : 37800,
+          "categoryName" : "ТАБ 2",
+          "child" : [ {
+            "viewName" : "viewTabs21"
+          }, {
+            "viewName" : "viewTabs22"
+          } ]
+        }, {
+          "viewName" : "viewTabs3"
+        }, {
+          "viewName" : "viewTabs4"
+        } ]
+      } ]
+    } ]
+  }
+}

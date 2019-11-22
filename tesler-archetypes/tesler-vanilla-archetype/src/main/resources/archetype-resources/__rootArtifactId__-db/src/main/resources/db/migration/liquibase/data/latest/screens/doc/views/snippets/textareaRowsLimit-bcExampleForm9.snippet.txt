@@ -1,0 +1,7 @@
+"fields" : [ {
+  "label" : "Многострочный текст",
+  "key" : "testText",
+  "type" : "text",
+  "minInputRows" : 2,
+  "maxInputRows" : 4
+} ]

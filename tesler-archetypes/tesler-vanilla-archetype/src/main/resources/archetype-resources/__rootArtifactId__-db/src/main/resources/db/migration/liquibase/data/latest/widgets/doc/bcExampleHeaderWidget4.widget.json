@@ -1,0 +1,10 @@
+{
+  "name" : "bcExampleHeaderWidget4",
+  "title" : "Выбор значения",
+  "type" : "HeaderWidget",
+  "bc" : "bcExample",
+  "showCondition" : [ ],
+  "fields" : [ ],
+  "axisFields" : [ ],
+  "chart" : [ ]
+}

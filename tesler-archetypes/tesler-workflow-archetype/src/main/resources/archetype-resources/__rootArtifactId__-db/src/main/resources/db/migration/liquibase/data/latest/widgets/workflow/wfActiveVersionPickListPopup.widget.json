@@ -1,0 +1,18 @@
+{
+  "name" : "wfActiveVersionPickListPopup",
+  "title" : "Версия",
+  "type" : "PickListPopup",
+  "bc" : "wfActiveVersion",
+  "showCondition" : [ ],
+  "fields" : [ {
+    "title" : "Версия",
+    "key" : "version",
+    "type" : "input"
+  }, {
+    "title" : "Описание версии",
+    "key" : "description",
+    "type" : "input"
+  } ],
+  "axisFields" : [ ],
+  "chart" : [ ]
+}

@@ -1,0 +1,54 @@
+{
+  "name": "admin",
+  "title": "Администрирование",
+  "primaryViewName": "wftransitioncond",
+  "primaryViews": [
+    "wftransitioncond"
+  ],
+  "navigation": {
+    "menu": [
+      {
+        "id": 300,
+        "title": "Менеджер активностей",
+        "child": [
+          {
+            "id": 400,
+            "categoryName": "Модель переходов",
+            "child": [
+              {
+                "id": 500,
+                "categoryName": "Переходы",
+                "child": [
+                  {
+                    "viewName": "wftransitioncond"
+                  },
+                  {
+                    "viewName": "wftransitionfunc"
+                  },
+                  {
+                    "viewName": "wftransitionvalid"
+                  }
+                ]
+              },
+              {
+                "viewName": "wftransitiongroup"
+              },
+              {
+                "viewName": "wffieldcond"
+              },
+              {
+                "viewName": "wfbccond"
+              },
+              {
+                "viewName": "wfrecommendedassignee"
+              }
+            ]
+          },
+          {
+            "viewName": "wfmigration"
+          }
+        ]
+      }
+    ]
+  }
+}

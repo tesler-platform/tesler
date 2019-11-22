@@ -1,0 +1,18 @@
+{
+  "name" : "wfStepFieldCondList",
+  "title" : "Условия нередактируемости поля",
+  "type" : "List",
+  "bc" : "wfStepFieldCond",
+  "showCondition" : [ ],
+  "fields" : [ {
+    "title" : "Последовательность",
+    "key" : "seq",
+    "type" : "number"
+  }, {
+    "title" : "Тип условия",
+    "key" : "condCd",
+    "type" : "dictionary"
+  } ],
+  "axisFields" : [ ],
+  "chart" : [ ]
+}

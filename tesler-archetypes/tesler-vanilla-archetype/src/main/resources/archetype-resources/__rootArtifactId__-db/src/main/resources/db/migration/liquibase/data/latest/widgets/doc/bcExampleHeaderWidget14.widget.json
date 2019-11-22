@@ -1,0 +1,10 @@
+{
+  "name" : "bcExampleHeaderWidget14",
+  "title" : "HeaderWidget",
+  "type" : "HeaderWidget",
+  "bc" : "bcExample",
+  "showCondition" : [ ],
+  "fields" : [ ],
+  "axisFields" : [ ],
+  "chart" : [ ]
+}
