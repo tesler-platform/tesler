@@ -33,8 +33,6 @@ import lombok.Setter;
 
 /**
  * Информация о файле
- * <p>
- * Запрещено создание и удаление напрямую. Для работы с файлами смотри {@link io.tesler.core.service.FileService}.
  */
 @Getter
 @Setter
@@ -57,8 +55,6 @@ public class FileEntity extends BaseEntity {
 
 	/**
 	 * Контент
-	 * <p>
-	 * Запрещено использовать напрямую. Для работы с файлами смотри {@link io.tesler.core.service.FileService}.
 	 */
 	@Lob
 	private byte[] fileContent;

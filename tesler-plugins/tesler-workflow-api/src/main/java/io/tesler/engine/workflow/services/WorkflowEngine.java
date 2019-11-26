@@ -36,7 +36,6 @@ public interface WorkflowEngine extends ExtensionPoint {
 
 	/**
 	 * Устанавливает указанную активность в начальный шаг соответствующей модели переходов.
-	 * <p/>
 	 * Модель переходов выбирается в соответствии c проектом {@link WorkflowableTask#getProject()}
 	 * и типом {@link WorkflowableTask#getTaskType()} активности.
 	 *

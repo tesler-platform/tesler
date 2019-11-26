@@ -6,10 +6,23 @@
   <packaging>pom</packaging>
   <version>1.0-SNAPSHOT</version>
   <name>IO Tesler</name>
+  <description>Java framework designed for creating Enterprise Rich Web Applications</description>
   <inceptionYear>2018</inceptionYear>
+
+  <url>http://tesler.io</url>
+
   <organization>
     <name>Tesler</name>
   </organization>
+
+  <developers>
+    <developer>
+      <name>Tesler team</name>
+      <email>info@tesler.io</email>
+      <organization>Tesler</organization>
+      <organizationUrl>http://tesler.io</organizationUrl>
+    </developer>
+  </developers>
 
   <licenses>
     <license>
@@ -20,8 +33,8 @@
   </licenses>
 
   <scm>
-    <connection>scm:git:git@github.com/tesler-platform/tesler.git</connection>
-    <developerConnection>scm:git:git@github.com/tesler-platform/tesler.git</developerConnection>
+    <connection>scm:git:git@github.com:tesler-platformtesler.git</connection>
+    <developerConnection>scm:git:git@github.com:tesler-platform/tesler.git</developerConnection>
     <url>https://github.com/tesler-platform/tesler</url>
     <tag>HEAD</tag>
   </scm>
@@ -39,11 +52,11 @@
 
   <properties>
     <checktyle.config>/tesler-base/src/main/resources/checkstyle-checker.xml</checktyle.config>
-
-    <flatten.mode>clean</flatten.mode>
-
+    <flatten.mode>oss</flatten.mode>
     <skip.license>false</skip.license>
     <skip.checkstyle>false</skip.checkstyle>
+    <gpg.key>FFD341CE2A7591F85FBEFCCB004D6BF2F8C03354</gpg.key>
+    <skip.deploy>false</skip.deploy>
   </properties>
 
   <profiles>
@@ -207,6 +220,9 @@
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-gpg-plugin</artifactId>
           <version>1.5</version>
+          <configuration>
+            <keyname>${gpg.key}</keyname>
+          </configuration>
           <executions>
             <execution>
               <id>sign-artifacts</id>
@@ -222,6 +238,7 @@
           <artifactId>maven-deploy-plugin</artifactId>
           <version>2.8.2</version>
           <configuration>
+            <skip>${skip.deploy}</skip>
             <deployAtEnd>true</deployAtEnd>
           </configuration>
         </plugin>

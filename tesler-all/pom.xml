@@ -16,8 +16,6 @@
     <properties>
         <!-- build settings -->
         <skip.checkstyle>false</skip.checkstyle>
-        <skip.sources>false</skip.sources>
-        <skip.compile>false</skip.compile>
     </properties>
 
     <dependencyManagement>

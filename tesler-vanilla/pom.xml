@@ -13,12 +13,21 @@
     <relativePath>../pom.xml</relativePath>
   </parent>
 
+  <profiles>
+    <profile>
+      <!-- optional modules -->
+      <id>vanilla</id>
+      <modules>
+        <module>tesler-vanilla-plugins</module>
+        <module>tesler-vanilla-web</module>
+        <module>tesler-vanilla-app</module>
+      </modules>
+    </profile>
+  </profiles>
+
   <modules>
     <module>tesler-vanilla-base</module>
     <module>tesler-vanilla-source</module>
-    <module>tesler-vanilla-plugins</module>
-    <module>tesler-vanilla-web</module>
-    <module>tesler-vanilla-app</module>
   </modules>
 
 </project>

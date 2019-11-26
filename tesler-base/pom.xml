@@ -49,11 +49,6 @@
     <mockito.version>2.23.4</mockito.version>
     <surefire.version>2.22.2</surefire.version>
 
-    <!-- build settings -->
-    <skip.sources>false</skip.sources>
-    <skip.compile>false</skip.compile>
-    <skip.deploy>false</skip.deploy>
-
   </properties>
 
   <dependencyManagement>
@@ -572,6 +567,12 @@
       <plugins>
 
         <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-javadoc-plugin</artifactId>
+          <version>3.1.1</version>
+        </plugin>
+
+        <plugin>
           <groupId>org.springframework.boot</groupId>
           <artifactId>spring-boot-maven-plugin</artifactId>
           <version>${spring-boot.version}</version>
@@ -588,9 +589,6 @@
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-compiler-plugin</artifactId>
           <version>3.8.0</version>
-          <configuration>
-            <skip>${skip.compile}</skip>
-          </configuration>
         </plugin>
 
         <plugin>
@@ -615,15 +613,11 @@
           <executions>
             <execution>
               <id>attach-sources</id>
-              <phase>verify</phase>
               <goals>
                 <goal>jar-no-fork</goal>
               </goals>
             </execution>
           </executions>
-          <configuration>
-            <skipSource>${skip.sources}</skipSource>
-          </configuration>
         </plugin>
 
         <plugin>
@@ -649,15 +643,6 @@
 
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-deploy-plugin</artifactId>
-          <version>2.8.2</version>
-          <configuration>
-            <skip>${skip.deploy}</skip>
-          </configuration>
-        </plugin>
-
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-failsafe-plugin</artifactId>
           <version>${surefire.version}</version>
         </plugin>
@@ -675,6 +660,10 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-source-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
       </plugin>
     </plugins>
 
