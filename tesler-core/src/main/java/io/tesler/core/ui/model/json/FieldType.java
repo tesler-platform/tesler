@@ -20,9 +20,9 @@
 
 package io.tesler.core.ui.model.json;
 
-import io.tesler.api.util.MapUtils;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
+import io.tesler.api.util.MapUtils;
 import java.util.Map;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -52,7 +52,8 @@ public enum FieldType {
 	PRINTFORM("printForm"),
 	MULTIVALUE("multivalue"),
 	MULTIVALUE_HOVER("multivalueHover"),
-	MULTIFIELD("multifield");
+	MULTIFIELD("multifield"),
+	DIFFTEXT("diffText");
 
 	private static final Map<String, FieldType> VALUES = MapUtils.of(FieldType.class, FieldType::getValue);
 

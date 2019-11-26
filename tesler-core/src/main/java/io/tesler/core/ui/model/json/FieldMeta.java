@@ -20,10 +20,10 @@
 
 package io.tesler.core.ui.model.json;
 
-import io.tesler.core.ui.field.link.LinkToField;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import io.tesler.core.ui.field.link.LinkToField;
 import java.util.List;
 import java.util.Map;
 import lombok.Getter;
@@ -55,7 +55,8 @@ import lombok.Setter;
 		@JsonSubTypes.Type(value = FieldMeta.DateTimeWithSecondsFieldMeta.class, name = "dateTimeWithSeconds"),
 		@JsonSubTypes.Type(value = FieldMeta.ComboConditionFieldMeta.class, name = "combo-condition"),
 		@JsonSubTypes.Type(value = FieldMeta.RichTextMeta.class, name = "richText"),
-		@JsonSubTypes.Type(value = FieldMeta.PrintFormFieldMeta.class, name = "printForm")
+		@JsonSubTypes.Type(value = FieldMeta.PrintFormFieldMeta.class, name = "printForm"),
+		@JsonSubTypes.Type(value = FieldMeta.DiffTextFieldMeta.class, name = "diffText")
 })
 public abstract class FieldMeta extends CellStyle {
 
@@ -339,5 +340,16 @@ public abstract class FieldMeta extends CellStyle {
 		private String label;
 
 	}
+
+	@Getter
+	@Setter
+	public static class DiffTextFieldMeta extends FieldMetaBase {
+
+		private String diffSource;
+
+		private String diffTarget;
+
+	}
+
 
 }
