@@ -41,6 +41,7 @@ public enum FieldType {
 	CHECKBOX_SQL("checkboxSql"),
 	DMN("DMN"),
 	PICKLIST("pickList"),
+	INLINE_PICKLIST("inline-pickList"),
 	DICTIONARY("dictionary"),
 	HIDDEN("hidden"),
 	TEXT("text"),
