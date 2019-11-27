@@ -24,9 +24,6 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-import io.tesler.api.data.dictionary.DictionaryCache;
-import io.tesler.api.service.tx.DeploymentTransactionSupport;
-import io.tesler.api.system.SystemSettings;
 import io.tesler.core.dao.BaseDAO;
 import io.tesler.model.core.config.ScopeConfig;
 import io.tesler.model.core.listeners.jpa.BaseEntityListener;
@@ -57,20 +54,6 @@ public class PersistenceTestContext {
 		return mock(BaseDAO.class);
 	}
 
-	@Bean
-	public DictionaryCache dictionaryCache() {
-		DictionaryCache cache = mock(DictionaryCache.class);
-		DictionaryCache.instance.set(cache);
-		return cache;
-	}
-
-	@Bean
-	public SystemSettings systemSettings() {
-		SystemSettings systemSettings = mock(SystemSettings.class);
-		SystemSettings.instance.set(systemSettings);
-		return systemSettings;
-	}
-
 	@Bean("primaryDS")
 	public DataSource primaryDS() throws SQLException {
 		Connection connection = mock(Connection.class);
@@ -80,11 +63,6 @@ public class PersistenceTestContext {
 		when(dataSource.getConnection()).thenReturn(connection);
 		when(dataSource.getConnection(any(), any())).thenReturn(connection);
 		return dataSource;
-	}
-
-	@Bean(name = DeploymentTransactionSupport.SERVICE_NAME)
-	public DeploymentTransactionSupport deploymentTransactionSupport() {
-		return mock(DeploymentTransactionSupport.class);
 	}
 
 }

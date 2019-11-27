@@ -25,6 +25,8 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import io.tesler.api.data.dictionary.DictionaryCache;
+import io.tesler.api.service.tx.DeploymentTransactionSupport;
+import io.tesler.api.system.SystemSettings;
 import io.tesler.core.security.PolicyEnforcer;
 import io.tesler.core.security.impl.obligations.ObligationSet;
 import io.tesler.core.util.session.SessionService;
@@ -40,8 +42,24 @@ public class RootTestContext {
 
 	@Bean
 	public DictionaryCache dictionaryCache() {
-		return mock(DictionaryCache.class);
+		DictionaryCache cache = mock(DictionaryCache.class);
+		DictionaryCache.instance.set(cache);
+		return cache;
 	}
+
+	@Bean(SystemSettings.SERVICE_NAME)
+	public SystemSettings systemSettings() {
+		SystemSettings systemSettings = mock(SystemSettings.class);
+		SystemSettings.instance.set(systemSettings);
+		return systemSettings;
+	}
+
+
+	@Bean(DeploymentTransactionSupport.SERVICE_NAME)
+	public DeploymentTransactionSupport deploymentTransactionSupport() {
+		return mock(DeploymentTransactionSupport.class);
+	}
+
 
 	@Bean
 	protected PolicyEnforcer policyEnforcer() {
