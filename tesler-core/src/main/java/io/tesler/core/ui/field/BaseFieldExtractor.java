@@ -124,7 +124,7 @@ public abstract class BaseFieldExtractor implements FieldExtractor {
 
 	private List<PickListField> getPickLists(final FieldMeta.FieldMetaBase field) {
 		final List<PickListField> pickLists = new ArrayList<>();
-		if (field.getType() == FieldType.PICKLIST) {
+		if (field.getType() == FieldType.PICKLIST || field.getType() == FieldType.INLINE_PICKLIST) {
 			final FieldMeta.PickListFieldMeta pickListField = (FieldMeta.PickListFieldMeta) field;
 			pickLists.add(new PickListField(pickListField.getPopupBcName(), pickListField.getPickMap()));
 		} else if (field.getType() == FieldType.DMN) {

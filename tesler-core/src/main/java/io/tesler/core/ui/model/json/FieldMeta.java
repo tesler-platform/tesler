@@ -24,6 +24,27 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import io.tesler.core.ui.field.link.LinkToField;
+import io.tesler.core.ui.model.json.FieldMeta.CheckboxFieldMeta;
+import io.tesler.core.ui.model.json.FieldMeta.CheckboxSqlFieldMeta;
+import io.tesler.core.ui.model.json.FieldMeta.ComboConditionFieldMeta;
+import io.tesler.core.ui.model.json.FieldMeta.DMNFieldMeta;
+import io.tesler.core.ui.model.json.FieldMeta.DateFieldMeta;
+import io.tesler.core.ui.model.json.FieldMeta.DateTimeFieldMeta;
+import io.tesler.core.ui.model.json.FieldMeta.DateTimeWithSecondsFieldMeta;
+import io.tesler.core.ui.model.json.FieldMeta.DictionaryFieldMeta;
+import io.tesler.core.ui.model.json.FieldMeta.DiffTextFieldMeta;
+import io.tesler.core.ui.model.json.FieldMeta.HiddenFieldMeta;
+import io.tesler.core.ui.model.json.FieldMeta.InlinePickListFieldMeta;
+import io.tesler.core.ui.model.json.FieldMeta.InputFieldMeta;
+import io.tesler.core.ui.model.json.FieldMeta.MonthYearFieldMeta;
+import io.tesler.core.ui.model.json.FieldMeta.MultifieldFieldMeta;
+import io.tesler.core.ui.model.json.FieldMeta.MultivalueFieldMeta;
+import io.tesler.core.ui.model.json.FieldMeta.NumberFieldMeta;
+import io.tesler.core.ui.model.json.FieldMeta.PickListFieldMeta;
+import io.tesler.core.ui.model.json.FieldMeta.PrintFormFieldMeta;
+import io.tesler.core.ui.model.json.FieldMeta.RichTextMeta;
+import io.tesler.core.ui.model.json.FieldMeta.TextFieldMeta;
+import io.tesler.core.ui.model.json.FieldMeta.UploadFileFieldMeta;
 import java.util.List;
 import java.util.Map;
 import lombok.Getter;
@@ -33,30 +54,31 @@ import lombok.Setter;
 @Setter
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "type", defaultImpl = FieldMeta.ListColumnGroupMeta.class, visible = true)
 @JsonSubTypes({
-		@JsonSubTypes.Type(value = FieldMeta.NumberFieldMeta.class, name = "number"),
-		@JsonSubTypes.Type(value = FieldMeta.NumberFieldMeta.class, name = "money"),
-		@JsonSubTypes.Type(value = FieldMeta.NumberFieldMeta.class, name = "percent"),
-		@JsonSubTypes.Type(value = FieldMeta.InputFieldMeta.class, name = "input"),
-		@JsonSubTypes.Type(value = FieldMeta.InputFieldMeta.class, name = "hint"),
-		@JsonSubTypes.Type(value = FieldMeta.DateFieldMeta.class, name = "date"),
-		@JsonSubTypes.Type(value = FieldMeta.CheckboxFieldMeta.class, name = "checkbox"),
-		@JsonSubTypes.Type(value = FieldMeta.CheckboxSqlFieldMeta.class, name = "checkboxSql"),
-		@JsonSubTypes.Type(value = FieldMeta.PickListFieldMeta.class, name = "pickList"),
-		@JsonSubTypes.Type(value = FieldMeta.MultivalueFieldMeta.class, name = "multivalue"),
-		@JsonSubTypes.Type(value = FieldMeta.MultivalueFieldMeta.class, name = "multivalueHover"),
-		@JsonSubTypes.Type(value = FieldMeta.MultifieldFieldMeta.class, name = "multifield"),
-		@JsonSubTypes.Type(value = FieldMeta.DictionaryFieldMeta.class, name = "dictionary"),
-		@JsonSubTypes.Type(value = FieldMeta.TextFieldMeta.class, name = "text"),
-		@JsonSubTypes.Type(value = FieldMeta.DMNFieldMeta.class, name = "DMN"),
-		@JsonSubTypes.Type(value = FieldMeta.HiddenFieldMeta.class, name = "hidden"),
-		@JsonSubTypes.Type(value = FieldMeta.UploadFileFieldMeta.class, name = "fileUpload"),
-		@JsonSubTypes.Type(value = FieldMeta.DateTimeFieldMeta.class, name = "dateTime"),
-		@JsonSubTypes.Type(value = FieldMeta.MonthYearFieldMeta.class, name = "monthYear"),
-		@JsonSubTypes.Type(value = FieldMeta.DateTimeWithSecondsFieldMeta.class, name = "dateTimeWithSeconds"),
-		@JsonSubTypes.Type(value = FieldMeta.ComboConditionFieldMeta.class, name = "combo-condition"),
-		@JsonSubTypes.Type(value = FieldMeta.RichTextMeta.class, name = "richText"),
-		@JsonSubTypes.Type(value = FieldMeta.PrintFormFieldMeta.class, name = "printForm"),
-		@JsonSubTypes.Type(value = FieldMeta.DiffTextFieldMeta.class, name = "diffText")
+		@JsonSubTypes.Type(value = NumberFieldMeta.class, name = "number"),
+		@JsonSubTypes.Type(value = NumberFieldMeta.class, name = "money"),
+		@JsonSubTypes.Type(value = NumberFieldMeta.class, name = "percent"),
+		@JsonSubTypes.Type(value = InputFieldMeta.class, name = "input"),
+		@JsonSubTypes.Type(value = InputFieldMeta.class, name = "hint"),
+		@JsonSubTypes.Type(value = DateFieldMeta.class, name = "date"),
+		@JsonSubTypes.Type(value = CheckboxFieldMeta.class, name = "checkbox"),
+		@JsonSubTypes.Type(value = CheckboxSqlFieldMeta.class, name = "checkboxSql"),
+		@JsonSubTypes.Type(value = PickListFieldMeta.class, name = "pickList"),
+		@JsonSubTypes.Type(value = InlinePickListFieldMeta.class, name = "inline-pickList"),
+		@JsonSubTypes.Type(value = MultivalueFieldMeta.class, name = "multivalue"),
+		@JsonSubTypes.Type(value = MultivalueFieldMeta.class, name = "multivalueHover"),
+		@JsonSubTypes.Type(value = MultifieldFieldMeta.class, name = "multifield"),
+		@JsonSubTypes.Type(value = DictionaryFieldMeta.class, name = "dictionary"),
+		@JsonSubTypes.Type(value = TextFieldMeta.class, name = "text"),
+		@JsonSubTypes.Type(value = DMNFieldMeta.class, name = "DMN"),
+		@JsonSubTypes.Type(value = HiddenFieldMeta.class, name = "hidden"),
+		@JsonSubTypes.Type(value = UploadFileFieldMeta.class, name = "fileUpload"),
+		@JsonSubTypes.Type(value = DateTimeFieldMeta.class, name = "dateTime"),
+		@JsonSubTypes.Type(value = MonthYearFieldMeta.class, name = "monthYear"),
+		@JsonSubTypes.Type(value = DateTimeWithSecondsFieldMeta.class, name = "dateTimeWithSeconds"),
+		@JsonSubTypes.Type(value = ComboConditionFieldMeta.class, name = "combo-condition"),
+		@JsonSubTypes.Type(value = RichTextMeta.class, name = "richText"),
+		@JsonSubTypes.Type(value = PrintFormFieldMeta.class, name = "printForm"),
+		@JsonSubTypes.Type(value = DiffTextFieldMeta.class, name = "diffText")
 })
 public abstract class FieldMeta extends CellStyle {
 
@@ -203,6 +225,14 @@ public abstract class FieldMeta extends CellStyle {
 		private String popupBcName;
 
 		private Map<String, String> pickMap;
+
+	}
+
+	@Getter
+	@Setter
+	public static class InlinePickListFieldMeta extends PickListFieldMeta {
+
+		private String searchSpec;
 
 	}
 
