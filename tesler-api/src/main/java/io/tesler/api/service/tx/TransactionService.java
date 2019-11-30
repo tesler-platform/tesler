@@ -41,6 +41,9 @@ public interface TransactionService {
 	@Transactional(propagation = Propagation.REQUIRES_NEW, readOnly = true)
 	<T, E extends Throwable> T invokeInNewROTx(Invoker<T, E> invoker) throws E;
 
+	@Transactional(propagation = Propagation.REQUIRES_NEW)
+	<T, E extends Throwable> T invokeInNewRollbackOnlyTx(Invoker<T, E> invoker) throws E;
+
 	void setRollbackOnly();
 
 	boolean isRollbackOnly();

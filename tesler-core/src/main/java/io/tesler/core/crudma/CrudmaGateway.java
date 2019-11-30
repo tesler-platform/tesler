@@ -20,13 +20,13 @@
 
 package io.tesler.core.crudma;
 
+import static com.google.common.collect.Sets.immutableEnumSet;
 import static io.tesler.api.util.i18n.ErrorMessageSource.errorMessage;
 import static io.tesler.core.crudma.CrudmaActionType.INVOKE;
 import static io.tesler.core.crudma.CrudmaActionType.PREVIEW;
 import static io.tesler.core.crudma.CrudmaActionType.UPDATE;
 import static io.tesler.core.dto.DrillDownType.INNER;
 import static io.tesler.core.dto.rowmeta.PostAction.ACTION_DRILL_DOWN;
-import static com.google.common.collect.Sets.immutableEnumSet;
 
 import io.tesler.api.data.ResultPage;
 import io.tesler.api.data.dto.AssociateDTO;
@@ -272,7 +272,7 @@ public class CrudmaGateway {
 			return policyEnforcer.transform(invokeResult, crudmaAction, obligationSet);
 		};
 		if (readOnly) {
-			return txService.invokeInNewROTx(targetInvoker);
+			return txService.invokeInNewRollbackOnlyTx(targetInvoker);
 		}
 		return txService.invokeInNewTx(targetInvoker);
 	}

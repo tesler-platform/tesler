@@ -28,7 +28,6 @@ import io.tesler.core.dao.BaseDAO;
 import io.tesler.model.core.config.ScopeConfig;
 import io.tesler.model.core.listeners.jpa.BaseEntityListener;
 import io.tesler.model.core.listeners.jpa.ExtRevisionListener;
-import io.tesler.model.core.tx.SpecificDatabaseTransactionalService;
 import io.tesler.model.core.tx.TransactionServiceImpl;
 import io.tesler.model.core.tx.TransactionStatusImpl;
 import java.sql.Connection;
@@ -42,7 +41,6 @@ import org.springframework.context.annotation.Import;
 @Import({
 		ScopeConfig.class,
 		TransactionServiceImpl.class,
-		SpecificDatabaseTransactionalService.class,
 		TransactionStatusImpl.class,
 		ExtRevisionListener.class,
 		BaseEntityListener.class

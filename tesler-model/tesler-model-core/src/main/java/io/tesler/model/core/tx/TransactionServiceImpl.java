@@ -22,9 +22,9 @@ package io.tesler.model.core.tx;
 
 import io.tesler.api.service.tx.TransactionService;
 import io.tesler.api.util.Invoker;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.orm.jpa.vendor.Database;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import org.hibernate.Session;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -37,12 +37,8 @@ import org.springframework.transaction.support.TransactionSynchronizationManager
 @Service(TransactionService.SERVICE_NAME)
 public class TransactionServiceImpl implements TransactionService {
 
-	@Autowired
-	@Qualifier("primaryDatabase")
-	private Database primaryDatabase;
-
-	@Autowired
-	private SpecificDatabaseTransactionalService specificDatabaseTransactionalService;
+	@PersistenceContext
+	private EntityManager em;
 
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED)
@@ -63,18 +59,17 @@ public class TransactionServiceImpl implements TransactionService {
 	}
 
 	@Override
-	@Transactional(propagation = Propagation.REQUIRES_NEW, readOnly = true)
-	public <T, E extends Throwable> T invokeInNewROTx(Invoker<T, E> invoker) throws E {
-		if (primaryDatabase == Database.POSTGRESQL) {
-			return specificDatabaseTransactionalService.rollbackOnlyTransaction(invoker);
-		} else {
-			return specificDatabaseTransactionalService.readOnlyTransaction(invoker);
-		}
+	@Transactional(propagation = Propagation.REQUIRES_NEW)
+	public <T, E extends Throwable> T invokeInNewRollbackOnlyTx(Invoker<T, E> invoker) throws E {
+		setRollbackOnly();
+		return invoker.invoke();
 	}
 
 	@Override
-	public void setRollbackOnly() {
-		specificDatabaseTransactionalService.setRollbackOnly();
+	@Transactional(propagation = Propagation.REQUIRES_NEW, readOnly = true)
+	public <T, E extends Throwable> T invokeInNewROTx(Invoker<T, E> invoker) throws E {
+		setRollbackOnly();
+		return invoker.invoke();
 	}
 
 	@Override
@@ -83,8 +78,27 @@ public class TransactionServiceImpl implements TransactionService {
 	}
 
 	@Override
+	public void setRollbackOnly() {
+		if (isActive()) {
+			// в спринге реализовано несколько странно:
+			// AbstractPlatformTransactionManager.doSetRollbackOnly вызывается только
+			// при возникновении исключения и там он помечает верхнеуровневую
+			// транзакцию, а в случае нормального поведения помечается только
+			// текущая транзакция, поэтому этот метод сделан приватным и
+			// и вызывается только в случае Propagation.REQUIRES_NEW
+			// помимо этого помечаем транзакцию хибернейта как rollback only
+			// чтобы все "вложенные" транзакции тоже "откатывались"
+			TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+			// напрямую нельзы вызывать EntityManager.getTransaction, см.
+			// SharedEntityManagerCreator.SharedEntityManagerInvocationHandler.invoke
+			Session session = em.unwrap(Session.class);
+			session.getTransaction().setRollbackOnly();
+		}
+	}
+
+	@Override
 	public boolean isActive() {
-		return specificDatabaseTransactionalService.isActive();
+		return TransactionSynchronizationManager.isActualTransactionActive();
 	}
 
 	@Override
