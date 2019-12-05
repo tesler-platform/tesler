@@ -42,6 +42,8 @@ public class ScreenResponsibility {
 
 	private String url;
 
+	private String icon;
+
 	private boolean defaultScreen;
 
 	private ScreenDTO meta;
