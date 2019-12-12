@@ -20,6 +20,7 @@
 
 package io.tesler.core.config;
 
+import com.google.common.base.Objects;
 import io.tesler.core.ext.quartz.QuartzJobFactory;
 import io.tesler.core.ext.quartz.QuartzSchedulerListener;
 import io.tesler.core.util.db.ProxyAwarePrivilegedDataSource;
@@ -33,6 +34,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
 import org.springframework.core.task.TaskExecutor;
 import org.springframework.jdbc.datasource.TransactionAwareDataSourceProxy;
+import org.springframework.orm.jpa.vendor.Database;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.quartz.LocalDataSourceJobStore;
@@ -60,7 +62,8 @@ public class SchedulerConfig {
 	private final TaskExecutor taskExecutor;
 
 	@Bean
-	public SchedulerFactoryBean quartzScheduler(@Qualifier("primaryDS") DataSource primaryDS) {
+	public SchedulerFactoryBean quartzScheduler(@Qualifier("primaryDS") DataSource primaryDS,
+			@Qualifier("primaryDatabase") Database primaryDatabase) {
 		SchedulerFactoryBean schedulerFactoryBean = new SchedulerFactoryBean();
 		schedulerFactoryBean.setAutoStartup(!environment.acceptsProfiles("quartzDisable"));
 		schedulerFactoryBean.setStartupDelay(600);
@@ -79,6 +82,10 @@ public class SchedulerConfig {
 		quartzProperties.setProperty("org.quartz.scheduler.skipUpdateCheck", String.valueOf(true));
 		quartzProperties.setProperty("org.quartz.jobStore.class", LocalDataSourceJobStore.class.getName());
 		quartzProperties.setProperty("org.quartz.jobStore.tablePrefix", "QRTZ_");
+		if (Objects.equal(primaryDatabase, Database.POSTGRESQL)) {
+			quartzProperties
+					.setProperty("org.quartz.jobStore.driverDelegateClass", "org.quartz.impl.jdbcjobstore.PostgreSQLDelegate");
+		}
 		schedulerFactoryBean.setQuartzProperties(quartzProperties);
 		schedulerFactoryBean.setSchedulerListeners(quartzSchedulerListener);
 		return schedulerFactoryBean;
