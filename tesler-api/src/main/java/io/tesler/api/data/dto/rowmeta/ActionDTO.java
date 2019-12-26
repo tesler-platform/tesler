@@ -59,6 +59,8 @@ public class ActionDTO {
 
 	private String scope;
 
+	private boolean requiredFieldsValidation;
+
 	@JsonIgnore
 	private boolean available;
 

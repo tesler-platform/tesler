@@ -60,6 +60,9 @@ public final class ActionDescription<T extends DataResponseDTO> {
 	@Getter
 	private final ActionScope actionScope;
 
+	@Getter
+	private final boolean requiredFieldsValidation;
+
 	public static <T extends DataResponseDTO> ActionDescriptionBuilder<T> builder() {
 		return new ActionDescriptionBuilder<>();
 	}
@@ -101,6 +104,7 @@ public final class ActionDescription<T extends DataResponseDTO> {
 						.message(preAction.getMessage(this.getKey()))
 						.build() : null)
 				.scope(this.getActionScope().toString().toLowerCase())
+				.requiredFieldsValidation(this.isRequiredFieldsValidation())
 				.build();
 	}
 

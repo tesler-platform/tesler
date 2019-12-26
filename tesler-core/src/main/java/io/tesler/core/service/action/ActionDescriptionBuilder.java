@@ -61,6 +61,8 @@ public class ActionDescriptionBuilder<T extends DataResponseDTO> {
 
 	private ActionScope actionScope = ActionScope.RECORD;
 
+	private boolean requiredFieldsValidation = true;
+
 	private static <T extends DataResponseDTO> ActionInvoker<T> withoutUpdate(ActionInvoker<T> wrapped) {
 
 		return new ActionInvoker<T>() {
@@ -148,6 +150,16 @@ public class ActionDescriptionBuilder<T extends DataResponseDTO> {
 		return this;
 	}
 
+	public ActionDescriptionBuilder<T> withValidation() {
+		this.requiredFieldsValidation = true;
+		return this;
+	}
+
+	public ActionDescriptionBuilder<T> withoutValidation() {
+		this.requiredFieldsValidation = false;
+		return this;
+	}
+
 	public ActionDescriptionBuilder<T> withoutIcon() {
 		this.iconCode = WITHOUT_ICON;
 		this.showOnlyIcon = false;
@@ -206,7 +218,8 @@ public class ActionDescriptionBuilder<T extends DataResponseDTO> {
 				defaultIfNull(dataValidator, (bc, data, entityDto) -> Collections.emptyList()),
 				iconCode.antIconName,
 				showOnlyIcon,
-				actionScope
+				actionScope,
+				requiredFieldsValidation
 		);
 	}
 

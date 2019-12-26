@@ -56,6 +56,10 @@ public abstract class ResponseServiceAction<T extends DataResponseDTO> {
 		return ActionScope.RECORD;
 	}
 
+	public boolean requiredFieldsValidation() {
+		return true;
+	}
+
 	public boolean isIconWithText() {
 		return false;
 	}
