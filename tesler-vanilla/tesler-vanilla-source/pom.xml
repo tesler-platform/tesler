@@ -3,13 +3,13 @@
   <modelVersion>4.0.0</modelVersion>
   <artifactId>tesler-vanilla-source</artifactId>
   <packaging>jar</packaging>
-  <version>1.0.3-SNAPSHOT</version>
+  <version>1.0.3</version>
   <name>IO Tesler - Vanilla Source</name>
 
   <parent>
     <groupId>io.tesler</groupId>
     <artifactId>tesler-vanilla-base</artifactId>
-    <version>1.0.3-SNAPSHOT</version>
+    <version>1.0.3</version>
     <relativePath>../tesler-vanilla-base/pom.xml</relativePath>
   </parent>
 
