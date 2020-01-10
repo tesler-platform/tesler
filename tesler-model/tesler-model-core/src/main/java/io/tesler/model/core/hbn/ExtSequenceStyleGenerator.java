@@ -21,13 +21,33 @@
 package io.tesler.model.core.hbn;
 
 import java.io.Serializable;
+import java.util.Properties;
+import org.apache.commons.lang3.StringUtils;
 import org.hibernate.HibernateException;
+import org.hibernate.MappingException;
 import org.hibernate.Session;
 import org.hibernate.engine.spi.SharedSessionContractImplementor;
 import org.hibernate.id.enhanced.SequenceStyleGenerator;
-
+import org.hibernate.service.ServiceRegistry;
+import org.hibernate.type.Type;
 
 public class ExtSequenceStyleGenerator extends SequenceStyleGenerator {
+
+	@Override
+	public void configure(Type type, Properties params, ServiceRegistry serviceRegistry) throws MappingException {
+		String entityName = params.getProperty(ENTITY_NAME);
+		if (StringUtils.isNotBlank(entityName)) {
+			Class<?> entityClass = getClassOrNull(entityName);
+			if (entityClass != null) {
+				ExtSequenceGeneratorSequenceName sequenceNameAnnotation =
+						entityClass.getAnnotation(ExtSequenceGeneratorSequenceName.class);
+				if (sequenceNameAnnotation != null) {
+					params.setProperty(SEQUENCE_PARAM, sequenceNameAnnotation.value());
+				}
+			}
+		}
+		super.configure(type, params, serviceRegistry);
+	}
 
 	@Override
 	public Serializable generate(SharedSessionContractImplementor session, Object object) throws HibernateException {
@@ -40,6 +60,14 @@ public class ExtSequenceStyleGenerator extends SequenceStyleGenerator {
 		// todo: optimize for non readonly transactions
 		try (Session tempSession = session.getFactory().openSession()) {
 			return super.generate(tempSession.unwrap(SharedSessionContractImplementor.class), object);
+		}
+	}
+
+	private Class<?> getClassOrNull(String className) {
+		try {
+			return Class.forName(className);
+		}  catch (ClassNotFoundException e) {
+			return null;
 		}
 	}
 
