@@ -3,13 +3,13 @@
   <modelVersion>4.0.0</modelVersion>
   <artifactId>tesler-constgen</artifactId>
   <packaging>jar</packaging>
-  <version>1.0.3</version>
+  <version>1.0.4-SNAPSHOT</version>
   <name>IO Tesler - DTO Constant Generator</name>
 
   <parent>
     <groupId>io.tesler</groupId>
     <artifactId>tesler-base</artifactId>
-    <version>1.0.3</version>
+    <version>1.0.4-SNAPSHOT</version>
     <relativePath>../tesler-base/pom.xml</relativePath>
   </parent>
 
