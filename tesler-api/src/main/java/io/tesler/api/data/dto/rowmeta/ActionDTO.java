@@ -59,6 +59,8 @@ public class ActionDTO {
 
 	private String scope;
 
+	private boolean autoSaveBefore;
+
 	@JsonIgnore
 	private boolean available;
 

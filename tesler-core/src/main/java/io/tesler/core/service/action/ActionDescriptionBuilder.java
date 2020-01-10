@@ -61,6 +61,8 @@ public class ActionDescriptionBuilder<T extends DataResponseDTO> {
 
 	private ActionScope actionScope = ActionScope.RECORD;
 
+	private boolean autoSaveBefore = true;
+
 	private static <T extends DataResponseDTO> ActionInvoker<T> withoutUpdate(ActionInvoker<T> wrapped) {
 
 		return new ActionInvoker<T>() {
@@ -148,6 +150,16 @@ public class ActionDescriptionBuilder<T extends DataResponseDTO> {
 		return this;
 	}
 
+	public ActionDescriptionBuilder<T> withAutoSaveBefore() {
+		this.autoSaveBefore = true;
+		return this;
+	}
+
+	public ActionDescriptionBuilder<T> withoutAutoSaveBefore() {
+		this.autoSaveBefore = false;
+		return this;
+	}
+
 	public ActionDescriptionBuilder<T> withoutIcon() {
 		this.iconCode = WITHOUT_ICON;
 		this.showOnlyIcon = false;
@@ -206,7 +218,8 @@ public class ActionDescriptionBuilder<T extends DataResponseDTO> {
 				defaultIfNull(dataValidator, (bc, data, entityDto) -> Collections.emptyList()),
 				iconCode.antIconName,
 				showOnlyIcon,
-				actionScope
+				actionScope,
+				autoSaveBefore
 		);
 	}
 

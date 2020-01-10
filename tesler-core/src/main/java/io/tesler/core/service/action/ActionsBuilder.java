@@ -68,7 +68,8 @@ public class ActionsBuilder<T extends DataResponseDTO> {
 
 	public ActionDescriptionBuilder<T> create() {
 		actionDescriptionBuilder = action(ActionType.CREATE)
-				.scope(ActionScope.BC);
+				.scope(ActionScope.BC)
+				.withoutAutoSaveBefore();
 		return actionDescriptionBuilder;
 	}
 
@@ -79,7 +80,8 @@ public class ActionsBuilder<T extends DataResponseDTO> {
 
 	public ActionDescriptionBuilder<T> cancelCreate() {
 		// по-умолчанию недоступно, а решается в io.tesler.core.crudma.CrudmaGateway
-		actionDescriptionBuilder = action(ActionType.CANCEL_CREATE).available(ALWAYS_FALSE);
+		actionDescriptionBuilder = action(ActionType.CANCEL_CREATE).available(ALWAYS_FALSE)
+				.withoutAutoSaveBefore();
 		return actionDescriptionBuilder;
 	}
 
@@ -90,7 +92,8 @@ public class ActionsBuilder<T extends DataResponseDTO> {
 	}
 
 	public ActionDescriptionBuilder<T> delete() {
-		actionDescriptionBuilder = action(ActionType.DELETE);
+		actionDescriptionBuilder = action(ActionType.DELETE)
+				.withoutAutoSaveBefore();
 		return actionDescriptionBuilder;
 	}
 
@@ -120,7 +123,8 @@ public class ActionsBuilder<T extends DataResponseDTO> {
 						responseServiceAction::dataValidator,
 						responseServiceAction.getIcon().antIconName,
 						responseServiceAction.isIconWithText(),
-						responseServiceAction.getScope()
+						responseServiceAction.getScope(),
+						responseServiceAction.isAutoSaveBefore()
 				)
 		);
 		return this;
