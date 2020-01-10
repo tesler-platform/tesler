@@ -22,8 +22,8 @@ package io.tesler.model.core.listeners.hbn.change;
 
 import io.tesler.model.core.listeners.hbn.EntityId;
 import java.util.Collection;
+import java.util.LinkedHashMap;
 import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 import org.hibernate.event.spi.AbstractEvent;
 import org.hibernate.event.spi.PostDeleteEvent;
 import org.hibernate.event.spi.PostInsertEvent;
@@ -33,7 +33,7 @@ import org.hibernate.persister.entity.EntityPersister;
 
 public class ChangeEventHolder {
 
-	private final Map<EntityId, AbstractEvent> events = new ConcurrentHashMap<>();
+	private final Map<EntityId, AbstractEvent> events = new LinkedHashMap<>();
 
 	public Collection<AbstractEvent> getEvents() {
 		return events.values();
