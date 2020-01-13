@@ -50,6 +50,7 @@ public class ViewUnload extends AbstractEntityUnload {
 				viewEntity.setTemplate(resultSet.getString("TEMPLATE"));
 				viewEntity.setUrl(resultSet.getString("URL"));
 				viewEntity.setOptions(asJson(mapper, resultSet, "OPTIONS"));
+				viewEntity.setIgnoreHistory(resultSet.getBoolean("IGNORE_HISTORY"));
 
 				BigDecimal editable = resultSet.getBigDecimal("EDITABLE");
 				if (editable != null && editable.compareTo(new BigDecimal(0)) != 0) {
