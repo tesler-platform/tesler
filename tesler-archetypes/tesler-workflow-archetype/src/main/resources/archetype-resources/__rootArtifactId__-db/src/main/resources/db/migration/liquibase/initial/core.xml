@@ -1365,6 +1365,8 @@
             <column name="URL" remarks="Ссылка на запрос данных" type="VARCHAR2(1000 CHAR)"/>
             <column defaultValueNumeric="0" name="CUSTOMIZABLE" remarks="Признак &quot;Настраиваемый пользователем&quot;" type="NUMBER(1, 0)"/>
             <column defaultValueNumeric="0" name="EDITABLE" remarks="Признак &quot;Настраеваемая сетка&quot;" type="NUMBER(1, 0)"/>
+            <column defaultValueNumeric="0" name="IGNORE_HISTORY" remarks="Признак &quot;Скрывать в Breadcrumbs&quot;"
+              type="NUMBER(1, 0)"/>
             <column name="OPTIONS" remarks="Общие настройки view" type="CLOB"/>
             <column defaultValueComputed="SYSDATE" name="CREATED_DATE" type="TIMESTAMP(6)">
                 <constraints nullable="false"/>
