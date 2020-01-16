@@ -50,6 +50,8 @@ public class View extends BaseEntity {
 
 	private Boolean editable;
 
+	private Boolean ignoreHistory;
+
 	private String options;
 
 	public View() {

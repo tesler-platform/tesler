@@ -63,6 +63,8 @@ public class ViewDTO {
 
 	private Boolean readOnly;
 
+	private Boolean ignoreHistory;
+
 	@JsonRawValue
 	@JsonDeserialize(using = Raw2StringDeserializer.class)
 	private String options;
@@ -75,6 +77,7 @@ public class ViewDTO {
 		this.title = view.getTitle();
 		this.url = view.getUrl();
 		this.editable = view.getEditable();
+		this.ignoreHistory = view.getIgnoreHistory();
 		this.options = view.getOptions();
 	}
 

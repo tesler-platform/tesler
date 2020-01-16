@@ -20,9 +20,9 @@
 
 package io.tesler.db.migration.liquibase.data;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import io.tesler.db.migration.liquibase.annotations.DBEntity;
 import io.tesler.db.migration.liquibase.annotations.DBField;
-import com.fasterxml.jackson.databind.JsonNode;
 import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
@@ -51,6 +51,9 @@ public class ViewEntity extends AbstractEntity {
 
 	@DBField(columnName = "EDITABLE")
 	private Long editable;
+
+	@DBField(columnName = "IGNORE_HISTORY")
+	private Boolean ignoreHistory;
 
 	@DBField(columnName = "OPTIONS", insertNulls = true)
 	private JsonNode options;
