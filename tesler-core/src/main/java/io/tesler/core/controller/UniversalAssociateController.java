@@ -71,7 +71,7 @@ public class UniversalAssociateController {
 		CrudmaAction crudmaAction = crudmaActionHolder.of(CrudmaActionType.ASSOCIATE)
 				.setBc(bc).setDescription(
 						String.format(
-								"Связываение %s, id: %s, parentId: %s",
+								"Связывание %s, id: %s, parentId: %s",
 								bc.getDescription().getName(),
 								bc.getId(),
 								bc.getParentId()
