@@ -20,8 +20,6 @@
 
 package io.tesler.core.dto.data.view;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import lombok.Getter;
@@ -33,17 +31,9 @@ public class ScreenBuildMeta {
 
 	private final Map<String, Boolean> responsibilities;
 
-	private final DelegatedViews delegation;
-
-	public ScreenBuildMeta(DelegatedViews delegation) {
-		this(new ArrayList<>(), new HashMap<>(), delegation);
-	}
-
-	public ScreenBuildMeta(List<String> views, Map<String, Boolean> responsibilities,
-			DelegatedViews delegation) {
+	public ScreenBuildMeta(List<String> views, Map<String, Boolean> responsibilities) {
 		this.views = views;
 		this.responsibilities = responsibilities;
-		this.delegation = delegation;
 	}
 
 	public void addResponsibility(String viewName, boolean readOnly) {

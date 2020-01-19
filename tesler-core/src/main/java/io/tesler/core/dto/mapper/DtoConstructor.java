@@ -52,10 +52,6 @@ public abstract class DtoConstructor<E extends BaseEntity, D extends DataRespons
 	@Autowired
 	private SessionService sessionService;
 
-	protected RequestValueSupplier<BaseEntity, DataResponseDTO, Department> currentScreenDept = new RequestValueSupplier<>(
-			(mapping, entity) -> sessionService.getCurrentScreenDepartment()
-	);
-
 	protected RequestValueSupplier<BaseEntity, DataResponseDTO, Department> currentUserDept = new RequestValueSupplier<>(
 			(mapping, entity) -> sessionService.getSessionUserDepartment()
 	);
