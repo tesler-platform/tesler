@@ -20,7 +20,7 @@
 
 package liquibase.ext.tesler.ui.load;
 
-import io.tesler.db.migration.liquibase.data.AbstractEntity;
+import io.tesler.db.migration.liquibase.data.LqbAbstractEntity;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.DeserializationFeature;
@@ -73,7 +73,7 @@ import liquibase.util.StringUtils;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public abstract class AbstractEntityChange<T extends AbstractEntity> extends AbstractChange {
+public abstract class AbstractEntityChange<T extends LqbAbstractEntity> extends AbstractChange {
 
 	public static final int MAX_CHARS = 2000;
 
@@ -521,7 +521,7 @@ public abstract class AbstractEntityChange<T extends AbstractEntity> extends Abs
 
 	}
 
-	<E extends AbstractEntity> AbstractEntityChange<E> getEntityChange(
+	<E extends LqbAbstractEntity> AbstractEntityChange<E> getEntityChange(
 			final Database database,
 			final ResourceAccessor resourceAccessor,
 			final Class<E> entityClass

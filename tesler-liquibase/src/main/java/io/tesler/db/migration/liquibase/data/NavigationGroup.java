@@ -20,6 +20,8 @@
 
 package io.tesler.db.migration.liquibase.data;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import io.tesler.db.migration.liquibase.annotations.DBEntity;
 import io.tesler.db.migration.liquibase.annotations.DBField;
 import lombok.Getter;
@@ -27,31 +29,61 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@DBEntity(tableName = "SCREEN_VIEW_GROUP")
-public class ScreenViewGroup extends AbstractEntity {
+@DBEntity(tableName = "NAVIGATION_GROUP")
+public class NavigationGroup extends LqbAbstractEntity {
 
-	@DBField(columnName = "DEPT_ID")
-	private Long deptId;
+	@JsonInclude(Include.NON_NULL)
+	@DBField(columnName = "ID")
+	private String id;
 
+	/**
+	 * Type of group
+	 */
 	@DBField(columnName = "TYPE_CD")
 	private String typeCd;
 
+
+	/**
+	 * Name of screen, where is group located
+	 */
 	@DBField(columnName = "SCREEN_NAME")
 	private String screenName;
 
+	/**
+	 * Title of group. Navigation element shows it to user.
+	 */
 	@DBField(columnName = "TITLE")
 	private String title;
 
+	/**
+	 * since navigation is a tree, groups can be nested to each other
+	 */
 	@DBField(columnName = "PARENT_ID")
-	private Long parentId;
+	private String parentId;
 
+	/**
+	 * Sequence of group in a parent element
+	 */
 	@DBField(columnName = "SEQ")
 	private Integer seq;
 
+	/**
+	 * description for developers
+	 */
 	@DBField(columnName = "DESCRIPTION")
 	private String description;
 
-	@DBField(columnName = "ROOT")
-	private Integer root;
+	/**
+	 * default view, that opens when user click on group;
+	 */
+	@DBField(columnName = "DEFAULT_VIEW")
+	private String defaultView;
+
+	/**
+	 * is group hidden on navigation bars
+	 */
+	@DBField(columnName = "HIDDEN")
+	private Integer hidden;
 
 }
+

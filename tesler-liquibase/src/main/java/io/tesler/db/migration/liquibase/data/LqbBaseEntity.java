@@ -20,23 +20,27 @@
 
 package io.tesler.db.migration.liquibase.data;
 
-import io.tesler.db.migration.liquibase.annotations.DBEntity;
 import io.tesler.db.migration.liquibase.annotations.DBField;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import lombok.Getter;
 import lombok.Setter;
 
+
 @Getter
 @Setter
-@DBEntity(tableName = "SCREEN_VIEW_GROUP_DATA")
-public class ScreenViewGroupData extends AbstractEntity {
+public class LqbBaseEntity extends LqbAbstractEntity {
 
-	@DBField(columnName = "VIEW_NAME")
-	private String viewName;
+	@JsonInclude(Include.NON_NULL)
+	@DBField(columnName = "ID", functionField = "idFunction", sequenceField = "idSequence")
+	private Long id;
 
-	@DBField(columnName = "VIEW_GROUP_ID")
-	private Long viewGroupId;
+	private String idSequence;
 
-	@DBField(columnName = "SEQ")
-	private Integer seq;
+	private String idFunction;
+
+	@JsonIgnore
+	private String comment;
 
 }
