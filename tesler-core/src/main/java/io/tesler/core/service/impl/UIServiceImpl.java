@@ -20,14 +20,18 @@
 
 package io.tesler.core.service.impl;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import io.tesler.api.data.dictionary.CoreDictionaries;
+import io.tesler.api.data.dictionary.CoreDictionaries.ViewGroupType;
 import io.tesler.api.data.dictionary.LOV;
 import io.tesler.api.service.tx.TransactionService;
 import io.tesler.api.util.Invoker;
 import io.tesler.core.config.CacheConfig;
 import io.tesler.core.dto.data.view.BusinessObjectDTO;
 import io.tesler.core.dto.data.view.ScreenNavigation;
-import io.tesler.core.dto.data.view.ScreenNavigation.SubMenu;
+import io.tesler.core.dto.data.view.ScreenNavigation.MenuItem;
+import io.tesler.core.dto.data.view.ScreenNavigation.SingleView;
+import io.tesler.core.dto.data.view.ScreenNavigation.ViewGroup;
 import io.tesler.core.dto.data.view.ScreenResponsibility;
 import io.tesler.core.service.UIService;
 import io.tesler.core.util.jackson.CustomObjectMapper;
@@ -39,10 +43,6 @@ import io.tesler.model.ui.entity.BcProperties_;
 import io.tesler.model.ui.entity.FilterGroup;
 import io.tesler.model.ui.entity.FilterGroup_;
 import io.tesler.model.ui.entity.Screen;
-import io.tesler.model.ui.entity.ScreenViewGroup;
-import io.tesler.model.ui.entity.ScreenViewGroupData;
-import io.tesler.model.ui.entity.ScreenViewGroupData_;
-import io.tesler.model.ui.entity.ScreenViewGroup_;
 import io.tesler.model.ui.entity.Screen_;
 import io.tesler.model.ui.entity.View;
 import io.tesler.model.ui.entity.ViewLayout;
@@ -50,7 +50,10 @@ import io.tesler.model.ui.entity.ViewLayout_;
 import io.tesler.model.ui.entity.ViewWidgets;
 import io.tesler.model.ui.entity.ViewWidgets_;
 import io.tesler.model.ui.entity.View_;
-import com.fasterxml.jackson.databind.JsonNode;
+import io.tesler.model.ui.navigation.NavigationGroup;
+import io.tesler.model.ui.navigation.NavigationGroup_;
+import io.tesler.model.ui.navigation.NavigationView;
+import io.tesler.model.ui.navigation.NavigationView_;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -64,7 +67,6 @@ import javax.annotation.PostConstruct;
 import javax.persistence.criteria.Predicate;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
-import org.apache.commons.lang3.BooleanUtils;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
@@ -160,17 +162,17 @@ public class UIServiceImpl implements UIService {
 	public List<String> getViews(final String screenName, final User user, final LOV userRole) {
 		final Set<String> responsibilities = getResponsibilities(user, userRole).keySet();
 		final boolean getAll = Objects.equals(userRole, CoreDictionaries.InternalRole.ADMIN) || isCommonScreen(screenName);
-		return jpaDao.getList(ScreenViewGroupData.class, (root, query, cb) -> cb.and(
+		return jpaDao.getList(NavigationView.class, (root, query, cb) -> cb.and(
 				cb.equal(
-						root.get(ScreenViewGroupData_.viewGroup).get(ScreenViewGroup_.screenName),
+						root.get(NavigationView_.screenName),
 						screenName
 				),
 				cb.equal(
-						root.get(ScreenViewGroupData_.viewGroup).get(ScreenViewGroup_.typeCd),
+						root.get(NavigationView_.typeCd),
 						CoreDictionaries.ViewGroupType.NAVIGATION
 				),
-				getAll ? cb.and() : root.get(ScreenViewGroupData_.viewName).in(responsibilities)
-		)).stream().map(ScreenViewGroupData::getViewName).distinct().collect(Collectors.toList());
+				getAll ? cb.and() : root.get(NavigationView_.viewName).in(responsibilities)
+		)).stream().map(NavigationView::getViewName).distinct().collect(Collectors.toList());
 	}
 
 	public Map<String, BcProperties> getStringDefaultBcPropertiesMap(BusinessObjectDTO boDto) {
@@ -285,74 +287,79 @@ public class UIServiceImpl implements UIService {
 				key = "{#root.methodName, #screen.name}"
 		)
 		public ScreenNavigation getScreenNavigation(final Screen screen) {
-			final Map<Long, ScreenNavigation.Menu> map = new HashMap<>();
 
-			final List<ScreenViewGroup> groups = jpaDao.getList(ScreenViewGroup.class, (root, query, cb) -> {
-				query.orderBy(cb.asc(root.get(ScreenViewGroup_.seq)));
+			final List<NavigationGroup> groups = jpaDao.getList(NavigationGroup.class, (root, query, cb) -> {
+				query.orderBy(cb.asc(root.get(NavigationGroup_.seq)));
 				return cb.and(
-						cb.equal(root.get(ScreenViewGroup_.screenName), screen.getName()),
-						cb.equal(root.get(ScreenViewGroup_.typeCd), CoreDictionaries.ViewGroupType.NAVIGATION)
-				);
-			});
-			final List<ScreenViewGroupData> views = jpaDao.getList(ScreenViewGroupData.class, (root, query, cb) -> {
-				query.orderBy(cb.asc(root.get(ScreenViewGroupData_.seq)));
-				return cb.and(
-						cb.equal(root.get(ScreenViewGroupData_.viewGroup).get(ScreenViewGroup_.screenName), screen.getName()),
-						cb.equal(
-								root.get(ScreenViewGroupData_.viewGroup).get(ScreenViewGroup_.typeCd),
-								CoreDictionaries.ViewGroupType.NAVIGATION
-						)
+						cb.equal(root.get(NavigationGroup_.screenName), screen.getName()),
+						cb.equal(root.get(NavigationGroup_.typeCd), ViewGroupType.NAVIGATION)
 				);
 			});
 
-			final List<ScreenNavigation.Menu> menus = new ArrayList<>();
-			for (final ScreenViewGroup group : groups) {
-				final ScreenNavigation.Menu menu = map.computeIfAbsent(
-						group.getId(),
-						key -> group.getParent() == null ? new ScreenNavigation.Menu() : new ScreenNavigation.SubMenu()
+			final List<NavigationView> views = jpaDao.getList(NavigationView.class, (root, query, cb) -> {
+				query.orderBy(cb.asc(root.get(NavigationView_.seq)));
+				return cb.and(
+						cb.equal(root.get(NavigationView_.screenName), screen.getName()),
+						cb.equal(root.get(NavigationView_.typeCd), ViewGroupType.NAVIGATION)
 				);
-				menu.setCommentDevelop(group.getDescription());
-				if (BooleanUtils.isTrue(group.getRoot())) {
-					menu.setTitle(group.getTitle());
-				} else {
-					menu.setCategoryName(group.getTitle());
-				}
-				if (group.getParent() == null) {
-					menus.add(group.getSeq() > menus.size() ? menus.size() : group.getSeq(), menu);
-				} else if (menu instanceof ScreenNavigation.SubMenu) {
-					final ScreenNavigation.Menu parentMenu = map.computeIfAbsent(
-							group.getParent().getId(),
-							key -> group.getParent().getParent() == null ? new ScreenNavigation.Menu()
-									: new ScreenNavigation.SubMenu()
+			});
+
+			final List<MenuItem> firstLevelMenu = new ArrayList<>();
+			final Map<String, MenuItem> map = new HashMap<>();
+			for (final NavigationGroup navigationGroup : groups) {
+				ScreenNavigation.ViewGroup viewGroup = (ViewGroup) map.computeIfAbsent(
+						navigationGroup.getId(),
+						key -> new ScreenNavigation.ViewGroup()
+				);
+				viewGroup.setId(navigationGroup.getId());
+				viewGroup.setHidden(navigationGroup.getHidden());
+				viewGroup.setTitle(navigationGroup.getTitle());
+				viewGroup.setDefaultView(navigationGroup.getDefaultView());
+				if (navigationGroup.getParent() == null) {
+					firstLevelMenu.add(
+							navigationGroup.getSeq() > firstLevelMenu.size() ? firstLevelMenu.size() : navigationGroup.getSeq(),
+							viewGroup
 					);
-					if (parentMenu.getChild() == null) {
-						parentMenu.setChild(new ArrayList<>());
+				} else {
+					final ScreenNavigation.ViewGroup parentGroup = (ViewGroup) map.computeIfAbsent(
+							navigationGroup.getParent().getId(),
+							key -> new ViewGroup()
+					);
+					if (parentGroup.getChild() == null) {
+						parentGroup.setChild(new ArrayList<>());
 					}
-					final List<SubMenu> child = parentMenu.getChild();
-					child.add(group.getSeq() > child.size() ? child.size() : group.getSeq(), (SubMenu) menu);
+					final List<MenuItem> childList = parentGroup.getChild();
+					childList.add(
+							navigationGroup.getSeq() > childList.size() ? childList.size() : navigationGroup.getSeq(),
+							viewGroup
+					);
 				}
 			}
 
-			for (final ScreenViewGroupData view : views) {
-				final SubMenu menu = new SubMenu();
-				menu.setViewName(view.getViewName());
-				final ScreenNavigation.Menu parentMenu = map.get(view.getViewGroup().getId());
-				if (parentMenu.getChild() == null) {
-					parentMenu.setChild(new ArrayList<>());
+			for (final NavigationView view : views) {
+				final SingleView singleView = new SingleView();
+				singleView.setViewName(view.getViewName());
+				singleView.setHidden(view.getHidden());
+				singleView.setId(view.getId());
+				if (view.getParentGroup() == null) {
+					firstLevelMenu.add(view.getSeq() > firstLevelMenu.size() ? firstLevelMenu.size() : view.getSeq(), singleView);
+				} else {
+					final ScreenNavigation.ViewGroup parentGroup = (ViewGroup) map.get(view.getParentGroup().getId());
+					if (parentGroup.getChild() == null) {
+						parentGroup.setChild(new ArrayList<>());
+					}
+					final List<MenuItem> childList = parentGroup.getChild();
+					childList.add(view.getSeq() > childList.size() ? childList.size() : view.getSeq(), singleView);
 				}
-				final List<SubMenu> child = parentMenu.getChild();
-				child.add(view.getSeq() > child.size() ? child.size() : view.getSeq(), menu);
 			}
-
 			final ScreenNavigation screenNavigation = new ScreenNavigation();
-			screenNavigation.setMenu(menus);
+			screenNavigation.setMenu(firstLevelMenu);
 			return screenNavigation;
 		}
 
 		@CacheEvict(cacheNames = CacheConfig.UI_CACHE, allEntries = true)
 		public void evict() {
 		}
-
 
 	}
 
