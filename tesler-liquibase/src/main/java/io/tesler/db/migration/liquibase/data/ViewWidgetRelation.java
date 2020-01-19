@@ -30,7 +30,7 @@ import org.apache.commons.lang3.StringUtils;
 @Getter
 @Setter
 @DBEntity(tableName = "VIEW_WIDGETS")
-public class ViewWidgetRelation extends AbstractEntity {
+public class ViewWidgetRelation extends LqbBaseEntity {
 
 	@DBField(columnName = "VIEW_NAME")
 	private String viewName;

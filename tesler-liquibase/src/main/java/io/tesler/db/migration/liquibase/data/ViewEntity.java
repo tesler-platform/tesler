@@ -32,7 +32,7 @@ import org.apache.commons.lang3.StringUtils;
 @Getter
 @Setter
 @DBEntity(tableName = "VIEWS", primaryKey = "NAME")
-public class ViewEntity extends AbstractEntity {
+public class ViewEntity extends LqbBaseEntity {
 
 	@DBField(columnName = "NAME", insertNulls = true)
 	private String name;

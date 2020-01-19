@@ -20,9 +20,9 @@
 
 package liquibase.ext.tesler.ui.load;
 
+import io.tesler.db.migration.liquibase.data.NavigationGroup;
+import io.tesler.db.migration.liquibase.data.NavigationView;
 import io.tesler.db.migration.liquibase.data.ScreenEntity;
-import io.tesler.db.migration.liquibase.data.ScreenViewGroup;
-import io.tesler.db.migration.liquibase.data.ScreenViewGroupData;
 import java.util.ArrayList;
 import java.util.List;
 import liquibase.change.ChangeMetaData;
@@ -47,148 +47,144 @@ public class ScreenChange extends AbstractEntityChange<ScreenEntity> {
 	) throws Exception {
 		final List<SqlStatement> result = super.generateStatements(database, resourceAccessor, entity);
 		result.addAll(
-				generateGroupStatements(
+				generateNavigationStatements(
 						database,
 						resourceAccessor,
 						entity.getName(),
-						entity.getNavigation()
+						null,
+						entity.getNavigation().getMenu()
 				)
 		);
 		return result;
 	}
 
-	private List<SqlStatement> generateGroupStatements(
+	private List<SqlStatement> generateNavigationStatements(
 			final Database database,
 			final ResourceAccessor resourceAccessor,
 			final String screenName,
-			final ScreenEntity.ScreenNavigation navigation
+			final String parentGroupId,
+			final List<ScreenEntity.ScreenNavigation.MenuItem> menuItems
 	) throws Exception {
 		final List<SqlStatement> result = new ArrayList<>();
-		final List<ScreenEntity.ScreenNavigation.Menu> menus = navigation.getMenu();
-		for (int i = 0; i < menus.size(); i++) {
-			final ScreenEntity.ScreenNavigation.Menu menu = menus.get(i);
-			result.addAll(
-					viewGroupStatements(
-							database,
-							resourceAccessor,
-							menu.getId(),
-							"NAVIGATION",
-							screenName,
-							menu.getTitle(),
-							menu.getCategoryName(),
-							null,
-							menu.getCommentDevelop(),
-							i + 1
-					)
-			);
-			result.addAll(
-					groupAndDataStatements(
-							database,
-							resourceAccessor,
-							screenName,
-							menu.getId(),
-							menu.getChild()
-					)
-			);
-		}
-		return result;
-	}
-
-	private List<SqlStatement> groupAndDataStatements(
-			final Database database,
-			final ResourceAccessor resourceAccessor,
-			final String screenName,
-			final Long parentGroupId,
-			final List<ScreenEntity.ScreenNavigation.SubMenu> subMenus) throws Exception {
-		final List<SqlStatement> result = new ArrayList<>();
-		if (subMenus == null || subMenus.isEmpty()) {
+		if (menuItems == null || menuItems.isEmpty()) {
 			return result;
 		}
 		int seq = 0;
-		for (final ScreenEntity.ScreenNavigation.SubMenu subMenu : subMenus) {
-			if (subMenu.getViewName() == null) {
+		for (final ScreenEntity.ScreenNavigation.MenuItem menuItem : menuItems) {
+			seq++;
+			if (menuItem.getChild() != null) {
+				String id = parentGroupId == null ? screenName + "/" + seq + "/" : parentGroupId + seq + "/";
+				if (menuItem.getChild().size() < 2) {
+					throw new IllegalStateException("Navigation group with id " + id + " must have at least 2 child elements");
+				}
+				if (menuItem.getTitle() == null) {
+					throw new IllegalStateException("Navigation group with id " + id + " must have a title");
+				}
 				result.addAll(
-						viewGroupStatements(
+						navigationGroupStatements(
 								database,
 								resourceAccessor,
-								subMenu.getId(),
+								id,
 								"NAVIGATION",
 								screenName,
-								null,
-								subMenu.getCategoryName(),
+								menuItem.getTitle(),
 								parentGroupId,
-								subMenu.getCommentDevelop(),
-								seq++
+								seq,
+								menuItem.getCommentDevelop(),
+								menuItem.getDefaultView(),
+								menuItem.isHidden()
 						)
 				);
 				result.addAll(
-						groupAndDataStatements(
+						generateNavigationStatements(
 								database,
 								resourceAccessor,
 								screenName,
-								subMenu.getId(),
-								subMenu.getChild()
+								id,
+								menuItem.getChild()
+						)
+				);
+			} else if (menuItem.getViewName() != null) {
+				String id = parentGroupId == null ? screenName + "/" + menuItem.getViewName()
+						: parentGroupId + menuItem.getViewName();
+				result.addAll(
+						navigationViewStatements(
+								database,
+								resourceAccessor,
+								id,
+								"NAVIGATION",
+								menuItem.getViewName(),
+								screenName,
+								parentGroupId,
+								menuItem.getCommentDevelop(),
+								seq,
+								menuItem.isHidden()
 						)
 				);
 			} else {
-				result.addAll(
-						viewGroupDataStatements(
-								database,
-								resourceAccessor,
-								subMenu.getViewName(),
-								parentGroupId,
-								seq++
-						)
-				);
+				throw new IllegalStateException("Unrecognized navigation element on screen: " + screenName);
 			}
 		}
 		return result;
 	}
 
-	private List<SqlStatement> viewGroupStatements(
+	private List<SqlStatement> navigationGroupStatements(
 			final Database database,
 			final ResourceAccessor resourceAccessor,
-			final Long id, final String typeCd,
+			final String id,
+			final String typeCd,
 			final String screenName,
 			final String title,
-			final String categoryName,
-			final Long parentId,
-			final String comment,
-			final Integer seq) throws Exception {
-		final AbstractEntityChange<ScreenViewGroup> entityChange = getEntityChange(
+			final String parentId,
+			final Integer seq,
+			final String description,
+			final String defaultView,
+			final Boolean hidden
+	) throws Exception {
+		final AbstractEntityChange<NavigationGroup> entityChange = getEntityChange(
 				database,
 				resourceAccessor,
-				ScreenViewGroup.class
+				NavigationGroup.class
 		);
-		final ScreenViewGroup entity = new ScreenViewGroup();
+		final NavigationGroup entity = new NavigationGroup();
 		entity.setId(id);
 		entity.setTypeCd(typeCd);
 		entity.setScreenName(screenName);
-		entity.setTitle(title == null ? categoryName : title);
+		entity.setTitle(title);
 		entity.setParentId(parentId);
 		entity.setSeq(seq);
-		entity.setDescription(comment);
-		entity.setRoot(title == null ? 0 : 1);
+		entity.setDescription(description);
+		entity.setDefaultView(defaultView);
+		entity.setHidden(hidden ? 1 : 0);
 		return entityChange.generateStatements(database, resourceAccessor, entity);
 	}
 
-	private List<SqlStatement> viewGroupDataStatements(
+	private List<SqlStatement> navigationViewStatements(
 			final Database database,
 			final ResourceAccessor resourceAccessor,
+			final String id,
+			final String typeCd,
 			final String viewName,
-			final Long viewGroupId,
-			final Integer seq
+			final String screenName,
+			final String parentGroupId,
+			final String description,
+			final Integer seq,
+			final Boolean hidden
 	) throws Exception {
-		final AbstractEntityChange<ScreenViewGroupData> entityChange = getEntityChange(
+		final AbstractEntityChange<NavigationView> entityChange = getEntityChange(
 				database,
 				resourceAccessor,
-				ScreenViewGroupData.class
+				NavigationView.class
 		);
-		final ScreenViewGroupData entity = new ScreenViewGroupData();
-		entity.setIdSequence("APP_SEQ");
+		final NavigationView entity = new NavigationView();
+		entity.setId(id);
+		entity.setTypeCd(typeCd);
 		entity.setViewName(viewName);
-		entity.setViewGroupId(viewGroupId);
+		entity.setScreenName(screenName);
+		entity.setParentGroupId(parentGroupId);
 		entity.setSeq(seq);
+		entity.setDescription(description);
+		entity.setHidden(hidden ? 1 : 0);
 		return entityChange.generateStatements(database, resourceAccessor, entity);
 	}
 

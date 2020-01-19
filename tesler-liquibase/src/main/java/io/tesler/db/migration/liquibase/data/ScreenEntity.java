@@ -20,9 +20,10 @@
 
 package io.tesler.db.migration.liquibase.data;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import io.tesler.db.migration.liquibase.annotations.DBEntity;
 import io.tesler.db.migration.liquibase.annotations.DBField;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.databind.JsonNode;
 import java.util.List;
@@ -34,7 +35,7 @@ import org.apache.commons.lang3.StringUtils;
 @Getter
 @Setter
 @DBEntity(tableName = "SCREEN", primaryKey = "NAME")
-public class ScreenEntity extends AbstractEntity {
+public class ScreenEntity extends LqbBaseEntity {
 
 	@DBField(columnName = "NAME", insertNulls = true)
 	private String name;
@@ -62,30 +63,48 @@ public class ScreenEntity extends AbstractEntity {
 	@Setter
 	public static class ScreenNavigation {
 
-		private List<Menu> menu;
+		private List<MenuItem> menu;
 
 		@Getter
 		@Setter
-		@JsonPropertyOrder({"id", "CommentDevelop"})
-		public static class Menu {
+		@JsonPropertyOrder({"CommentDevelop"})
+		@JsonInclude(Include.NON_NULL)
+		public static class MenuItem {
 
-			private Long id;
-
-			@JsonProperty(value = "CommentDevelop")
+			/**
+			 * Commentary for developers
+			 */
 			private String commentDevelop;
 
+			/**
+			 * Indicates that the navigation element not showed in
+			 * navigation tabs.
+			 */
+			private boolean hidden;
+
+			/**
+			 * Title of category in navigation tabs.
+			 */
 			private String title;
 
-			private String categoryName;
+			/**
+			 * name of view, which is located below group (in child element or lower)
+			 * If specified, click on group in navigation tab redirects on view with following name.
+			 * If not specified, click on group in navigation tab redirects on first view, which is found using
+			 * the breadth-first search algorithm
+			 */
+			private String defaultView;
 
-			private List<SubMenu> child;
+			/**
+			 * Array of navigation elements specified below group(View or inner Group)
+			 */
+			private List<MenuItem> child;
 
-		}
 
-		@Getter
-		@Setter
-		public static class SubMenu extends Menu {
-
+			/**
+			 * Unique name of view refers to the name of view.json file.
+			 * Title of view in navigation tabs specified in “title” field in view.json file.
+			 */
 			private String viewName;
 
 		}

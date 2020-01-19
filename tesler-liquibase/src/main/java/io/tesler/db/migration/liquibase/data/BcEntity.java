@@ -31,7 +31,7 @@ import org.apache.commons.lang3.StringUtils;
 @Getter
 @Setter
 @DBEntity(tableName = "BC", primaryKey = "NAME")
-public class BcEntity extends AbstractEntity {
+public class BcEntity extends LqbBaseEntity {
 
 	@DBField(columnName = "NAME")
 	private String name;
