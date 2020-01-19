@@ -54,8 +54,6 @@ public class ScreenDTO extends DataResponseDTO {
 
 	private ScreenNavigation navigation;
 
-	private DelegatedViews delegation;
-
 	@JsonRawValue
 	@JsonDeserialize(using = Raw2StringDeserializer.class)
 	private String primaries; // TODo Выпилить после показа CBR-1488

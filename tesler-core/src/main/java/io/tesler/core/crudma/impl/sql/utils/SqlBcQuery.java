@@ -241,7 +241,7 @@ public final class SqlBcQuery {
 			parameterSource
 					.addValue("userid", sessionService.getSessionUser().getId())
 					.addValue("userrole", userRole)
-					.addValue("userdeptid", sessionService.getCurrentScreenDepartment().getId())
+					.addValue("userdeptid", sessionService.getSessionUserDepartment().getId())
 					.addValue("isfilterabledata", queryParameters.isFilterableData() ? "Y" : "N")
 					.addValue("parentid", parentId)
 					.addValue("datefrom", Timestamp.valueOf(queryParameters.getDateFrom()))

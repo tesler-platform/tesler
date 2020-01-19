@@ -35,7 +35,6 @@ import io.tesler.core.dto.data.view.ViewDTO;
 import io.tesler.core.dto.data.view.WidgetDTO;
 import io.tesler.core.dto.rowmeta.FilterGroupDTO;
 import io.tesler.core.exception.ClientException;
-import io.tesler.core.service.IDelegationEngine;
 import io.tesler.core.service.ViewService;
 import io.tesler.core.ui.model.json.WidgetOptions;
 import io.tesler.core.util.JsonUtils;
@@ -85,8 +84,6 @@ public class ViewServiceImpl implements ViewService {
 
 	private final SessionService sessionService;
 
-	private final Optional<IDelegationEngine> delegationEngine;
-
 	private ViewDTO buildViewDTO(View view,
 			Map<String, List<ViewWidgets>> allViewWidgets,
 			Map<String, ViewLayout> allViewLayoutsByUser,
@@ -131,19 +128,9 @@ public class ViewServiceImpl implements ViewService {
 			throw new ClientException(errorMessage("error.screen_not_found", name));
 		}
 
-		final IDelegationEngine delegationEngine = this.delegationEngine.orElse(null);
-		if (delegationEngine != null && delegationEngine.isDelegatedScreen()) {
-			return getScreen(
-					screen,
-					delegationEngine.getDelegatedScreenBuildMeta(
-							sessionService.getSessionUser()
-					)
-			);
-		}
-
 		final List<String> views = sessionService.getViews(screen.getName());
 		final Map<String, Boolean> responsibilities = sessionService.getResponsibilities();
-		return getScreen(screen, new ScreenBuildMeta(views, responsibilities, null));
+		return getScreen(screen, new ScreenBuildMeta(views, responsibilities));
 	}
 
 	private ScreenDTO getScreen(Screen screen, ScreenBuildMeta meta) {
@@ -165,7 +152,6 @@ public class ViewServiceImpl implements ViewService {
 		result.setNavigation(uiService.getScreenNavigation(screen));
 		result.setViews(viewDTOs);
 		result.setBo(getBusinessObject(viewDTOs));
-		result.setDelegation(meta.getDelegation());
 		return result;
 	}
 
