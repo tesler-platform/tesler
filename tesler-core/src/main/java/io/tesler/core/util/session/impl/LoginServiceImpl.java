@@ -27,7 +27,6 @@ import io.tesler.api.system.SystemSettings;
 import io.tesler.core.dto.LoggedUser;
 import io.tesler.core.dto.data.view.ScreenDTO;
 import io.tesler.core.dto.data.view.ScreenResponsibility;
-import io.tesler.core.service.IDelegationEngine;
 import io.tesler.core.service.UIService;
 import io.tesler.core.service.ViewService;
 import io.tesler.core.service.impl.ResponsibilitiesService;
@@ -39,9 +38,7 @@ import io.tesler.model.core.entity.User;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -69,8 +66,6 @@ public class LoginServiceImpl implements LoginService {
 
 	private final UIService uiService;
 
-	private final Optional<IDelegationEngine> delegationEngine;
-
 	private final ViewService viewService;
 
 	/**
@@ -93,11 +88,6 @@ public class LoginServiceImpl implements LoginService {
 				.activeRole(activeUserRole.getKey())
 				.roles(userRoleService.getUserRoles(user))
 				.screens(getScreens(user, activeUserRole))
-				.delegatedScreens(
-						delegationEngine
-								.map(delegationEngine -> delegationEngine.getDelegatedScreens(sessionService.getSessionUser()))
-								.orElse(Collections.emptyList())
-				)
 				.userSettings(uiService.getUserSettings())
 				.featureSettings(this.getFeatureSettings())
 				.systemUrl(systemSettings.getValue(SystemPref.SYSTEM_URL))

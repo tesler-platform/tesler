@@ -21,7 +21,6 @@
 package io.tesler.core.dto;
 
 import io.tesler.api.data.dictionary.SimpleDictionary;
-import io.tesler.core.dto.data.view.DelegatedScreen;
 import io.tesler.core.dto.data.view.ScreenResponsibility;
 import io.tesler.model.core.entity.User;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -59,8 +58,6 @@ public class LoggedUser {
 	private List<SimpleDictionary> roles;
 
 	private List<ScreenResponsibility> screens;
-
-	private List<DelegatedScreen> delegatedScreens;
 
 	private JsonNode userSettingsVersion;
 
@@ -128,11 +125,6 @@ public class LoggedUser {
 
 		public Builder screens(List<ScreenResponsibility> screens) {
 			LoggedUser.this.screens = screens;
-			return this;
-		}
-
-		public Builder delegatedScreens(List<DelegatedScreen> delegatedScreens) {
-			LoggedUser.this.delegatedScreens = delegatedScreens;
 			return this;
 		}
 
