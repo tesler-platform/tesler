@@ -5,11 +5,7 @@
   "primaryViews" : [ "notificationusersettings" ],
   "navigation" : {
     "menu" : [ {
-      "id" : 37900,
-      "title" : "Настройки уведомлений",
-      "child" : [ {
-        "viewName" : "notificationusersettings"
-      } ]
+      "viewName" : "notificationusersettings"
     } ]
   }
 }

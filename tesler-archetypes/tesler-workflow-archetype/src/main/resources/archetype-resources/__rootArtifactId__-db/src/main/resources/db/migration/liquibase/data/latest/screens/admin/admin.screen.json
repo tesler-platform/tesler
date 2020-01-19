@@ -8,45 +8,26 @@
   "navigation": {
     "menu": [
       {
-        "id": 300,
         "title": "Менеджер активностей",
         "child": [
           {
-            "id": 400,
-            "categoryName": "Модель переходов",
+            "title": "Модель переходов",
             "child": [
               {
-                "id": 500,
-                "categoryName": "Переходы",
+                "title": "Переходы",
                 "child": [
-                  {
-                    "viewName": "wftransitioncond"
-                  },
-                  {
-                    "viewName": "wftransitionfunc"
-                  },
-                  {
-                    "viewName": "wftransitionvalid"
-                  }
+                  {"viewName": "wftransitioncond"},
+                  {"viewName": "wftransitionfunc"},
+                  {"viewName": "wftransitionvalid"}
                 ]
               },
-              {
-                "viewName": "wftransitiongroup"
-              },
-              {
-                "viewName": "wffieldcond"
-              },
-              {
-                "viewName": "wfbccond"
-              },
-              {
-                "viewName": "wfrecommendedassignee"
-              }
+              {"viewName": "wftransitiongroup"},
+              {"viewName": "wffieldcond"},
+              {"viewName": "wfbccond"},
+              {"viewName": "wfrecommendedassignee"}
             ]
           },
-          {
-            "viewName": "wfmigration"
-          }
+          {"viewName": "wfmigration"}
         ]
       }
     ]
