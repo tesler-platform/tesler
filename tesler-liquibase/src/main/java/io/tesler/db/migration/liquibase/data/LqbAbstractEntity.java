@@ -22,9 +22,6 @@ package io.tesler.db.migration.liquibase.data;
 
 import io.tesler.db.migration.liquibase.annotations.DBEntity;
 import io.tesler.db.migration.liquibase.annotations.DBField;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import java.beans.BeanInfo;
 import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
@@ -36,21 +33,9 @@ import liquibase.util.StringUtils;
 import lombok.Getter;
 import lombok.Setter;
 
-
 @Getter
 @Setter
-public class AbstractEntity {
-
-	@JsonInclude(Include.NON_NULL)
-	@DBField(columnName = "ID", functionField = "idFunction", sequenceField = "idSequence")
-	private Long id;
-
-	private String idSequence;
-
-	private String idFunction;
-
-	@JsonIgnore
-	private String comment;
+public abstract class LqbAbstractEntity {
 
 	public final List<Field> getDBRelatedFields() {
 		List<Field> result = new ArrayList<>();

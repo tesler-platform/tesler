@@ -20,11 +20,11 @@
 
 package liquibase.ext.tesler.ui.unload;
 
-import io.tesler.db.migration.liquibase.data.ScreenEntity;
-import io.tesler.db.migration.liquibase.data.ScreenEntity.ScreenNavigation.SubMenu;
-import io.tesler.db.migration.liquibase.data.ScreenViewGroup;
-import io.tesler.db.migration.liquibase.data.ScreenViewGroupData;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.tesler.db.migration.liquibase.data.NavigationGroup;
+import io.tesler.db.migration.liquibase.data.NavigationView;
+import io.tesler.db.migration.liquibase.data.ScreenEntity;
+import io.tesler.db.migration.liquibase.data.ScreenEntity.ScreenNavigation.MenuItem;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.sql.PreparedStatement;
@@ -67,46 +67,50 @@ public class ScreenUnload extends AbstractEntityUnload {
 
 	private ScreenEntity.ScreenNavigation buildScreenNavigation(final JdbcConnection connection, final String screenName)
 			throws Exception {
-		final Map<Long, ScreenEntity.ScreenNavigation.Menu> map = new HashMap<>();
+		final Map<String, ScreenEntity.ScreenNavigation.MenuItem> map = new HashMap<>();
 
-		final List<ScreenViewGroup> groups = getGroups(connection, screenName);
-		final List<ScreenViewGroupData> views = getViews(connection, screenName);
+		final List<NavigationGroup> groups = getGroups(connection, screenName);
+		final List<NavigationView> views = getViews(connection, screenName);
 
-		final List<ScreenEntity.ScreenNavigation.Menu> menus = new ArrayList<>();
-		for (final ScreenViewGroup group : groups) {
-			final ScreenEntity.ScreenNavigation.Menu menu = computeIfAbsent(map, group);
-			menu.setId(group.getId());
-			menu.setCommentDevelop(group.getDescription());
-			if (Objects.equals(group.getRoot(), 1)) {
-				menu.setTitle(group.getTitle());
-			} else {
-				menu.setCategoryName(group.getTitle());
-			}
+		final List<ScreenEntity.ScreenNavigation.MenuItem> menus = new ArrayList<>();
+		for (final NavigationGroup group : groups) {
+			final ScreenEntity.ScreenNavigation.MenuItem groupMenuItem = computeIfAbsent(map, group);
+			groupMenuItem.setDefaultView(groupMenuItem.getTitle());
+			groupMenuItem.setCommentDevelop(group.getDescription());
+			groupMenuItem.setTitle(group.getTitle());
+			groupMenuItem.setDefaultView(group.getDefaultView());
+			groupMenuItem.setHidden(Integer.valueOf(1).equals(group.getHidden()));
 			if (group.getParentId() == null) {
-				menus.add(group.getSeq() > menus.size() ? menus.size() : group.getSeq(), menu);
-			} else if (menu instanceof ScreenEntity.ScreenNavigation.SubMenu) {
-				final ScreenViewGroup parentGroup = findParentGroup(groups, group);
-				final ScreenEntity.ScreenNavigation.Menu parentMenu = computeIfAbsent(map, parentGroup);
+				menus.add(group.getSeq() > menus.size() ? menus.size() : group.getSeq(), groupMenuItem);
+			} else {
+				final NavigationGroup parentGroup = findParentGroup(groups, group);
+				final ScreenEntity.ScreenNavigation.MenuItem parentMenu = computeIfAbsent(map, parentGroup);
 				if (parentMenu.getChild() == null) {
-					parentMenu.setChild(new ArrayList<ScreenEntity.ScreenNavigation.SubMenu>());
+					parentMenu.setChild(new ArrayList<>());
 				}
-				final List<SubMenu> child = parentMenu.getChild();
+				final List<MenuItem> child = parentMenu.getChild();
 				child.add(
 						group.getSeq() > child.size() ? child.size() : group.getSeq(),
-						(ScreenEntity.ScreenNavigation.SubMenu) menu
+						groupMenuItem
 				);
 			}
 		}
 
-		for (final ScreenViewGroupData view : views) {
-			final ScreenEntity.ScreenNavigation.SubMenu menu = new ScreenEntity.ScreenNavigation.SubMenu();
-			menu.setViewName(view.getViewName());
-			final ScreenEntity.ScreenNavigation.Menu parentMenu = map.get(view.getViewGroupId());
-			if (parentMenu.getChild() == null) {
-				parentMenu.setChild(new ArrayList<ScreenEntity.ScreenNavigation.SubMenu>());
+		for (final NavigationView view : views) {
+			final ScreenEntity.ScreenNavigation.MenuItem viewMenuItem = new ScreenEntity.ScreenNavigation.MenuItem();
+			viewMenuItem.setViewName(view.getViewName());
+			viewMenuItem.setCommentDevelop(view.getDescription());
+			viewMenuItem.setHidden(Integer.valueOf(1).equals(view.getHidden()));
+			if (view.getParentGroupId() == null) {
+				menus.add(view.getSeq() > menus.size() ? menus.size() : view.getSeq(), viewMenuItem);
+			} else {
+				final ScreenEntity.ScreenNavigation.MenuItem parentMenu = map.get(view.getParentGroupId());
+				if (parentMenu.getChild() == null) {
+					parentMenu.setChild(new ArrayList<>());
+				}
+				final List<MenuItem> child = parentMenu.getChild();
+				child.add(view.getSeq() > child.size() ? child.size() : view.getSeq(), viewMenuItem);
 			}
-			final List<SubMenu> child = parentMenu.getChild();
-			child.add(view.getSeq() > child.size() ? child.size() : view.getSeq(), menu);
 		}
 
 		final ScreenEntity.ScreenNavigation screenNavigation = new ScreenEntity.ScreenNavigation();
@@ -114,22 +118,22 @@ public class ScreenUnload extends AbstractEntityUnload {
 		return screenNavigation;
 	}
 
-	private List<ScreenViewGroup> getGroups(final JdbcConnection connection, final String screenName) throws Exception {
-		final List<ScreenViewGroup> result = new ArrayList<>();
+	private List<NavigationGroup> getGroups(final JdbcConnection connection, final String screenName) throws Exception {
+		final List<NavigationGroup> result = new ArrayList<>();
 		try (final PreparedStatement statement = connection.prepareStatement(
-				"SELECT * FROM SCREEN_VIEW_GROUP WHERE (TYPE_CD != 'USER_GROUP' OR TYPE_CD IS NULL) AND SCREEN_NAME = ? ORDER BY SEQ ASC")) {
+				"SELECT * FROM NAVIGATION_GROUP WHERE (TYPE_CD != 'USER_GROUP' OR TYPE_CD IS NULL) AND SCREEN_NAME = ? ORDER BY SEQ ASC")) {
 			statement.setString(1, screenName);
 			try (final ResultSet resultSet = statement.executeQuery()) {
 				while (resultSet.next()) {
-					final ScreenViewGroup entity = new ScreenViewGroup();
-					entity.setId(resultSet.getObject("ID", Long.class));
+					final NavigationGroup entity = new NavigationGroup();
+					entity.setId(resultSet.getObject("ID", String.class));
 					entity.setTypeCd(resultSet.getString("TYPE_CD"));
 					entity.setScreenName(resultSet.getString("SCREEN_NAME"));
 					entity.setTitle(resultSet.getString("TITLE"));
-					entity.setParentId(resultSet.getObject("PARENT_ID", Long.class));
+					entity.setParentId(resultSet.getObject("PARENT_ID", String.class));
 					entity.setSeq(resultSet.getObject("SEQ", Integer.class));
 					entity.setDescription(resultSet.getString("DESCRIPTION"));
-					entity.setRoot(resultSet.getInt("ROOT"));
+					entity.setHidden(resultSet.getInt("HIDDEN"));
 					result.add(entity);
 				}
 			}
@@ -137,19 +141,21 @@ public class ScreenUnload extends AbstractEntityUnload {
 		return result;
 	}
 
-	private List<ScreenViewGroupData> getViews(final JdbcConnection connection, final String screenName)
+	private List<NavigationView> getViews(final JdbcConnection connection, final String screenName)
 			throws Exception {
-		final List<ScreenViewGroupData> result = new ArrayList<>();
+		final List<NavigationView> result = new ArrayList<>();
 		try (final PreparedStatement statement = connection.prepareStatement(
-				"SELECT * FROM SCREEN_VIEW_GROUP_DATA WHERE VIEW_GROUP_ID IN (SELECT SCREEN_VIEW_GROUP.ID FROM SCREEN_VIEW_GROUP WHERE (TYPE_CD != 'USER_GROUP' OR TYPE_CD IS NULL) AND SCREEN_NAME = ?) ORDER BY SEQ ASC")) {
+				"SELECT * FROM NAVIGATION_VIEW WHERE PARENT_GROUP_ID IN (SELECT NAVIGATION_GROUP.ID FROM NAVIGATION_GROUP WHERE (TYPE_CD != 'USER_GROUP' OR TYPE_CD IS NULL) AND SCREEN_NAME = ?) ORDER BY SEQ ASC")) {
 			statement.setString(1, screenName);
 			try (final ResultSet resultSet = statement.executeQuery()) {
 				while (resultSet.next()) {
-					final ScreenViewGroupData entity = new ScreenViewGroupData();
-					entity.setId(resultSet.getObject("ID", Long.class));
+					final NavigationView entity = new NavigationView();
+					entity.setId(resultSet.getObject("ID", String.class));
+					entity.setScreenName(resultSet.getString("SCREEN_NAME"));
 					entity.setViewName(resultSet.getString("VIEW_NAME"));
-					entity.setViewGroupId(resultSet.getObject("VIEW_GROUP_ID", Long.class));
+					entity.setParentGroupId(resultSet.getObject("PARENT_GROUP_ID", String.class));
 					entity.setSeq(resultSet.getObject("SEQ", Integer.class));
+					entity.setHidden(resultSet.getInt("HIDDEN"));
 					result.add(entity);
 				}
 			}
@@ -157,8 +163,8 @@ public class ScreenUnload extends AbstractEntityUnload {
 		return result;
 	}
 
-	private ScreenViewGroup findParentGroup(final List<ScreenViewGroup> groups, final ScreenViewGroup currentGroup) {
-		for (final ScreenViewGroup group : groups) {
+	private NavigationGroup findParentGroup(final List<NavigationGroup> groups, final NavigationGroup currentGroup) {
+		for (final NavigationGroup group : groups) {
 			if (Objects.equals(currentGroup.getParentId(), group.getId())) {
 				return group;
 			}
@@ -166,15 +172,14 @@ public class ScreenUnload extends AbstractEntityUnload {
 		return null;
 	}
 
-	private ScreenEntity.ScreenNavigation.Menu computeIfAbsent(final Map<Long, ScreenEntity.ScreenNavigation.Menu> map,
-			final ScreenViewGroup group) {
-		final ScreenEntity.ScreenNavigation.Menu value = map.get(group.getId());
+	private ScreenEntity.ScreenNavigation.MenuItem computeIfAbsent(
+			final Map<String, ScreenEntity.ScreenNavigation.MenuItem> map,
+			final NavigationGroup group) {
+		final ScreenEntity.ScreenNavigation.MenuItem value = map.get(group.getId());
 		if (value != null) {
 			return value;
 		}
-		final ScreenEntity.ScreenNavigation.Menu newValue =
-				group.getParentId() == null ? new ScreenEntity.ScreenNavigation.Menu()
-						: new ScreenEntity.ScreenNavigation.SubMenu();
+		final ScreenEntity.ScreenNavigation.MenuItem newValue = new ScreenEntity.ScreenNavigation.MenuItem();
 		map.put(group.getId(), newValue);
 		return newValue;
 	}
