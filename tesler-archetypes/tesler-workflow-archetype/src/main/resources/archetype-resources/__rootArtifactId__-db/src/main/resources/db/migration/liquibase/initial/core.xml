@@ -128,86 +128,6 @@
             </column>
         </createTable>
     </changeSet>
-    <changeSet author="initial" id="DELEGATION TABLE">
-        <createTable remarks="Делегирование" tableName="DELEGATION">
-            <column name="ID" remarks="Идентификатор" type="NUMBER(19, 0)">
-                <constraints primaryKey="true" primaryKeyName="PK_DELEGATION"/>
-            </column>
-            <column defaultValueComputed="SYSDATE" name="CREATED_DATE" remarks="Дата создания" type="TIMESTAMP(6)">
-                <constraints nullable="false"/>
-            </column>
-            <column defaultValueNumeric="1" name="CREATED_BY_USER_ID" remarks="Кто создал" type="NUMBER(19, 0)">
-                <constraints nullable="false"/>
-            </column>
-            <column defaultValueComputed="SYSDATE" name="UPDATED_DATE" remarks="Дата изменения" type="TIMESTAMP(6)">
-                <constraints nullable="false"/>
-            </column>
-            <column defaultValueNumeric="1" name="LAST_UPD_BY_USER_ID" remarks="Кто изменил" type="NUMBER(19, 0)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="DEPT_ID" remarks="Департамент" type="NUMBER(19, 0)"/>
-            <column name="USER_ID" remarks="Сотрудник" type="NUMBER(19, 0)"/>
-            <column name="COUNTERPARTY_ID" remarks="Поднадзорная организация" type="NUMBER(19, 0)"/>
-            <column name="DATE_FROM" remarks="Дата начала действия" type="TIMESTAMP(6)"/>
-            <column name="DATE_TO" remarks="Дата окончания действия" type="TIMESTAMP(6)"/>
-            <column name="REASON" remarks="Обрснование" type="VARCHAR2(1000 CHAR)"/>
-            <column defaultValueNumeric="0" name="CONCLUSIONS" type="NUMBER(1, 0)">
-                <constraints nullable="false"/>
-            </column>
-            <column defaultValueNumeric="0" name="VSTAMP" type="NUMBER(19, 0)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="TASK_ID" type="NUMBER(19, 0)"/>
-        </createTable>
-    </changeSet>
-    <changeSet author="initial" id="DELEGATION_VIEW TABLE">
-        <createTable remarks="Делегируемые экраны" tableName="DELEGATION_VIEW">
-            <column name="ID" remarks="Идентификатор" type="NUMBER(19, 0)">
-                <constraints primaryKey="true" primaryKeyName="PK_DELEGATION_VIEW"/>
-            </column>
-            <column defaultValueComputed="SYSDATE" name="CREATED_DATE" remarks="Дата создания" type="TIMESTAMP(6)">
-                <constraints nullable="false"/>
-            </column>
-            <column defaultValueNumeric="1" name="CREATED_BY_USER_ID" remarks="Кто создал" type="NUMBER(19, 0)">
-                <constraints nullable="false"/>
-            </column>
-            <column defaultValueComputed="SYSDATE" name="UPDATED_DATE" remarks="Дата изменения" type="TIMESTAMP(6)">
-                <constraints nullable="false"/>
-            </column>
-            <column defaultValueNumeric="1" name="LAST_UPD_BY_USER_ID" remarks="Кто изменил" type="NUMBER(19, 0)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="DELEGATION_ID" remarks="Делегирование" type="NUMBER(19, 0)"/>
-            <column name="VIEW_NAME" remarks="Вью" type="VARCHAR2(255 CHAR)"/>
-            <column defaultValueNumeric="0" name="VSTAMP" type="NUMBER(19, 0)">
-                <constraints nullable="false"/>
-            </column>
-        </createTable>
-    </changeSet>
-    <changeSet author="initial" id="DELEGATION_VIEW_GROUP TABLE">
-        <createTable remarks="Делегируемые группы вью" tableName="DELEGATION_VIEW_GROUP">
-            <column name="ID" remarks="Идентификатор" type="NUMBER(19, 0)">
-                <constraints primaryKey="true" primaryKeyName="PK_DELEGATION_VIEW_GROUP"/>
-            </column>
-            <column defaultValueComputed="SYSDATE" name="CREATED_DATE" remarks="Дата создания" type="TIMESTAMP(6)">
-                <constraints nullable="false"/>
-            </column>
-            <column defaultValueNumeric="1" name="CREATED_BY_USER_ID" remarks="Кто создал" type="NUMBER(19, 0)">
-                <constraints nullable="false"/>
-            </column>
-            <column defaultValueComputed="SYSDATE" name="UPDATED_DATE" remarks="Дата изменения" type="TIMESTAMP(6)">
-                <constraints nullable="false"/>
-            </column>
-            <column defaultValueNumeric="1" name="LAST_UPD_BY_USER_ID" remarks="Кто изменил" type="NUMBER(19, 0)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="DELEGATION_ID" remarks="Делегирование" type="NUMBER(19, 0)"/>
-            <column name="VIEW_GROUP_ID" remarks="Группа" type="NUMBER(19, 0)"/>
-            <column defaultValueNumeric="0" name="VSTAMP" type="NUMBER(19, 0)">
-                <constraints nullable="false"/>
-            </column>
-        </createTable>
-    </changeSet>
     <changeSet author="initial" id="DEPT TABLE">
         <createTable remarks="Департамент" tableName="DEPT">
             <column name="ID" remarks="Идентификатор" type="NUMBER(19, 0)">
@@ -1073,61 +993,45 @@
             </column>
         </createTable>
     </changeSet>
-    <changeSet author="initial" id="SCREEN_VIEW_GROUP TABLE">
-        <createTable remarks="Группы вью" tableName="SCREEN_VIEW_GROUP">
-            <column name="ID" remarks="Идентификатор" type="NUMBER(19, 0)">
-                <constraints primaryKey="true" primaryKeyName="PK_SCREEN_VIEW_GROUP"/>
+    <changeSet author="initial" id="NAVIGATION_GROUP TABLE">
+        <createTable remarks="Группы вью" tableName="NAVIGATION_GROUP">
+            <column name="ID" remarks="Идентификатор" type="VARCHAR2(255 CHAR)">
+                <constraints primaryKey="true" primaryKeyName="PK_NAVIGATION_GROUP"/>
             </column>
             <column defaultValueComputed="SYSDATE" name="CREATED_DATE" remarks="Дата создания" type="TIMESTAMP(6)">
-                <constraints nullable="false"/>
-            </column>
-            <column defaultValueNumeric="1" name="CREATED_BY_USER_ID" remarks="Кто создал" type="NUMBER(19, 0)">
                 <constraints nullable="false"/>
             </column>
             <column defaultValueComputed="SYSDATE" name="UPDATED_DATE" remarks="Дата изменения" type="TIMESTAMP(6)">
                 <constraints nullable="false"/>
             </column>
-            <column defaultValueNumeric="1" name="LAST_UPD_BY_USER_ID" remarks="Кто изменил" type="NUMBER(19, 0)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="DEPT_ID" remarks="Департамент которому принадлежит группа" type="NUMBER(19, 0)"/>
             <column name="TYPE_CD" remarks="Тип группы" type="VARCHAR2(255 CHAR)"/>
             <column name="SCREEN_NAME" remarks="Экран" type="VARCHAR2(255 CHAR)"/>
             <column name="TITLE" remarks="Название" type="VARCHAR2(1000 CHAR)"/>
-            <column name="PARENT_ID" remarks="Родительская группа" type="NUMBER(19, 0)"/>
+            <column name="PARENT_ID" remarks="Родительская группа" type="VARCHAR2(255 CHAR)"/>
             <column name="SEQ" remarks="Порядок" type="NUMBER(19, 0)"/>
-            <column name="ROOT" type="NUMBER(1, 0)"/>
             <column name="DESCRIPTION" remarks="Описание" type="VARCHAR2(1000 CHAR)"/>
-            <column defaultValueNumeric="0" name="VSTAMP" type="NUMBER(19, 0)">
-                <constraints nullable="false"/>
-            </column>
+            <column name="DEFAULT_VIEW" remarks="Порядок" type="VARCHAR2(255 CHAR)"/>
+            <column name="HIDDEN" remarks="Скрыто" type="NUMBER(1)"/>
         </createTable>
     </changeSet>
-    <changeSet author="initial" id="SCREEN_VIEW_GROUP_DATA TABLE">
-        <createTable remarks="Связь вью с группами" tableName="SCREEN_VIEW_GROUP_DATA">
-            <column name="ID" remarks="Идентификатор" type="NUMBER(19, 0)">
-                <constraints primaryKey="true" primaryKeyName="PK_SCREEN_VIEW_GROUP_DATA"/>
+    <changeSet author="initial" id="NAVIGATION_VIEW TABLE">
+        <createTable remarks="Связь вью с группами" tableName="NAVIGATION_VIEW">
+            <column name="ID" remarks="Идентификатор" type="VARCHAR(255)">
+                <constraints primaryKey="true" primaryKeyName="PK_NAVIGATION_VIEW"/>
             </column>
             <column defaultValueComputed="SYSDATE" name="CREATED_DATE" remarks="Дата создания" type="TIMESTAMP(6)">
-                <constraints nullable="false"/>
-            </column>
-            <column defaultValueNumeric="1" name="CREATED_BY_USER_ID" remarks="Кто создал" type="NUMBER(19, 0)">
                 <constraints nullable="false"/>
             </column>
             <column defaultValueComputed="SYSDATE" name="UPDATED_DATE" remarks="Дата изменения" type="TIMESTAMP(6)">
                 <constraints nullable="false"/>
             </column>
-            <column defaultValueNumeric="1" name="LAST_UPD_BY_USER_ID" remarks="Кто изменил" type="NUMBER(19, 0)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="VIEW_GROUP_ID" remarks="Группа" type="NUMBER(19, 0)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="SEQ" remarks="Порядок" type="NUMBER(19, 0)"/>
+            <column name="TYPE_CD" remarks="Тип группы" type="VARCHAR2(255 CHAR)"/>
             <column name="VIEW_NAME" remarks="Вью" type="VARCHAR2(255 CHAR)"/>
-            <column defaultValueNumeric="0" name="VSTAMP" type="NUMBER(19, 0)">
-                <constraints nullable="false"/>
-            </column>
+            <column name="SCREEN_NAME" remarks="Экран" type="VARCHAR2(255 CHAR)"/>
+            <column name="PARENT_GROUP_ID" remarks="Группа" type="VARCHAR2(255 CHAR)"/>
+            <column name="SEQ" remarks="Порядок" type="NUMBER(19, 0)"/>
+            <column name="DESCRIPTION" remarks="Описание" type="VARCHAR2(1000 CHAR)"/>
+            <column name="HIDDEN" remarks="Скрыто" type="NUMBER(1)"/>
         </createTable>
     </changeSet>
     <changeSet author="initial" id="SEARCH_SPEC TABLE">
@@ -1961,24 +1865,6 @@
         <addForeignKeyConstraint baseColumnNames="CREATED_BY_USER_ID" baseTableName="BC_PROPERTIES" constraintName="FK_DEFBCPROPS_CREATED_BY" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID" referencedTableName="USERS" validate="true"/>
         <addForeignKeyConstraint baseColumnNames="LAST_UPD_BY_USER_ID" baseTableName="BC_PROPERTIES" constraintName="FK_DEFBCPROPS_UPDATED_BY" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID" referencedTableName="USERS" validate="true"/>
     </changeSet>
-    <changeSet author="initial" id="DELEGATION CONSTRAINTS">
-        <addForeignKeyConstraint baseColumnNames="CREATED_BY_USER_ID" baseTableName="DELEGATION" constraintName="FK_DELEGATION_CREATED_BY" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID" referencedTableName="USERS" validate="true"/>
-        <addForeignKeyConstraint baseColumnNames="LAST_UPD_BY_USER_ID" baseTableName="DELEGATION" constraintName="FK_DELEGATION_UPDATED_BY" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID" referencedTableName="USERS" validate="true"/>
-        <addForeignKeyConstraint baseColumnNames="DEPT_ID" baseTableName="DELEGATION" constraintName="FK_DELEGATION_GROUP_DEPT" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID" referencedTableName="DEPT" validate="true"/>
-        <addForeignKeyConstraint baseColumnNames="USER_ID" baseTableName="DELEGATION" constraintName="FK_DELEGATION_USEER" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID" referencedTableName="USERS" validate="true"/>
-    </changeSet>
-    <changeSet author="initial" id="DELEGATION_VIEW_GROUP CONSTRAINTS">
-        <addForeignKeyConstraint baseColumnNames="CREATED_BY_USER_ID" baseTableName="DELEGATION_VIEW_GROUP" constraintName="FK_DELEGATION_GROUP_CREATED_BY" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID" referencedTableName="USERS" validate="true"/>
-        <addForeignKeyConstraint baseColumnNames="DELEGATION_ID" baseTableName="DELEGATION_VIEW_GROUP" constraintName="FK_DELEGATION_GROUP_DELEGATION" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID" referencedTableName="DELEGATION" validate="true"/>
-        <addForeignKeyConstraint baseColumnNames="LAST_UPD_BY_USER_ID" baseTableName="DELEGATION_VIEW_GROUP" constraintName="FK_DELEGATION_GROUP_UPDATED_BY" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID" referencedTableName="USERS" validate="true"/>
-        <addForeignKeyConstraint baseColumnNames="VIEW_GROUP_ID" baseTableName="DELEGATION_VIEW_GROUP" constraintName="FK_DELEGATION_GROUP_VIEW_GROUP" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID" referencedTableName="SCREEN_VIEW_GROUP" validate="true"/>
-    </changeSet>
-    <changeSet author="initial" id="DELEGATION_VIEW CONSTRAINTS">
-        <addForeignKeyConstraint baseColumnNames="CREATED_BY_USER_ID" baseTableName="DELEGATION_VIEW" constraintName="FK_DELEGATION_VIEW_CREATED_BY" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID" referencedTableName="USERS" validate="true"/>
-        <addForeignKeyConstraint baseColumnNames="DELEGATION_ID" baseTableName="DELEGATION_VIEW" constraintName="FK_DELEGATION_VIEW_DELEGATION" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID" referencedTableName="DELEGATION" validate="true"/>
-        <addForeignKeyConstraint baseColumnNames="LAST_UPD_BY_USER_ID" baseTableName="DELEGATION_VIEW" constraintName="FK_DELEGATION_VIEW_UPDATED_BY" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID" referencedTableName="USERS" validate="true"/>
-        <addForeignKeyConstraint baseColumnNames="VIEW_NAME" baseTableName="DELEGATION_VIEW" constraintName="FK_DELEGATION_VIEW_VIEW_NAME" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="NAME" referencedTableName="VIEWS" validate="true"/>
-    </changeSet>
     <changeSet author="initial" id="DEPT CONSTRAINTS">
         <addForeignKeyConstraint baseColumnNames="CREATED_BY_USER_ID" baseTableName="DEPT" constraintName="FK_DEPT_CREATED_BY" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID" referencedTableName="USERS" validate="true"/>
         <addForeignKeyConstraint baseColumnNames="LAST_UPD_BY_USER_ID" baseTableName="DEPT" constraintName="FK_DEPT_UPDATED_BY" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID" referencedTableName="USERS" validate="true"/>
@@ -2101,18 +1987,13 @@
         <addForeignKeyConstraint baseColumnNames="CREATED_BY_USER_ID" baseTableName="VIEWS" constraintName="FK_VIEW_CREATED_BY" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID" referencedTableName="USERS" validate="true"/>
         <addForeignKeyConstraint baseColumnNames="LAST_UPD_BY_USER_ID" baseTableName="VIEWS" constraintName="FK_VIEW_UPDATED_BY" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID" referencedTableName="USERS" validate="true"/>
     </changeSet>
-    <changeSet author="initial" id="SCREEN_VIEW_GROUP_DATA CONSTRAINTS">
-        <addForeignKeyConstraint baseColumnNames="CREATED_BY_USER_ID" baseTableName="SCREEN_VIEW_GROUP_DATA" constraintName="FK_VIEW_GROUP_DATA_CREATED_BY" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID" referencedTableName="USERS" validate="true"/>
-        <addForeignKeyConstraint baseColumnNames="LAST_UPD_BY_USER_ID" baseTableName="SCREEN_VIEW_GROUP_DATA" constraintName="FK_VIEW_GROUP_DATA_UPDATED_BY" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID" referencedTableName="USERS" validate="true"/>
-        <addForeignKeyConstraint baseColumnNames="VIEW_GROUP_ID" baseTableName="SCREEN_VIEW_GROUP_DATA" constraintName="FK_VIEW_GROUP_DATA_VIEW_GROUP" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID" referencedTableName="SCREEN_VIEW_GROUP" validate="true"/>
-        <addForeignKeyConstraint baseColumnNames="VIEW_NAME" baseTableName="SCREEN_VIEW_GROUP_DATA" constraintName="FK_VIEW_GROUP_DATA_VIEW_NAME" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="NAME" referencedTableName="VIEWS" validate="true"/>
+    <changeSet author="initial" id="NAVIGATION_VIEW CONSTRAINTS">
+        <addForeignKeyConstraint baseColumnNames="PARENT_GROUP_ID" baseTableName="NAVIGATION_VIEW" constraintName="FK_VIEW_GROUP_DATA_VIEW_GROUP" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID" referencedTableName="NAVIGATION_GROUP" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="VIEW_NAME" baseTableName="NAVIGATION_VIEW" constraintName="FK_VIEW_GROUP_DATA_VIEW_NAME" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="NAME" referencedTableName="VIEWS" validate="true"/>
     </changeSet>
-    <changeSet author="initial" id="SCREEN_VIEW_GROUP CONSTRAINTS">
-        <addForeignKeyConstraint baseColumnNames="CREATED_BY_USER_ID" baseTableName="SCREEN_VIEW_GROUP" constraintName="FK_VIEW_GROUP_CREATED_BY" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID" referencedTableName="USERS" validate="true"/>
-        <addForeignKeyConstraint baseColumnNames="DEPT_ID" baseTableName="SCREEN_VIEW_GROUP" constraintName="FK_VIEW_GROUP_DEPT" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID" referencedTableName="DEPT" validate="true"/>
-        <addForeignKeyConstraint baseColumnNames="SCREEN_NAME" baseTableName="SCREEN_VIEW_GROUP" constraintName="FK_VIEW_GROUP_SCREEN_NAME" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="NAME" referencedTableName="SCREEN" validate="true"/>
-        <addForeignKeyConstraint baseColumnNames="LAST_UPD_BY_USER_ID" baseTableName="SCREEN_VIEW_GROUP" constraintName="FK_VIEW_GROUP_UPDATED_BY" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID" referencedTableName="USERS" validate="true"/>
-        <addForeignKeyConstraint baseColumnNames="PARENT_ID" baseTableName="SCREEN_VIEW_GROUP" constraintName="FK_VIEW_GROUP_VIEW_GROUP" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID" referencedTableName="SCREEN_VIEW_GROUP" validate="true"/>
+    <changeSet author="initial" id="NAVIGATION_GROUP CONSTRAINTS">
+        <addForeignKeyConstraint baseColumnNames="SCREEN_NAME" baseTableName="NAVIGATION_GROUP" constraintName="FK_VIEW_GROUP_SCREEN_NAME" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="NAME" referencedTableName="SCREEN" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="PARENT_ID" baseTableName="NAVIGATION_GROUP" constraintName="FK_VIEW_GROUP_VIEW_GROUP" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID" referencedTableName="NAVIGATION_GROUP" validate="true"/>
     </changeSet>
     <changeSet author="initial" id="LAYOUTS_WIDGETS CONSTRAINTS">
         <addForeignKeyConstraint baseColumnNames="WIDGET_ID" baseTableName="LAYOUTS_WIDGETS" constraintName="FK_WIDGETS" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID" referencedTableName="WIDGET" validate="true"/>

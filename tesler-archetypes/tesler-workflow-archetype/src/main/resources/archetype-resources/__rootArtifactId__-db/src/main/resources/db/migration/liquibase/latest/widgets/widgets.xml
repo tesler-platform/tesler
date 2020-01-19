@@ -7,10 +7,10 @@
 
     <changeSet author="initial" id="allwidgets" runOnChange="true">
 
-        <delete tableName="screen_view_group_data">
-            <where>VIEW_GROUP_ID IN (SELECT ID FROM SCREEN_VIEW_GROUP WHERE TYPE_CD != 'USER_GROUP' OR TYPE_CD IS NULL)</where>
+        <delete tableName="NAVIGATION_VIEW">
+            <where>TYPE_CD != 'USER_GROUP' OR TYPE_CD IS NULL</where>
         </delete>
-        <delete tableName="screen_view_group">
+        <delete tableName="NAVIGATION_GROUP">
             <where>TYPE_CD != 'USER_GROUP' OR TYPE_CD IS NULL</where>
         </delete>
 
@@ -35,14 +35,8 @@
         <delete tableName="layouts_widgets">
             <where>WIDGET_ID NOT IN (SELECT ID FROM WIDGET)</where>
         </delete>
-        <delete tableName="screen_view_group_data">
+        <delete tableName="NAVIGATION_VIEW">
             <where>VIEW_NAME NOT IN (SELECT NAME FROM VIEWS)</where>
-        </delete>
-        <delete tableName="delegation_view">
-            <where>VIEW_NAME NOT IN (SELECT NAME FROM VIEWS)</where>
-        </delete>
-        <delete tableName="delegation_view_group">
-            <where>VIEW_GROUP_ID NOT IN (SELECT ID FROM SCREEN_VIEW_GROUP)</where>
         </delete>
 
     </changeSet>

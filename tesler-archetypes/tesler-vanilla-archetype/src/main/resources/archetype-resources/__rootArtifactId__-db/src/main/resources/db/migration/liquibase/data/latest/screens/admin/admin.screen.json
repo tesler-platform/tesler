@@ -8,13 +8,7 @@
   "navigation": {
     "menu": [
       {
-        "id": 1400,
-        "title": "Администрирование справочников",
-        "child": [
-          {
-            "viewName": "linkdictionaries"
-          }
-        ]
+        "viewName": "linkdictionaries"
       }
     ]
   }
