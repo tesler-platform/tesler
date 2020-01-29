@@ -18,21 +18,23 @@
  * #L%
  */
 
-package io.tesler.model.core.conveters;
+package io.tesler.model.core.converter;
 
-import io.tesler.api.data.dictionary.LOV;
+import io.tesler.model.core.entity.security.types.AccessListType;
 import javax.persistence.AttributeConverter;
 import javax.persistence.Converter;
 
 @Converter(autoApply = true)
-public class LOVConverter implements AttributeConverter<LOV, String> {
+public class AccessListTypeConverter implements AttributeConverter<AccessListType, Integer> {
 
-	public String convertToDatabaseColumn(LOV attribute) {
-		return attribute != null ? attribute.getKey() : null;
+	public Integer convertToDatabaseColumn(AccessListType attribute) {
+		return attribute != null
+				? attribute.getIntValue()
+				: AccessListType.PRIVATE.getIntValue();
 	}
 
-	public LOV convertToEntityAttribute(String dbData) {
-		return dbData != null ? new LOV(dbData) : null;
+	public AccessListType convertToEntityAttribute(Integer dbData) {
+		return AccessListType.of(dbData);
 	}
 
 }

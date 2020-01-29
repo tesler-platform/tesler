@@ -18,23 +18,23 @@
  * #L%
  */
 
-package io.tesler.model.core.conveters;
+package io.tesler.model.core.converter;
 
-import java.time.Year;
+import io.tesler.model.core.entity.security.types.Permission;
 import javax.persistence.AttributeConverter;
 import javax.persistence.Converter;
 
 @Converter(autoApply = true)
-public class YearAttributeConverter implements AttributeConverter<Year, Integer> {
+public class PermissionConverter implements AttributeConverter<Permission, Integer> {
 
-	@Override
-	public Integer convertToDatabaseColumn(final Year attribute) {
-		return attribute == null ? null : attribute.getValue();
+	public Integer convertToDatabaseColumn(Permission attribute) {
+		return attribute != null
+				? attribute.getIntValue()
+				: Permission.NONE.getIntValue();
 	}
 
-	@Override
-	public Year convertToEntityAttribute(final Integer dbData) {
-		return dbData == null ? null : Year.of(dbData);
+	public Permission convertToEntityAttribute(Integer dbData) {
+		return Permission.of(dbData);
 	}
 
 }

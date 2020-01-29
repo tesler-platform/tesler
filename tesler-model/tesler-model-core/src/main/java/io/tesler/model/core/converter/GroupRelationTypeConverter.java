@@ -18,23 +18,23 @@
  * #L%
  */
 
-package io.tesler.model.core.conveters;
+package io.tesler.model.core.converter;
 
-import io.tesler.model.core.entity.security.types.AccessListType;
+import io.tesler.model.core.entity.security.types.GroupRelationType;
 import javax.persistence.AttributeConverter;
 import javax.persistence.Converter;
 
 @Converter(autoApply = true)
-public class AccessListTypeConverter implements AttributeConverter<AccessListType, Integer> {
+public class GroupRelationTypeConverter implements AttributeConverter<GroupRelationType, Integer> {
 
-	public Integer convertToDatabaseColumn(AccessListType attribute) {
+	public Integer convertToDatabaseColumn(GroupRelationType attribute) {
 		return attribute != null
 				? attribute.getIntValue()
-				: AccessListType.PRIVATE.getIntValue();
+				: GroupRelationType.MEMBER_USER.getIntValue();
 	}
 
-	public AccessListType convertToEntityAttribute(Integer dbData) {
-		return AccessListType.of(dbData);
+	public GroupRelationType convertToEntityAttribute(Integer dbData) {
+		return GroupRelationType.of(dbData);
 	}
 
 }

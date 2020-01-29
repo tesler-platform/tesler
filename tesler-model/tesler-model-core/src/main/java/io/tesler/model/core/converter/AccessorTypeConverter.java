@@ -18,23 +18,23 @@
  * #L%
  */
 
-package io.tesler.model.core.conveters;
+package io.tesler.model.core.converter;
 
-import io.tesler.model.core.entity.security.types.Permission;
+import io.tesler.model.core.entity.security.types.AccessorType;
 import javax.persistence.AttributeConverter;
 import javax.persistence.Converter;
 
 @Converter(autoApply = true)
-public class PermissionConverter implements AttributeConverter<Permission, Integer> {
+public class AccessorTypeConverter implements AttributeConverter<AccessorType, Integer> {
 
-	public Integer convertToDatabaseColumn(Permission attribute) {
+	public Integer convertToDatabaseColumn(AccessorType attribute) {
 		return attribute != null
 				? attribute.getIntValue()
-				: Permission.NONE.getIntValue();
+				: AccessorType.USER.getIntValue();
 	}
 
-	public Permission convertToEntityAttribute(Integer dbData) {
-		return Permission.of(dbData);
+	public AccessorType convertToEntityAttribute(Integer dbData) {
+		return AccessorType.of(dbData);
 	}
 
 }
