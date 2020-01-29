@@ -37,6 +37,7 @@ import io.tesler.model.core.api.CurrentUserAware;
 import io.tesler.model.core.api.notifications.EventRecipientInterceptor;
 import io.tesler.model.core.api.notifications.INotificationEventBuilder;
 import io.tesler.model.core.api.notifications.IRecipientResolver;
+import io.tesler.model.core.dao.JpaDao;
 import io.tesler.model.core.entity.BaseEntity;
 import io.tesler.model.core.entity.User;
 import com.google.common.collect.ImmutableMap;
@@ -57,6 +58,9 @@ import org.springframework.context.ApplicationEventPublisher;
 
 @Slf4j
 public abstract class AbstractEventGenerator<E extends BaseEntity> implements IChangeListener<E> {
+
+	@Autowired
+	private JpaDao jpaDao;
 
 	@Autowired
 	protected ApplicationEventPublisher applicationEventPublisher;
@@ -127,13 +131,13 @@ public abstract class AbstractEventGenerator<E extends BaseEntity> implements IC
 		if (entity == null) {
 			return currentUserAware.getCurrentUser();
 		}
-		User author = entity.getLastUpdBy();
+		Long author = entity.getLastUpdBy();
 		if (author != null) {
-			return author;
+			return jpaDao.findById(User.class, author);
 		}
 		author = entity.getCreatedBy();
 		if (author != null) {
-			return author;
+			return jpaDao.findById(User.class, author);
 		}
 		return currentUserAware.getCurrentUser();
 	}

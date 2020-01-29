@@ -95,6 +95,12 @@ public class SessionServiceImpl implements SessionService {
 		return user;
 	}
 
+	/**
+	 * get current User entity from CoreSessionService, if not found try to found User in
+	 * UserExternalService's (that defined by client applications).
+	 * @param fallbackToSystem - if enabled, empty authenticated user replaced with system VANILLA user
+	 * @return User entity
+	 */
 	private User getSessionUserInternal(boolean fallbackToSystem) {
 		TeslerUserDetails details = coreSessionService.getSessionUserDetails(false);
 		if (details != null) {
@@ -114,8 +120,8 @@ public class SessionServiceImpl implements SessionService {
 		}
 		User user = userService.getUserByLogin(sessionUser.getId());
 		if (user == null && fallbackToSystem) {
-			// здесь пользователь уже прошел аутентификацию
-			// поэтому видится нормальным заменить его на системного пользователя
+			// here the user has already authenticated
+			// therefore it seems normal to replace it with a system user
 			user = new User();
 			user.setId(VANILLA.getId());
 		}

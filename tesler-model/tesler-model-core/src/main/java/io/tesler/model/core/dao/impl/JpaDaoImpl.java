@@ -20,13 +20,13 @@
 
 package io.tesler.model.core.dao.impl;
 
+import com.google.common.base.Objects;
 import io.tesler.api.data.PageSpecification;
 import io.tesler.api.data.ResultPage;
 import io.tesler.api.data.dao.Selector;
 import io.tesler.api.data.dao.UpdateSpecification;
 import io.tesler.api.exception.ServerException;
 import io.tesler.api.service.tx.TransactionService;
-import io.tesler.api.util.Invoker;
 import io.tesler.model.core.api.EmbeddedKeyable;
 import io.tesler.model.core.dao.JpaDao;
 import io.tesler.model.core.dao.util.JpaUtils;
@@ -37,8 +37,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 import java.util.Spliterator;
 import java.util.Spliterators;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 import javax.persistence.AttributeNode;
@@ -46,7 +48,6 @@ import javax.persistence.EntityGraph;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.LockModeType;
-import javax.persistence.PersistenceContext;
 import javax.persistence.Subgraph;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
@@ -65,13 +66,11 @@ import javax.persistence.metamodel.ManagedType;
 import javax.persistence.metamodel.SingularAttribute;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.hibernate.FlushMode;
 import org.hibernate.ScrollMode;
 import org.hibernate.ScrollableResults;
 import org.hibernate.Session;
 import org.hibernate.jpa.AvailableSettings;
 import org.hibernate.query.Query;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.context.annotation.Primary;
 import org.springframework.data.jpa.domain.Specification;
@@ -80,17 +79,36 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j
+@Repository
 @Primary
 @Transactional
-@Repository
 public class JpaDaoImpl implements JpaDao {
 
-	@PersistenceContext
-	protected EntityManager entityManager;
+	final Set<EntityManager> entityManagers;
 
 	@Lazy
-	@Autowired
-	protected TransactionService txService;
+	protected final TransactionService txService;
+
+	public JpaDaoImpl(
+			Set<EntityManager> entityManagers,
+			TransactionService txService
+	) {
+		this.txService = txService;
+		this.entityManagers = entityManagers;
+	}
+
+	protected EntityManager getSupportedEntityManager(String entityClazz) {
+		List<EntityManager> supportedEntityManagers = entityManagers.stream().filter(
+				entityManager -> entityManager.getMetamodel().getEntities().stream().anyMatch(
+						entityType -> Objects.equal(entityType.getBindableJavaType().getName(), entityClazz)
+				)
+		).collect(Collectors.toList());
+		if (supportedEntityManagers.size() == 1) {
+			return supportedEntityManagers.get(0);
+		} else {
+			throw new IllegalArgumentException("Can't find unique EntityManager for entity: " + entityClazz);
+		}
+	}
 
 	@Override
 	@SuppressWarnings("unchecked")
@@ -104,12 +122,12 @@ public class JpaDaoImpl implements JpaDao {
 
 	@Override
 	public <T extends BaseEntity> T findById(Class<T> clazz, Long id) {
-		return entityManager.unwrap(Session.class).get(clazz, id);
+		return getSupportedEntityManager(clazz.getName()).unwrap(Session.class).get(clazz, id);
 	}
 
 	@Override
 	public <T> EntityGraph<? super T> getEntityGraph(Class<T> clazz, String name) {
-		return entityManager.getEntityGraphs(clazz).stream()
+		return getSupportedEntityManager(clazz.getName()).getEntityGraphs(clazz).stream()
 				.filter(graph -> name.equals(graph.getName()))
 				.findFirst().orElse(null);
 	}
@@ -184,38 +202,47 @@ public class JpaDaoImpl implements JpaDao {
 	@Override
 	public void flush() {
 		if (txService.isActive()) {
-			entityManager.unwrap(Session.class).flush();
+			entityManagers.forEach(EntityManager::flush);
+		}
+	}
+
+	@Override
+	public void clear() {
+		if (txService.isActive()) {
+			entityManagers.forEach(EntityManager::clear);
 		}
 	}
 
 	@Override
 	public void refresh(AbstractEntity o) {
-		if (entityManager.contains(o)) {
-			entityManager.unwrap(Session.class).refresh(o);
+		EntityManager supportedEntityManager = getSupportedEntityManager(o.getClass().getName());
+		if (supportedEntityManager.contains(o)) {
+			supportedEntityManager.unwrap(Session.class).refresh(o);
 		}
 	}
 
 	@Override
 	public <T> T save(Object entity) {
-		return (T) entityManager.unwrap(Session.class).save(entity);
+		return (T) getSupportedEntityManager(entity.getClass().getName()).unwrap(Session.class).save(entity);
 	}
 
 	@Override
 	public <T extends BaseEntity> T evict(T o) {
-		entityManager.unwrap(Session.class).evict(o);
+		getSupportedEntityManager(o.getClass().getName()).unwrap(Session.class).evict(o);
 		return o;
 	}
 
 	@Override
 	public void delete(AbstractEntity o) {
-		entityManager.unwrap(Session.class).delete(entityManager.merge(o));
+		EntityManager supportedEntityManager = getSupportedEntityManager(o.getClass().getName());
+		supportedEntityManager.unwrap(Session.class).delete(supportedEntityManager.merge(o));
 	}
 
 	@Override
 	public <T extends BaseEntity> T delete(Class<T> clazz, Long id) {
 		T o = findById(clazz, id);
 		if (o != null) {
-			entityManager.unwrap(Session.class).delete(o);
+			getSupportedEntityManager(clazz.getName()).unwrap(Session.class).delete(o);
 		} else {
 			throw new EntityNotFoundException();
 		}
@@ -229,45 +256,40 @@ public class JpaDaoImpl implements JpaDao {
 
 	@Override
 	public <T> int delete(Class<T> entityClass, Specification<T> spec) {
-		CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+		CriteriaBuilder cb = getSupportedEntityManager(entityClass.getName()).getCriteriaBuilder();
 		CriteriaDelete<T> delete = cb.createCriteriaDelete(entityClass);
 		Root<T> root = delete.from(entityClass);
 		if (spec != null) {
 			delete.where(spec.toPredicate(root, cb.createQuery(), cb));
 		}
-		return entityManager.createQuery(delete).executeUpdate();
+		return getSupportedEntityManager(entityClass.getName()).createQuery(delete).executeUpdate();
 	}
 
 	@Override
 	public <T> int update(Class<T> entityClass, Specification<T> spec, UpdateSpecification<T> updateSpec) {
-		CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+		CriteriaBuilder cb = getSupportedEntityManager(entityClass.getName()).getCriteriaBuilder();
 		CriteriaUpdate<T> update = cb.createCriteriaUpdate(entityClass);
 		Root<T> root = update.from(entityClass);
 		if (spec != null) {
 			update.where(spec.toPredicate(root, cb.createQuery(), cb));
 		}
 		updateSpec.apply(update, root, cb);
-		return entityManager.createQuery(update).executeUpdate();
+		return getSupportedEntityManager(entityClass.getName()).createQuery(update).executeUpdate();
 	}
 
 	@Override
 	public void saveWithCompositeKey(EmbeddedKeyable o) {
-		entityManager.unwrap(Session.class).save(o);
+		getSupportedEntityManager(o.getClass().getName()).unwrap(Session.class).save(o);
 	}
 
 	@Override
 	public void deleteWithCompositeKey(EmbeddedKeyable o) {
-		entityManager.unwrap(Session.class).delete(o);
+		getSupportedEntityManager(o.getClass().getName()).unwrap(Session.class).delete(o);
 	}
 
 	@Override
 	public <T> List<Long> getIds(Class<T> entityClazz, Specification<T> searchSpec) {
 		return getList(entityClazz, Long.class, (root, cb) -> root.get("id"), searchSpec);
-	}
-
-	@Override
-	public void clear() {
-		entityManager.unwrap(Session.class).clear();
 	}
 
 	@Override
@@ -280,7 +302,7 @@ public class JpaDaoImpl implements JpaDao {
 		}
 		Map<String, Object> options = new HashMap<>();
 		options.put(AvailableSettings.LOCK_TIMEOUT, timeout);
-		entityManager.lock(entity, lockMode, options);
+		getSupportedEntityManager(entity.getClass().getName()).lock(entity, lockMode, options);
 	}
 
 	@Override
@@ -290,8 +312,8 @@ public class JpaDaoImpl implements JpaDao {
 		}
 		Map<String, Object> options = new HashMap<>();
 		options.put(AvailableSettings.LOCK_TIMEOUT, timeout);
-		entityManager.lock(entity, LockModeType.PESSIMISTIC_READ, options);
-		entityManager.refresh(entity);
+		getSupportedEntityManager(entity.getClass().getName()).lock(entity, LockModeType.PESSIMISTIC_READ, options);
+		getSupportedEntityManager(entity.getClass().getName()).refresh(entity);
 	}
 
 	@Override
@@ -308,23 +330,11 @@ public class JpaDaoImpl implements JpaDao {
 
 	@Override
 	public <T> List<T> selectNativeQuery(Class<T> entityClazz, String sql, Map<String, Object> params) {
-		final javax.persistence.Query query = entityManager.createNativeQuery(sql, entityClazz);
+		final javax.persistence.Query query = getSupportedEntityManager(entityClazz.getName()).createNativeQuery(sql, entityClazz);
 		for (final Entry<String, Object> entry : params.entrySet()) {
 			query.setParameter(entry.getKey(), entry.getValue());
 		}
 		return query.getResultList();
-	}
-
-	@Override
-	public <T> T woAutoFlush(Invoker<T, RuntimeException> invoker) {
-		Session session = entityManager.unwrap(Session.class);
-		FlushMode flushMode = session.getHibernateFlushMode();
-		try {
-			session.setHibernateFlushMode(FlushMode.MANUAL);
-			return invoker.invoke();
-		} finally {
-			session.setHibernateFlushMode(flushMode);
-		}
 	}
 
 	@Override
@@ -424,14 +434,15 @@ public class JpaDaoImpl implements JpaDao {
 
 	protected <R, T> TypedQuery<T> getTypedQuery(Class<R> rootClass, Class<T> targetClass, Selector<R, T> selector,
 			Specification<R> specification) {
-		CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+		EntityManager supportedEntityManager = getSupportedEntityManager(rootClass.getName());
+		CriteriaBuilder cb = supportedEntityManager.getCriteriaBuilder();
 		CriteriaQuery<T> query = cb.createQuery(targetClass);
 		Root<R> root = query.from(rootClass);
 		query.select(selector.select(root, cb));
 		if (specification != null) {
 			query.where(specification.toPredicate(root, query, cb));
 		}
-		return entityManager.createQuery(query);
+		return supportedEntityManager.createQuery(query);
 	}
 
 	protected <T> Stream<T> asStream(TypedQuery<T> query) {
@@ -445,7 +456,7 @@ public class JpaDaoImpl implements JpaDao {
 
 	@SuppressWarnings("unchecked")
 	protected EntityType<BaseEntity> getEntityType(String name) {
-		return entityManager.getMetamodel().getEntities()
+		return getSupportedEntityManager(name).getMetamodel().getEntities()
 				.stream().filter(type ->
 						StringUtils.equalsIgnoreCase(type.getName(), name)
 								&& BaseEntity.class.isAssignableFrom(type.getJavaType())
@@ -457,7 +468,7 @@ public class JpaDaoImpl implements JpaDao {
 
 	@Override
 	public <T> EntityType<T> getEntityType(Class<T> cls) {
-		return entityManager.getMetamodel().entity(cls);
+		return getSupportedEntityManager(cls.getName()).getMetamodel().entity(cls);
 	}
 
 }

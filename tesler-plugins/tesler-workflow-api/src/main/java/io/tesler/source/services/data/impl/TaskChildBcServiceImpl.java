@@ -73,7 +73,7 @@ import org.springframework.stereotype.Service;
 public class TaskChildBcServiceImpl extends AbstractResponseService<AdminBcDto, BaseEntity> implements
 		TaskChildBcService {
 
-	@PersistenceContext
+	@PersistenceContext(unitName = "teslerEntityManagerFactory")
 	private EntityManager entityManager;
 
 	@Autowired
