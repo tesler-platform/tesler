@@ -67,7 +67,7 @@ public abstract class BaseDAOAwareTest extends AbstractTeslerTest {
 
 	protected final AtomicLong idSequence = new AtomicLong(Long.MIN_VALUE);
 
-	@PersistenceContext
+	@PersistenceContext(unitName = "teslerEntityManagerFactory")
 	protected EntityManager entityManager;
 
 	@Autowired

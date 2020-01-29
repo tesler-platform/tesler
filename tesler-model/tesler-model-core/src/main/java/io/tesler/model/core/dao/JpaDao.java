@@ -24,7 +24,6 @@ import io.tesler.api.data.PageSpecification;
 import io.tesler.api.data.ResultPage;
 import io.tesler.api.data.dao.Selector;
 import io.tesler.api.data.dao.UpdateSpecification;
-import io.tesler.api.util.Invoker;
 import io.tesler.model.core.api.EmbeddedKeyable;
 import io.tesler.model.core.entity.AbstractEntity;
 import io.tesler.model.core.entity.BaseEntity;
@@ -41,6 +40,9 @@ import org.springframework.data.jpa.domain.Specification;
 
 public interface JpaDao {
 
+	@Deprecated
+	//Deleted in next major
+	//You can use getList(Class<T> entityClass, Specification<T> specification) with cb.equal() Specification instead
 	<T extends BaseEntity> T findById(String type, Long id);
 
 	<T extends BaseEntity> T findById(Class<T> clazz, Long id);
@@ -73,6 +75,9 @@ public interface JpaDao {
 
 	<T> List<T> getList(Class<T> clazz);
 
+	@Deprecated
+	//Deleted in next major
+	//You can use getList(Class<T> entityClass, Specification<T> specification) with cb.equal() Specification instead
 	<T, X> List<T> getList(Class<T> clazz, SingularAttribute<T, X> name, X value);
 
 	<T> List<T> getList(Class<T> entityClass, Specification<T> specification);
@@ -111,10 +116,19 @@ public interface JpaDao {
 
 	<T> List<T> getListByIds(Class<T> clazz, List<Long> ids);
 
+	@Deprecated
+	//Deleted in next major
+	//You can use save(Object entity) instead
 	void saveWithCompositeKey(EmbeddedKeyable o);
 
+	@Deprecated
+	//Deleted in next major
+	//You can use delete
 	void deleteWithCompositeKey(EmbeddedKeyable o);
 
+	@Deprecated
+	//Deleted in next major
+	//You can use getList(entityClazz, Long.class, (root, cb) -> root.get("id"), searchSpec) instead
 	<T> List<Long> getIds(Class<T> entityClazz, Specification<T> searchSpec);
 
 	void clear();
@@ -125,9 +139,10 @@ public interface JpaDao {
 
 	void revert(AbstractEntity entity);
 
+	@Deprecated
+	//Deleted in next major
+	//You can use EntityManager directly
 	<T> List<T> selectNativeQuery(Class<T> entityClazz, String sql, Map<String, Object> params);
-
-	<T> T woAutoFlush(Invoker<T, RuntimeException> invoker);
 
 	<T> EntityType<T> getEntityType(Class<T> cls);
 

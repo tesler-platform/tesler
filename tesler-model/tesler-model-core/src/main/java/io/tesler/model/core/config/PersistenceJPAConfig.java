@@ -31,9 +31,9 @@ import static org.hibernate.cfg.AvailableSettings.STATEMENT_BATCH_SIZE;
 import static org.hibernate.cfg.AvailableSettings.VALIDATE_QUERY_PARAMETERS;
 
 import io.tesler.api.service.tx.ITransactionStatus;
+import io.tesler.api.service.tx.TransactionService;
 import io.tesler.model.core.api.CurrentUserAware;
 import io.tesler.model.core.api.EffectiveUserAware;
-import io.tesler.model.core.dao.JpaDao;
 import io.tesler.model.core.entity.User;
 import io.tesler.model.core.hbn.ImprovedPhysicalNamingStrategy;
 import io.tesler.model.core.tx.JpaTransactionManagerCustom;
@@ -61,7 +61,7 @@ public class PersistenceJPAConfig {
 	@Autowired
 	private DefaultListableBeanFactory beanFactory;
 
-	@Bean
+	@Bean("teslerEntityManagerFactory")
 	public LocalContainerEntityManagerFactoryBean entityManagerFactory(
 			@Qualifier("primaryDS") final DataSource primaryDS,
 			@Qualifier("jpaProperties") final Properties jpaProperties,
@@ -71,6 +71,7 @@ public class PersistenceJPAConfig {
 		em.setPackagesToScan(getPackagesToScan().toArray(new String[0]));
 		em.setJpaVendorAdapter(vendorAdapter);
 		em.setJpaProperties(jpaProperties);
+		em.setPersistenceUnitName("tesler-persistence-unit");
 		return em;
 	}
 
@@ -78,9 +79,9 @@ public class PersistenceJPAConfig {
 		return Collections.singletonList("io.tesler");
 	}
 
-	@Bean
+	@Bean("teslerTransactionManager")
 	public PlatformTransactionManager transactionManager(
-			final EntityManagerFactory emf,
+			@Qualifier("teslerEntityManagerFactory") final EntityManagerFactory emf,
 			final ITransactionStatus txStatus) {
 		return new JpaTransactionManagerCustom(emf, txStatus);
 	}
@@ -127,8 +128,8 @@ public class PersistenceJPAConfig {
 
 	@Bean
 	@TransactionScope
-	public CurrentUserAware<User> auditorAware(JpaDao jpaDao, EffectiveUserAware<User> effectiveUserAware) {
-		User effectiveUser = jpaDao.woAutoFlush(effectiveUserAware::getEffectiveSessionUser);
+	public CurrentUserAware<User> auditorAware(TransactionService txService, EffectiveUserAware<User> effectiveUserAware) {
+		User effectiveUser = txService.woAutoFlush(effectiveUserAware::getEffectiveSessionUser);
 		return () -> effectiveUser;
 	}
 
