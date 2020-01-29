@@ -37,7 +37,6 @@ import io.tesler.core.service.UIService;
 import io.tesler.core.util.jackson.CustomObjectMapper;
 import io.tesler.model.core.dao.JpaDao;
 import io.tesler.model.core.entity.User;
-import io.tesler.model.core.entity.User_;
 import io.tesler.model.ui.entity.BcProperties;
 import io.tesler.model.ui.entity.BcProperties_;
 import io.tesler.model.ui.entity.FilterGroup;
@@ -201,7 +200,7 @@ public class UIServiceImpl implements UIService {
 			Predicate[] predicates = views.stream()
 					.map(view -> cb.equal(root.get(ViewLayout_.viewName), view))
 					.toArray(Predicate[]::new);
-			return cb.and(cb.or(predicates), cb.equal(root.get(ViewLayout_.user).get(User_.id), userId));
+			return cb.and(cb.or(predicates), cb.equal(root.get(ViewLayout_.userId), userId));
 		}).stream().collect(
 				Collectors.toMap(ViewLayout::getViewName, Function.identity())
 		);

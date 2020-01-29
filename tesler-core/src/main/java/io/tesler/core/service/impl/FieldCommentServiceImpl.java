@@ -64,7 +64,7 @@ public class FieldCommentServiceImpl extends AbstractResponseService<FieldCommen
 	@Autowired
 	private SessionService sessionService;
 
-	@PersistenceContext
+	@PersistenceContext(unitName = "teslerEntityManagerFactory")
 	private EntityManager entityManager;
 
 	@Autowired
@@ -106,7 +106,16 @@ public class FieldCommentServiceImpl extends AbstractResponseService<FieldCommen
 		}
 		cq.where(cb.and(predicates.toArray(new Predicate[predicates.size()])));
 		List<FieldComment> results = entityManager.createQuery(cq).getResultList();
-		return results.stream().map(FieldCommentDTO::new).collect(Collectors.toList());
+		return results.stream().map(FieldCommentDTO::new).peek(
+				fieldCommentDTO -> {
+					User user = baseDAO.findById(User.class, fieldCommentDTO.getUserId());
+					fieldCommentDTO.setFirstName(user.getFirstName());
+					fieldCommentDTO.setPatronymic(user.getPatronymic());
+					fieldCommentDTO.setLastName(user.getLastName());
+					fieldCommentDTO.setLogin(user.getLogin());
+					fieldCommentDTO.setFullName(user.getFullName());
+				}
+		).collect(Collectors.toList());
 	}
 
 	@Override
@@ -126,13 +135,13 @@ public class FieldCommentServiceImpl extends AbstractResponseService<FieldCommen
 	public ActionResultDTO<FieldCommentDTO> createEntity(BusinessComponent bc, String bcName, String rowId,
 			String fieldName,
 			CommentDTO dto) {
-		FieldComment comment = FieldComment.builder().user(sessionService.getSessionUser()).parentId(bc.getParentIdAsLong())
+		FieldComment comment = FieldComment.builder().userId(sessionService.getSessionUser().getId()).parentId(bc.getParentIdAsLong())
 				.bc(bcName).rowId(rowId).fieldName(fieldName).content(dto.getData()).build();
 		baseDAO.save(comment);
 
 		if (bc.getParentIdAsLong() != null) {
 			FieldComment parent = baseDAO.findById(FieldComment.class, bc.getParentIdAsLong());
-			User author = parent.getUser();
+			User author = baseDAO.findById(User.class, parent.getUserId());
 			eventGenerator.builder(comment, DatabaseEvent.COMMENT_ANSWERED)
 					.addRecipient(NotificationRecipient.COMMENT_AUTHOR, author)
 					.setPerformer(sessionService.getSessionUser())
@@ -149,7 +158,7 @@ public class FieldCommentServiceImpl extends AbstractResponseService<FieldCommen
 		if (comment == null) {
 			throw new BusinessException().addPopup(errorMessage("error.comment_not_found"));
 		}
-		if (!Objects.equals(comment.getUser(), sessionService.getSessionUser())) {
+		if (!Objects.equals(comment.getUserId(), sessionService.getSessionUser().getId())) {
 			throw new BusinessException().addPopup(errorMessage("error.not_enough_permissions"));
 		}
 		if (!Objects.equals(comment.getContent(), dto.getData())) {
