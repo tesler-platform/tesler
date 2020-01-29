@@ -159,7 +159,7 @@ public class ViewServiceImpl implements ViewService {
 	public void saveLayout(String viewName, List<WidgetLayout> widgets) {
 		View view = viewDAO.findByName(viewName);
 		Specification<ViewLayout> spec = (root, cq, cb) -> cb.and(
-				cb.equal(root.get(ViewLayout_.user), sessionService.getSessionUser()),
+				cb.equal(root.get(ViewLayout_.userId), sessionService.getSessionUser().getId()),
 				cb.equal(root.get(ViewLayout_.viewName), view.getName())
 		);
 
@@ -167,7 +167,7 @@ public class ViewServiceImpl implements ViewService {
 
 		if (results.isEmpty()) {
 			ViewLayout layout = new ViewLayout();
-			layout.setUser(sessionService.getSessionUser());
+			layout.setUserId(sessionService.getSessionUser().getId());
 			layout.setViewName(view.getName());
 			jpaDao.save(layout);
 			widgets.forEach(widgetLayout -> widgetLayout.setLayout(layout));
@@ -198,7 +198,7 @@ public class ViewServiceImpl implements ViewService {
 		View view = viewDAO.findByName(viewName);
 
 		Specification<ViewLayout> spec = (root, cq, cb) -> cb.and(
-				cb.equal(root.get(ViewLayout_.user), sessionService.getSessionUser()),
+				cb.equal(root.get(ViewLayout_.userId), sessionService.getSessionUser().getId()),
 				cb.equal(root.get(ViewLayout_.viewName), view.getName())
 		);
 

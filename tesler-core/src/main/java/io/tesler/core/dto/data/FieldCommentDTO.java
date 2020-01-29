@@ -24,7 +24,6 @@ import static io.tesler.core.util.filter.SearchParameterType.DATE;
 
 import io.tesler.api.data.dto.DataResponseDTO;
 import io.tesler.core.util.filter.SearchParameter;
-import io.tesler.model.core.entity.User;
 import io.tesler.model.ui.entity.FieldComment;
 import java.time.LocalDateTime;
 import lombok.Getter;
@@ -68,13 +67,7 @@ public class FieldCommentDTO extends DataResponseDTO {
 		rowId = entity.getRowId();
 		content = entity.getContent();
 		fieldName = entity.getFieldName();
-		User user = entity.getUser();
-		userId = user.getId();
-		firstName = user.getFirstName();
-		patronymic = user.getPatronymic();
-		lastName = user.getLastName();
-		login = user.getLogin();
-		fullName = user.getFullName();
+		userId = entity.getUserId();
 		createdDate = entity.getCreatedDate();
 		updatedDate = entity.getUpdatedDate();
 	}

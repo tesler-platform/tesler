@@ -46,9 +46,9 @@ public class BaseEntityListener implements Serializable {
 	public void onCreate(BaseEntity baseEntity) {
 		baseEntity.setCreatedDate(LocalDateTime.now());
 		baseEntity.setUpdatedDate(LocalDateTime.now());
-		User currentUser = baseEntity.getCreatedBy();
+		Long currentUser = baseEntity.getCreatedBy();
 		if (currentUser == null) {
-			currentUser = currentUserAware.getCurrentUser();
+			currentUser = currentUserAware.getCurrentUser().getId();
 		}
 		if (currentUser != null) {
 			baseEntity.setCreatedBy(currentUser);
@@ -58,7 +58,7 @@ public class BaseEntityListener implements Serializable {
 
 	@PreUpdate
 	public void onUpdate(BaseEntity baseEntity) {
-		User currentUser = currentUserAware.getCurrentUser();
+		Long currentUser = currentUserAware.getCurrentUser().getId();
 		baseEntity.setUpdatedDate(LocalDateTime.now());
 		if (currentUser != null) {
 			baseEntity.setLastUpdBy(currentUser);
