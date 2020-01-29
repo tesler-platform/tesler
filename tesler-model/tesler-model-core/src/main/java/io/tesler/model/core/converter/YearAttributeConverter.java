@@ -18,23 +18,23 @@
  * #L%
  */
 
-package io.tesler.model.core.conveters;
+package io.tesler.model.core.converter;
 
-import io.tesler.model.core.entity.security.types.GroupRelationType;
+import java.time.Year;
 import javax.persistence.AttributeConverter;
 import javax.persistence.Converter;
 
 @Converter(autoApply = true)
-public class GroupRelationTypeConverter implements AttributeConverter<GroupRelationType, Integer> {
+public class YearAttributeConverter implements AttributeConverter<Year, Integer> {
 
-	public Integer convertToDatabaseColumn(GroupRelationType attribute) {
-		return attribute != null
-				? attribute.getIntValue()
-				: GroupRelationType.MEMBER_USER.getIntValue();
+	@Override
+	public Integer convertToDatabaseColumn(final Year attribute) {
+		return attribute == null ? null : attribute.getValue();
 	}
 
-	public GroupRelationType convertToEntityAttribute(Integer dbData) {
-		return GroupRelationType.of(dbData);
+	@Override
+	public Year convertToEntityAttribute(final Integer dbData) {
+		return dbData == null ? null : Year.of(dbData);
 	}
 
 }
