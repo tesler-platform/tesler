@@ -21,11 +21,9 @@
 package io.tesler.model.ui.entity;
 
 import io.tesler.model.core.entity.BaseEntity;
-import io.tesler.model.core.entity.User;
+import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -55,8 +53,7 @@ public class FieldComment extends BaseEntity {
 	@Type(type = "org.hibernate.type.TextType")
 	private String content;
 
-	@ManyToOne
-	@JoinColumn(name = "user_id", nullable = false)
-	private User user;
+	@Column(name = "user_id")
+	private Long userId;
 
 }
