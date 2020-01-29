@@ -30,11 +30,12 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Member;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import javax.persistence.metamodel.Attribute;
 import javax.persistence.metamodel.EntityType;
 import org.apache.commons.collections4.keyvalue.DefaultKeyValue;
@@ -42,8 +43,11 @@ import org.apache.commons.collections4.keyvalue.DefaultKeyValue;
 
 public abstract class AbstractEntityChangedEventGenerator<E extends BaseEntity> extends AbstractEventGenerator<E> {
 
-	@PersistenceContext
-	private EntityManager entityManager;
+	private final List<EntityManager> entityManagers;
+
+	public AbstractEntityChangedEventGenerator(List<EntityManager> entityManagers) {
+		this.entityManagers = entityManagers;
+	}
 
 	@Override
 	public void process(IChangeVector vector, LOV event) {
@@ -84,7 +88,14 @@ public abstract class AbstractEntityChangedEventGenerator<E extends BaseEntity> 
 	}
 
 	protected Map<Attribute<?, ?>, String> getTrackedFields(LOV event) {
-		EntityType<? extends E> entityType = entityManager.getMetamodel().entity(getType());
+		EntityType<? extends E> entityType = entityManagers.stream()
+				.filter(
+						entityManager -> entityManager.getMetamodel()
+								.getEntities().stream().anyMatch(
+										type -> Objects.equals(type.getBindableJavaType(), getType())
+								)
+				)
+				.findFirst().map(EntityManager::getMetamodel).map(metamodel -> metamodel.entity(getType())).orElse(null);
 		return entityType.getAttributes().stream()
 				.map(a -> new DefaultKeyValue<>(a, getFieldTitle(entityType, a, event)))
 				.filter(kv -> kv.getValue() != null)

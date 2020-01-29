@@ -21,6 +21,7 @@
 package io.tesler.core.dao.impl;
 
 import io.tesler.api.data.ResultPage;
+import io.tesler.api.service.tx.TransactionService;
 import io.tesler.core.controller.param.FilterParameters;
 import io.tesler.core.controller.param.QueryParameters;
 import io.tesler.core.controller.param.SortParameters;
@@ -30,7 +31,9 @@ import io.tesler.model.core.dao.impl.JpaDaoImpl;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import javax.persistence.EntityGraph;
+import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -38,7 +41,6 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import javax.persistence.metamodel.SingularAttribute;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -48,8 +50,16 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class BaseDAOImpl extends JpaDaoImpl implements BaseDAO {
 
-	@Autowired
-	private Optional<IPdqExtractor> pdqExtractor;
+	private final Optional<IPdqExtractor> pdqExtractor;
+
+	public BaseDAOImpl(
+			Set<EntityManager> entityManagers,
+			TransactionService txService,
+			Optional<IPdqExtractor> pdqExtractor
+	) {
+		super(entityManagers, txService);
+		this.pdqExtractor = pdqExtractor;
+	}
 
 	private Specification getPdqSearchSpec(final QueryParameters queryParameters) {
 		return pdqExtractor.map(pdqExtractor -> pdqExtractor.extractPdq(queryParameters.getPdqName())).orElse(null);
@@ -90,6 +100,7 @@ public class BaseDAOImpl extends JpaDaoImpl implements BaseDAO {
 			Predicate defaultSearchSpec,
 			QueryParameters queryParameters
 	) {
+		EntityManager entityManager = getSupportedEntityManager(root.getModel().getBindableJavaType().getName());
 		queryParameters = emptyIfNull(queryParameters);
 		FilterParameters searchParams = queryParameters.getFilter();
 		CriteriaBuilder cb = entityManager.getCriteriaBuilder();
@@ -113,6 +124,7 @@ public class BaseDAOImpl extends JpaDaoImpl implements BaseDAO {
 			Specification<T> searchSpec,
 			QueryParameters queryParameters
 	) {
+		EntityManager entityManager = getSupportedEntityManager(entityClass.getName());
 		queryParameters = emptyIfNull(queryParameters);
 		FilterParameters parameters = queryParameters.getFilter();
 		CriteriaBuilder cb = entityManager.getCriteriaBuilder();
@@ -141,6 +153,7 @@ public class BaseDAOImpl extends JpaDaoImpl implements BaseDAO {
 			QueryParameters parameters,
 			EntityGraph<? super T> fetchGraph
 	) {
+		EntityManager entityManager = getSupportedEntityManager(root.getModel().getBindableJavaType().getName());
 		CriteriaBuilder cb = entityManager.getCriteriaBuilder();
 		SortParameters sort = parameters.getSort();
 		FilterParameters filter = parameters.getFilter();
@@ -185,6 +198,7 @@ public class BaseDAOImpl extends JpaDaoImpl implements BaseDAO {
 			QueryParameters parameters,
 			EntityGraph<? super T> fetchGraph
 	) {
+		EntityManager entityManager = getSupportedEntityManager(entityClazz.getName());
 		CriteriaBuilder cb = entityManager.getCriteriaBuilder();
 		CriteriaQuery<T> cq = cb.createQuery(entityClazz);
 		Root<T> root = cq.from(entityClazz);
