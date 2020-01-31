@@ -371,6 +371,7 @@ public class CrudmaGateway {
 				new ActionDescriptionBuilder<>()
 						.action(ActionType.CANCEL_CREATE)
 						.available(ActionAvailableChecker.ALWAYS_TRUE)
+						.withoutAutoSaveBefore()
 						.build(null),
 				bc
 		);
