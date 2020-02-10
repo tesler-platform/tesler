@@ -53,6 +53,16 @@ public class BCFactory {
 		}
 
 		String screen = bcList.removeFirst();
+
+		String view = null;
+		if ("screen".equals(screen)) {
+			screen = bcList.removeFirst();
+			if ("view".equals(bcList.peekFirst())) {
+				bcList.removeFirst();
+				view = bcList.removeFirst();
+			}
+		}
+
 		if (bcList.isEmpty()) {
 			throw new IllegalArgumentException("URI must contain at least one BC");
 		} else if (bcList.getLast().equals("null")) {
@@ -62,6 +72,7 @@ public class BCFactory {
 		while (!bcList.isEmpty()) {
 			bcHierarchy = new BcHierarchy(
 					screen,
+					view,
 					bcList.removeFirst(),
 					bcList.isEmpty() ? null : bcList.removeFirst(),
 					bcHierarchy

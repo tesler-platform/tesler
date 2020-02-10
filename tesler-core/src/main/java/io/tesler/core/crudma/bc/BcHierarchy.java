@@ -34,6 +34,11 @@ public class BcHierarchy {
 	private final String screenName;
 
 	/**
+	 * Наименование вью
+	 */
+	private String viewName;
+
+	/**
 	 * Наименование
 	 */
 	private final String bcName;
@@ -63,6 +68,7 @@ public class BcHierarchy {
 	public BcHierarchy withId(String id) {
 		return new BcHierarchy(
 				screenName,
+				viewName,
 				bcName,
 				id,
 				parent
@@ -72,6 +78,7 @@ public class BcHierarchy {
 	public BcHierarchy withParentId(String parentId) {
 		return new BcHierarchy(
 				screenName,
+				viewName,
 				bcName,
 				parentId,
 				parent == null ? null : parent.withId(parentId)
