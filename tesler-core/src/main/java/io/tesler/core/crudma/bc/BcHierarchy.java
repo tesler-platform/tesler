@@ -28,29 +28,14 @@ import lombok.Getter;
 @AllArgsConstructor
 public class BcHierarchy {
 
-	/**
-	 * Наименование экрана
-	 */
 	private final String screenName;
 
-	/**
-	 * Наименование вью
-	 */
 	private String viewName;
 
-	/**
-	 * Наименование
-	 */
 	private final String bcName;
 
-	/**
-	 * Идентификатор
-	 */
 	private final String id;
 
-	/**
-	 * Родитель
-	 */
 	private final BcHierarchy parent;
 
 	public String getId(final String bcName) {
