@@ -1,6 +1,6 @@
 /*-
  * #%L
- * IO Tesler - Liquibase
+ * IO Tesler - Model Core
  * %%
  * Copyright (C) 2018 - 2019 Tesler Contributors
  * %%
@@ -18,25 +18,23 @@
  * #L%
  */
 
-package io.tesler.db.migration.liquibase.data;
+package io.tesler.model.core.converter;
 
-import io.tesler.db.migration.liquibase.annotations.DBEntity;
-import io.tesler.db.migration.liquibase.annotations.DBField;
-import lombok.Getter;
-import lombok.Setter;
+import io.tesler.model.core.entity.security.types.GroupRelationType;
+import javax.persistence.AttributeConverter;
+import javax.persistence.Converter;
 
-@Getter
-@Setter
-@DBEntity(tableName = "SCREEN_VIEW_GROUP_DATA")
-public class ScreenViewGroupData extends AbstractEntity {
+@Converter(autoApply = true)
+public class GroupRelationTypeConverter implements AttributeConverter<GroupRelationType, Integer> {
 
-	@DBField(columnName = "VIEW_NAME")
-	private String viewName;
+	public Integer convertToDatabaseColumn(GroupRelationType attribute) {
+		return attribute != null
+				? attribute.getIntValue()
+				: GroupRelationType.MEMBER_USER.getIntValue();
+	}
 
-	@DBField(columnName = "VIEW_GROUP_ID")
-	private Long viewGroupId;
-
-	@DBField(columnName = "SEQ")
-	private Integer seq;
+	public GroupRelationType convertToEntityAttribute(Integer dbData) {
+		return GroupRelationType.of(dbData);
+	}
 
 }

@@ -1,6 +1,6 @@
 /*-
  * #%L
- * IO Tesler - Core
+ * IO Tesler - Model Core
  * %%
  * Copyright (C) 2018 - 2019 Tesler Contributors
  * %%
@@ -18,19 +18,21 @@
  * #L%
  */
 
-package io.tesler.core.dto.data.view;
+package io.tesler.model.core.converter;
 
-import java.util.HashSet;
-import java.util.Set;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+import io.tesler.api.data.dictionary.LOV;
+import javax.persistence.AttributeConverter;
+import javax.persistence.Converter;
 
-@Getter
-@RequiredArgsConstructor
-public class DelegatedView {
+@Converter(autoApply = true)
+public class LOVConverter implements AttributeConverter<LOV, String> {
 
-	private final String viewName;
+	public String convertToDatabaseColumn(LOV attribute) {
+		return attribute != null ? attribute.getKey() : null;
+	}
 
-	private Set<Long> widgets = new HashSet<>();
+	public LOV convertToEntityAttribute(String dbData) {
+		return dbData != null ? new LOV(dbData) : null;
+	}
 
 }

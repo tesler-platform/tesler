@@ -18,7 +18,7 @@
  * #L%
  */
 
-package io.tesler.model.core.conveters;
+package io.tesler.model.core.converter;
 
 import io.tesler.model.core.entity.security.types.Permission;
 import javax.persistence.AttributeConverter;

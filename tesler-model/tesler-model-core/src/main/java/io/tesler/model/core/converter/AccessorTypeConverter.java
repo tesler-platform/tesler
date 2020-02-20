@@ -18,21 +18,23 @@
  * #L%
  */
 
-package io.tesler.model.core.conveters;
+package io.tesler.model.core.converter;
 
-import io.tesler.api.data.dictionary.LOV;
+import io.tesler.model.core.entity.security.types.AccessorType;
 import javax.persistence.AttributeConverter;
 import javax.persistence.Converter;
 
 @Converter(autoApply = true)
-public class LOVConverter implements AttributeConverter<LOV, String> {
+public class AccessorTypeConverter implements AttributeConverter<AccessorType, Integer> {
 
-	public String convertToDatabaseColumn(LOV attribute) {
-		return attribute != null ? attribute.getKey() : null;
+	public Integer convertToDatabaseColumn(AccessorType attribute) {
+		return attribute != null
+				? attribute.getIntValue()
+				: AccessorType.USER.getIntValue();
 	}
 
-	public LOV convertToEntityAttribute(String dbData) {
-		return dbData != null ? new LOV(dbData) : null;
+	public AccessorType convertToEntityAttribute(Integer dbData) {
+		return AccessorType.of(dbData);
 	}
 
 }

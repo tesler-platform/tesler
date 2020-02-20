@@ -27,7 +27,6 @@ import io.tesler.api.data.dictionary.LOV;
 import io.tesler.api.service.tx.TransactionService;
 import io.tesler.api.util.Invoker;
 import io.tesler.model.core.api.EntitySerializationEvent;
-import io.tesler.model.core.dao.JpaDao;
 import io.tesler.model.core.entity.BaseEntity;
 import io.tesler.model.core.listeners.hbn.EntityId;
 import java.util.List;
@@ -36,8 +35,8 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.Session;
@@ -47,7 +46,6 @@ import org.hibernate.event.spi.EventSource;
 import org.hibernate.event.spi.PostDeleteEvent;
 import org.hibernate.event.spi.PostInsertEvent;
 import org.hibernate.event.spi.PostUpdateEvent;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.stereotype.Component;
 
@@ -58,17 +56,31 @@ public class ChangeInterceptor implements ApplicationListener<EntitySerializatio
 
 	private final Map<Transaction, ChangeEventHolder> events = new ConcurrentHashMap<>();
 
-	@Autowired
-	private Optional<List<IChangeListener>> changeListeners;
+	private final Optional<List<IChangeListener>> changeListeners;
 
-	@PersistenceContext
-	private EntityManager entityManager;
+	private final List<EntityManager> entityManagers;
 
-	@Autowired
-	private TransactionService txService;
+	private final TransactionService txService;
 
-	@Autowired
-	private JpaDao jpaDao;
+	public ChangeInterceptor(Optional<List<IChangeListener>> changeListeners,
+			List<EntityManager> entityManagers, TransactionService txService) {
+		this.changeListeners = changeListeners;
+		this.entityManagers = entityManagers;
+		this.txService = txService;
+	}
+
+	private EntityManager getSupportedEntityManager(String entityClazz) {
+		List<EntityManager> supportedEntityManagers = entityManagers.stream().filter(
+				entityManager -> entityManager.getMetamodel().getEntities().stream().anyMatch(
+						entityType -> com.google.common.base.Objects.equal(entityType.getBindableJavaType().getName(), entityClazz)
+				)
+		).collect(Collectors.toList());
+		if (supportedEntityManagers.size() == 1) {
+			return supportedEntityManagers.get(0);
+		} else {
+			throw new IllegalArgumentException("Can't find unique EntityManager for entity: " + entityClazz);
+		}
+	}
 
 	@Override
 	public void onApplicationEvent(EntitySerializationEvent serializationEvent) {
@@ -77,7 +89,7 @@ public class ChangeInterceptor implements ApplicationListener<EntitySerializatio
 		}
 
 		BaseEntity entity = serializationEvent.getEntity();
-		Session session = entityManager.unwrap(Session.class);
+		Session session = getSupportedEntityManager(entity.getClass().getName()).unwrap(Session.class);
 		session.flush();
 		if (needRefresh(session, entity)) {
 			session.refresh(entity);
@@ -167,12 +179,12 @@ public class ChangeInterceptor implements ApplicationListener<EntitySerializatio
 		// которые есть в сессии уже чистые, а запросы
 		// вызываемые из лиснеров могут приводить
 		// к автоматическому сбросу, что не нужно
-		jpaDao.woAutoFlush(Invoker.of(() -> {
+		txService.woAutoFlush(Invoker.of(() -> {
 			eventHolder.getEvents().forEach(
 					event -> processEvent(event, IChangeListener.class)
 			);
 			eventHolder.clear();
-			jpaDao.flush();
+			txService.flush();
 		}));
 	}
 

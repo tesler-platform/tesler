@@ -22,8 +22,12 @@ package io.tesler.model.core.tx;
 
 import io.tesler.api.service.tx.TransactionService;
 import io.tesler.api.util.Invoker;
+import java.util.List;
+import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
+import org.hibernate.FlushMode;
 import org.hibernate.Session;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -37,8 +41,11 @@ import org.springframework.transaction.support.TransactionSynchronizationManager
 @Service(TransactionService.SERVICE_NAME)
 public class TransactionServiceImpl implements TransactionService {
 
-	@PersistenceContext
-	private EntityManager em;
+	private final List<EntityManager> entityManagers;
+
+	public TransactionServiceImpl(List<EntityManager> entityManagers) {
+		this.entityManagers = entityManagers;
+	}
 
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED)
@@ -88,11 +95,15 @@ public class TransactionServiceImpl implements TransactionService {
 			// и вызывается только в случае Propagation.REQUIRES_NEW
 			// помимо этого помечаем транзакцию хибернейта как rollback only
 			// чтобы все "вложенные" транзакции тоже "откатывались"
-			TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
-			// напрямую нельзы вызывать EntityManager.getTransaction, см.
-			// SharedEntityManagerCreator.SharedEntityManagerInvocationHandler.invoke
-			Session session = em.unwrap(Session.class);
-			session.getTransaction().setRollbackOnly();
+			entityManagers.forEach(
+					entityManager -> {
+						TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+						// напрямую нельзы вызывать EntityManager.getTransaction, см.
+						// SharedEntityManagerCreator.SharedEntityManagerInvocationHandler.invoke
+						Session session = entityManager.unwrap(Session.class);
+						session.getTransaction().setRollbackOnly();
+					}
+			);
 		}
 	}
 
@@ -114,6 +125,28 @@ public class TransactionServiceImpl implements TransactionService {
 			});
 		} else {
 			invoker.invoke();
+		}
+	}
+
+	@Override
+	public <T> T woAutoFlush(Invoker<T, RuntimeException> invoker) {
+		Map<Session, FlushMode> sessionsWithFlushModes = entityManagers.stream().map(
+				entityManager -> entityManager.unwrap(Session.class)
+		).collect(Collectors.toMap(Function.identity(), Session::getHibernateFlushMode));
+		try {
+			sessionsWithFlushModes.forEach(
+					(session, flushMode) -> session.setHibernateFlushMode(FlushMode.MANUAL)
+			);
+			return invoker.invoke();
+		} finally {
+			sessionsWithFlushModes.forEach(Session::setHibernateFlushMode);
+		}
+	}
+
+	@Override
+	public void flush() {
+		if (isActive()) {
+			entityManagers.forEach(EntityManager::flush);
 		}
 	}
 

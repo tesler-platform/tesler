@@ -1,6 +1,6 @@
 /*-
  * #%L
- * IO Tesler - Core
+ * IO Tesler - Model Core
  * %%
  * Copyright (C) 2018 - 2019 Tesler Contributors
  * %%
@@ -18,30 +18,23 @@
  * #L%
  */
 
-package io.tesler.core.dto.data.view;
+package io.tesler.model.core.converter;
 
-import io.tesler.api.data.dto.LocaleAware;
-import io.tesler.model.core.entity.Department;
-import io.tesler.model.ui.entity.Screen;
-import lombok.Getter;
+import io.tesler.model.core.entity.security.types.AccessListType;
+import javax.persistence.AttributeConverter;
+import javax.persistence.Converter;
 
-@Getter
-public class DelegatedScreen {
+@Converter(autoApply = true)
+public class AccessListTypeConverter implements AttributeConverter<AccessListType, Integer> {
 
-	private final String name;
+	public Integer convertToDatabaseColumn(AccessListType attribute) {
+		return attribute != null
+				? attribute.getIntValue()
+				: AccessListType.PRIVATE.getIntValue();
+	}
 
-	@LocaleAware
-	private final String text;
-
-	private final String url;
-
-	private final Long deptId;
-
-	public DelegatedScreen(final Department department, final Screen screen) {
-		this.name = screen.getName();
-		this.text = screen.getTitle() + " " + department.getShortName();
-		this.url = "/screen/" + screen.getName();
-		this.deptId = department.getId();
+	public AccessListType convertToEntityAttribute(Integer dbData) {
+		return AccessListType.of(dbData);
 	}
 
 }

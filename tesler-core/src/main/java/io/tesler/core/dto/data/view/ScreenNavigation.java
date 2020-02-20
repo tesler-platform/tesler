@@ -20,41 +20,78 @@
 
 package io.tesler.core.dto.data.view;
 
-import io.tesler.api.data.dto.LocaleAware;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import io.tesler.api.data.dto.LocaleAware;
 import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
 
+/**
+ * The navigation object that is transmitted to the client side to create the menu structure
+ */
 @Getter
 @Setter
 public final class ScreenNavigation {
 
-	private List<Menu> menu;
+	private List<MenuItem> menu;
 
 	@Getter
 	@Setter
 	@JsonInclude(JsonInclude.Include.NON_NULL)
-	public static class Menu {
+	public abstract static class MenuItem {
 
+		private String id;
+
+		/**
+		 * Commentary for developers
+		 */
 		@JsonProperty(value = "CommentDevelop")
 		private String commentDevelop;
 
-		@LocaleAware
-		private String title;
-
-		@LocaleAware
-		private String categoryName;
-
-		private List<SubMenu> child;
+		/**
+		 * Indicates that the navigation element not showed in
+		 * navigation tabs.
+		 */
+		private boolean hidden;
 
 	}
 
 	@Getter
 	@Setter
-	public static class SubMenu extends Menu {
+	@JsonInclude(JsonInclude.Include.NON_NULL)
+	public static class ViewGroup extends MenuItem {
 
+		/**
+		 * Title of category in navigation tabs.
+		 */
+		@LocaleAware
+		private String title;
+
+		/**
+		 * name of view, which is located below group (in child element or lower)
+		 * If specified, click on group in navigation tab redirects on view with following name.
+		 * If not specified, click on group in navigation tab redirects on first view, which is found using
+		 * the breadth-first search algorithm
+		 */
+		private String defaultView;
+
+		/**
+		 * Array of navigation elements specified below group(View or inner Group)
+		 */
+		private List<MenuItem> child;
+
+	}
+
+	@Getter
+	@Setter
+	@JsonInclude(JsonInclude.Include.NON_NULL)
+	public static class SingleView extends MenuItem {
+
+		/**
+		 * Unique name of view refers to the name of view.json file.
+		 * Title of view in navigation tabs specified in “title” field in view.json file.
+		 */
 		private String viewName;
 
 	}

@@ -49,6 +49,7 @@ import org.hibernate.event.spi.PostUpdateEvent;
 import org.hibernate.event.spi.PostUpdateEventListener;
 import org.hibernate.persister.entity.EntityPersister;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 
@@ -58,6 +59,7 @@ public class DatabaseListener implements
 		FlushEntityEventListener, FlushEventListener, AutoFlushEventListener {
 
 	@Autowired
+	@Qualifier("teslerEntityManagerFactory")
 	private EntityManagerFactory emf;
 
 	@Autowired

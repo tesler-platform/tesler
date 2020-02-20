@@ -52,4 +52,8 @@ public interface TransactionService {
 
 	<T, E extends RuntimeException> void invokeAfterCompletion(Invoker<T, E> invoker) throws E;
 
+	<T> T woAutoFlush(Invoker<T, RuntimeException> invoker);
+
+	void flush();
+
 }

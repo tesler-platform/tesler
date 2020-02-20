@@ -1,6 +1,6 @@
 /*-
  * #%L
- * IO Tesler - Core
+ * IO Tesler - Liquibase
  * %%
  * Copyright (C) 2018 - 2019 Tesler Contributors
  * %%
@@ -18,26 +18,29 @@
  * #L%
  */
 
-package io.tesler.core.service;
+package io.tesler.db.migration.liquibase.data;
 
-import io.tesler.core.dto.data.view.DelegatedScreen;
-import io.tesler.core.dto.data.view.ScreenBuildMeta;
-import io.tesler.model.core.entity.Department;
-import io.tesler.model.core.entity.User;
-import java.util.List;
-import java.util.Set;
+import io.tesler.db.migration.liquibase.annotations.DBField;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import lombok.Getter;
+import lombok.Setter;
 
 
-public interface IDelegationEngine {
+@Getter
+@Setter
+public class LqbBaseEntity extends LqbAbstractEntity {
 
-	boolean isDelegatedScreen();
+	@JsonInclude(Include.NON_NULL)
+	@DBField(columnName = "ID", functionField = "idFunction", sequenceField = "idSequence")
+	private Long id;
 
-	Department getDelegatedDepartment();
+	private String idSequence;
 
-	Set<String> getDelegatedViews();
+	private String idFunction;
 
-	List<DelegatedScreen> getDelegatedScreens(User user);
-
-	ScreenBuildMeta getDelegatedScreenBuildMeta(User user);
+	@JsonIgnore
+	private String comment;
 
 }

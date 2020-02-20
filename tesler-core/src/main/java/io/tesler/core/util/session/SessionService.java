@@ -52,8 +52,6 @@ public interface SessionService extends EffectiveUserAware<User> {
 
 	String getFirstViewFromResponsibilities(String... views);
 
-	Department getCurrentScreenDepartment();
-
 	String getSessionId();
 
 	Division getSessionUserDivision(LOV levelCd);

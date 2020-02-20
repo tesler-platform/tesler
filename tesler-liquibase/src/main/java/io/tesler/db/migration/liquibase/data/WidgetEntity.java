@@ -31,7 +31,7 @@ import org.apache.commons.lang3.StringUtils;
 @Getter
 @Setter
 @DBEntity(tableName = "WIDGET", primaryKey = "ID")
-public class WidgetEntity extends AbstractEntity {
+public class WidgetEntity extends LqbBaseEntity {
 
 	@DBField(columnName = "NAME", insertNulls = true)
 	private String name;

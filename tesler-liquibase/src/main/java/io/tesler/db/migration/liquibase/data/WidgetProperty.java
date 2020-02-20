@@ -30,7 +30,7 @@ import org.apache.commons.lang3.StringUtils;
 @Getter
 @Setter
 @DBEntity(tableName = "WIDGET_PROPERTY", primaryKey = "WIDGET_ID")
-public class WidgetProperty extends AbstractEntity {
+public class WidgetProperty extends LqbBaseEntity {
 
 	@DBField(columnName = "WIDGET_ID", functionField = "widgetIdFunction")
 	private Long widgetId;

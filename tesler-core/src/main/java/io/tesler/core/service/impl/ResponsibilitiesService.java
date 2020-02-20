@@ -49,7 +49,7 @@ public class ResponsibilitiesService {
 		return jpaDao.getList(
 				Responsibilities.class,
 				(root, cq, cb) -> cb.and(
-						cb.equal(root.get(Responsibilities_.department), user.getDepartment()),
+						cb.equal(root.get(Responsibilities_.departmentId), user.getDepartment().getId()),
 						cb.equal(root.get(Responsibilities_.internalRoleCD), userRole),
 						cb.equal(root.get(Responsibilities_.responsibilityType), responsibilityType)
 				)
@@ -84,7 +84,7 @@ public class ResponsibilitiesService {
 						String.class,
 						(root, cb) -> root.get(Responsibilities_.view),
 						(root, cq, cb) -> cb.and(
-								cb.equal(root.get(Responsibilities_.department), department),
+								cb.equal(root.get(Responsibilities_.departmentId), department.getId()),
 								cb.equal(root.get(Responsibilities_.responsibilityType), "VIEW")
 						)
 				)
