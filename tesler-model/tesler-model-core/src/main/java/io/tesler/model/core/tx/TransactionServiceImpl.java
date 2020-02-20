@@ -129,6 +129,7 @@ public class TransactionServiceImpl implements TransactionService {
 	}
 
 	@Override
+	@Transactional
 	public <T> T woAutoFlush(Invoker<T, RuntimeException> invoker) {
 		Map<Session, FlushMode> sessionsWithFlushModes = entityManagers.stream().map(
 				entityManager -> entityManager.unwrap(Session.class)
