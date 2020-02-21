@@ -47,7 +47,7 @@ public class ${appUpperCaseName}ApplicationConfig implements SchedulingConfigure
 
 	private static final Database primaryDatabase = Database.ORACLE;
 
-private final ${appUpperCaseName}Configuration configuration;
+	private final ${appUpperCaseName}Configuration configuration;
 
 	@Bean
 	public InstrumentationLoadTimeWeaver loadTimeWeaver() {
