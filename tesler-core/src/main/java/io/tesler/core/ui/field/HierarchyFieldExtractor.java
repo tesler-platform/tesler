@@ -20,12 +20,13 @@
 
 package io.tesler.core.ui.field;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import io.tesler.core.ui.field.link.LinkFieldExtractor;
 import io.tesler.core.ui.model.BcField;
 import io.tesler.core.ui.model.BcField.Attribute;
 import io.tesler.core.ui.model.json.WidgetOptions;
 import io.tesler.core.util.JsonUtils;
 import io.tesler.model.ui.entity.Widget;
-import com.fasterxml.jackson.databind.JsonNode;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -46,8 +47,11 @@ public class HierarchyFieldExtractor implements FieldExtractor {
 				.ifPresent(list -> list.forEach(item -> {
 							fields.add(new BcField(item.getBcName(), item.getAssocValueKey())
 									.putAttribute(Attribute.WIDGET_ID, widget.getId()));
-							item.getFields().forEach(field -> fields.add(new BcField(item.getBcName(), field.getKey())
-									.putAttribute(Attribute.WIDGET_ID, widget.getId())));
+							item.getFields().forEach(field -> {
+								fields.add(new BcField(item.getBcName(), field.getKey())
+										.putAttribute(Attribute.WIDGET_ID, widget.getId()));
+								fields.addAll(LinkFieldExtractor.extract(widget.getId(), item.getBcName(), field));
+							});
 						}
 				));
 		return fields;
