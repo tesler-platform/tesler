@@ -26,7 +26,7 @@ import static io.tesler.core.crudma.CrudmaActionType.INVOKE;
 import static io.tesler.core.crudma.CrudmaActionType.PREVIEW;
 import static io.tesler.core.crudma.CrudmaActionType.UPDATE;
 import static io.tesler.core.dto.DrillDownType.INNER;
-import static io.tesler.core.dto.rowmeta.PostAction.ACTION_DRILL_DOWN;
+import static io.tesler.core.dto.rowmeta.PostAction.BasePostActionType.DRILL_DOWN;
 
 import io.tesler.api.data.ResultPage;
 import io.tesler.api.data.dto.AssociateDTO;
@@ -52,6 +52,7 @@ import io.tesler.core.dto.rowmeta.AssociateResultDTO;
 import io.tesler.core.dto.rowmeta.CreateResult;
 import io.tesler.core.dto.rowmeta.MetaDTO;
 import io.tesler.core.dto.rowmeta.PostAction;
+import io.tesler.core.dto.rowmeta.PostAction.BasePostActionField;
 import io.tesler.core.security.PolicyEnforcer;
 import io.tesler.core.service.ResponseFactory;
 import io.tesler.core.service.ResponseService;
@@ -379,8 +380,9 @@ public class CrudmaGateway {
 
 	private BusinessComponent getBcForState(final BusinessComponent bc, final List<PostAction> postActions) {
 		for (final PostAction postAction : postActions) {
-			if (ACTION_DRILL_DOWN.equals(postAction.getType()) && INNER.getValue().equals(postAction.getDrillDownType())) {
-				final String[] url = postAction.getUrl().split("/");
+			if (DRILL_DOWN.equals(postAction.getAttribute(BasePostActionField.TYPE)) && INNER.getValue()
+					.equals(postAction.getAttribute(BasePostActionField.DRILL_DOWN_TYPE))) {
+				final String[] url = postAction.getAttribute(BasePostActionField.URL).split("/");
 				if (Objects.equals(bc.getId(), url[url.length - 1])) {
 					return new BusinessComponent(
 							bc.getId(),
