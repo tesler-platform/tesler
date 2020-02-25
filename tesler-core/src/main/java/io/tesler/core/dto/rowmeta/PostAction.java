@@ -20,87 +20,116 @@
 
 package io.tesler.core.dto.rowmeta;
 
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import io.tesler.core.crudma.bc.BcIdentifier;
 import io.tesler.core.dto.DrillDownType;
 import io.tesler.core.dto.MessageType;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import lombok.Builder;
-import lombok.Getter;
+import java.util.HashMap;
+import java.util.Map;
 
-@Getter
-@Builder
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class PostAction {
 
-	public static final String ACTION_REFRESH_BC = "refreshBC";
+	public class BasePostActionType {
 
-	public static final String ACTION_DOWNLOAD_FILE = "downloadFile";
+		public static final String REFRESH_BC = "refreshBC";
 
-	public static final String ACTION_DOWNLOAD_FILE_BY_URL = "downloadFileByUrl";
+		public static final String DOWNLOAD_FILE = "downloadFile";
 
-	public static final String ACTION_SHOW_PICK_LIST = "openPickList";
+		public static final String DOWNLOAD_FILE_BY_URL = "downloadFileByUrl";
 
-	public static final String ACTION_DRILL_DOWN = "drillDown";
+		public static final String OPEN_PICK_LIST = "openPickList";
 
-	public static final String ACTION_DELAYED_REFRESH_BC = "delayedRefreshBC";
+		public static final String DRILL_DOWN = "drillDown";
 
-	public static final String ACTION_SHOW_MESSAGE = "showMessage";
+		public static final String DELAYED_REFRESH_BC = "delayedRefreshBC";
 
-	public static final String ACTION_POST_DELETE = "postDelete";
+		public static final String SHOW_MESSAGE = "showMessage";
 
-	private final String type;
+		public static final String POST_DELETE = "postDelete";
 
-	private final String bc;
+	}
 
-	private final String url;
+	public class BasePostActionField {
 
-	private final String urlName;
+		public static final String TYPE = "type";
 
-	private final String fileId;
+		public static final String BC = "bc";
 
-	private final String pickList;
+		public static final String FILE_ID = "fileId";
 
-	private final Number delay;
+		public static final String DELAY = "delay";
 
-	private final String drillDownType;
+		public static final String MESSAGE_TYPE = "messageType";
 
-	private final String messageType;
+		public static final String MESSAGE_TEXT = "messageText";
 
-	private final String messageText;
+		public static final String URL = "url";
+
+		public static final String URL_NAME = "urlName";
+
+		public static final String DRILL_DOWN_TYPE = "drillDownType";
+
+		public static final String PICK_LIST = "pickList";
+
+	}
+
+	private final Map<String, String> attributes = new HashMap<>();
+
+	@JsonAnyGetter
+	public Map<String, String> getAttributes() {
+		return attributes;
+	}
+
+	@JsonAnyGetter
+	public String getAttribute(String key) {
+		return attributes.get(key);
+	}
+
+	@Deprecated
+	public String getType() {
+		return attributes.get(BasePostActionField.TYPE);
+	}
+
+	@Deprecated
+	public String getBc() {
+		return attributes.get(BasePostActionField.BC);
+	}
+
+	public PostAction add(String key, String value) {
+		attributes.put(key, value);
+		return this;
+	}
 
 	public static PostAction refreshBc(BcIdentifier bcIdentifier) {
-		return builder()
-				.type(ACTION_REFRESH_BC)
-				.bc(bcIdentifier.getName())
-				.build();
+		return new PostAction()
+				.add(BasePostActionField.TYPE, BasePostActionType.REFRESH_BC)
+				.add(BasePostActionField.BC, bcIdentifier.getName());
 	}
 
 	public static PostAction refreshParentBc(BcIdentifier bcIdentifier) {
-		return builder()
-				.type(ACTION_REFRESH_BC)
-				.bc(bcIdentifier.getParentName())
-				.build();
+		return new PostAction()
+				.add(BasePostActionField.TYPE, BasePostActionType.REFRESH_BC)
+				.add(BasePostActionField.BC, bcIdentifier.getParentName());
 	}
 
 	public static PostAction downloadFile(String fileId) {
-		return builder()
-				.type(ACTION_DOWNLOAD_FILE)
-				.fileId(fileId)
-				.build();
+		return new PostAction()
+				.add(BasePostActionField.TYPE, BasePostActionType.DOWNLOAD_FILE)
+				.add(BasePostActionField.FILE_ID, fileId);
 	}
 
 	public static PostAction downloadFileByUrl(String url) {
-		return builder()
-				.type(ACTION_DOWNLOAD_FILE_BY_URL)
-				.url(url)
-				.build();
+		return new PostAction()
+				.add(BasePostActionField.TYPE, BasePostActionType.DOWNLOAD_FILE_BY_URL)
+				.add(BasePostActionField.URL, url);
 	}
 
 	public static PostAction openPickList(final String pickList) {
-		return builder()
-				.type(ACTION_SHOW_PICK_LIST)
-				.pickList(pickList)
-				.build();
+		return new PostAction()
+				.add(BasePostActionField.TYPE, BasePostActionType.OPEN_PICK_LIST)
+				.add(BasePostActionField.PICK_LIST, pickList);
 	}
 
 	public static PostAction drillDown(DrillDownType drillDownType, String url) {
@@ -108,34 +137,30 @@ public class PostAction {
 	}
 
 	public static PostAction drillDown(DrillDownType drillDownType, String url, String urlName) {
-		return builder()
-				.type(ACTION_DRILL_DOWN)
-				.url(url)
-				.urlName(urlName)
-				.drillDownType(drillDownType.getValue())
-				.build();
+		return new PostAction()
+				.add(BasePostActionField.TYPE, BasePostActionType.DRILL_DOWN)
+				.add(BasePostActionField.URL, url)
+				.add(BasePostActionField.URL_NAME, urlName)
+				.add(BasePostActionField.DRILL_DOWN_TYPE, drillDownType.getValue());
 	}
 
 	public static PostAction delayedRefreshBC(BcIdentifier bcIdentifier, Number seconds) {
-		return builder()
-				.type(ACTION_DELAYED_REFRESH_BC)
-				.bc(bcIdentifier.getName())
-				.delay(seconds)
-				.build();
+		return new PostAction()
+				.add(BasePostActionField.TYPE, BasePostActionType.DELAYED_REFRESH_BC)
+				.add(BasePostActionField.BC, bcIdentifier.getName())
+				.add(BasePostActionField.DELAY, seconds.toString());
 	}
 
 	public static PostAction showMessage(MessageType messageType, String messageText) {
-		return builder()
-				.type(ACTION_SHOW_MESSAGE)
-				.messageType(messageType.getValue())
-				.messageText(messageText)
-				.build();
+		return new PostAction()
+				.add(BasePostActionField.TYPE, BasePostActionType.SHOW_MESSAGE)
+				.add(BasePostActionField.MESSAGE_TYPE, messageType.getValue())
+				.add(BasePostActionField.MESSAGE_TEXT, messageText);
 	}
 
 	public static PostAction postDelete() {
-		return builder()
-				.type(ACTION_POST_DELETE)
-				.build();
+		return new PostAction()
+				.add(BasePostActionField.TYPE, BasePostActionType.POST_DELETE);
 	}
 
 }
