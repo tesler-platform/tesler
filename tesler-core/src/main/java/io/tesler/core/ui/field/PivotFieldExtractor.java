@@ -50,7 +50,7 @@ public final class PivotFieldExtractor implements FieldExtractor {
 	}
 
 	private Set<BcField> extract(final Widget widget, final TableColRow tableColRow) {
-		final Set<BcField> fields = new HashSet<>(LinkFieldExtractor.extract(widget.getId(), widget.getBc(), tableColRow));
+		final Set<BcField> fields = new HashSet<>(LinkFieldExtractor.extract(widget, tableColRow));
 		if (tableColRow.getChildren() != null) {
 			tableColRow.getChildren().forEach(child -> fields.addAll(extract(widget, child)));
 		}
@@ -60,7 +60,7 @@ public final class PivotFieldExtractor implements FieldExtractor {
 	private Set<BcField> extract(final Widget widget, final TableValue tableValue) {
 		final FieldMeta fieldMeta = tableValue.getField();
 		final HashSet<BcField> fields = new HashSet<>(LinkFieldExtractor
-				.extract(widget.getId(), widget.getBc(), fieldMeta));
+				.extract(widget, fieldMeta));
 		fields.add(new BcField(widget.getBc(), fieldMeta.getKey())
 				.putAttribute(Attribute.WIDGET_ID, widget.getId())
 		);

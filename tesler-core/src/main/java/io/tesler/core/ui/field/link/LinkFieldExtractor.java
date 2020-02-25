@@ -22,6 +22,7 @@ package io.tesler.core.ui.field.link;
 
 import io.tesler.core.ui.model.BcField;
 import io.tesler.core.ui.model.BcField.Attribute;
+import io.tesler.model.ui.entity.Widget;
 import java.lang.reflect.Field;
 import java.util.HashSet;
 import java.util.Set;
@@ -30,6 +31,11 @@ import org.apache.commons.lang3.reflect.FieldUtils;
 
 
 public final class LinkFieldExtractor {
+
+	@SneakyThrows
+	public static Set<BcField> extract(final Widget widget, final Object object) {
+		return extract(widget.getId(), widget.getBc(), object);
+	}
 
 	@SneakyThrows
 	public static Set<BcField> extract(final Long widgetId, final String bc, final Object object) {

@@ -72,7 +72,7 @@ public abstract class BaseFieldExtractor implements FieldExtractor {
 			}
 			widgetFields.addAll(extractFieldsFromMultiValue(widget, getMultivalueField(fieldMetaBase)));
 			widgetFields.addAll(extractFieldsFromTitle(widget, i18n(fieldMetaBase.getTitle())));
-			widgetFields.addAll(LinkFieldExtractor.extract(widget.getId(), widget.getBc(), fieldMetaBase));
+			widgetFields.addAll(LinkFieldExtractor.extract(widget, fieldMetaBase));
 			if (fieldMetaBase.getMultisource() != null) {
 				for (final MultiSourceInfo multiSourceInfo : fieldMetaBase.getMultisource()) {
 					widgetFields.add(new BcField(widget.getBc(), multiSourceInfo.getKey())
