@@ -1,3 +1,12 @@
+# Version 2.0.1
+
+## Fixes
+
+* TransactionService#woAutoFlush should start transaction, if it doesnt exists (#32)
+* Archetypes: added java 11 support and fixed formatting (#33)
+* Added linked fields support in HierarchyFieldExtractor (#34)
+* More flexible PostAction api (#36)
+
 # Version 2.0.0
 
 ## Features
