@@ -33,6 +33,7 @@ import io.tesler.core.dto.data.view.ScreenNavigation.MenuItem;
 import io.tesler.core.dto.data.view.ScreenNavigation.SingleView;
 import io.tesler.core.dto.data.view.ScreenNavigation.ViewGroup;
 import io.tesler.core.dto.data.view.ScreenResponsibility;
+import io.tesler.core.service.ResponsibilitiesService;
 import io.tesler.core.service.UIService;
 import io.tesler.core.util.jackson.CustomObjectMapper;
 import io.tesler.model.core.dao.JpaDao;
