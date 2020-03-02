@@ -140,6 +140,12 @@ public abstract class FieldMeta extends CellStyle {
 		private String bgColorKey;
 
 		@LinkToField
+		private String snapshotKey;
+
+		@LinkToField
+		private String snapshotFileIdKey;
+
+		@LinkToField
 		private String iconParamsKey;
 
 		private String iconType;
