@@ -90,7 +90,7 @@ import org.springframework.stereotype.Service;
 @Extension
 public class WorkflowDaoImpl implements WorkflowDao {
 
-	@PersistenceContext
+	@PersistenceContext(unitName = "teslerEntityManagerFactory")
 	private EntityManager entityManager;
 
 	@Autowired

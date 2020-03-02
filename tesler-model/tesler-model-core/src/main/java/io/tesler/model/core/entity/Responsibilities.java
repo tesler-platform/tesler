@@ -23,9 +23,7 @@ package io.tesler.model.core.entity;
 import io.tesler.api.data.dictionary.LOV;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -45,9 +43,8 @@ public class Responsibilities extends BaseEntity {
 	@Column(name = "INTERNAL_ROLE_CD")
 	private LOV internalRoleCD;
 
-	@ManyToOne
-	@JoinColumn(name = "DEPT_ID")
-	private Department department;
+	@Column(name = "DEPT_ID")
+	private Long departmentId;
 
 	@Column(name = "RESPONSIBILITIES")
 	private String view;

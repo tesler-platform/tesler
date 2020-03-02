@@ -34,12 +34,17 @@ public final class LinkFieldExtractor {
 
 	@SneakyThrows
 	public static Set<BcField> extract(final Widget widget, final Object object) {
+		return extract(widget.getId(), widget.getBc(), object);
+	}
+
+	@SneakyThrows
+	public static Set<BcField> extract(final Long widgetId, final String bc, final Object object) {
 		final Set<BcField> fields = new HashSet<>();
 		for (final Field field : FieldUtils.getAllFieldsList(object.getClass())) {
 			field.setAccessible(true);
 			if (field.isAnnotationPresent(LinkToField.class) && field.get(object) != null) {
-				fields.add(new BcField(widget.getBc(), (String) field.get(object))
-						.putAttribute(Attribute.WIDGET_ID, widget.getId())
+				fields.add(new BcField(bc, (String) field.get(object))
+						.putAttribute(Attribute.WIDGET_ID, widgetId)
 				);
 			}
 		}

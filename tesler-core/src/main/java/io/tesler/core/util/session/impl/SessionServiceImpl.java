@@ -27,7 +27,6 @@ import io.tesler.api.service.session.CoreSessionService;
 import io.tesler.api.service.session.TeslerUserDetails;
 import io.tesler.core.config.CacheConfig;
 import io.tesler.core.controller.BcHierarchyAware;
-import io.tesler.core.service.IDelegationEngine;
 import io.tesler.core.service.UIService;
 import io.tesler.core.service.impl.UserRoleService;
 import io.tesler.core.util.session.SessionService;
@@ -78,8 +77,6 @@ public class SessionServiceImpl implements SessionService {
 
 	private final CoreSessionService coreSessionService;
 
-	private final Optional<IDelegationEngine> delegationEngine;
-
 	private final BcHierarchyAware bcHierarchyAware;
 
 	private final SessionCache sessionCache;
@@ -98,6 +95,12 @@ public class SessionServiceImpl implements SessionService {
 		return user;
 	}
 
+	/**
+	 * get current User entity from CoreSessionService, if not found try to found User in
+	 * UserExternalService's (that defined by client applications).
+	 * @param fallbackToSystem - if enabled, empty authenticated user replaced with system VANILLA user
+	 * @return User entity
+	 */
 	private User getSessionUserInternal(boolean fallbackToSystem) {
 		TeslerUserDetails details = coreSessionService.getSessionUserDetails(false);
 		if (details != null) {
@@ -117,8 +120,8 @@ public class SessionServiceImpl implements SessionService {
 		}
 		User user = userService.getUserByLogin(sessionUser.getId());
 		if (user == null && fallbackToSystem) {
-			// здесь пользователь уже прошел аутентификацию
-			// поэтому видится нормальным заменить его на системного пользователя
+			// here the user has already authenticated
+			// therefore it seems normal to replace it with a system user
 			user = new User();
 			user.setId(VANILLA.getId());
 		}
@@ -221,27 +224,7 @@ public class SessionServiceImpl implements SessionService {
 
 	@Override
 	public String getFirstViewFromResponsibilities(String... views) {
-		if (delegationEngine.map(IDelegationEngine::isDelegatedScreen).orElse(false)) {
-			final Set<String> responsibilities = delegationEngine.get().getDelegatedViews();
-			for (final String view : views) {
-				if (responsibilities.contains(view)) {
-					return view;
-				}
-			}
-			return null;
-		} else {
-			return uiService.getFirstViewFromResponsibilities(getSessionUser(), getSessionUserRole(), views);
-		}
-	}
-
-	/**
-	 * Возвращает департамент текущего экрана
-	 */
-	@Override
-	public Department getCurrentScreenDepartment() {
-		return delegationEngine.filter(IDelegationEngine::isDelegatedScreen)
-				.map(IDelegationEngine::getDelegatedDepartment)
-				.orElse(getSessionUserDepartment());
+		return uiService.getFirstViewFromResponsibilities(getSessionUser(), getSessionUserRole(), views);
 	}
 
 	private User getUserFromDetails(final TeslerUserDetails userDetails) {
@@ -281,9 +264,6 @@ public class SessionServiceImpl implements SessionService {
 	 */
 	@Override
 	public Collection<String> getCurrentScreenViews() {
-		if (delegationEngine.map(IDelegationEngine::isDelegatedScreen).orElse(false)) {
-			return delegationEngine.get().getDelegatedViews();
-		}
 		return getViews(bcHierarchyAware.getScreenName());
 	}
 

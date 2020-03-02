@@ -26,12 +26,9 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 import javax.persistence.Column;
 import javax.persistence.EntityListeners;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.Transient;
 import javax.persistence.Version;
@@ -80,13 +77,11 @@ public abstract class BaseEntity extends AbstractEntity implements Serializable 
 	@Column(name = "updated_date", nullable = false)
 	private LocalDateTime updatedDate;
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "CREATED_BY_USER_ID", nullable = false, updatable = false)
-	private User createdBy;
+	@Column(name = "CREATED_BY_USER_ID", nullable = false)
+	private Long createdBy;
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "LAST_UPD_BY_USER_ID", nullable = false)
-	private User lastUpdBy;
+	@Column(name = "LAST_UPD_BY_USER_ID", nullable = false)
+	private Long lastUpdBy;
 
 	@Transient
 	private long loadVstamp = -1;

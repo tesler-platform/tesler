@@ -18,52 +18,80 @@
  * #L%
  */
 
-package io.tesler.model.ui.entity;
+package io.tesler.model.ui.navigation;
 
 import io.tesler.api.data.dictionary.LOV;
-import io.tesler.model.core.entity.BaseEntity;
-import io.tesler.model.core.entity.Department;
-import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import lombok.Getter;
 import lombok.Setter;
 
+/**
+ * Entity that represent groups in navigation tree.
+ * Clients side of tesler framework uses this to create navigation elements such as tabs or menus
+ */
 @Getter
 @Setter
-@Entity(name = "SCREEN_VIEW_GROUP")
-public class ScreenViewGroup extends BaseEntity {
+@Entity(name = "NAVIGATION_GROUP")
+public class NavigationGroup {
 
-	@ManyToOne
-	@JoinColumn(name = "DEPT_ID")
-	private Department department;
+	/**
+	 * Identifier in navigation tree. Also primary key
+	 */
+	@Id
+	@Column(name = "ID")
+	protected String id;
 
+	/**
+	 * Type of group
+	 */
 	@Column(name = "TYPE_CD")
 	private LOV typeCd;
 
+	/**
+	 * Name of screen, where is group located
+	 */
 	@Column(name = "SCREEN_NAME")
 	private String screenName;
 
+	/**
+	 * Title of group. Navigation element shows it to user.
+	 */
 	@Column(name = "TITLE")
 	private String title;
 
+	/**
+	 * since navigation is a tree, groups can be nested to each other
+	 */
 	@ManyToOne
 	@JoinColumn(name = "PARENT_ID")
-	private ScreenViewGroup parent;
+	private NavigationGroup parent;
 
+	/**
+	 * Sequence of group in a parent element
+	 */
 	@Column(name = "SEQ")
 	private Integer seq;
 
+	/**
+	 * description for developers
+	 */
 	@Column(name = "DESCRIPTION")
 	private String description;
 
-	@Column(name = "ROOT")
-	private Boolean root;
+	/**
+	 * default view, that opens when user click on group;
+	 */
+	@Column(name = "DEFAULT_VIEW")
+	private String defaultView;
 
-	@OneToMany(mappedBy = "viewGroup")
-	private List<ScreenViewGroupData> viewGroups;
+	/**
+	 * is group hidden on navigation bars
+	 */
+	@Column(name = "HIDDEN")
+	private Boolean hidden;
 
 }
