@@ -349,7 +349,7 @@ public class UIServiceImpl implements UIService {
 						parentGroup.setChild(new ArrayList<>());
 					}
 					final List<MenuItem> childList = parentGroup.getChild();
-					childList.add(view.getSeq() > childList.size() ? childList.size() : view.getSeq(), singleView);
+					childList.add(view.getSeq() > childList.size() ? childList.size() : view.getSeq() - 1, singleView);
 				}
 			}
 			final ScreenNavigation screenNavigation = new ScreenNavigation();
