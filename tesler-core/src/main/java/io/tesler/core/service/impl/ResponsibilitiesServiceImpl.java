@@ -21,12 +21,12 @@
 package io.tesler.core.service.impl;
 
 import io.tesler.api.data.dictionary.LOV;
+import io.tesler.core.service.ResponsibilitiesService;
 import io.tesler.model.core.dao.JpaDao;
 import io.tesler.model.core.entity.Department;
 import io.tesler.model.core.entity.Responsibilities;
 import io.tesler.model.core.entity.Responsibilities_;
 import io.tesler.model.core.entity.User;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -34,15 +34,11 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.stereotype.Service;
 
-@Service
 @RequiredArgsConstructor
-public class ResponsibilitiesService {
+public class ResponsibilitiesServiceImpl implements ResponsibilitiesService {
 
 	private final JpaDao jpaDao;
-
-	private final ObjectMapper objectMapper;
 
 	private List<Responsibilities> getListByUserList(User user, LOV userRole, String responsibilityType) {
 		// В листе может быть не более одной записи

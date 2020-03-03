@@ -20,27 +20,17 @@
 
 package io.tesler.core.dto.multivalue;
 
-import io.tesler.api.util.MapUtils;
-import java.util.Map;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public enum MultivalueOptionType {
+public enum SnapshotState {
 
-	HINT("hint"),
-	DRILL_DOWN_TYPE("drillDownType"),
-	DRILL_DOWN_LINK("drillDown"),
-	SNAPSHOT_STATE("snapshotState");
-
-	private static final Map<String, MultivalueOptionType> TYPES = MapUtils
-			.of(MultivalueOptionType.class, MultivalueOptionType::getValue);
+	NEW("new"),
+	DELETED("deleted"),
+	NO_CHANGES("noChanges");
 
 	private String value;
-
-	public static MultivalueOptionType of(final String type) {
-		return TYPES.get(type);
-	}
 
 }

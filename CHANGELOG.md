@@ -1,3 +1,12 @@
+# Version 2.0.2
+
+## Fixes
+
+* Move ResponsibilityService configuration to CoreApplicationConfig (#41)
+* Fixed navigation sorting on UIServiceImpl (#40)
+* Added snapshotState field to FieldsMeta  (#39)
+* Create interface for ResponsibilitiesService (#38)
+
 # Version 2.0.1
 
 ## Fixes

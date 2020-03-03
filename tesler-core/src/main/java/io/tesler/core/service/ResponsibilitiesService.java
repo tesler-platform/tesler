@@ -18,29 +18,24 @@
  * #L%
  */
 
-package io.tesler.core.dto.multivalue;
+package io.tesler.core.service;
 
-import io.tesler.api.util.MapUtils;
+import io.tesler.api.data.dictionary.LOV;
+import io.tesler.model.core.entity.Department;
+import io.tesler.model.core.entity.User;
 import java.util.Map;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
+import java.util.Set;
 
-@Getter
-@AllArgsConstructor
-public enum MultivalueOptionType {
+/**
+ * Service that defines access rights to screens and views
+ */
+public interface ResponsibilitiesService {
 
-	HINT("hint"),
-	DRILL_DOWN_TYPE("drillDownType"),
-	DRILL_DOWN_LINK("drillDown"),
-	SNAPSHOT_STATE("snapshotState");
+	Map<String, Boolean> getListRespByUser(User user, LOV userRole);
 
-	private static final Map<String, MultivalueOptionType> TYPES = MapUtils
-			.of(MultivalueOptionType.class, MultivalueOptionType::getValue);
+	String getListScreensByUser(User user, LOV userRole);
 
-	private String value;
-
-	public static MultivalueOptionType of(final String type) {
-		return TYPES.get(type);
-	}
+	@Deprecated
+	Set<String> getViewResponsibilities(Department department);
 
 }

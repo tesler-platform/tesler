@@ -33,6 +33,7 @@ import io.tesler.core.dto.data.view.ScreenNavigation.MenuItem;
 import io.tesler.core.dto.data.view.ScreenNavigation.SingleView;
 import io.tesler.core.dto.data.view.ScreenNavigation.ViewGroup;
 import io.tesler.core.dto.data.view.ScreenResponsibility;
+import io.tesler.core.service.ResponsibilitiesService;
 import io.tesler.core.service.UIService;
 import io.tesler.core.util.jackson.CustomObjectMapper;
 import io.tesler.model.core.dao.JpaDao;
@@ -329,7 +330,7 @@ public class UIServiceImpl implements UIService {
 					}
 					final List<MenuItem> childList = parentGroup.getChild();
 					childList.add(
-							navigationGroup.getSeq() > childList.size() ? childList.size() : navigationGroup.getSeq(),
+							navigationGroup.getSeq() > childList.size() ? childList.size() : navigationGroup.getSeq() - 1,
 							viewGroup
 					);
 				}
@@ -348,7 +349,7 @@ public class UIServiceImpl implements UIService {
 						parentGroup.setChild(new ArrayList<>());
 					}
 					final List<MenuItem> childList = parentGroup.getChild();
-					childList.add(view.getSeq() > childList.size() ? childList.size() : view.getSeq(), singleView);
+					childList.add(view.getSeq() > childList.size() ? childList.size() : view.getSeq() - 1, singleView);
 				}
 			}
 			final ScreenNavigation screenNavigation = new ScreenNavigation();
