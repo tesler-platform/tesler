@@ -20,7 +20,6 @@
 
 package io.tesler.core.service.impl;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import io.tesler.api.data.dictionary.LOV;
 import io.tesler.core.service.ResponsibilitiesService;
 import io.tesler.model.core.dao.JpaDao;
@@ -35,17 +34,11 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
-import org.springframework.stereotype.Service;
 
-@Service
 @RequiredArgsConstructor
-@ConditionalOnMissingBean(ResponsibilitiesService.class)
 public class ResponsibilitiesServiceImpl implements ResponsibilitiesService {
 
 	private final JpaDao jpaDao;
-
-	private final ObjectMapper objectMapper;
 
 	private List<Responsibilities> getListByUserList(User user, LOV userRole, String responsibilityType) {
 		// В листе может быть не более одной записи
