@@ -330,7 +330,7 @@ public class UIServiceImpl implements UIService {
 					}
 					final List<MenuItem> childList = parentGroup.getChild();
 					childList.add(
-							navigationGroup.getSeq() > childList.size() ? childList.size() : navigationGroup.getSeq(),
+							navigationGroup.getSeq() > childList.size() ? childList.size() : navigationGroup.getSeq() - 1,
 							viewGroup
 					);
 				}
