@@ -21,8 +21,12 @@
 package io.tesler.core.config;
 
 import io.tesler.api.service.PluginAware;
+import io.tesler.core.service.ResponsibilitiesService;
+import io.tesler.core.service.impl.ResponsibilitiesServiceImpl;
 import io.tesler.core.util.jackson.CustomObjectMapper;
+import io.tesler.model.core.dao.JpaDao;
 import io.tesler.plugin.SpringPluginManager;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.context.annotation.PropertySource;
@@ -43,6 +47,12 @@ public class CoreApplicationConfig {
 	@Bean(name = PluginAware.PLUGIN_MANAGER, destroyMethod = "stopPlugins")
 	public SpringPluginManager pluginManager() {
 		return new SpringPluginManager("classpath*:/plugins/*.jar");
+	}
+
+	@Bean
+	@ConditionalOnMissingBean
+	public ResponsibilitiesService responsibilitiesService(JpaDao jpaDao) {
+		return new ResponsibilitiesServiceImpl(jpaDao);
 	}
 
 }
