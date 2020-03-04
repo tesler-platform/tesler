@@ -100,6 +100,7 @@ public class JpaDaoImpl implements JpaDao {
 	protected EntityManager getSupportedEntityManager(String entityClazz) {
 		List<EntityManager> supportedEntityManagers = entityManagers.stream().filter(
 				entityManager -> entityManager.getMetamodel().getEntities().stream().anyMatch(
+						//todo: delete check simpleName in next major release
 						entityType -> Objects.equal(entityType.getBindableJavaType().getSimpleName(), entityClazz)
 								|| Objects.equal(entityType.getBindableJavaType().getName(), entityClazz)
 				)
