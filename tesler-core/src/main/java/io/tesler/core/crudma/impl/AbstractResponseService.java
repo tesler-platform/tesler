@@ -169,7 +169,13 @@ public abstract class AbstractResponseService<T extends DataResponseDTO, E exten
 
 	@Override
 	public E getOneAsEntity(BusinessComponent bc) {
-		return isExist(bc.getIdAsLong());
+		Specification<E> getOneSpecification = Specification.where(specificationBuilder.buildBcSpecification(bc))
+				.and((root, cq, cb) -> cb.equal(root.get(BaseEntity_.id), bc.getIdAsLong()));
+		E entity = baseDAO.getFirstResultOrNull(typeOfEntity, getOneSpecification);
+		if (entity == null) {
+			throw new EntityNotFoundException(typeOfEntity.getSimpleName(), bc.getParentIdAsLong());
+		}
+		return entity;
 	}
 
 	@Override
