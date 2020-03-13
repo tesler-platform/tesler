@@ -1,3 +1,19 @@
+# Version 2.0.3
+
+## Fixes
+
+* Compitability fix: JpaDao#getSupportedEntityManager now supports entity SimpleName as input argument (#43)
+* Removed "Create" action while getting row-meta for new record (#45)
+
+# Version 2.0.2
+
+## Fixes
+
+* Move ResponsibilityService configuration to CoreApplicationConfig (#41)
+* Fixed navigation sorting on UIServiceImpl (#40)
+* Added snapshotState field to FieldsMeta  (#39)
+* Create interface for ResponsibilitiesService (#38)
+
 # Version 2.0.1
 
 ## Fixes
