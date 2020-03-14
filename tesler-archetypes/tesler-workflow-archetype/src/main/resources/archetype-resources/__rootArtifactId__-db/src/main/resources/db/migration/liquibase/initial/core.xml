@@ -10,24 +10,24 @@
             <column name="ID" remarks="Идентификатор" type="NUMBER(19, 0)">
                 <constraints primaryKey="true"/>
             </column>
-            <column name="NAME" remarks="Название бизнес-компонента" type="VARCHAR2(255 CHAR)">
+            <column name="NAME" remarks="Название бизнес-компонента" type="VARCHAR2(255)">
                 <constraints nullable="false"/>
             </column>
-            <column name="PARENT_NAME" remarks="Название родительского бизнес-компонента" type="VARCHAR2(255 CHAR)"/>
+            <column name="PARENT_NAME" remarks="Название родительского бизнес-компонента" type="VARCHAR2(255)"/>
             <column name="QUERY" remarks="Sql для получения списка бизнес-компонент" type="CLOB">
                 <constraints nullable="false"/>
             </column>
-            <column name="DEFAULT_ORDER" remarks="Сортировка по умолчанию" type="VARCHAR2(500 CHAR)"/>
-            <column name="REPORT_DATE_FIELD" remarks="Поле типа дата для PIVOT-фильтрации" type="VARCHAR2(500 CHAR)"/>
+            <column name="DEFAULT_ORDER" remarks="Сортировка по умолчанию" type="VARCHAR2(500)"/>
+            <column name="REPORT_DATE_FIELD" remarks="Поле типа дата для PIVOT-фильтрации" type="VARCHAR2(500)"/>
             <column defaultValueNumeric="5" name="PAGE_LIMIT" remarks="Кол-во строк при пагинации" type="NUMBER(19, 0)">
                 <constraints nullable="false"/>
             </column>
             <column defaultValue="[]" name="BINDS" type="CLOB"/>
             <column defaultValueNumeric="0" name="EDITABLE" remarks="Редактируемые поля" type="NUMBER(1, 0)"/>
-            <column defaultValueComputed="SYSDATE" name="CREATED_DATE" remarks="Дата создания" type="TIMESTAMP(6)">
+            <column defaultValueComputed="current_timestamp" name="CREATED_DATE" remarks="Дата создания" type="TIMESTAMP(6)">
                 <constraints nullable="false"/>
             </column>
-            <column defaultValueComputed="SYSDATE" name="UPDATED_DATE" remarks="Дата обновления" type="TIMESTAMP(6)">
+            <column defaultValueComputed="current_timestamp" name="UPDATED_DATE" remarks="Дата обновления" type="TIMESTAMP(6)">
                 <constraints nullable="false"/>
             </column>
             <column defaultValueNumeric="1" name="CREATED_BY_USER_ID" type="NUMBER(19, 0)">
@@ -47,17 +47,17 @@
             <column name="ID" remarks="Идентификатор" type="NUMBER(19, 0)">
                 <constraints primaryKey="true"/>
             </column>
-            <column name="NAME" remarks="Имя группы фильтров" type="VARCHAR2(255 CHAR)">
+            <column name="NAME" remarks="Имя группы фильтров" type="VARCHAR2(255)">
                 <constraints nullable="false"/>
             </column>
             <column name="BC" remarks="Бизнес-компонент" type="VARCHAR2(255 BYTE)">
                 <constraints nullable="false"/>
             </column>
             <column name="FILTERS" remarks="Фильтры" type="VARCHAR2(4000 BYTE)"/>
-            <column defaultValueComputed="SYSDATE" name="CREATED_DATE" remarks="Дата создания" type="TIMESTAMP(6)">
+            <column defaultValueComputed="current_timestamp" name="CREATED_DATE" remarks="Дата создания" type="TIMESTAMP(6)">
                 <constraints nullable="false"/>
             </column>
-            <column defaultValueComputed="SYSDATE" name="UPDATED_DATE" remarks="Дата изменения" type="TIMESTAMP(6)">
+            <column defaultValueComputed="current_timestamp" name="UPDATED_DATE" remarks="Дата изменения" type="TIMESTAMP(6)">
                 <constraints nullable="false"/>
             </column>
             <column defaultValueNumeric="1" name="CREATED_BY_USER_ID" type="NUMBER(19, 0)">
@@ -76,10 +76,10 @@
             <column name="ID" remarks="Идентификатор" type="NUMBER(19, 0)">
                 <constraints primaryKey="true"/>
             </column>
-            <column defaultValueComputed="SYSDATE" name="CREATED_DATE" remarks="Дата создания" type="TIMESTAMP(6)">
+            <column defaultValueComputed="current_timestamp" name="CREATED_DATE" remarks="Дата создания" type="TIMESTAMP(6)">
                 <constraints nullable="false"/>
             </column>
-            <column defaultValueComputed="SYSDATE" name="UPDATED_DATE" remarks="Дата изменения" type="TIMESTAMP(6)">
+            <column defaultValueComputed="current_timestamp" name="UPDATED_DATE" remarks="Дата изменения" type="TIMESTAMP(6)">
                 <constraints nullable="false"/>
             </column>
             <column defaultValueNumeric="1" name="CREATED_BY_USER_ID" type="NUMBER(19, 0)">
@@ -101,7 +101,7 @@
             <column defaultValueNumeric="0" name="VSTAMP" type="NUMBER(19, 0)">
                 <constraints nullable="false"/>
             </column>
-            <column name="BC_READ_ONLY_FLG_FIELD" remarks="Поле с ДТО, при значении поля true блокирует запись" type="VARCHAR2(255 CHAR)"/>
+            <column name="BC_READ_ONLY_FLG_FIELD" remarks="Поле с ДТО, при значении поля true блокирует запись" type="VARCHAR2(255)"/>
         </createTable>
     </changeSet>
     <changeSet author="initial" id="CUSTOMIZABLE_RESPONSE_SERVICE TABLE">
@@ -109,10 +109,10 @@
             <column name="ID" remarks="Индентификатор" type="NUMBER(19, 0)">
                 <constraints primaryKey="true" primaryKeyName="PK_CUSTOMIZABLE_RESPONSE_SERVI"/>
             </column>
-            <column defaultValueComputed="SYSDATE" name="CREATED_DATE" remarks="Дата создания" type="TIMESTAMP(6)">
+            <column defaultValueComputed="current_timestamp" name="CREATED_DATE" remarks="Дата создания" type="TIMESTAMP(6)">
                 <constraints nullable="false"/>
             </column>
-            <column defaultValueComputed="SYSDATE" name="UPDATED_DATE" remarks="Дата изменения" type="TIMESTAMP(6)">
+            <column defaultValueComputed="current_timestamp" name="UPDATED_DATE" remarks="Дата изменения" type="TIMESTAMP(6)">
                 <constraints nullable="false"/>
             </column>
             <column defaultValueNumeric="1" name="CREATED_BY_USER_ID" remarks="Кто создал" type="NUMBER(19, 0)">
@@ -121,8 +121,8 @@
             <column defaultValueNumeric="1" name="LAST_UPD_BY_USER_ID" remarks="Кто изменил" type="NUMBER(19, 0)">
                 <constraints nullable="false"/>
             </column>
-            <column name="SERVICE_NAME" remarks="Название сервиса" type="VARCHAR2(1000 CHAR)"/>
-            <column name="DTO_CLASS" remarks="Название ДТО" type="VARCHAR2(1000 CHAR)"/>
+            <column name="SERVICE_NAME" remarks="Название сервиса" type="VARCHAR2(1000)"/>
+            <column name="DTO_CLASS" remarks="Название ДТО" type="VARCHAR2(1000)"/>
             <column defaultValueNumeric="0" name="VSTAMP" type="NUMBER(19, 0)">
                 <constraints nullable="false"/>
             </column>
@@ -133,17 +133,17 @@
             <column name="ID" remarks="Идентификатор" type="NUMBER(19, 0)">
                 <constraints primaryKey="true"/>
             </column>
-            <column name="CODE" remarks="Код департамента" type="VARCHAR2(64 CHAR)">
+            <column name="CODE" remarks="Код департамента" type="VARCHAR2(64)">
                 <constraints nullable="false"/>
             </column>
-            <column name="SHORT_NAME" remarks="Краткое наименование" type="VARCHAR2(64 CHAR)">
+            <column name="SHORT_NAME" remarks="Краткое наименование" type="VARCHAR2(64)">
                 <constraints nullable="false"/>
             </column>
-            <column name="FULL_NAME" remarks="Полное наименование" type="VARCHAR2(256 CHAR)"/>
-            <column defaultValueComputed="SYSDATE" name="CREATED_DATE" type="TIMESTAMP(6)">
+            <column name="FULL_NAME" remarks="Полное наименование" type="VARCHAR2(256)"/>
+            <column defaultValueComputed="current_timestamp" name="CREATED_DATE" type="TIMESTAMP(6)">
                 <constraints nullable="false"/>
             </column>
-            <column defaultValueComputed="SYSDATE" name="UPDATED_DATE" type="TIMESTAMP(6)">
+            <column defaultValueComputed="current_timestamp" name="UPDATED_DATE" type="TIMESTAMP(6)">
                 <constraints nullable="false"/>
             </column>
             <column defaultValueNumeric="1" name="CREATED_BY_USER_ID" type="NUMBER(19, 0)">
@@ -166,9 +166,9 @@
                 <constraints primaryKey="true"/>
             </column>
             <column name="REVTYPE" type="NUMBER(3, 0)"/>
-            <column name="CODE" type="VARCHAR2(64 CHAR)"/>
-            <column name="SHORT_NAME" type="VARCHAR2(64 CHAR)"/>
-            <column name="FULL_NAME" type="VARCHAR2(256 CHAR)"/>
+            <column name="CODE" type="VARCHAR2(64)"/>
+            <column name="SHORT_NAME" type="VARCHAR2(64)"/>
+            <column name="FULL_NAME" type="VARCHAR2(256)"/>
             <column name="CREATED_DATE" type="TIMESTAMP(6)"/>
             <column name="UPDATED_DATE" type="TIMESTAMP(6)"/>
             <column name="CREATED_BY_USER_ID" type="NUMBER(19, 0)"/>
@@ -183,12 +183,12 @@
             <column name="ID" remarks="Идентификатор" type="NUMBER(19, 0)">
                 <constraints primaryKey="true"/>
             </column>
-            <column name="KEY" remarks="Ключ" type="VARCHAR2(255 CHAR)"/>
-            <column name="VALUE" remarks="Значение" type="VARCHAR2(1500 CHAR)"/>
-            <column defaultValueComputed="SYSDATE" name="CREATED_DATE" type="TIMESTAMP(6)">
+            <column name="KEY" remarks="Ключ" type="VARCHAR2(255)"/>
+            <column name="VALUE" remarks="Значение" type="VARCHAR2(1500)"/>
+            <column defaultValueComputed="current_timestamp" name="CREATED_DATE" type="TIMESTAMP(6)">
                 <constraints nullable="false"/>
             </column>
-            <column defaultValueComputed="SYSDATE" name="UPDATED_DATE" type="TIMESTAMP(6)">
+            <column defaultValueComputed="current_timestamp" name="UPDATED_DATE" type="TIMESTAMP(6)">
                 <constraints nullable="false"/>
             </column>
             <column defaultValueNumeric="1" name="CREATED_BY_USER_ID" type="NUMBER(19, 0)">
@@ -207,15 +207,15 @@
             <column name="ID" remarks="Идентификатор" type="NUMBER(19, 0)">
                 <constraints primaryKey="true"/>
             </column>
-            <column name="TYPE" remarks="Тип справочника" type="VARCHAR2(255 CHAR)"/>
-            <column name="KEY" remarks="Ключ" type="VARCHAR2(255 CHAR)"/>
+            <column name="TYPE" remarks="Тип справочника" type="VARCHAR2(255)"/>
+            <column name="KEY" remarks="Ключ" type="VARCHAR2(255)"/>
             <column name="ACTIVE" remarks="Признак активности" type="NUMBER(1, 0)"/>
             <column name="DISPLAY_ORDER" remarks="Порядок отображения" type="NUMBER"/>
-            <column name="DESCRIPTION" remarks="Описание" type="VARCHAR2(1000 CHAR)"/>
-            <column defaultValueComputed="SYSDATE" name="CREATED_DATE" type="TIMESTAMP(6)">
+            <column name="DESCRIPTION" remarks="Описание" type="VARCHAR2(1000)"/>
+            <column defaultValueComputed="current_timestamp" name="CREATED_DATE" type="TIMESTAMP(6)">
                 <constraints nullable="false"/>
             </column>
-            <column defaultValueComputed="SYSDATE" name="UPDATED_DATE" type="TIMESTAMP(6)">
+            <column defaultValueComputed="current_timestamp" name="UPDATED_DATE" type="TIMESTAMP(6)">
                 <constraints nullable="false"/>
             </column>
             <column defaultValueNumeric="1" name="CREATED_BY_USER_ID" type="NUMBER(19, 0)">
@@ -236,8 +236,8 @@
     <changeSet author="initial" id="DICTIONARY_ITEM_TR TABLE">
         <createTable remarks="Переводы простых справочников" tableName="DICTIONARY_ITEM_TR">
             <column name="ID" remarks="Идентификатор" type="NUMBER(19, 0)" />
-            <column name="LANGUAGE" remarks="Язык" type="VARCHAR2(255 CHAR)"/>
-            <column name="VALUE" remarks="Значение" type="VARCHAR2(1500 CHAR)"/>
+            <column name="LANGUAGE" remarks="Язык" type="VARCHAR2(255)"/>
+            <column name="VALUE" remarks="Значение" type="VARCHAR2(1500)"/>
         </createTable>
     </changeSet>
     <changeSet author="initial" id="AUD_DICTIONARY TABLE">
@@ -245,19 +245,19 @@
             <column name="ID" type="NUMBER(19)" remarks="Идентификатор">
                 <constraints nullable="false" primaryKey="true"/>
             </column>
-            <column name="EVENT_TYPE" type="VARCHAR2(255 char)" remarks="Тип события"/>
+            <column name="EVENT_TYPE" type="VARCHAR2(255)" remarks="Тип события"/>
             <column name="EVENT_DATE" type="DATE" remarks="Дата события"/>
-            <column name="DICT_TYPE" type="VARCHAR2(255 char)" remarks="Тип справочника"/>
-            <column name="KEY" type="VARCHAR2(255 char)" remarks="Ключ справочника"/>
-            <column name="FIELD" type="VARCHAR2(255 char)" remarks="Какое поле изменилось"/>
+            <column name="DICT_TYPE" type="VARCHAR2(255)" remarks="Тип справочника"/>
+            <column name="KEY" type="VARCHAR2(255)" remarks="Ключ справочника"/>
+            <column name="FIELD" type="VARCHAR2(255)" remarks="Какое поле изменилось"/>
             <column name="VSTAMP" type="NUMBER(19)" defaultValue="0"/>
-            <column name="CREATED_DATE" type="TIMESTAMP(6)" defaultValue="sysdate">
+            <column name="CREATED_DATE" type="TIMESTAMP(6)" defaultValueComputed="current_timestamp">
                 <constraints nullable="false"/>
             </column>
             <column name="CREATED_BY_USER_ID" type="NUMBER(19)" defaultValue="1">
                 <constraints nullable="false"/>
             </column>
-            <column name="UPDATED_DATE" type="TIMESTAMP(6)" defaultValue="sysdate">
+            <column name="UPDATED_DATE" type="TIMESTAMP(6)" defaultValueComputed="current_timestamp">
                 <constraints nullable="false"/>
             </column>
             <column name="LAST_UPD_BY_USER_ID" type="NUMBER(19)" defaultValue="1">
@@ -270,10 +270,10 @@
             <column name="ID" remarks="Индентификатор" type="NUMBER(19, 0)">
                 <constraints primaryKey="true" primaryKeyName="PK_DICTIONARY_LNK_RULE"/>
             </column>
-            <column defaultValueComputed="SYSDATE" name="CREATED_DATE" remarks="Дата создания" type="TIMESTAMP(6)">
+            <column defaultValueComputed="current_timestamp" name="CREATED_DATE" remarks="Дата создания" type="TIMESTAMP(6)">
                 <constraints nullable="false"/>
             </column>
-            <column defaultValueComputed="SYSDATE" name="UPDATED_DATE" remarks="Дата изменения" type="TIMESTAMP(6)">
+            <column defaultValueComputed="current_timestamp" name="UPDATED_DATE" remarks="Дата изменения" type="TIMESTAMP(6)">
                 <constraints nullable="false"/>
             </column>
             <column defaultValueNumeric="1" name="CREATED_BY_USER_ID" remarks="Кто создал" type="NUMBER(19, 0)">
@@ -285,9 +285,9 @@
             <column name="SERVICE_ID" remarks="Сервис" type="NUMBER(19, 0)">
                 <constraints nullable="false"/>
             </column>
-            <column name="FIELD" remarks="Поле с типом LOV" type="VARCHAR2(1000 CHAR)"/>
-            <column name="TYPE" remarks="Тип справочника поля" type="VARCHAR2(1000 CHAR)"/>
-            <column name="NAME" remarks="Название" type="VARCHAR2(1000 CHAR)"/>
+            <column name="FIELD" remarks="Поле с типом LOV" type="VARCHAR2(1000)"/>
+            <column name="TYPE" remarks="Тип справочника поля" type="VARCHAR2(1000)"/>
+            <column name="NAME" remarks="Название" type="VARCHAR2(1000)"/>
             <column defaultValueNumeric="0" name="ALL_VALUES" remarks="Все значения" type="NUMBER(1, 0)">
                 <constraints nullable="false"/>
             </column>
@@ -307,10 +307,10 @@
             <column name="ID" remarks="Индентификатор" type="NUMBER(19, 0)">
                 <constraints primaryKey="true" primaryKeyName="PK_DICTIONARY_LNK_RULE_COND"/>
             </column>
-            <column defaultValueComputed="SYSDATE" name="CREATED_DATE" remarks="Дата создания" type="TIMESTAMP(6)">
+            <column defaultValueComputed="current_timestamp" name="CREATED_DATE" remarks="Дата создания" type="TIMESTAMP(6)">
                 <constraints nullable="false"/>
             </column>
-            <column defaultValueComputed="SYSDATE" name="UPDATED_DATE" remarks="Дата изменения" type="TIMESTAMP(6)">
+            <column defaultValueComputed="current_timestamp" name="UPDATED_DATE" remarks="Дата изменения" type="TIMESTAMP(6)">
                 <constraints nullable="false"/>
             </column>
             <column defaultValueNumeric="1" name="CREATED_BY_USER_ID" remarks="Кто создал" type="NUMBER(19, 0)">
@@ -322,13 +322,13 @@
             <column name="RULE_ID" remarks="Правило" type="NUMBER(19, 0)">
                 <constraints nullable="false"/>
             </column>
-            <column name="TYPE" remarks="Тип условия" type="VARCHAR2(255 CHAR)"/>
-            <column name="FIELD_NAME" remarks="Имя поля" type="VARCHAR2(255 CHAR)"/>
-            <column name="FIELD_TEXT_VALUE" remarks="Текстовое значение" type="VARCHAR2(1000 CHAR)"/>
-            <column name="FIELD_DICT_VALUE" remarks="Справочное значение" type="VARCHAR2(255 CHAR)"/>
+            <column name="TYPE" remarks="Тип условия" type="VARCHAR2(255)"/>
+            <column name="FIELD_NAME" remarks="Имя поля" type="VARCHAR2(255)"/>
+            <column name="FIELD_TEXT_VALUE" remarks="Текстовое значение" type="VARCHAR2(1000)"/>
+            <column name="FIELD_DICT_VALUE" remarks="Справочное значение" type="VARCHAR2(255)"/>
             <column name="DEPT_ID" remarks="Департамент пользователя" type="NUMBER(19, 0)"/>
-            <column name="BC_NAME" remarks="Имя БК" type="VARCHAR2(255 CHAR)"/>
-            <column name="FIELD_TYPE" remarks="Тип справочника связанного поля" type="VARCHAR2(255 CHAR)"/>
+            <column name="BC_NAME" remarks="Имя БК" type="VARCHAR2(255)"/>
+            <column name="FIELD_TYPE" remarks="Тип справочника связанного поля" type="VARCHAR2(255)"/>
             <column name="FIELD_BOOLEAN_VALUE" type="NUMBER(1, 0)"/>
             <column defaultValueNumeric="0" name="RULE_INVERSION_FLG" remarks="Инверсия результата выполнения условия" type="NUMBER(1)">
                 <constraints nullable="false"/>
@@ -343,10 +343,10 @@
             <column name="ID" remarks="Индентификатор" type="NUMBER(19, 0)">
                 <constraints primaryKey="true" primaryKeyName="PK_DICTIONARY_LNK_RULE_VALUE"/>
             </column>
-            <column defaultValueComputed="SYSDATE" name="CREATED_DATE" remarks="Дата создания" type="TIMESTAMP(6)">
+            <column defaultValueComputed="current_timestamp" name="CREATED_DATE" remarks="Дата создания" type="TIMESTAMP(6)">
                 <constraints nullable="false"/>
             </column>
-            <column defaultValueComputed="SYSDATE" name="UPDATED_DATE" remarks="Дата изменения" type="TIMESTAMP(6)">
+            <column defaultValueComputed="current_timestamp" name="UPDATED_DATE" remarks="Дата изменения" type="TIMESTAMP(6)">
                 <constraints nullable="false"/>
             </column>
             <column defaultValueNumeric="1" name="CREATED_BY_USER_ID" remarks="Кто создал" type="NUMBER(19, 0)">
@@ -358,7 +358,7 @@
             <column name="RULE_ID" remarks="Правило" type="NUMBER(19, 0)">
                 <constraints nullable="false"/>
             </column>
-            <column name="CHILD_KEY" remarks="Код дочернего справочника" type="VARCHAR2(1000 CHAR)"/>
+            <column name="CHILD_KEY" remarks="Код дочернего справочника" type="VARCHAR2(1000)"/>
             <column defaultValueNumeric="0" name="VSTAMP" type="NUMBER(19, 0)">
                 <constraints nullable="false"/>
             </column>
@@ -369,12 +369,12 @@
             <column name="ID" remarks="Идентификатор" type="NUMBER(19, 0)">
                 <constraints primaryKey="true"/>
             </column>
-            <column name="TYPE" remarks="Тип справочника" type="VARCHAR2(255 CHAR)"/>
-            <column name="TYPE_DESC" remarks="Описание" type="VARCHAR2(1000 CHAR)"/>
-            <column defaultValueComputed="SYSDATE" name="CREATED_DATE" type="TIMESTAMP(6)">
+            <column name="TYPE" remarks="Тип справочника" type="VARCHAR2(255)"/>
+            <column name="TYPE_DESC" remarks="Описание" type="VARCHAR2(1000)"/>
+            <column defaultValueComputed="current_timestamp" name="CREATED_DATE" type="TIMESTAMP(6)">
                 <constraints nullable="false"/>
             </column>
-            <column defaultValueComputed="SYSDATE" name="UPDATED_DATE" type="TIMESTAMP(6)">
+            <column defaultValueComputed="current_timestamp" name="UPDATED_DATE" type="TIMESTAMP(6)">
                 <constraints nullable="false"/>
             </column>
             <column defaultValueNumeric="1" name="CREATED_BY_USER_ID" type="NUMBER(19, 0)">
@@ -393,10 +393,10 @@
             <column name="ID" remarks="Индентификатор" type="NUMBER(19, 0)">
                 <constraints primaryKey="true" primaryKeyName="PK_DIVISION"/>
             </column>
-            <column defaultValueComputed="SYSDATE" name="CREATED_DATE" remarks="Дата создания" type="TIMESTAMP(6)">
+            <column defaultValueComputed="current_timestamp" name="CREATED_DATE" remarks="Дата создания" type="TIMESTAMP(6)">
                 <constraints nullable="false"/>
             </column>
-            <column defaultValueComputed="SYSDATE" name="UPDATED_DATE" remarks="Дата изменения" type="TIMESTAMP(6)">
+            <column defaultValueComputed="current_timestamp" name="UPDATED_DATE" remarks="Дата изменения" type="TIMESTAMP(6)">
                 <constraints nullable="false"/>
             </column>
             <column defaultValueNumeric="1" name="CREATED_BY_USER_ID" remarks="Кто создал" type="NUMBER(19, 0)">
@@ -405,18 +405,18 @@
             <column defaultValueNumeric="1" name="LAST_UPD_BY_USER_ID" remarks="Кто изменил" type="NUMBER(19, 0)">
                 <constraints nullable="false"/>
             </column>
-            <column name="LEVEL_CD" remarks="Уровень подразделения" type="VARCHAR2(255 CHAR)"/>
-            <column name="NAME" remarks="Название" type="VARCHAR2(1000 CHAR)"/>
+            <column name="LEVEL_CD" remarks="Уровень подразделения" type="VARCHAR2(255)"/>
+            <column name="NAME" remarks="Название" type="VARCHAR2(1000)"/>
             <column name="ACTIVE" remarks="Активно" type="NUMBER(1, 0)"/>
             <column name="DEPT_ID" remarks="Департмент" type="NUMBER(19, 0)"/>
             <column name="PARENT_ID" remarks="Родительское подразделение" type="NUMBER(19, 0)"/>
             <column name="HEAD_USER_ROLE_ID" remarks="Руководитель" type="NUMBER(19, 0)"/>
-            <column name="FULL_NAME" remarks="Полное название" type="VARCHAR2(4000 CHAR)"/>
+            <column name="FULL_NAME" remarks="Полное название" type="VARCHAR2(4000)"/>
             <column defaultValueNumeric="0" name="VSTAMP" type="NUMBER(19, 0)">
                 <constraints nullable="false"/>
             </column>
             <column defaultValueNumeric="0" name="CHECK_GU_FLG" remarks="Принадлежность к ГУ" type="NUMBER(1, 0)"/>
-            <column name="HEAD_OFFICE_CD" remarks="Наименование оргструктуры" type="VARCHAR2(255 CHAR)"/>
+            <column name="HEAD_OFFICE_CD" remarks="Наименование оргструктуры" type="VARCHAR2(255)"/>
         </createTable>
     </changeSet>
     <changeSet author="initial" id="FIELD_COMMENTS TABLE">
@@ -438,10 +438,10 @@
                 <constraints nullable="false"/>
             </column>
             <column name="CONTENT" type="CLOB"/>
-            <column defaultValueComputed="SYSDATE" name="CREATED_DATE" type="TIMESTAMP(6)">
+            <column defaultValueComputed="current_timestamp" name="CREATED_DATE" type="TIMESTAMP(6)">
                 <constraints nullable="false"/>
             </column>
-            <column defaultValueComputed="SYSDATE" name="UPDATED_DATE" type="TIMESTAMP(6)">
+            <column defaultValueComputed="current_timestamp" name="UPDATED_DATE" type="TIMESTAMP(6)">
                 <constraints nullable="false"/>
             </column>
             <column defaultValueNumeric="1" name="CREATED_BY_USER_ID" type="NUMBER(19, 0)">
@@ -460,13 +460,13 @@
             <column name="ID" remarks="Идентификатор" type="NUMBER(19, 0)">
                 <constraints primaryKey="true" primaryKeyName="PK_FILE_DATASOURCE"/>
             </column>
-            <column defaultValueComputed="SYSDATE" name="CREATED_DATE" remarks="Дата создания" type="TIMESTAMP(6)">
+            <column defaultValueComputed="current_timestamp" name="CREATED_DATE" remarks="Дата создания" type="TIMESTAMP(6)">
                 <constraints nullable="false"/>
             </column>
             <column defaultValueNumeric="1" name="CREATED_BY_USER_ID" remarks="Кто создал" type="NUMBER(19, 0)">
                 <constraints nullable="false"/>
             </column>
-            <column defaultValueComputed="SYSDATE" name="UPDATED_DATE" remarks="Дата изменения" type="TIMESTAMP(6)">
+            <column defaultValueComputed="current_timestamp" name="UPDATED_DATE" remarks="Дата изменения" type="TIMESTAMP(6)">
                 <constraints nullable="false"/>
             </column>
             <column defaultValueNumeric="1" name="LAST_UPD_BY_USER_ID" remarks="Кто изменил" type="NUMBER(19, 0)">
@@ -507,10 +507,10 @@
             <column name="IS_TEMPORARY" remarks="Признак временного файла" type="NUMBER(1, 0)"/>
             <column name="FILE_URL" remarks="Ссылка на файл" type="VARCHAR2(255 BYTE)"/>
             <column defaultValueNumeric="0" name="RESTRICTED_FLG" type="NUMBER(1, 0)"/>
-            <column defaultValueComputed="SYSDATE" name="CREATED_DATE" remarks="Дата создания" type="TIMESTAMP(6)">
+            <column defaultValueComputed="current_timestamp" name="CREATED_DATE" remarks="Дата создания" type="TIMESTAMP(6)">
                 <constraints nullable="false"/>
             </column>
-            <column defaultValueComputed="SYSDATE" name="UPDATED_DATE" remarks="Дата изменения" type="TIMESTAMP(6)">
+            <column defaultValueComputed="current_timestamp" name="UPDATED_DATE" remarks="Дата изменения" type="TIMESTAMP(6)">
                 <constraints nullable="false"/>
             </column>
             <column defaultValueNumeric="1" name="CREATED_BY_USER_ID" type="NUMBER(19, 0)">
@@ -530,13 +530,13 @@
                 <constraints primaryKey="true"/>
             </column>
             <column name="USER_ID" remarks="Пользователь" type="NUMBER(19, 0)"/>
-            <column name="VIEW_NAME" remarks="VIEW" type="VARCHAR2(255 CHAR)"/>
+            <column name="VIEW_NAME" remarks="VIEW" type="VARCHAR2(255)"/>
             <column defaultValueNumeric="12" name="COLUMNS" remarks="Количество столбцов" type="NUMBER(2, 0)"/>
             <column defaultValueNumeric="8" name="ROW_HEIGHT" remarks="Ширина строки (px)" type="NUMBER(4, 0)"/>
-            <column defaultValueComputed="SYSDATE" name="CREATED_DATE" type="TIMESTAMP(6)">
+            <column defaultValueComputed="current_timestamp" name="CREATED_DATE" type="TIMESTAMP(6)">
                 <constraints nullable="false"/>
             </column>
-            <column defaultValueComputed="SYSDATE" name="UPDATED_DATE" type="TIMESTAMP(6)">
+            <column defaultValueComputed="current_timestamp" name="UPDATED_DATE" type="TIMESTAMP(6)">
                 <constraints nullable="false"/>
             </column>
             <column defaultValueNumeric="1" name="CREATED_BY_USER_ID" type="NUMBER(19, 0)">
@@ -567,10 +567,10 @@
             <column name="MAX_HEIGHT" remarks="Максимальная высота" type="NUMBER(2, 0)"/>
             <column name="IS_RESIZABLE" remarks="Можно менять размер" type="NUMBER(1, 0)"/>
             <column name="IS_DRAGGABLE" remarks="Можно менять расположение" type="NUMBER(1, 0)"/>
-            <column defaultValueComputed="SYSDATE" name="CREATED_DATE" type="TIMESTAMP(6)">
+            <column defaultValueComputed="current_timestamp" name="CREATED_DATE" type="TIMESTAMP(6)">
                 <constraints nullable="false"/>
             </column>
-            <column defaultValueComputed="SYSDATE" name="UPDATED_DATE" type="TIMESTAMP(6)">
+            <column defaultValueComputed="current_timestamp" name="UPDATED_DATE" type="TIMESTAMP(6)">
                 <constraints nullable="false"/>
             </column>
             <column defaultValueNumeric="1" name="CREATED_BY_USER_ID" type="NUMBER(19, 0)">
@@ -592,13 +592,13 @@
             <column name="PRJ_GRP_ID" remarks="Идентификатор группы пользователей" type="NUMBER(19, 0)">
                 <constraints nullable="false"/>
             </column>
-            <column name="INTERNAL_ROLE_CD" remarks="TYPE = INTERNAL_ROLE Внутренняя роль пользователя" type="VARCHAR2(255 CHAR)">
+            <column name="INTERNAL_ROLE_CD" remarks="TYPE = INTERNAL_ROLE Внутренняя роль пользователя" type="VARCHAR2(255)">
                 <constraints nullable="false"/>
             </column>
-            <column defaultValueComputed="SYSDATE" name="CREATED_DATE" remarks="Дата создания" type="TIMESTAMP(6)">
+            <column defaultValueComputed="current_timestamp" name="CREATED_DATE" remarks="Дата создания" type="TIMESTAMP(6)">
                 <constraints nullable="false"/>
             </column>
-            <column defaultValueComputed="SYSDATE" name="UPDATED_DATE" remarks="Дата последнего обновления" type="TIMESTAMP(6)">
+            <column defaultValueComputed="current_timestamp" name="UPDATED_DATE" remarks="Дата последнего обновления" type="TIMESTAMP(6)">
                 <constraints nullable="false"/>
             </column>
             <column defaultValueNumeric="1" name="CREATED_BY_USER_ID" remarks="Идентификатор пользователя-создателя" type="NUMBER(19, 0)">
@@ -618,15 +618,15 @@
             <column name="ID" type="NUMBER(19, 0)">
                 <constraints primaryKey="true"/>
             </column>
-            <column name="SUBJECT" type="VARCHAR2(1500 CHAR)"/>
+            <column name="SUBJECT" type="VARCHAR2(1500)"/>
             <column name="URL" type="VARCHAR2(4000 BYTE)"/>
             <column name="USER_ID" type="NUMBER(19, 0)">
                 <constraints nullable="false"/>
             </column>
-            <column defaultValueComputed="SYSDATE" name="CREATED_DATE" type="TIMESTAMP(6)">
+            <column defaultValueComputed="current_timestamp" name="CREATED_DATE" type="TIMESTAMP(6)">
                 <constraints nullable="false"/>
             </column>
-            <column defaultValueComputed="SYSDATE" name="UPDATED_DATE" type="TIMESTAMP(6)">
+            <column defaultValueComputed="current_timestamp" name="UPDATED_DATE" type="TIMESTAMP(6)">
                 <constraints nullable="false"/>
             </column>
             <column defaultValueNumeric="1" name="CREATED_BY_USER_ID" type="NUMBER(19, 0)">
@@ -635,8 +635,8 @@
             <column defaultValueNumeric="1" name="LAST_UPD_BY_USER_ID" type="NUMBER(19, 0)">
                 <constraints nullable="false"/>
             </column>
-            <column name="EVENT_NAME_CD" type="VARCHAR2(255 CHAR)"/>
-            <column name="MIME_TYPE_CD" type="VARCHAR2(255 CHAR)"/>
+            <column name="EVENT_NAME_CD" type="VARCHAR2(255)"/>
+            <column name="MIME_TYPE_CD" type="VARCHAR2(255)"/>
             <column defaultValueNumeric="0" name="DELIVERY_TYPE" type="NUMBER(10, 0)">
                 <constraints nullable="false"/>
             </column>
@@ -645,7 +645,7 @@
             </column>
             <column name="MESSAGE" type="CLOB"/>
             <column name="UI_MESSAGE" type="CLOB"/>
-            <column name="UI_SUBJECT" type="VARCHAR2(1500 CHAR)"/>
+            <column name="UI_SUBJECT" type="VARCHAR2(1500)"/>
             <column defaultValueNumeric="0" name="VSTAMP" type="NUMBER(19, 0)">
                 <constraints nullable="false"/>
             </column>
@@ -659,11 +659,11 @@
             <column name="SETTINGS_ID" remarks="Родитель" type="NUMBER(19, 0)">
                 <constraints nullable="false"/>
             </column>
-            <column name="RECIPIENT_TYPE_CD" remarks="Получатель" type="VARCHAR2(255 CHAR)"/>
-            <column defaultValueComputed="SYSDATE" name="CREATED_DATE" type="TIMESTAMP(6)">
+            <column name="RECIPIENT_TYPE_CD" remarks="Получатель" type="VARCHAR2(255)"/>
+            <column defaultValueComputed="current_timestamp" name="CREATED_DATE" type="TIMESTAMP(6)">
                 <constraints nullable="false"/>
             </column>
-            <column defaultValueComputed="SYSDATE" name="UPDATED_DATE" type="TIMESTAMP(6)">
+            <column defaultValueComputed="current_timestamp" name="UPDATED_DATE" type="TIMESTAMP(6)">
                 <constraints nullable="false"/>
             </column>
             <column defaultValueNumeric="1" name="CREATED_BY_USER_ID" type="NUMBER(19, 0)">
@@ -687,12 +687,12 @@
             <column defaultValueNumeric="0" name="DELIVERY_TYPE" remarks="Тип доставки" type="NUMBER(10, 0)">
                 <constraints nullable="false"/>
             </column>
-            <column name="SETTINGS_TYPE_CD" remarks="Тип" type="VARCHAR2(255 CHAR)"/>
-            <column name="EVENT_NAME_CD" remarks="Событие" type="VARCHAR2(255 CHAR)"/>
-            <column defaultValueComputed="SYSDATE" name="CREATED_DATE" type="TIMESTAMP(6)">
+            <column name="SETTINGS_TYPE_CD" remarks="Тип" type="VARCHAR2(255)"/>
+            <column name="EVENT_NAME_CD" remarks="Событие" type="VARCHAR2(255)"/>
+            <column defaultValueComputed="current_timestamp" name="CREATED_DATE" type="TIMESTAMP(6)">
                 <constraints nullable="false"/>
             </column>
-            <column defaultValueComputed="SYSDATE" name="UPDATED_DATE" type="TIMESTAMP(6)">
+            <column defaultValueComputed="current_timestamp" name="UPDATED_DATE" type="TIMESTAMP(6)">
                 <constraints nullable="false"/>
             </column>
             <column defaultValueNumeric="1" name="CREATED_BY_USER_ID" type="NUMBER(19, 0)">
@@ -714,15 +714,15 @@
             <column name="ID" remarks="Идентификатор" type="NUMBER(19, 0)">
                 <constraints primaryKey="true"/>
             </column>
-            <column name="EVENT_NAME_CD" remarks="Событие" type="VARCHAR2(255 CHAR)"/>
-            <column name="MIME_TYPE_CD" remarks="Формат" type="VARCHAR2(255 CHAR)"/>
-            <column name="SUBJECT" remarks="Заголовок" type="VARCHAR2(2000 CHAR)"/>
-            <column name="URL" type="VARCHAR2(500 CHAR)"/>
-            <column name="MESSAGE" remarks="Тело сообщения" type="VARCHAR2(2000 CHAR)"/>
-            <column defaultValueComputed="SYSDATE" name="CREATED_DATE" type="TIMESTAMP(6)">
+            <column name="EVENT_NAME_CD" remarks="Событие" type="VARCHAR2(255)"/>
+            <column name="MIME_TYPE_CD" remarks="Формат" type="VARCHAR2(255)"/>
+            <column name="SUBJECT" remarks="Заголовок" type="VARCHAR2(2000)"/>
+            <column name="URL" type="VARCHAR2(500)"/>
+            <column name="MESSAGE" remarks="Тело сообщения" type="VARCHAR2(2000)"/>
+            <column defaultValueComputed="current_timestamp" name="CREATED_DATE" type="TIMESTAMP(6)">
                 <constraints nullable="false"/>
             </column>
-            <column defaultValueComputed="SYSDATE" name="UPDATED_DATE" type="TIMESTAMP(6)">
+            <column defaultValueComputed="current_timestamp" name="UPDATED_DATE" type="TIMESTAMP(6)">
                 <constraints nullable="false"/>
             </column>
             <column defaultValueNumeric="1" name="CREATED_BY_USER_ID" type="NUMBER(19, 0)">
@@ -731,8 +731,8 @@
             <column defaultValueNumeric="1" name="LAST_UPD_BY_USER_ID" type="NUMBER(19, 0)">
                 <constraints nullable="false"/>
             </column>
-            <column name="UI_MESSAGE" type="VARCHAR2(2000 CHAR)"/>
-            <column name="UI_SUBJECT" type="VARCHAR2(2000 CHAR)"/>
+            <column name="UI_MESSAGE" type="VARCHAR2(2000)"/>
+            <column name="UI_SUBJECT" type="VARCHAR2(2000)"/>
             <column defaultValueNumeric="0" name="VSTAMP" type="NUMBER(19, 0)">
                 <constraints nullable="false"/>
             </column>
@@ -744,10 +744,10 @@
                 <constraints primaryKey="true"/>
             </column>
             <column name="NAME" type="VARCHAR2(255 BYTE)"/>
-            <column defaultValueComputed="SYSDATE" name="CREATED_DATE" type="TIMESTAMP(6)">
+            <column defaultValueComputed="current_timestamp" name="CREATED_DATE" type="TIMESTAMP(6)">
                 <constraints nullable="false"/>
             </column>
-            <column defaultValueComputed="SYSDATE" name="UPDATED_DATE" type="TIMESTAMP(6)">
+            <column defaultValueComputed="current_timestamp" name="UPDATED_DATE" type="TIMESTAMP(6)">
                 <constraints nullable="false"/>
             </column>
             <column defaultValueNumeric="1" name="CREATED_BY_USER_ID" type="NUMBER(19, 0)">
@@ -788,13 +788,13 @@
             <column name="PROJECT_ID" remarks="Идентификатор проекта" type="NUMBER(19, 0)">
                 <constraints nullable="false"/>
             </column>
-            <column name="NAME" remarks="Название группы" type="VARCHAR2(100 CHAR)">
+            <column name="NAME" remarks="Название группы" type="VARCHAR2(100)">
                 <constraints nullable="false"/>
             </column>
-            <column defaultValueComputed="SYSDATE" name="CREATED_DATE" type="TIMESTAMP(6)">
+            <column defaultValueComputed="current_timestamp" name="CREATED_DATE" type="TIMESTAMP(6)">
                 <constraints nullable="false"/>
             </column>
-            <column defaultValueComputed="SYSDATE" name="UPDATED_DATE" type="TIMESTAMP(6)">
+            <column defaultValueComputed="current_timestamp" name="UPDATED_DATE" type="TIMESTAMP(6)">
                 <constraints nullable="false"/>
             </column>
             <column defaultValueNumeric="1" name="CREATED_BY_USER_ID" type="NUMBER(19, 0)">
@@ -818,7 +818,7 @@
             </column>
             <column name="REVTYPE" type="NUMBER(3, 0)"/>
             <column name="PROJECT_ID" type="NUMBER(19, 0)"/>
-            <column name="NAME" type="VARCHAR2(100 CHAR)"/>
+            <column name="NAME" type="VARCHAR2(100)"/>
             <column name="CREATED_DATE" type="TIMESTAMP(6)"/>
             <column name="UPDATED_DATE" type="TIMESTAMP(6)"/>
             <column name="CREATED_BY_USER_ID" type="NUMBER(19, 0)"/>
@@ -839,10 +839,10 @@
             <column name="USER_ID" remarks="Идентификатор пользователя" type="NUMBER(19, 0)">
                 <constraints nullable="false"/>
             </column>
-            <column defaultValueComputed="SYSDATE" name="CREATED_DATE" type="TIMESTAMP(6)">
+            <column defaultValueComputed="current_timestamp" name="CREATED_DATE" type="TIMESTAMP(6)">
                 <constraints nullable="false"/>
             </column>
-            <column defaultValueComputed="SYSDATE" name="UPDATED_DATE" type="TIMESTAMP(6)">
+            <column defaultValueComputed="current_timestamp" name="UPDATED_DATE" type="TIMESTAMP(6)">
                 <constraints nullable="false"/>
             </column>
             <column defaultValueNumeric="1" name="CREATED_BY_USER_ID" type="NUMBER(19, 0)">
@@ -865,14 +865,14 @@
             <column name="DEPT_ID" remarks="Департмент" type="NUMBER(19, 0)"/>
             <column name="RESPONSIBILITIES" remarks="Респонсибилити" type="VARCHAR2(255 BYTE)"/>
             <column name="SCREENS" remarks="Доступные пользователю скрины" type="CLOB"/>
-            <column name="RESP_TYPE" type="VARCHAR2(255 CHAR)"/>
+            <column name="RESP_TYPE" type="VARCHAR2(255)"/>
             <column defaultValueNumeric="0" name="READ_ONLY" type="NUMBER(1, 0)">
                 <constraints nullable="false"/>
             </column>
-            <column defaultValueComputed="SYSDATE" name="CREATED_DATE" remarks="Дата создания" type="TIMESTAMP(6)">
+            <column defaultValueComputed="current_timestamp" name="CREATED_DATE" remarks="Дата создания" type="TIMESTAMP(6)">
                 <constraints nullable="false"/>
             </column>
-            <column defaultValueComputed="SYSDATE" name="UPDATED_DATE" remarks="Дата изменения" type="TIMESTAMP(6)">
+            <column defaultValueComputed="current_timestamp" name="UPDATED_DATE" remarks="Дата изменения" type="TIMESTAMP(6)">
                 <constraints nullable="false"/>
             </column>
             <column defaultValueNumeric="1" name="CREATED_BY_USER_ID" type="NUMBER(19, 0)">
@@ -926,10 +926,10 @@
                 <constraints nullable="false"/>
             </column>
             <column name="LAST_SUCCESS_LAUNCH_DURATION" remarks="Длительность последнего успешного запуска" type="NUMBER(19, 0)"/>
-            <column defaultValueComputed="SYSDATE" name="CREATED_DATE" type="TIMESTAMP(6)">
+            <column defaultValueComputed="current_timestamp" name="CREATED_DATE" type="TIMESTAMP(6)">
                 <constraints nullable="false"/>
             </column>
-            <column defaultValueComputed="SYSDATE" name="UPDATED_DATE" type="TIMESTAMP(6)">
+            <column defaultValueComputed="current_timestamp" name="UPDATED_DATE" type="TIMESTAMP(6)">
                 <constraints nullable="false"/>
             </column>
             <column defaultValueNumeric="1" name="CREATED_BY_USER_ID" type="NUMBER(19, 0)">
@@ -952,12 +952,12 @@
             <column name="SCHEDULED_JOB_ID" remarks="Идентификатор фонового задания" type="NUMBER(19, 0)">
                 <constraints nullable="false"/>
             </column>
-            <column name="PARAM_NAME" remarks="Название параметра" type="VARCHAR2(255 CHAR)"/>
-            <column name="PARAM_VALUE" remarks="Значение параметра" type="VARCHAR2(255 CHAR)"/>
-            <column defaultValueComputed="SYSDATE" name="CREATED_DATE" remarks="Дата создания" type="TIMESTAMP(6)">
+            <column name="PARAM_NAME" remarks="Название параметра" type="VARCHAR2(255)"/>
+            <column name="PARAM_VALUE" remarks="Значение параметра" type="VARCHAR2(255)"/>
+            <column defaultValueComputed="current_timestamp" name="CREATED_DATE" remarks="Дата создания" type="TIMESTAMP(6)">
                 <constraints nullable="false"/>
             </column>
-            <column defaultValueComputed="SYSDATE" name="UPDATED_DATE" remarks="Дата изменения" type="TIMESTAMP(6)">
+            <column defaultValueComputed="current_timestamp" name="UPDATED_DATE" remarks="Дата изменения" type="TIMESTAMP(6)">
                 <constraints nullable="false"/>
             </column>
             <column defaultValueNumeric="1" name="CREATED_BY_USER_ID" remarks="Кто создал" type="NUMBER(19, 0)">
@@ -976,12 +976,12 @@
             <column name="ID" remarks="Идентификатор" type="NUMBER(19, 0)">
                 <constraints primaryKey="true"/>
             </column>
-            <column name="PRIMARY_VIEW_NAME" remarks="Идентификатор VIEW по умолчанию" type="VARCHAR2(255 CHAR)"/>
+            <column name="PRIMARY_VIEW_NAME" remarks="Идентификатор VIEW по умолчанию" type="VARCHAR2(255)"/>
             <column defaultValue="[]" name="PRIMARY_VIEWS" remarks="Массив VIEW по умолчанию" type="CLOB"/>
-            <column name="NAME" remarks="Название" type="VARCHAR2(255 CHAR)"/>
-            <column name="TITLE" remarks="Заголовок" type="VARCHAR2(255 CHAR)"/>
-            <column defaultValueComputed="SYSDATE" name="CREATED_DATE" type="TIMESTAMP(6)"/>
-            <column defaultValueComputed="SYSDATE" name="UPDATED_DATE" type="TIMESTAMP(6)"/>
+            <column name="NAME" remarks="Название" type="VARCHAR2(255)"/>
+            <column name="TITLE" remarks="Заголовок" type="VARCHAR2(255)"/>
+            <column defaultValueComputed="current_timestamp" name="CREATED_DATE" type="TIMESTAMP(6)"/>
+            <column defaultValueComputed="current_timestamp" name="UPDATED_DATE" type="TIMESTAMP(6)"/>
             <column defaultValueNumeric="1" name="CREATED_BY_USER_ID" type="NUMBER(19, 0)">
                 <constraints nullable="false"/>
             </column>
@@ -995,42 +995,42 @@
     </changeSet>
     <changeSet author="initial" id="NAVIGATION_GROUP TABLE">
         <createTable remarks="Группы вью" tableName="NAVIGATION_GROUP">
-            <column name="ID" remarks="Идентификатор" type="VARCHAR2(255 CHAR)">
+            <column name="ID" remarks="Идентификатор" type="VARCHAR2(255)">
                 <constraints primaryKey="true" primaryKeyName="PK_NAVIGATION_GROUP"/>
             </column>
-            <column defaultValueComputed="SYSDATE" name="CREATED_DATE" remarks="Дата создания" type="TIMESTAMP(6)">
+            <column defaultValueComputed="current_timestamp" name="CREATED_DATE" remarks="Дата создания" type="TIMESTAMP(6)">
                 <constraints nullable="false"/>
             </column>
-            <column defaultValueComputed="SYSDATE" name="UPDATED_DATE" remarks="Дата изменения" type="TIMESTAMP(6)">
+            <column defaultValueComputed="current_timestamp" name="UPDATED_DATE" remarks="Дата изменения" type="TIMESTAMP(6)">
                 <constraints nullable="false"/>
             </column>
-            <column name="TYPE_CD" remarks="Тип группы" type="VARCHAR2(255 CHAR)"/>
-            <column name="SCREEN_NAME" remarks="Экран" type="VARCHAR2(255 CHAR)"/>
-            <column name="TITLE" remarks="Название" type="VARCHAR2(1000 CHAR)"/>
-            <column name="PARENT_ID" remarks="Родительская группа" type="VARCHAR2(255 CHAR)"/>
+            <column name="TYPE_CD" remarks="Тип группы" type="VARCHAR2(255)"/>
+            <column name="SCREEN_NAME" remarks="Экран" type="VARCHAR2(255)"/>
+            <column name="TITLE" remarks="Название" type="VARCHAR2(1000)"/>
+            <column name="PARENT_ID" remarks="Родительская группа" type="VARCHAR2(255)"/>
             <column name="SEQ" remarks="Порядок" type="NUMBER(19, 0)"/>
-            <column name="DESCRIPTION" remarks="Описание" type="VARCHAR2(1000 CHAR)"/>
-            <column name="DEFAULT_VIEW" remarks="Порядок" type="VARCHAR2(255 CHAR)"/>
+            <column name="DESCRIPTION" remarks="Описание" type="VARCHAR2(1000)"/>
+            <column name="DEFAULT_VIEW" remarks="Порядок" type="VARCHAR2(255)"/>
             <column name="HIDDEN" remarks="Скрыто" type="NUMBER(1)"/>
         </createTable>
     </changeSet>
     <changeSet author="initial" id="NAVIGATION_VIEW TABLE">
         <createTable remarks="Связь вью с группами" tableName="NAVIGATION_VIEW">
-            <column name="ID" remarks="Идентификатор" type="VARCHAR(255)">
+            <column name="ID" remarks="Идентификатор" type="VARCHAR2(255)">
                 <constraints primaryKey="true" primaryKeyName="PK_NAVIGATION_VIEW"/>
             </column>
-            <column defaultValueComputed="SYSDATE" name="CREATED_DATE" remarks="Дата создания" type="TIMESTAMP(6)">
+            <column defaultValueComputed="current_timestamp" name="CREATED_DATE" remarks="Дата создания" type="TIMESTAMP(6)">
                 <constraints nullable="false"/>
             </column>
-            <column defaultValueComputed="SYSDATE" name="UPDATED_DATE" remarks="Дата изменения" type="TIMESTAMP(6)">
+            <column defaultValueComputed="current_timestamp" name="UPDATED_DATE" remarks="Дата изменения" type="TIMESTAMP(6)">
                 <constraints nullable="false"/>
             </column>
-            <column name="TYPE_CD" remarks="Тип группы" type="VARCHAR2(255 CHAR)"/>
-            <column name="VIEW_NAME" remarks="Вью" type="VARCHAR2(255 CHAR)"/>
-            <column name="SCREEN_NAME" remarks="Экран" type="VARCHAR2(255 CHAR)"/>
-            <column name="PARENT_GROUP_ID" remarks="Группа" type="VARCHAR2(255 CHAR)"/>
+            <column name="TYPE_CD" remarks="Тип группы" type="VARCHAR2(255)"/>
+            <column name="VIEW_NAME" remarks="Вью" type="VARCHAR2(255)"/>
+            <column name="SCREEN_NAME" remarks="Экран" type="VARCHAR2(255)"/>
+            <column name="PARENT_GROUP_ID" remarks="Группа" type="VARCHAR2(255)"/>
             <column name="SEQ" remarks="Порядок" type="NUMBER(19, 0)"/>
-            <column name="DESCRIPTION" remarks="Описание" type="VARCHAR2(1000 CHAR)"/>
+            <column name="DESCRIPTION" remarks="Описание" type="VARCHAR2(1000)"/>
             <column name="HIDDEN" remarks="Скрыто" type="NUMBER(1)"/>
         </createTable>
     </changeSet>
@@ -1039,10 +1039,10 @@
             <column name="ID" type="NUMBER(19, 0)">
                 <constraints primaryKey="true"/>
             </column>
-            <column defaultValueComputed="SYSDATE" name="CREATED_DATE" type="TIMESTAMP(6)">
+            <column defaultValueComputed="current_timestamp" name="CREATED_DATE" type="TIMESTAMP(6)">
                 <constraints nullable="false"/>
             </column>
-            <column defaultValueComputed="SYSDATE" name="UPDATED_DATE" type="TIMESTAMP(6)">
+            <column defaultValueComputed="current_timestamp" name="UPDATED_DATE" type="TIMESTAMP(6)">
                 <constraints nullable="false"/>
             </column>
             <column defaultValueNumeric="1" name="CREATED_BY_USER_ID" type="NUMBER(19, 0)">
@@ -1051,14 +1051,14 @@
             <column defaultValueNumeric="1" name="LAST_UPD_BY_USER_ID" type="NUMBER(19, 0)">
                 <constraints nullable="false"/>
             </column>
-            <column name="TYPE" remarks="Тип критерия" type="VARCHAR2(255 CHAR)">
+            <column name="TYPE" remarks="Тип критерия" type="VARCHAR2(255)">
                 <constraints nullable="false"/>
             </column>
-            <column name="ROLE_CD" remarks="Роль" type="VARCHAR2(255 CHAR)"/>
-            <column name="BC_NAME" remarks="Имя компоненты" type="VARCHAR2(255 CHAR)"/>
-            <column name="NAME" remarks="Имя компоненты" type="VARCHAR2(255 CHAR)"/>
-            <column name="URL" type="VARCHAR2(255 CHAR)"/>
-            <column name="SERVICE_NAME" type="VARCHAR2(255 CHAR)">
+            <column name="ROLE_CD" remarks="Роль" type="VARCHAR2(255)"/>
+            <column name="BC_NAME" remarks="Имя компоненты" type="VARCHAR2(255)"/>
+            <column name="NAME" remarks="Имя компоненты" type="VARCHAR2(255)"/>
+            <column name="URL" type="VARCHAR2(255)"/>
+            <column name="SERVICE_NAME" type="VARCHAR2(255)">
                 <constraints nullable="false"/>
             </column>
             <column defaultValueNumeric="0" name="VSTAMP" type="NUMBER(19, 0)">
@@ -1071,17 +1071,17 @@
             <column name="ID" remarks="Идентификатор" type="NUMBER(19, 0)">
                 <constraints primaryKey="true"/>
             </column>
-            <column name="BC_NAME" remarks="Название бизнес-компонента" type="VARCHAR2(255 CHAR)">
+            <column name="BC_NAME" remarks="Название бизнес-компонента" type="VARCHAR2(255)">
                 <constraints nullable="false"/>
             </column>
-            <column name="PARENT_ID" remarks="Ид записи редактируемой строки" type="VARCHAR2(255 CHAR)">
+            <column name="PARENT_ID" remarks="Ид записи редактируемой строки" type="VARCHAR2(255)">
                 <constraints nullable="false"/>
             </column>
-            <column name="EDIT_STRING1" remarks="Строка для ввода" type="VARCHAR2(4000 CHAR)"/>
-            <column name="EDIT_STRING2" remarks="Строка для ввода" type="VARCHAR2(4000 CHAR)"/>
-            <column name="EDIT_STRING3" remarks="Строка для ввода" type="VARCHAR2(4000 CHAR)"/>
-            <column name="EDIT_STRING4" remarks="Строка для ввода" type="VARCHAR2(4000 CHAR)"/>
-            <column name="EDIT_STRING5" remarks="Строка для ввода" type="VARCHAR2(4000 CHAR)"/>
+            <column name="EDIT_STRING1" remarks="Строка для ввода" type="VARCHAR2(4000)"/>
+            <column name="EDIT_STRING2" remarks="Строка для ввода" type="VARCHAR2(4000)"/>
+            <column name="EDIT_STRING3" remarks="Строка для ввода" type="VARCHAR2(4000)"/>
+            <column name="EDIT_STRING4" remarks="Строка для ввода" type="VARCHAR2(4000)"/>
+            <column name="EDIT_STRING5" remarks="Строка для ввода" type="VARCHAR2(4000)"/>
             <column name="EDIT_NUMBER1" remarks="Числа для ввода" type="NUMBER(19, 0)"/>
             <column name="EDIT_NUMBER2" remarks="Числа для ввода" type="NUMBER(19, 0)"/>
             <column name="EDIT_NUMBER3" remarks="Числа для ввода" type="NUMBER(19, 0)"/>
@@ -1092,10 +1092,10 @@
             <column name="EDIT_DATE3" remarks="Дата для ввода" type="TIMESTAMP(6)"/>
             <column name="EDIT_DATE4" remarks="Дата для ввода" type="TIMESTAMP(6)"/>
             <column name="EDIT_DATE5" remarks="Дата для ввода" type="TIMESTAMP(6)"/>
-            <column defaultValueComputed="SYSDATE" name="CREATED_DATE" remarks="Дата создания" type="TIMESTAMP(6)">
+            <column defaultValueComputed="current_timestamp" name="CREATED_DATE" remarks="Дата создания" type="TIMESTAMP(6)">
                 <constraints nullable="false"/>
             </column>
-            <column defaultValueComputed="SYSDATE" name="UPDATED_DATE" remarks="Дата обновления" type="TIMESTAMP(6)">
+            <column defaultValueComputed="current_timestamp" name="UPDATED_DATE" remarks="Дата обновления" type="TIMESTAMP(6)">
                 <constraints nullable="false"/>
             </column>
             <column defaultValueNumeric="1" name="CREATED_BY_USER_ID" type="NUMBER(19, 0)">
@@ -1104,16 +1104,16 @@
             <column defaultValueNumeric="1" name="LAST_UPD_BY_USER_ID" type="NUMBER(19, 0)">
                 <constraints nullable="false"/>
             </column>
-            <column name="EDIT_LOV1" type="VARCHAR2(255 CHAR)"/>
-            <column name="EDIT_LOV2" type="VARCHAR2(255 CHAR)"/>
-            <column name="EDIT_LOV3" type="VARCHAR2(255 CHAR)"/>
-            <column name="EDIT_LOV4" type="VARCHAR2(255 CHAR)"/>
-            <column name="EDIT_LOV5" type="VARCHAR2(255 CHAR)"/>
-            <column name="EDIT_STRING6" type="VARCHAR2(4000 CHAR)"/>
-            <column name="EDIT_STRING7" type="VARCHAR2(4000 CHAR)"/>
-            <column name="EDIT_STRING8" type="VARCHAR2(4000 CHAR)"/>
-            <column name="EDIT_STRING9" type="VARCHAR2(4000 CHAR)"/>
-            <column name="EDIT_STRING10" type="VARCHAR2(4000 CHAR)"/>
+            <column name="EDIT_LOV1" type="VARCHAR2(255)"/>
+            <column name="EDIT_LOV2" type="VARCHAR2(255)"/>
+            <column name="EDIT_LOV3" type="VARCHAR2(255)"/>
+            <column name="EDIT_LOV4" type="VARCHAR2(255)"/>
+            <column name="EDIT_LOV5" type="VARCHAR2(255)"/>
+            <column name="EDIT_STRING6" type="VARCHAR2(4000)"/>
+            <column name="EDIT_STRING7" type="VARCHAR2(4000)"/>
+            <column name="EDIT_STRING8" type="VARCHAR2(4000)"/>
+            <column name="EDIT_STRING9" type="VARCHAR2(4000)"/>
+            <column name="EDIT_STRING10" type="VARCHAR2(4000)"/>
             <column defaultValueNumeric="0" name="VSTAMP" type="NUMBER(19, 0)">
                 <constraints nullable="false"/>
             </column>
@@ -1124,33 +1124,33 @@
             <column name="ID" remarks="Идентификатор" type="NUMBER(19, 0)">
                 <constraints primaryKey="true"/>
             </column>
-            <column name="FIRST_NAME" remarks="Имя" type="VARCHAR2(255 CHAR)"/>
-            <column name="LAST_NAME" remarks="Фамилия" type="VARCHAR2(255 CHAR)"/>
-            <column name="PATRONYMIC" remarks="Отчество" type="VARCHAR2(255 CHAR)"/>
-            <column name="LOGIN" remarks="Логин" type="VARCHAR2(255 CHAR)"/>
-            <column name="PASSWORD" remarks="Пароль" type="VARCHAR2(255 CHAR)"/>
-            <column name="INTERNAL_ROLE_CD" remarks="Внутренняя роль" type="VARCHAR2(255 CHAR)">
+            <column name="FIRST_NAME" remarks="Имя" type="VARCHAR2(255)"/>
+            <column name="LAST_NAME" remarks="Фамилия" type="VARCHAR2(255)"/>
+            <column name="PATRONYMIC" remarks="Отчество" type="VARCHAR2(255)"/>
+            <column name="LOGIN" remarks="Логин" type="VARCHAR2(255)"/>
+            <column name="PASSWORD" remarks="Пароль" type="VARCHAR2(255)"/>
+            <column name="INTERNAL_ROLE_CD" remarks="Внутренняя роль" type="VARCHAR2(255)">
                 <constraints nullable="false"/>
             </column>
-            <column name="USER_PRINCIPAL_NAME" type="VARCHAR2(255 CHAR)"/>
-            <column name="PHONE" remarks="Телефон" type="VARCHAR2(255 CHAR)"/>
-            <column name="EMAIL" remarks="Эл. почта" type="VARCHAR2(255 CHAR)"/>
-            <column name="FULL_USER_NAME" remarks="displayName" type="VARCHAR2(255 CHAR)"/>
-            <column name="TITLE" remarks="title" type="VARCHAR2(255 CHAR)"/>
-            <column name="EXT_ATTR_11" remarks="attribute11" type="VARCHAR2(255 CHAR)"/>
-            <column name="EXT_ATTR_12" remarks="attribute12" type="VARCHAR2(255 CHAR)"/>
-            <column name="EXT_ATTR_13" remarks="attribute13" type="VARCHAR2(255 CHAR)"/>
+            <column name="USER_PRINCIPAL_NAME" type="VARCHAR2(255)"/>
+            <column name="PHONE" remarks="Телефон" type="VARCHAR2(255)"/>
+            <column name="EMAIL" remarks="Эл. почта" type="VARCHAR2(255)"/>
+            <column name="FULL_USER_NAME" remarks="displayName" type="VARCHAR2(255)"/>
+            <column name="TITLE" remarks="title" type="VARCHAR2(255)"/>
+            <column name="EXT_ATTR_11" remarks="attribute11" type="VARCHAR2(255)"/>
+            <column name="EXT_ATTR_12" remarks="attribute12" type="VARCHAR2(255)"/>
+            <column name="EXT_ATTR_13" remarks="attribute13" type="VARCHAR2(255)"/>
             <column name="DEPT_ID" remarks="Идентификатор Департамента" type="NUMBER(19, 0)"/>
             <column name="DEFAULT_PRJ_ID" type="NUMBER(19, 0)">
                 <constraints nullable="false"/>
             </column>
-            <column name="ORIG_DEPT_CODE" remarks="Дочерний департамент" type="VARCHAR2(255 CHAR)"/>
+            <column name="ORIG_DEPT_CODE" remarks="Дочерний департамент" type="VARCHAR2(255)"/>
             <column name="TIMEZONE" type="VARCHAR2(255 BYTE)"/>
             <column name="LOCALE" type="VARCHAR2(20 BYTE)"/>
-            <column defaultValueComputed="SYSDATE" name="CREATED_DATE" type="TIMESTAMP(6)">
+            <column defaultValueComputed="current_timestamp" name="CREATED_DATE" type="TIMESTAMP(6)">
                 <constraints nullable="false"/>
             </column>
-            <column defaultValueComputed="SYSDATE" name="UPDATED_DATE" type="TIMESTAMP(6)">
+            <column defaultValueComputed="current_timestamp" name="UPDATED_DATE" type="TIMESTAMP(6)">
                 <constraints nullable="false"/>
             </column>
             <column defaultValueNumeric="1" name="CREATED_BY_USER_ID" type="NUMBER(19, 0)">
@@ -1159,9 +1159,9 @@
             <column defaultValueNumeric="1" name="LAST_UPD_BY_USER_ID" type="NUMBER(19, 0)">
                 <constraints nullable="false"/>
             </column>
-            <column name="EXT_ATTR_14" remarks="5й уровень иерархии" type="VARCHAR2(255 CHAR)"/>
-            <column name="EXT_ATTR_15" remarks="6й уровень иерархии" type="VARCHAR2(255 CHAR)"/>
-            <column name="DN" remarks="LDAP Distinguished Name" type="VARCHAR2(255 CHAR)"/>
+            <column name="EXT_ATTR_14" remarks="5й уровень иерархии" type="VARCHAR2(255)"/>
+            <column name="EXT_ATTR_15" remarks="6й уровень иерархии" type="VARCHAR2(255)"/>
+            <column name="DN" remarks="LDAP Distinguished Name" type="VARCHAR2(255)"/>
             <column defaultValueNumeric="0" name="VSTAMP" type="NUMBER(19, 0)">
                 <constraints nullable="false"/>
             </column>
@@ -1177,33 +1177,33 @@
                 <constraints primaryKey="true"/>
             </column>
             <column name="REVTYPE" type="NUMBER(3, 0)"/>
-            <column name="FIRST_NAME" type="VARCHAR2(255 CHAR)"/>
-            <column name="LAST_NAME" type="VARCHAR2(255 CHAR)"/>
-            <column name="PATRONYMIC" type="VARCHAR2(255 CHAR)"/>
-            <column name="LOGIN" type="VARCHAR2(255 CHAR)"/>
-            <column name="PASSWORD" type="VARCHAR2(255 CHAR)"/>
-            <column name="INTERNAL_ROLE_CD" type="VARCHAR2(255 CHAR)"/>
-            <column name="INTERNAL_POST" type="VARCHAR2(255 CHAR)"/>
-            <column name="USER_PRINCIPAL_NAME" type="VARCHAR2(255 CHAR)"/>
-            <column name="PHONE" type="VARCHAR2(255 CHAR)"/>
-            <column name="EMAIL" type="VARCHAR2(255 CHAR)"/>
-            <column name="FULL_USER_NAME" type="VARCHAR2(255 CHAR)"/>
-            <column name="TITLE" type="VARCHAR2(255 CHAR)"/>
-            <column name="EXT_ATTR_11" type="VARCHAR2(255 CHAR)"/>
-            <column name="EXT_ATTR_12" type="VARCHAR2(255 CHAR)"/>
-            <column name="EXT_ATTR_13" type="VARCHAR2(255 CHAR)"/>
+            <column name="FIRST_NAME" type="VARCHAR2(255)"/>
+            <column name="LAST_NAME" type="VARCHAR2(255)"/>
+            <column name="PATRONYMIC" type="VARCHAR2(255)"/>
+            <column name="LOGIN" type="VARCHAR2(255)"/>
+            <column name="PASSWORD" type="VARCHAR2(255)"/>
+            <column name="INTERNAL_ROLE_CD" type="VARCHAR2(255)"/>
+            <column name="INTERNAL_POST" type="VARCHAR2(255)"/>
+            <column name="USER_PRINCIPAL_NAME" type="VARCHAR2(255)"/>
+            <column name="PHONE" type="VARCHAR2(255)"/>
+            <column name="EMAIL" type="VARCHAR2(255)"/>
+            <column name="FULL_USER_NAME" type="VARCHAR2(255)"/>
+            <column name="TITLE" type="VARCHAR2(255)"/>
+            <column name="EXT_ATTR_11" type="VARCHAR2(255)"/>
+            <column name="EXT_ATTR_12" type="VARCHAR2(255)"/>
+            <column name="EXT_ATTR_13" type="VARCHAR2(255)"/>
             <column name="DEPT_ID" type="NUMBER(19, 0)"/>
             <column name="DEFAULT_PRJ_ID" type="NUMBER(19, 0)"/>
-            <column name="ORIG_DEPT_CODE" type="VARCHAR2(255 CHAR)"/>
+            <column name="ORIG_DEPT_CODE" type="VARCHAR2(255)"/>
             <column name="TIMEZONE" type="VARCHAR2(255 BYTE)"/>
             <column name="LOCALE" type="VARCHAR2(20 BYTE)"/>
             <column name="CREATED_DATE" type="TIMESTAMP(6)"/>
             <column name="UPDATED_DATE" type="TIMESTAMP(6)"/>
             <column name="CREATED_BY_USER_ID" type="NUMBER(19, 0)"/>
             <column name="LAST_UPD_BY_USER_ID" type="NUMBER(19, 0)"/>
-            <column name="EXT_ATTR_14" remarks="5й уровень иерархии" type="VARCHAR2(255 CHAR)"/>
-            <column name="EXT_ATTR_15" remarks="6й уровень иерархии" type="VARCHAR2(255 CHAR)"/>
-            <column name="DN" remarks="LDAP Distinguished Name" type="VARCHAR2(255 CHAR)"/>
+            <column name="EXT_ATTR_14" remarks="5й уровень иерархии" type="VARCHAR2(255)"/>
+            <column name="EXT_ATTR_15" remarks="6й уровень иерархии" type="VARCHAR2(255)"/>
+            <column name="DN" remarks="LDAP Distinguished Name" type="VARCHAR2(255)"/>
             <column defaultValueNumeric="0" name="VSTAMP" type="NUMBER(19, 0)">
                 <constraints nullable="false"/>
             </column>
@@ -1218,14 +1218,14 @@
             <column name="CREATED_DATE" remarks="Дата" type="TIMESTAMP(6)">
                 <constraints nullable="false"/>
             </column>
-            <column name="TYPE_CD" remarks="Тип активности" type="VARCHAR2(255 CHAR)">
+            <column name="TYPE_CD" remarks="Тип активности" type="VARCHAR2(255)">
                 <constraints nullable="false"/>
             </column>
             <column name="USER_ID" remarks="Идентификатор пользователя" type="NUMBER(19, 0)">
                 <constraints nullable="false"/>
             </column>
-            <column name="VIEW_NAME" remarks="Название вью" type="VARCHAR2(255 CHAR)"/>
-            <column name="URL" remarks="URL" type="VARCHAR2(4000 CHAR)"/>
+            <column name="VIEW_NAME" remarks="Название вью" type="VARCHAR2(255)"/>
+            <column name="URL" remarks="URL" type="VARCHAR2(4000)"/>
             <column name="DURATION" remarks="Продолжительность просмотра вью (миллисекунды)" type="NUMBER(19, 0)"/>
         </createTable>
     </changeSet>
@@ -1237,13 +1237,13 @@
             <column name="USER_ID" remarks="Идентификатор пользователя" type="NUMBER(19, 0)">
                 <constraints nullable="false"/>
             </column>
-            <column name="INTERNAL_ROLE_CD" remarks="TYPE = INTERNAL_ROLE Внутренняя роль в Системе" type="VARCHAR2(255 CHAR)"/>
+            <column name="INTERNAL_ROLE_CD" remarks="TYPE = INTERNAL_ROLE Внутренняя роль в Системе" type="VARCHAR2(255)"/>
             <column defaultValueNumeric="0" name="ACTIVE" remarks="Признак активности роли" type="NUMBER(1, 0)"/>
             <column defaultValueNumeric="0" name="MAIN" remarks="Признак основная роль (последняя выбранная роль)" type="NUMBER(1, 0)"/>
-            <column defaultValueComputed="SYSDATE" name="CREATED_DATE" remarks="Дата создания" type="TIMESTAMP(6)">
+            <column defaultValueComputed="current_timestamp" name="CREATED_DATE" remarks="Дата создания" type="TIMESTAMP(6)">
                 <constraints nullable="false"/>
             </column>
-            <column defaultValueComputed="SYSDATE" name="UPDATED_DATE" remarks="Дата последнего обновления" type="TIMESTAMP(6)">
+            <column defaultValueComputed="current_timestamp" name="UPDATED_DATE" remarks="Дата последнего обновления" type="TIMESTAMP(6)">
                 <constraints nullable="false"/>
             </column>
             <column defaultValueNumeric="1" name="CREATED_BY_USER_ID" remarks="Идентификатор пользователя-создателя" type="NUMBER(19, 0)">
@@ -1263,19 +1263,19 @@
             <column name="ID" remarks="Идентификатор" type="NUMBER(19, 0)">
                 <constraints primaryKey="true"/>
             </column>
-            <column name="NAME" remarks="Наименование" type="VARCHAR2(255 CHAR)"/>
-            <column name="TEMPLATE" remarks="Шаблон" type="VARCHAR2(255 CHAR)"/>
-            <column name="TITLE" remarks="Заголовок" type="VARCHAR2(255 CHAR)"/>
-            <column name="URL" remarks="Ссылка на запрос данных" type="VARCHAR2(1000 CHAR)"/>
+            <column name="NAME" remarks="Наименование" type="VARCHAR2(255)"/>
+            <column name="TEMPLATE" remarks="Шаблон" type="VARCHAR2(255)"/>
+            <column name="TITLE" remarks="Заголовок" type="VARCHAR2(255)"/>
+            <column name="URL" remarks="Ссылка на запрос данных" type="VARCHAR2(1000)"/>
             <column defaultValueNumeric="0" name="CUSTOMIZABLE" remarks="Признак &quot;Настраиваемый пользователем&quot;" type="NUMBER(1, 0)"/>
             <column defaultValueNumeric="0" name="EDITABLE" remarks="Признак &quot;Настраеваемая сетка&quot;" type="NUMBER(1, 0)"/>
             <column defaultValueNumeric="0" name="IGNORE_HISTORY" remarks="Признак &quot;Скрывать в Breadcrumbs&quot;"
               type="NUMBER(1, 0)"/>
             <column name="OPTIONS" remarks="Общие настройки view" type="CLOB"/>
-            <column defaultValueComputed="SYSDATE" name="CREATED_DATE" type="TIMESTAMP(6)">
+            <column defaultValueComputed="current_timestamp" name="CREATED_DATE" type="TIMESTAMP(6)">
                 <constraints nullable="false"/>
             </column>
-            <column defaultValueComputed="SYSDATE" name="UPDATED_DATE" type="TIMESTAMP(6)">
+            <column defaultValueComputed="current_timestamp" name="UPDATED_DATE" type="TIMESTAMP(6)">
                 <constraints nullable="false"/>
             </column>
             <column defaultValueNumeric="1" name="CREATED_BY_USER_ID" type="NUMBER(19, 0)">
@@ -1291,7 +1291,7 @@
     </changeSet>
     <changeSet author="initial" id="VIEW_WIDGETS TABLE">
         <createTable remarks="Виджеты для Вью с позицией и лимитом" tableName="VIEW_WIDGETS">
-            <column name="VIEW_NAME" remarks="Название VIEW" type="VARCHAR2(255 CHAR)">
+            <column name="VIEW_NAME" remarks="Название VIEW" type="VARCHAR2(255)">
                 <constraints primaryKey="true"/>
             </column>
             <column name="WIDGET_ID" remarks="Идентификатор виджета" type="NUMBER(19, 0)">
@@ -1299,7 +1299,7 @@
             </column>
             <column defaultValueNumeric="0" name="HIDE_BY_DEFAULT" type="NUMBER(1, 0)"/>
             <column name="POSITON" remarks="Позиция" type="NUMBER(10, 0)"/>
-            <column name="DESCRIPTION_TITLE" type="VARCHAR2(255 CHAR)"/>
+            <column name="DESCRIPTION_TITLE" type="VARCHAR2(255)"/>
             <column name="DESCRIPTION" type="CLOB"/>
             <column name="SNIPPET" type="CLOB"/>
             <column name="PAGE_LIMIT" remarks="Лимит" type="NUMBER(10, 0)"/>
@@ -1309,10 +1309,10 @@
             <column defaultValueNumeric="0" name="GRID_BREAK" type="NUMBER(1, 0)">
                 <constraints nullable="false"/>
             </column>
-            <column defaultValueComputed="SYSDATE" name="CREATED_DATE" type="TIMESTAMP(6)">
+            <column defaultValueComputed="current_timestamp" name="CREATED_DATE" type="TIMESTAMP(6)">
                 <constraints nullable="false"/>
             </column>
-            <column defaultValueComputed="SYSDATE" name="UPDATED_DATE" type="TIMESTAMP(6)">
+            <column defaultValueComputed="current_timestamp" name="UPDATED_DATE" type="TIMESTAMP(6)">
                 <constraints nullable="false"/>
             </column>
             <column defaultValueNumeric="1" name="CREATED_BY_USER_ID" type="NUMBER(19, 0)">
@@ -1329,7 +1329,7 @@
             <column name="ID" remarks="Идентификатор" type="NUMBER(19, 0)">
                 <constraints primaryKey="true"/>
             </column>
-            <column name="NAME" type="VARCHAR2(255 CHAR)"/>
+            <column name="NAME" type="VARCHAR2(255)"/>
             <column defaultValue="[]" name="SHOW_CONDITION" remarks="Условие отображения виджета (Toggle Widget)" type="CLOB"/>
             <column defaultValue="[]" name="FIELDS" remarks="Поля" type="CLOB"/>
             <column defaultValue="[]" name="AXIS_FIELDS" remarks="Поля-оси двумерного фильтра" type="CLOB"/>
@@ -1337,14 +1337,14 @@
             <column name="OPTIONS" remarks="Общие настройки виджета" type="CLOB"/>
             <column name="GRAPH" type="CLOB"/>
             <column name="PIVOT_FIELDS" type="CLOB"/>
-            <column name="TEMPLATE" remarks="Шаблон виджета" type="VARCHAR2(255 CHAR)"/>
-            <column name="TITLE" remarks="Заголовок" type="VARCHAR2(255 CHAR)"/>
-            <column name="TYPE" remarks="Тип" type="VARCHAR2(255 CHAR)"/>
-            <column name="BC" remarks="Бизнес компонента" type="VARCHAR2(255 CHAR)"/>
-            <column defaultValueComputed="SYSDATE" name="CREATED_DATE" type="TIMESTAMP(6)">
+            <column name="TEMPLATE" remarks="Шаблон виджета" type="VARCHAR2(255)"/>
+            <column name="TITLE" remarks="Заголовок" type="VARCHAR2(255)"/>
+            <column name="TYPE" remarks="Тип" type="VARCHAR2(255)"/>
+            <column name="BC" remarks="Бизнес компонента" type="VARCHAR2(255)"/>
+            <column defaultValueComputed="current_timestamp" name="CREATED_DATE" type="TIMESTAMP(6)">
                 <constraints nullable="false"/>
             </column>
-            <column defaultValueComputed="SYSDATE" name="UPDATED_DATE" type="TIMESTAMP(6)">
+            <column defaultValueComputed="current_timestamp" name="UPDATED_DATE" type="TIMESTAMP(6)">
                 <constraints nullable="false"/>
             </column>
             <column defaultValueNumeric="1" name="CREATED_BY_USER_ID" type="NUMBER(19, 0)">
@@ -1369,8 +1369,8 @@
             <column defaultValueNumeric="0" name="IS_CONCLUSION_TYPE" remarks="Является ли виджет виджетом ручного ввода" type="NUMBER(1, 0)">
                 <constraints nullable="false"/>
             </column>
-            <column defaultValueComputed="SYSDATE" name="CREATED_DATE" type="TIMESTAMP(6)"/>
-            <column defaultValueComputed="SYSDATE" name="UPDATED_DATE" type="TIMESTAMP(6)"/>
+            <column defaultValueComputed="current_timestamp" name="CREATED_DATE" type="TIMESTAMP(6)"/>
+            <column defaultValueComputed="current_timestamp" name="UPDATED_DATE" type="TIMESTAMP(6)"/>
             <column defaultValueNumeric="1" name="CREATED_BY_USER_ID" type="NUMBER(19, 0)">
                 <constraints nullable="false"/>
             </column>
@@ -1393,13 +1393,13 @@
             <column name="NAME" type="VARCHAR2(255)" remarks="Название">
                 <constraints nullable="false"/>
             </column>
-            <column name="CREATED_DATE" type="TIMESTAMP(6)" remarks="Дата создания" defaultValueComputed="SYSDATE">
+            <column name="CREATED_DATE" type="TIMESTAMP(6)" remarks="Дата создания" defaultValueComputed="current_timestamp">
                 <constraints nullable="false"/>
             </column>
             <column name="CREATED_BY_USER_ID" type="NUMBER(19)" remarks="Кто создал" defaultValueNumeric="1">
                 <constraints nullable="false" foreignKeyName="FK_ACCESS_LIST_CREATED_BY" references="USERS"/>
             </column>
-            <column name="UPDATED_DATE" type="TIMESTAMP(6)" remarks="Дата изменения" defaultValueComputed="SYSDATE">
+            <column name="UPDATED_DATE" type="TIMESTAMP(6)" remarks="Дата изменения" defaultValueComputed="current_timestamp">
                 <constraints nullable="false"/>
             </column>
             <column name="LAST_UPD_BY_USER_ID" type="NUMBER(19)" remarks="Кто изменил" defaultValueNumeric="1">
@@ -1430,13 +1430,13 @@
             <column name="MANDATORY" type="NUMBER(1)" remarks="Обязательность" defaultValueNumeric="0">
                 <constraints nullable="false"/>
             </column>
-            <column name="CREATED_DATE" type="TIMESTAMP(6)" remarks="Дата создания" defaultValueComputed="SYSDATE">
+            <column name="CREATED_DATE" type="TIMESTAMP(6)" remarks="Дата создания" defaultValueComputed="current_timestamp">
                 <constraints nullable="false"/>
             </column>
             <column name="CREATED_BY_USER_ID" type="NUMBER(19)" remarks="Кто создал" defaultValueNumeric="1">
                 <constraints nullable="false" foreignKeyName="FK_ACCESS_RECORD_CREATED_BY" references="USERS"/>
             </column>
-            <column name="UPDATED_DATE" type="TIMESTAMP(6)" remarks="Дата изменения" defaultValueComputed="SYSDATE">
+            <column name="UPDATED_DATE" type="TIMESTAMP(6)" remarks="Дата изменения" defaultValueComputed="current_timestamp">
                 <constraints nullable="false"/>
             </column>
             <column name="LAST_UPD_BY_USER_ID" type="NUMBER(19)" remarks="Кто изменил" defaultValueNumeric="1">
@@ -1455,13 +1455,13 @@
             <column name="NAME" type="VARCHAR2(255)" remarks="Имя группы">
                 <constraints nullable="false"/>
             </column>
-            <column name="CREATED_DATE" type="TIMESTAMP(6)" remarks="Дата создания" defaultValueComputed="SYSDATE">
+            <column name="CREATED_DATE" type="TIMESTAMP(6)" remarks="Дата создания" defaultValueComputed="current_timestamp">
                 <constraints nullable="false"/>
             </column>
             <column name="CREATED_BY_USER_ID" type="NUMBER(19)" remarks="Кто создал" defaultValueNumeric="1">
                 <constraints nullable="false" foreignKeyName="FK_GROUPS_CREATED_BY" references="USERS"/>
             </column>
-            <column name="UPDATED_DATE" type="TIMESTAMP(6)" remarks="Дата изменения" defaultValueComputed="SYSDATE">
+            <column name="UPDATED_DATE" type="TIMESTAMP(6)" remarks="Дата изменения" defaultValueComputed="current_timestamp">
                 <constraints nullable="false"/>
             </column>
             <column name="LAST_UPD_BY_USER_ID" type="NUMBER(19)" remarks="Кто изменил" defaultValueNumeric="1">
@@ -1486,13 +1486,13 @@
             <column name="RELATED_ID" type="NUMBER(19)">
                 <constraints nullable="false"/>
             </column>
-            <column name="CREATED_DATE" type="TIMESTAMP(6)" remarks="Дата создания" defaultValueComputed="SYSDATE">
+            <column name="CREATED_DATE" type="TIMESTAMP(6)" remarks="Дата создания" defaultValueComputed="current_timestamp">
                 <constraints nullable="false"/>
             </column>
             <column name="CREATED_BY_USER_ID" type="NUMBER(19)" remarks="Кто создал" defaultValueNumeric="1">
                 <constraints nullable="false" foreignKeyName="FK_GROUP_RELATION_CREATED_BY" references="USERS"/>
             </column>
-            <column name="UPDATED_DATE" type="TIMESTAMP(6)" remarks="Дата изменения" defaultValueComputed="SYSDATE">
+            <column name="UPDATED_DATE" type="TIMESTAMP(6)" remarks="Дата изменения" defaultValueComputed="current_timestamp">
                 <constraints nullable="false"/>
             </column>
             <column name="LAST_UPD_BY_USER_ID" type="NUMBER(19)" remarks="Кто изменил" defaultValueNumeric="1">
@@ -1509,7 +1509,6 @@
             <column name="NAME"/>
             <column name="BC"/>
         </createIndex>
-        <addUniqueConstraint columnNames="NAME, BC" constraintName="BC_FILTER_GROUPS_UNIQUE" forIndexName="BC_FILTER_GROUPS_UNIQUE" tableName="BC_FILTER_GROUPS"/>
         <createIndex indexName="BC_FILTER_GROUPS_IND2" tableName="BC_FILTER_GROUPS">
             <column defaultValueNumeric="1" name="LAST_UPD_BY_USER_ID"/>
         </createIndex>
@@ -1521,7 +1520,6 @@
         <createIndex indexName="BC_PROPERTIES_BC" tableName="BC_PROPERTIES" unique="true">
             <column name="BC"/>
         </createIndex>
-        <addUniqueConstraint columnNames="BC" constraintName="BC_PROPERTIES_BC" forIndexName="BC_PROPERTIES_BC" tableName="BC_PROPERTIES"/>
         <createIndex indexName="BC_PROPERTIES_IND1" tableName="BC_PROPERTIES">
             <column defaultValueNumeric="1" name="CREATED_BY_USER_ID"/>
         </createIndex>
@@ -1533,7 +1531,6 @@
         <createIndex indexName="BC_UNIQUE" tableName="BC" unique="true">
             <column name="NAME"/>
         </createIndex>
-        <addUniqueConstraint columnNames="NAME" constraintName="BC_UNIQUE" forIndexName="BC_UNIQUE" tableName="BC"/>
         <createIndex indexName="BC_IND1" tableName="BC">
             <column defaultValueNumeric="1" name="CREATED_BY_USER_ID"/>
         </createIndex>
@@ -1546,12 +1543,10 @@
             <column name="TYPE"/>
             <column name="KEY"/>
         </createIndex>
-        <addUniqueConstraint columnNames="TYPE, KEY" constraintName="DIC_SELECT_UNIQUE_TYPE_KEY" forIndexName="DIC_SELECT_UNIQUE_TYPE_KEY" tableName="DICTIONARY_ITEM"/>
         <createIndex indexName="DIC_SELECT_UNIQUE_TYPE_ORDER" tableName="DICTIONARY_ITEM" unique="true">
             <column name="TYPE"/>
             <column name="DISPLAY_ORDER"/>
         </createIndex>
-        <addUniqueConstraint columnNames="TYPE, DISPLAY_ORDER" constraintName="DIC_SELECT_UNIQUE_TYPE_ORDER" forIndexName="DIC_SELECT_UNIQUE_TYPE_ORDER" tableName="DICTIONARY_ITEM"/>
         <createIndex indexName="DICTIONARY_ITEM_IND1" tableName="DICTIONARY_ITEM">
             <column defaultValueNumeric="1" name="CREATED_BY_USER_ID"/>
         </createIndex>
@@ -1559,18 +1554,24 @@
             <column defaultValueNumeric="1" name="LAST_UPD_BY_USER_ID"/>
         </createIndex>
     </changeSet>
-    <changeSet author="initial" id="DICTIONARY_ITEM_TR INDEXES">
+    <changeSet author="initial" id="DICTIONARY_ITEM_TR INDEXES" dbms="oracle">
         <createIndex indexName="DICTIONARY_ITEM_TR_PK" tableName="DICTIONARY_ITEM_TR" unique="true">
             <column name="ID"/>
             <column name="LANGUAGE"/>
         </createIndex>
         <addPrimaryKey columnNames="ID, LANGUAGE" constraintName="DICTIONARY_ITEM_TR_PK" forIndexName="DICTIONARY_ITEM_TR_PK" tableName="DICTIONARY_ITEM_TR"/>
     </changeSet>
+    <changeSet author="initial" id="DICTIONARY_ITEM_TR INDEXES" dbms="postgresql">
+        <createIndex indexName="DICTIONARY_ITEM_IND3" tableName="DICTIONARY_ITEM_TR" unique="true">
+            <column name="ID"/>
+            <column name="LANGUAGE"/>
+        </createIndex>
+        <addPrimaryKey columnNames="ID, LANGUAGE" constraintName="DICTIONARY_ITEM_TR_PK" tableName="DICTIONARY_ITEM_TR"/>
+    </changeSet>
     <changeSet author="initial" id="SYSTEM_SETTINGS INDEXES">
         <createIndex indexName="SYS_SETTINGS_UNIQUE_KEY" tableName="SYSTEM_SETTINGS" unique="true">
             <column name="KEY"/>
         </createIndex>
-        <addUniqueConstraint columnNames="KEY" constraintName="SYS_SETTINGS_UNIQUE_KEY" forIndexName="SYS_SETTINGS_UNIQUE_KEY" tableName="SYSTEM_SETTINGS"/>
         <createIndex indexName="SYS_SETTINGS_IND1" tableName="SYSTEM_SETTINGS">
             <column defaultValueNumeric="1" name="CREATED_BY_USER_ID"/>
         </createIndex>
@@ -1582,7 +1583,6 @@
         <createIndex indexName="PRJ_NAME" tableName="PRJ" unique="true">
             <column name="NAME"/>
         </createIndex>
-        <addUniqueConstraint columnNames="NAME" constraintName="PRJ_NAME" forIndexName="PRJ_NAME" tableName="PRJ"/>
         <createIndex indexName="PRJ_IND1" tableName="PRJ">
             <column defaultValueNumeric="1" name="CREATED_BY_USER_ID"/>
         </createIndex>
@@ -1594,11 +1594,9 @@
         <createIndex indexName="UK_LOGIN_NAME" tableName="USERS" unique="true">
             <column name="LOGIN"/>
         </createIndex>
-        <addUniqueConstraint columnNames="LOGIN" constraintName="UK_LOGIN_NAME" forIndexName="UK_LOGIN_NAME" tableName="USERS"/>
         <createIndex indexName="USERS_DN_UNIQUE" tableName="USERS" unique="true">
             <column name="DN"/>
         </createIndex>
-        <addUniqueConstraint columnNames="DN" constraintName="USERS_DN_UNIQUE" forIndexName="USERS_DN_UNIQUE" tableName="USERS"/>
         <createIndex indexName="USERS_IND1" tableName="USERS">
             <column defaultValueNumeric="1" name="CREATED_BY_USER_ID"/>
         </createIndex>
@@ -1613,7 +1611,7 @@
         <createIndex indexName="UK_SCREEN_NAME" tableName="SCREEN" unique="true">
             <column name="NAME"/>
         </createIndex>
-        <addUniqueConstraint columnNames="NAME" constraintName="UK_SCREEN_NAME" forIndexName="UK_SCREEN_NAME" tableName="SCREEN"/>
+
         <createIndex indexName="SCREEN_IND1" tableName="SCREEN">
             <column defaultValueNumeric="1" name="CREATED_BY_USER_ID"/>
         </createIndex>
@@ -1625,7 +1623,7 @@
         <createIndex indexName="UK_VIEW_NAME" tableName="VIEWS" unique="true">
             <column name="NAME"/>
         </createIndex>
-        <addUniqueConstraint columnNames="NAME" constraintName="UK_VIEW_NAME" forIndexName="UK_VIEW_NAME" tableName="VIEWS"/>
+
         <createIndex indexName="VIEWS_IND1" tableName="VIEWS">
             <column defaultValueNumeric="1" name="CREATED_BY_USER_ID"/>
         </createIndex>
@@ -1638,7 +1636,7 @@
             <column name="USER_ID"/>
             <column name="INTERNAL_ROLE_CD"/>
         </createIndex>
-        <addUniqueConstraint columnNames="USER_ID, INTERNAL_ROLE_CD" constraintName="USER_ROLE_UNIQUE" forIndexName="USER_ROLE_UNIQUE" tableName="USER_ROLE"/>
+
         <createIndex indexName="USER_ROLE_IND1" tableName="USER_ROLE">
             <column defaultValueNumeric="1" name="CREATED_BY_USER_ID"/>
         </createIndex>
@@ -1653,7 +1651,7 @@
         <createIndex indexName="WIDGET_NAME_CONSTRAINT_UNIQUE" tableName="WIDGET" unique="true">
             <column name="NAME"/>
         </createIndex>
-        <addUniqueConstraint columnNames="NAME" constraintName="WIDGET_NAME_CONSTRAINT_UNIQUE" forIndexName="WIDGET_NAME_CONSTRAINT_UNIQUE" tableName="WIDGET"/>
+
         <createIndex indexName="WIDGET_IND1" tableName="WIDGET">
             <column defaultValueNumeric="1" name="CREATED_BY_USER_ID"/>
         </createIndex>
@@ -1668,6 +1666,21 @@
         <createIndex indexName="DEPT_IND2" tableName="DEPT">
             <column defaultValueNumeric="1" name="LAST_UPD_BY_USER_ID"/>
         </createIndex>
+    </changeSet>
+    <changeSet author="initial" id="UNIQUE CONSTRAINTS" dbms="oracle">
+        <addUniqueConstraint columnNames="NAME, BC" constraintName="BC_FILTER_GROUPS_UNIQUE" forIndexName="BC_FILTER_GROUPS_UNIQUE" tableName="BC_FILTER_GROUPS"/>
+        <addUniqueConstraint columnNames="BC" constraintName="BC_PROPERTIES_BC" forIndexName="BC_PROPERTIES_BC" tableName="BC_PROPERTIES"/>
+        <addUniqueConstraint columnNames="NAME" constraintName="BC_UNIQUE" forIndexName="BC_UNIQUE" tableName="BC"/>
+        <addUniqueConstraint columnNames="TYPE, KEY" constraintName="DIC_SELECT_UNIQUE_TYPE_KEY" forIndexName="DIC_SELECT_UNIQUE_TYPE_KEY" tableName="DICTIONARY_ITEM"/>
+        <addUniqueConstraint columnNames="TYPE, DISPLAY_ORDER" constraintName="DIC_SELECT_UNIQUE_TYPE_ORDER" forIndexName="DIC_SELECT_UNIQUE_TYPE_ORDER" tableName="DICTIONARY_ITEM"/>
+        <addUniqueConstraint columnNames="KEY" constraintName="SYS_SETTINGS_UNIQUE_KEY" forIndexName="SYS_SETTINGS_UNIQUE_KEY" tableName="SYSTEM_SETTINGS"/>
+        <addUniqueConstraint columnNames="NAME" constraintName="PRJ_NAME" forIndexName="PRJ_NAME" tableName="PRJ"/>
+        <addUniqueConstraint columnNames="LOGIN" constraintName="UK_LOGIN_NAME" forIndexName="UK_LOGIN_NAME" tableName="USERS"/>
+        <addUniqueConstraint columnNames="DN" constraintName="USERS_DN_UNIQUE" forIndexName="USERS_DN_UNIQUE" tableName="USERS"/>
+        <addUniqueConstraint columnNames="NAME" constraintName="UK_SCREEN_NAME" forIndexName="UK_SCREEN_NAME" tableName="SCREEN"/>
+        <addUniqueConstraint columnNames="NAME" constraintName="UK_VIEW_NAME" forIndexName="UK_VIEW_NAME" tableName="VIEWS"/>
+        <addUniqueConstraint columnNames="USER_ID, INTERNAL_ROLE_CD" constraintName="USER_ROLE_UNIQUE" forIndexName="USER_ROLE_UNIQUE" tableName="USER_ROLE"/>
+        <addUniqueConstraint columnNames="NAME" constraintName="WIDGET_NAME_CONSTRAINT_UNIQUE" forIndexName="WIDGET_NAME_CONSTRAINT_UNIQUE" tableName="WIDGET"/>
     </changeSet>
     <changeSet author="initial" id="DICTIONARY_TYPE INDEXES">
         <createIndex indexName="DICTIONARY_TYPE_IND1" tableName="DICTIONARY_TYPE">
@@ -1699,7 +1712,7 @@
             <column defaultValueNumeric="1" name="LAST_UPD_BY_USER_ID"/>
         </createIndex>
     </changeSet>
-    <changeSet author="initial" id="NOTIFICATION INDEXES">
+    <changeSet author="initial" dbms="oracle" id="NOTIFICATION INDEXES">
         <createIndex indexName="IDX_NTIFIC_USER_ID" tableName="NOTIFICATION">
             <column name="USER_ID"/>
         </createIndex>
@@ -1711,6 +1724,21 @@
         </createIndex>
         <createIndex indexName="NOTIFICATION_UI_IND1" tableName="NOTIFICATION">
             <column computed="true" name="BITAND(&quot;DELIVERY_TYPE&quot;,1)"/>
+            <column name="USER_ID"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="initial"  dbms="postgresql" id="NOTIFICATION INDEXES">
+        <createIndex indexName="IDX_NTIFIC_USER_ID" tableName="NOTIFICATION">
+            <column name="USER_ID"/>
+        </createIndex>
+        <createIndex indexName="NOTIFICATION_IND1" tableName="NOTIFICATION">
+            <column defaultValueNumeric="1" name="CREATED_BY_USER_ID"/>
+        </createIndex>
+        <createIndex indexName="NOTIFICATION_IND2" tableName="NOTIFICATION">
+            <column defaultValueNumeric="1" name="LAST_UPD_BY_USER_ID"/>
+        </createIndex>
+        <createIndex indexName="NOTIFICATION_UI_IND1" tableName="NOTIFICATION">
+            <column computed="true" name="(DELIVERY_TYPE = 1.0)"/>
             <column name="USER_ID"/>
         </createIndex>
     </changeSet>
@@ -1791,9 +1819,14 @@
             <column defaultValueNumeric="1" name="LAST_UPD_BY_USER_ID"/>
         </createIndex>
     </changeSet>
-    <changeSet author="initial" id="SEARCH_SPEC INDEXES">
+    <changeSet author="initial" dbms="oracle" id="SEARCH_SPEC INDEXES">
         <createIndex indexName="SEARCH_SPEC_SVC_NAME_FK" tableName="SEARCH_SPEC" unique="true">
             <column computed="true" name="CASE &quot;TYPE&quot; WHEN 'BC' THEN &quot;BC_NAME&quot;||&quot;NAME&quot;||&quot;SERVICE_NAME&quot; WHEN 'LINK' THEN &quot;BC_NAME&quot;||&quot;NAME&quot;||&quot;SERVICE_NAME&quot; WHEN 'SECURITY' THEN &quot;ROLE_CD&quot;||&quot;NAME&quot;||&quot;SERVICE_NAME&quot; ELSE NULL END"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="initial" dbms="postgresql" id="SEARCH_SPEC INDEXES">
+        <createIndex indexName="SEARCH_SPEC_SVC_NAME_FK" tableName="SEARCH_SPEC" unique="true">
+            <column computed="true" name="(CASE 'TYPE' WHEN 'BC' THEN 'BC_NAME' || 'NAME' || 'SERVICE_NAME' WHEN 'LINK' THEN 'BC_NAME' || 'NAME' || 'SERVICE_NAME' WHEN 'SECURITY' THEN 'ROLE_CD' || 'NAME' || 'SERVICE_NAME' ELSE NULL END)"/>
         </createIndex>
     </changeSet>
     <changeSet author="initial" id="SQL_BC_EDIT_FIELD INDEXES">

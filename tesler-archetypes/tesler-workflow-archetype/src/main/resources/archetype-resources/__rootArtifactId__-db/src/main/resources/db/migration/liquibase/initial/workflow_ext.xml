@@ -9,17 +9,17 @@
                 <constraints primaryKey="true" primaryKeyName="PK_TASK"/>
             </column>
             <column name="PROJECT_ID" remarks="Идентификатор проекта" type="NUMBER(19, 0)" />
-            <column name="TASK_TYPE_CD" remarks="Тип задачи" type="VARCHAR2(255 CHAR)" />
+            <column name="TASK_TYPE_CD" remarks="Тип задачи" type="VARCHAR2(255)" />
             <column name="ASSIGNEE_USER_ID" remarks="Исполнитель" type="NUMBER(19, 0)" />
             <column name="START_DATE_FACT" type="TIMESTAMP(6)" remarks="Дата начала выполнения (факт)" />
             <column name="RESOLUTION_DATE" type="TIMESTAMP(6)" />
-            <column defaultValueComputed="SYSDATE" name="CREATED_DATE" remarks="Дата создания" type="TIMESTAMP(6)">
+            <column defaultValueComputed="current_timestamp" name="CREATED_DATE" remarks="Дата создания" type="TIMESTAMP(6)">
                 <constraints nullable="false"/>
             </column>
             <column defaultValueNumeric="1" name="CREATED_BY_USER_ID" remarks="Кто создал" type="NUMBER(19, 0)">
                 <constraints nullable="false"/>
             </column>
-            <column defaultValueComputed="SYSDATE" name="UPDATED_DATE" remarks="Дата изменения" type="TIMESTAMP(6)">
+            <column defaultValueComputed="current_timestamp" name="UPDATED_DATE" remarks="Дата изменения" type="TIMESTAMP(6)">
                 <constraints nullable="false"/>
             </column>
             <column defaultValueNumeric="1" name="LAST_UPD_BY_USER_ID" remarks="Кто изменил" type="NUMBER(19, 0)">
