@@ -8,13 +8,13 @@
             <column name="ID" remarks="Идентификатор" type="NUMBER(19, 0)">
                 <constraints primaryKey="true" primaryKeyName="PK_PENDING_TRANSITION"/>
             </column>
-            <column defaultValueComputed="SYSDATE" name="CREATED_DATE" remarks="Дата создания" type="TIMESTAMP(6)">
+            <column defaultValueComputed="current_timestamp" name="CREATED_DATE" remarks="Дата создания" type="TIMESTAMP(6)">
                 <constraints nullable="false"/>
             </column>
             <column defaultValueNumeric="1" name="CREATED_BY_USER_ID" remarks="Кто создал" type="NUMBER(19, 0)">
                 <constraints nullable="false"/>
             </column>
-            <column defaultValueComputed="SYSDATE" name="UPDATED_DATE" remarks="Дата изменения" type="TIMESTAMP(6)">
+            <column defaultValueComputed="current_timestamp" name="UPDATED_DATE" remarks="Дата изменения" type="TIMESTAMP(6)">
                 <constraints nullable="false"/>
             </column>
             <column defaultValueNumeric="1" name="LAST_UPD_BY_USER_ID" remarks="Кто изменил" type="NUMBER(19, 0)">
@@ -26,7 +26,7 @@
             <column name="USER_ID" remarks="Идентификатор пользователя выполнившего переход" type="NUMBER(19, 0)">
                 <constraints nullable="false"/>
             </column>
-            <column name="USER_ROLE_CD" remarks="Роль пользователя выполнившего переход" type="VARCHAR2(255 CHAR)">
+            <column name="USER_ROLE_CD" remarks="Роль пользователя выполнившего переход" type="VARCHAR2(255)">
                 <constraints nullable="false"/>
             </column>
             <column defaultValueNumeric="0" name="VSTAMP" type="NUMBER(19, 0)">
@@ -39,10 +39,10 @@
             <column name="ID" type="NUMBER(19, 0)">
                 <constraints primaryKey="true"/>
             </column>
-            <column defaultValueComputed="SYSDATE" name="CREATED_DATE" type="TIMESTAMP(6)">
+            <column defaultValueComputed="current_timestamp" name="CREATED_DATE" type="TIMESTAMP(6)">
                 <constraints nullable="false"/>
             </column>
-            <column defaultValueComputed="SYSDATE" name="UPDATED_DATE" type="TIMESTAMP(6)">
+            <column defaultValueComputed="current_timestamp" name="UPDATED_DATE" type="TIMESTAMP(6)">
                 <constraints nullable="false"/>
             </column>
             <column defaultValueNumeric="1" name="CREATED_BY_USER_ID" type="NUMBER(19, 0)">
@@ -51,8 +51,8 @@
             <column defaultValueNumeric="1" name="LAST_UPD_BY_USER_ID" type="NUMBER(19, 0)">
                 <constraints nullable="false"/>
             </column>
-            <column name="BC_NAME" type="VARCHAR2(255 CHAR)"/>
-            <column name="AFFECTED_WIDGETS" type="VARCHAR2(2000 CHAR)"/>
+            <column name="BC_NAME" type="VARCHAR2(255)"/>
+            <column name="AFFECTED_WIDGETS" type="VARCHAR2(2000)"/>
             <column name="WF_STEP_ID" type="NUMBER(19, 0)"/>
             <column defaultValueNumeric="0" name="VSTAMP" type="NUMBER(19, 0)">
                 <constraints nullable="false"/>
@@ -64,10 +64,10 @@
             <column name="ID" remarks="Идентификатор" type="NUMBER(19, 0)">
                 <constraints primaryKey="true"/>
             </column>
-            <column defaultValueComputed="SYSDATE" name="CREATED_DATE" type="TIMESTAMP(6)">
+            <column defaultValueComputed="current_timestamp" name="CREATED_DATE" type="TIMESTAMP(6)">
                 <constraints nullable="false"/>
             </column>
-            <column defaultValueComputed="SYSDATE" name="UPDATED_DATE" type="TIMESTAMP(6)">
+            <column defaultValueComputed="current_timestamp" name="UPDATED_DATE" type="TIMESTAMP(6)">
                 <constraints nullable="false"/>
             </column>
             <column defaultValueNumeric="1" name="CREATED_BY_USER_ID" type="NUMBER(19, 0)">
@@ -76,10 +76,10 @@
             <column defaultValueNumeric="1" name="LAST_UPD_BY_USER_ID" type="NUMBER(19, 0)">
                 <constraints nullable="false"/>
             </column>
-            <column name="KEY" remarks="Атрибут" type="VARCHAR2(2000 CHAR)">
+            <column name="KEY" remarks="Атрибут" type="VARCHAR2(2000)">
                 <constraints nullable="false"/>
             </column>
-            <column name="TITLE" remarks="Название" type="VARCHAR2(2000 CHAR)">
+            <column name="TITLE" remarks="Название" type="VARCHAR2(2000)">
                 <constraints nullable="false"/>
             </column>
             <column defaultValueNumeric="0" name="VSTAMP" type="NUMBER(19, 0)">
@@ -93,22 +93,22 @@
                 <constraints primaryKey="true"/>
             </column>
             <column name="PARENT_WAITING_ID" type="NUMBER(19, 0)"/>
-            <column name="CORRELATION_ID" remarks="Уникальный идентификатор сообщения" type="VARCHAR2(255 CHAR)">
+            <column name="CORRELATION_ID" remarks="Уникальный идентификатор сообщения" type="VARCHAR2(255)">
                 <constraints nullable="false"/>
             </column>
             <column name="REQ_POST_FUN_ID" remarks="Идентификатор пост-функции совершившей вызов смежной системы" type="NUMBER(19, 0)">
                 <constraints nullable="false"/>
             </column>
-            <column name="REQ_POST_FUN_CD" remarks="Тип пост-функции совершившей вызов смежной системы" type="VARCHAR2(255 CHAR)">
+            <column name="REQ_POST_FUN_CD" remarks="Тип пост-функции совершившей вызов смежной системы" type="VARCHAR2(255)">
                 <constraints nullable="false"/>
             </column>
-            <column name="STATUS_CD" remarks="Статус" type="VARCHAR2(255 CHAR)"/>
+            <column name="STATUS_CD" remarks="Статус" type="VARCHAR2(255)"/>
             <column name="RESP_STEP_ID" remarks="Идентификатор шага воркфлоу в котором получен ответ" type="NUMBER(19, 0)"/>
             <column name="RESP_TRANSITION_HIST_ID" remarks="Идентификатор перехода совершенного после получения ответа" type="NUMBER(19, 0)"/>
-            <column defaultValueComputed="SYSDATE" name="CREATED_DATE" type="TIMESTAMP(6)">
+            <column defaultValueComputed="current_timestamp" name="CREATED_DATE" type="TIMESTAMP(6)">
                 <constraints nullable="false"/>
             </column>
-            <column defaultValueComputed="SYSDATE" name="UPDATED_DATE" type="TIMESTAMP(6)">
+            <column defaultValueComputed="current_timestamp" name="UPDATED_DATE" type="TIMESTAMP(6)">
                 <constraints nullable="false"/>
             </column>
             <column defaultValueNumeric="1" name="CREATED_BY_USER_ID" type="NUMBER(19, 0)">
@@ -131,15 +131,15 @@
             <column name="PROJECT_ID" remarks="Идентификатор проекта" type="NUMBER(19, 0)">
                 <constraints nullable="false"/>
             </column>
-            <column name="TASK_TYPE_CD" remarks="Тип активности" type="VARCHAR2(255 CHAR)"/>
-            <column name="NAME" remarks="Название воркфлоу" type="VARCHAR2(100 CHAR)"/>
-            <column name="DESCRIPTION" remarks="Описание воркфлоу" type="VARCHAR2(255 CHAR)"/>
+            <column name="TASK_TYPE_CD" remarks="Тип активности" type="VARCHAR2(255)"/>
+            <column name="NAME" remarks="Название воркфлоу" type="VARCHAR2(100)"/>
+            <column name="DESCRIPTION" remarks="Описание воркфлоу" type="VARCHAR2(255)"/>
             <column defaultValueNumeric="10" name="OWNER_DEPT_ID" remarks="Департамент-владелец воркфлоу" type="NUMBER(19, 0)"/>
             <column name="ACTIVE_VERSION_ID" type="NUMBER(19, 0)"/>
-            <column defaultValueComputed="SYSDATE" name="CREATED_DATE" type="TIMESTAMP(6)">
+            <column defaultValueComputed="current_timestamp" name="CREATED_DATE" type="TIMESTAMP(6)">
                 <constraints nullable="false"/>
             </column>
-            <column defaultValueComputed="SYSDATE" name="UPDATED_DATE" type="TIMESTAMP(6)">
+            <column defaultValueComputed="current_timestamp" name="UPDATED_DATE" type="TIMESTAMP(6)">
                 <constraints nullable="false"/>
             </column>
             <column defaultValueNumeric="1" name="CREATED_BY_USER_ID" type="NUMBER(19, 0)">
@@ -161,16 +161,16 @@
             <column name="COND_GROUP_ID" remarks="Идентификатор группы условий" type="NUMBER(19, 0)">
                 <constraints nullable="false"/>
             </column>
-            <column name="COND_ASSIGNEE_CD" remarks="Правило отбора" type="VARCHAR2(255 CHAR)"/>
+            <column name="COND_ASSIGNEE_CD" remarks="Правило отбора" type="VARCHAR2(255)"/>
             <column name="PRJ_GRP_ID" remarks="Группа пользователей" type="NUMBER(19, 0)"/>
             <column name="DEPT_ID" remarks="Департамент" type="NUMBER(19, 0)"/>
-            <column name="DIVISION_LEVEL_CD" remarks="Уровень подразделения" type="VARCHAR2(255 CHAR)"/>
-            <column name="INTERNAL_ROLE_CD" remarks="Роль" type="VARCHAR2(255 CHAR)"/>
-            <column name="DESCRIPTION" remarks="Описание" type="VARCHAR2(4000 CHAR)"/>
-            <column defaultValueComputed="SYSDATE" name="CREATED_DATE" type="TIMESTAMP(6)">
+            <column name="DIVISION_LEVEL_CD" remarks="Уровень подразделения" type="VARCHAR2(255)"/>
+            <column name="INTERNAL_ROLE_CD" remarks="Роль" type="VARCHAR2(255)"/>
+            <column name="DESCRIPTION" remarks="Описание" type="VARCHAR2(4000)"/>
+            <column defaultValueComputed="current_timestamp" name="CREATED_DATE" type="TIMESTAMP(6)">
                 <constraints nullable="false"/>
             </column>
-            <column defaultValueComputed="SYSDATE" name="UPDATED_DATE" type="TIMESTAMP(6)">
+            <column defaultValueComputed="current_timestamp" name="UPDATED_DATE" type="TIMESTAMP(6)">
                 <constraints nullable="false"/>
             </column>
             <column defaultValueNumeric="1" name="CREATED_BY_USER_ID" type="NUMBER(19, 0)">
@@ -189,7 +189,7 @@
             <column name="ID" remarks="Идентификатор" type="NUMBER(19, 0)">
                 <constraints primaryKey="true"/>
             </column>
-            <column name="COND_LINK_TYPE" type="VARCHAR2(255 CHAR)">
+            <column name="COND_LINK_TYPE" type="VARCHAR2(255)">
                 <constraints nullable="false"/>
             </column>
             <column name="TR_COND_GROUP_ID" remarks="Идентификатор группы условий перехода" type="NUMBER(19, 0)"/>
@@ -197,14 +197,14 @@
             <column name="STP_COND_GROUP_ID" remarks="Идентификатор группы условий шага" type="NUMBER(19, 0)"/>
             <column name="CHILD_BC_ID" remarks="Идентификатор доступности виджета на шаге" type="NUMBER(19, 0)"/>
             <column name="SEQ" remarks="Порядок" type="NUMBER(19, 0)"/>
-            <column name="COND_CD" remarks="Тип условия" type="VARCHAR2(255 CHAR)">
+            <column name="COND_CD" remarks="Тип условия" type="VARCHAR2(255)">
                 <constraints nullable="false"/>
             </column>
             <column name="DMN" remarks="DMN проверка" type="CLOB"/>
-            <column defaultValueComputed="SYSDATE" name="CREATED_DATE" type="TIMESTAMP(6)">
+            <column defaultValueComputed="current_timestamp" name="CREATED_DATE" type="TIMESTAMP(6)">
                 <constraints nullable="false"/>
             </column>
-            <column defaultValueComputed="SYSDATE" name="UPDATED_DATE" type="TIMESTAMP(6)">
+            <column defaultValueComputed="current_timestamp" name="UPDATED_DATE" type="TIMESTAMP(6)">
                 <constraints nullable="false"/>
             </column>
             <column defaultValueNumeric="1" name="CREATED_BY_USER_ID" type="NUMBER(19, 0)">
@@ -227,12 +227,12 @@
                 <constraints nullable="false"/>
             </column>
             <column name="SEQ" remarks="Порядок" type="NUMBER(19, 0)"/>
-            <column name="ACTION_CD" remarks="Тип действия" type="VARCHAR2(255 CHAR)"/>
+            <column name="ACTION_CD" remarks="Тип действия" type="VARCHAR2(255)"/>
             <column name="STEP_TERM" type="NUMBER(19, 0)"/>
-            <column defaultValueComputed="SYSDATE" name="CREATED_DATE" type="TIMESTAMP(6)">
+            <column defaultValueComputed="current_timestamp" name="CREATED_DATE" type="TIMESTAMP(6)">
                 <constraints nullable="false"/>
             </column>
-            <column defaultValueComputed="SYSDATE" name="UPDATED_DATE" type="TIMESTAMP(6)">
+            <column defaultValueComputed="current_timestamp" name="UPDATED_DATE" type="TIMESTAMP(6)">
                 <constraints nullable="false"/>
             </column>
             <column defaultValueNumeric="1" name="CREATED_BY_USER_ID" type="NUMBER(19, 0)">
@@ -260,10 +260,10 @@
             <column name="RESP_CODE_3_TRANSITION_ID" type="NUMBER(19, 0)"/>
             <column name="RESP_CODE_4_TRANSITION_ID" type="NUMBER(19, 0)"/>
             <column name="RESP_CODE_5_TRANSITION_ID" type="NUMBER(19, 0)"/>
-            <column defaultValueComputed="SYSDATE" name="CREATED_DATE" type="TIMESTAMP(6)">
+            <column defaultValueComputed="current_timestamp" name="CREATED_DATE" type="TIMESTAMP(6)">
                 <constraints nullable="false"/>
             </column>
-            <column defaultValueComputed="SYSDATE" name="UPDATED_DATE" type="TIMESTAMP(6)">
+            <column defaultValueComputed="current_timestamp" name="UPDATED_DATE" type="TIMESTAMP(6)">
                 <constraints nullable="false"/>
             </column>
             <column defaultValueNumeric="1" name="CREATED_BY_USER_ID" type="NUMBER(19, 0)">
@@ -282,19 +282,19 @@
             <column name="ID" remarks="Идентификатор" type="NUMBER(19, 0)">
                 <constraints primaryKey="true"/>
             </column>
-            <column name="UUID" type="VARCHAR2(255 CHAR)">
+            <column name="UUID" type="VARCHAR2(255)">
                 <constraints nullable="false"/>
             </column>
             <column name="WF_VERSION_ID" remarks="Версия воркфлоу" type="NUMBER(19, 0)">
                 <constraints nullable="false"/>
             </column>
-            <column name="LINKED_STATUS_CD" remarks="Статус соответствующий шагу" type="VARCHAR2(255 CHAR)"/>
-            <column name="NAME" remarks="Название шага" type="VARCHAR2(100 CHAR)"/>
+            <column name="LINKED_STATUS_CD" remarks="Статус соответствующий шагу" type="VARCHAR2(255)"/>
+            <column name="NAME" remarks="Название шага" type="VARCHAR2(100)"/>
             <column name="OVERDUE_TRANSITION_ID" remarks="Переход при истечении срока выполнения шага" type="NUMBER(19, 0)"/>
-            <column defaultValueComputed="SYSDATE" name="CREATED_DATE" type="TIMESTAMP(6)">
+            <column defaultValueComputed="current_timestamp" name="CREATED_DATE" type="TIMESTAMP(6)">
                 <constraints nullable="false"/>
             </column>
-            <column defaultValueComputed="SYSDATE" name="UPDATED_DATE" type="TIMESTAMP(6)">
+            <column defaultValueComputed="current_timestamp" name="UPDATED_DATE" type="TIMESTAMP(6)">
                 <constraints nullable="false"/>
             </column>
             <column defaultValueNumeric="1" name="CREATED_BY_USER_ID" type="NUMBER(19, 0)">
@@ -317,11 +317,11 @@
                 <constraints nullable="false"/>
             </column>
             <column name="SEQ" remarks="Порядок" type="NUMBER(19, 0)"/>
-            <column name="NAME" remarks="Название группы" type="VARCHAR2(255 CHAR)"/>
-            <column defaultValueComputed="SYSDATE" name="CREATED_DATE" type="TIMESTAMP(6)">
+            <column name="NAME" remarks="Название группы" type="VARCHAR2(255)"/>
+            <column defaultValueComputed="current_timestamp" name="CREATED_DATE" type="TIMESTAMP(6)">
                 <constraints nullable="false"/>
             </column>
-            <column defaultValueComputed="SYSDATE" name="UPDATED_DATE" type="TIMESTAMP(6)">
+            <column defaultValueComputed="current_timestamp" name="UPDATED_DATE" type="TIMESTAMP(6)">
                 <constraints nullable="false"/>
             </column>
             <column defaultValueNumeric="1" name="CREATED_BY_USER_ID" type="NUMBER(19, 0)">
@@ -344,10 +344,10 @@
                 <constraints nullable="false"/>
             </column>
             <column name="TASK_FIELD_ID" remarks="Идентификатор атрибута активности" type="NUMBER(19, 0)"/>
-            <column defaultValueComputed="SYSDATE" name="CREATED_DATE" type="TIMESTAMP(6)">
+            <column defaultValueComputed="current_timestamp" name="CREATED_DATE" type="TIMESTAMP(6)">
                 <constraints nullable="false"/>
             </column>
-            <column defaultValueComputed="SYSDATE" name="UPDATED_DATE" type="TIMESTAMP(6)">
+            <column defaultValueComputed="current_timestamp" name="UPDATED_DATE" type="TIMESTAMP(6)">
                 <constraints nullable="false"/>
             </column>
             <column defaultValueNumeric="1" name="CREATED_BY_USER_ID" type="NUMBER(19, 0)">
@@ -366,13 +366,13 @@
             <column name="ID" remarks="Идентификатор" type="NUMBER(19, 0)">
                 <constraints primaryKey="true" primaryKeyName="PK_WF_TASK"/>
             </column>
-            <column defaultValueComputed="SYSDATE" name="CREATED_DATE" remarks="Дата создания" type="TIMESTAMP(6)">
+            <column defaultValueComputed="current_timestamp" name="CREATED_DATE" remarks="Дата создания" type="TIMESTAMP(6)">
                 <constraints nullable="false"/>
             </column>
             <column defaultValueNumeric="1" name="CREATED_BY_USER_ID" remarks="Кто создал" type="NUMBER(19, 0)">
                 <constraints nullable="false"/>
             </column>
-            <column defaultValueComputed="SYSDATE" name="UPDATED_DATE" remarks="Дата изменения" type="TIMESTAMP(6)">
+            <column defaultValueComputed="current_timestamp" name="UPDATED_DATE" remarks="Дата изменения" type="TIMESTAMP(6)">
                 <constraints nullable="false"/>
             </column>
             <column defaultValueNumeric="1" name="LAST_UPD_BY_USER_ID" remarks="Кто изменил" type="NUMBER(19, 0)">
@@ -392,7 +392,7 @@
             <column name="ID" remarks="Идентификатор" type="NUMBER(19, 0)">
                 <constraints primaryKey="true"/>
             </column>
-            <column name="UUID" type="VARCHAR2(255 CHAR)">
+            <column name="UUID" type="VARCHAR2(255)">
                 <constraints nullable="false"/>
             </column>
             <column name="WF_STEP_ID" remarks="Исходный шаг" type="NUMBER(19, 0)">
@@ -401,12 +401,12 @@
             <column name="WF_DEST_STEP_ID" remarks="Шаг назначения" type="NUMBER(19, 0)">
                 <constraints nullable="false"/>
             </column>
-            <column name="NAME" remarks="Название перехода" type="VARCHAR2(255 CHAR)"/>
+            <column name="NAME" remarks="Название перехода" type="VARCHAR2(255)"/>
             <column name="WF_TRANSITION_GROUP_ID" remarks="Идентификатор группы кнопок" type="NUMBER(19, 0)"/>
-            <column defaultValueComputed="SYSDATE" name="CREATED_DATE" type="TIMESTAMP(6)">
+            <column defaultValueComputed="current_timestamp" name="CREATED_DATE" type="TIMESTAMP(6)">
                 <constraints nullable="false"/>
             </column>
-            <column defaultValueComputed="SYSDATE" name="UPDATED_DATE" type="TIMESTAMP(6)">
+            <column defaultValueComputed="current_timestamp" name="UPDATED_DATE" type="TIMESTAMP(6)">
                 <constraints nullable="false"/>
             </column>
             <column defaultValueNumeric="1" name="CREATED_BY_USER_ID" type="NUMBER(19, 0)">
@@ -430,15 +430,15 @@
             <column name="TRANSITION_ID" remarks="Идентификатор перехода" type="NUMBER(19, 0)">
                 <constraints nullable="false"/>
             </column>
-            <column name="COND_GROUP_CD" remarks="Тип группы условий" type="VARCHAR2(255 CHAR)">
+            <column name="COND_GROUP_CD" remarks="Тип группы условий" type="VARCHAR2(255)">
                 <constraints nullable="false"/>
             </column>
             <column name="SEQ" remarks="Порядок" type="NUMBER(19, 0)"/>
-            <column name="NAME" remarks="Название группы" type="VARCHAR2(255 CHAR)"/>
-            <column defaultValueComputed="SYSDATE" name="CREATED_DATE" type="TIMESTAMP(6)">
+            <column name="NAME" remarks="Название группы" type="VARCHAR2(255)"/>
+            <column defaultValueComputed="current_timestamp" name="CREATED_DATE" type="TIMESTAMP(6)">
                 <constraints nullable="false"/>
             </column>
-            <column defaultValueComputed="SYSDATE" name="UPDATED_DATE" type="TIMESTAMP(6)">
+            <column defaultValueComputed="current_timestamp" name="UPDATED_DATE" type="TIMESTAMP(6)">
                 <constraints nullable="false"/>
             </column>
             <column defaultValueNumeric="1" name="CREATED_BY_USER_ID" type="NUMBER(19, 0)">
@@ -463,12 +463,12 @@
             <column name="MAX_SHOW_BUTTONS_IN_GROUP" remarks="Количество кнопок которое выводится для данной группы" type="NUMBER(19, 0)">
                 <constraints nullable="false"/>
             </column>
-            <column name="MORE_NAME" remarks="Кнопка &quot;Еще&quot; - в ней выводятся кнопки, которые не вошли в Максимальное количество" type="VARCHAR2(255 CHAR)"/>
-            <column name="DESCRIPTION" remarks="Краткое описание группы" type="VARCHAR2(255 CHAR)"/>
-            <column defaultValueComputed="SYSDATE" name="CREATED_DATE" type="TIMESTAMP(6)">
+            <column name="MORE_NAME" remarks="Кнопка &quot;Еще&quot; - в ней выводятся кнопки, которые не вошли в Максимальное количество" type="VARCHAR2(255)"/>
+            <column name="DESCRIPTION" remarks="Краткое описание группы" type="VARCHAR2(255)"/>
+            <column defaultValueComputed="current_timestamp" name="CREATED_DATE" type="TIMESTAMP(6)">
                 <constraints nullable="false"/>
             </column>
-            <column defaultValueComputed="SYSDATE" name="UPDATED_DATE" type="TIMESTAMP(6)">
+            <column defaultValueComputed="current_timestamp" name="UPDATED_DATE" type="TIMESTAMP(6)">
                 <constraints nullable="false"/>
             </column>
             <column defaultValueNumeric="1" name="CREATED_BY_USER_ID" type="NUMBER(19, 0)">
@@ -494,10 +494,10 @@
             <column name="PREVIOUS_ASSIGNEE_ID" remarks="Идентификатор пользователя, на которого была назначена задача" type="NUMBER(19, 0)">
                 <constraints nullable="false"/>
             </column>
-            <column defaultValueComputed="SYSDATE" name="CREATED_DATE" remarks="Дата совершения перехода" type="TIMESTAMP(6)">
+            <column defaultValueComputed="current_timestamp" name="CREATED_DATE" remarks="Дата совершения перехода" type="TIMESTAMP(6)">
                 <constraints nullable="false"/>
             </column>
-            <column defaultValueComputed="SYSDATE" name="UPDATED_DATE" type="TIMESTAMP(6)">
+            <column defaultValueComputed="current_timestamp" name="UPDATED_DATE" type="TIMESTAMP(6)">
                 <constraints nullable="false"/>
             </column>
             <column defaultValueNumeric="1" name="CREATED_BY_USER_ID" type="NUMBER(19, 0)">
@@ -521,14 +521,14 @@
                 <constraints nullable="false"/>
             </column>
             <column name="SEQ" remarks="Порядок" type="NUMBER(19, 0)"/>
-            <column name="VALID_CD" remarks="Тип валидации" type="VARCHAR2(255 CHAR)"/>
+            <column name="VALID_CD" remarks="Тип валидации" type="VARCHAR2(255)"/>
             <column name="DMN" remarks="DMN валидация" type="CLOB"/>
-            <column name="CHECK_TYPE_CD" remarks="Условие" type="VARCHAR2(255 CHAR)"/>
-            <column name="ERROR_MESSAGE" remarks="Текст ошибки" type="VARCHAR2(4000 CHAR)"/>
-            <column defaultValueComputed="SYSDATE" name="CREATED_DATE" type="TIMESTAMP(6)">
+            <column name="CHECK_TYPE_CD" remarks="Условие" type="VARCHAR2(255)"/>
+            <column name="ERROR_MESSAGE" remarks="Текст ошибки" type="VARCHAR2(4000)"/>
+            <column defaultValueComputed="current_timestamp" name="CREATED_DATE" type="TIMESTAMP(6)">
                 <constraints nullable="false"/>
             </column>
-            <column defaultValueComputed="SYSDATE" name="UPDATED_DATE" type="TIMESTAMP(6)">
+            <column defaultValueComputed="current_timestamp" name="UPDATED_DATE" type="TIMESTAMP(6)">
                 <constraints nullable="false"/>
             </column>
             <column defaultValueNumeric="1" name="CREATED_BY_USER_ID" type="NUMBER(19, 0)">
@@ -537,9 +537,9 @@
             <column defaultValueNumeric="1" name="LAST_UPD_BY_USER_ID" type="NUMBER(19, 0)">
                 <constraints nullable="false"/>
             </column>
-            <column name="PRE_INVOKE_TYPE_CD" remarks="Тип предварительного действия" type="VARCHAR2(255 CHAR)"/>
-            <column name="PRE_INVOKE_COND_CD" remarks="Условие предварительного действия" type="VARCHAR2(255 CHAR)"/>
-            <column name="PRE_INVOKE_MESSAGE" remarks="Сообщение предварительного действия" type="VARCHAR2(500 CHAR)"/>
+            <column name="PRE_INVOKE_TYPE_CD" remarks="Тип предварительного действия" type="VARCHAR2(255)"/>
+            <column name="PRE_INVOKE_COND_CD" remarks="Условие предварительного действия" type="VARCHAR2(255)"/>
+            <column name="PRE_INVOKE_MESSAGE" remarks="Сообщение предварительного действия" type="VARCHAR2(500)"/>
             <column defaultValueNumeric="0" name="VSTAMP" type="NUMBER(19, 0)">
                 <constraints nullable="false"/>
             </column>
@@ -556,16 +556,16 @@
             <column name="VERSION" remarks="Номер версии" type="NUMBER(19, 3)">
                 <constraints nullable="false"/>
             </column>
-            <column name="DESCRIPTION" remarks="Описание версии" type="VARCHAR2(255 CHAR)"/>
+            <column name="DESCRIPTION" remarks="Описание версии" type="VARCHAR2(255)"/>
             <column name="FIRST_WF_STEP_ID" remarks="Начальный шаг" type="NUMBER(19, 0)"/>
             <column name="AUTO_CLOSED_STEP_ID" remarks="Шаг автозакрытия" type="NUMBER(19, 0)"/>
             <column defaultValueNumeric="0" name="DRAFT" remarks="Черновик" type="NUMBER(1, 0)">
                 <constraints nullable="false"/>
             </column>
-            <column defaultValueComputed="SYSDATE" name="CREATED_DATE" type="TIMESTAMP(6)">
+            <column defaultValueComputed="current_timestamp" name="CREATED_DATE" type="TIMESTAMP(6)">
                 <constraints nullable="false"/>
             </column>
-            <column defaultValueComputed="SYSDATE" name="UPDATED_DATE" type="TIMESTAMP(6)">
+            <column defaultValueComputed="current_timestamp" name="UPDATED_DATE" type="TIMESTAMP(6)">
                 <constraints nullable="false"/>
             </column>
             <column defaultValueNumeric="1" name="CREATED_BY_USER_ID" type="NUMBER(19, 0)">
@@ -585,7 +585,6 @@
             <column name="CORRELATION_ID"/>
             <column name="REQ_POST_FUN_CD"/>
         </createIndex>
-        <addUniqueConstraint columnNames="CORRELATION_ID, REQ_POST_FUN_CD" constraintName="WAITING_REMOTE_SYSTEM_UNIQUE" forIndexName="WAITING_REMOTE_SYSTEM_UNIQUE" tableName="WAITING_REMOTE_SYSTEM"/>
         <createIndex indexName="WAITING_REM_SYSTEM_IND1" tableName="WAITING_REMOTE_SYSTEM">
             <column defaultValueNumeric="1" name="CREATED_BY_USER_ID"/>
         </createIndex>
@@ -610,12 +609,10 @@
             <column name="PROJECT_ID"/>
             <column name="NAME"/>
         </createIndex>
-        <addUniqueConstraint columnNames="PROJECT_ID, NAME" constraintName="WF_NAME" forIndexName="WF_NAME" tableName="WF"/>
         <createIndex indexName="WF_UNIQUE" tableName="WF" unique="true">
             <column name="PROJECT_ID"/>
             <column name="TASK_TYPE_CD"/>
         </createIndex>
-        <addUniqueConstraint columnNames="PROJECT_ID, TASK_TYPE_CD" constraintName="WF_UNIQUE" forIndexName="WF_UNIQUE" tableName="WF"/>
         <createIndex indexName="WF_IND1" tableName="WF">
             <column defaultValueNumeric="1" name="CREATED_BY_USER_ID"/>
         </createIndex>
@@ -628,7 +625,6 @@
             <column name="WF_VERSION_ID"/>
             <column name="NAME"/>
         </createIndex>
-        <addUniqueConstraint columnNames="WF_VERSION_ID, NAME" constraintName="WF_STEP_NAME" forIndexName="WF_STEP_NAME" tableName="WF_STEP"/>
         <createIndex indexName="WF_STEP_IND1" tableName="WF_STEP">
             <column defaultValueNumeric="1" name="CREATED_BY_USER_ID"/>
         </createIndex>
@@ -644,7 +640,6 @@
             <column name="REQ_POST_FUN_ID"/>
             <column name="RESP_WAIT_STEP_ID"/>
         </createIndex>
-        <addUniqueConstraint columnNames="REQ_POST_FUN_ID, RESP_WAIT_STEP_ID" constraintName="WF_TRIGGER_UNIQUE" forIndexName="WF_TRIGGER_UNIQUE" tableName="WF_POST_FUN_TRIGGER"/>
         <createIndex indexName="WF_POST_FUN_TRIG_IND1" tableName="WF_POST_FUN_TRIGGER">
             <column defaultValueNumeric="1" name="CREATED_BY_USER_ID"/>
         </createIndex>
@@ -675,7 +670,6 @@
             <column name="WF_ID"/>
             <column name="VERSION"/>
         </createIndex>
-        <addUniqueConstraint columnNames="WF_ID, VERSION" constraintName="WF_VERSION_UNIQUE" forIndexName="WF_VERSION_UNIQUE" tableName="WF_VERSION"/>
         <createIndex indexName="WF_VERSION_IND1" tableName="WF_VERSION">
             <column defaultValueNumeric="1" name="CREATED_BY_USER_ID"/>
         </createIndex>
@@ -688,6 +682,14 @@
         <createIndex indexName="WF_VERSION_IND4" tableName="WF_VERSION">
             <column name="FIRST_WF_STEP_ID"/>
         </createIndex>
+    </changeSet>
+    <changeSet id="UNIQUE WORKFLOW CONSTRAINTS" author="initial" dbms="oracle">
+        <addUniqueConstraint columnNames="CORRELATION_ID, REQ_POST_FUN_CD" constraintName="WAITING_REMOTE_SYSTEM_UNIQUE" forIndexName="WAITING_REMOTE_SYSTEM_UNIQUE" tableName="WAITING_REMOTE_SYSTEM"/>
+        <addUniqueConstraint columnNames="PROJECT_ID, NAME" constraintName="WF_NAME" forIndexName="WF_NAME" tableName="WF"/>
+        <addUniqueConstraint columnNames="PROJECT_ID, TASK_TYPE_CD" constraintName="WF_UNIQUE" forIndexName="WF_UNIQUE" tableName="WF"/>
+        <addUniqueConstraint columnNames="WF_VERSION_ID, NAME" constraintName="WF_STEP_NAME" forIndexName="WF_STEP_NAME" tableName="WF_STEP"/>
+        <addUniqueConstraint columnNames="REQ_POST_FUN_ID, RESP_WAIT_STEP_ID" constraintName="WF_TRIGGER_UNIQUE" forIndexName="WF_TRIGGER_UNIQUE" tableName="WF_POST_FUN_TRIGGER"/>
+        <addUniqueConstraint columnNames="WF_ID, VERSION" constraintName="WF_VERSION_UNIQUE" forIndexName="WF_VERSION_UNIQUE" tableName="WF_VERSION"/>
     </changeSet>
     <changeSet author="initial" id="PENDING_TRANSITION INDEXES">
         <createIndex indexName="PENDING_TRANSITION_IND1" tableName="PENDING_TRANSITION">
