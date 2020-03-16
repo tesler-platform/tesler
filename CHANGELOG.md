@@ -1,3 +1,10 @@
+# Version 2.0.3
+
+## Fixes
+
+* Compitability fix: JpaDao#getSupportedEntityManager now supports entity SimpleName as input argument (#43)
+* Removed "Create" action while getting row-meta for new record (#45)
+
 # Version 2.0.2
 
 ## Fixes

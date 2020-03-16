@@ -100,7 +100,9 @@ public class JpaDaoImpl implements JpaDao {
 	protected EntityManager getSupportedEntityManager(String entityClazz) {
 		List<EntityManager> supportedEntityManagers = entityManagers.stream().filter(
 				entityManager -> entityManager.getMetamodel().getEntities().stream().anyMatch(
-						entityType -> Objects.equal(entityType.getBindableJavaType().getName(), entityClazz)
+						//todo: delete check simpleName in next major release
+						entityType -> Objects.equal(entityType.getBindableJavaType().getSimpleName(), entityClazz)
+								|| Objects.equal(entityType.getBindableJavaType().getName(), entityClazz)
 				)
 		).collect(Collectors.toList());
 		if (supportedEntityManagers.size() == 1) {
@@ -330,7 +332,8 @@ public class JpaDaoImpl implements JpaDao {
 
 	@Override
 	public <T> List<T> selectNativeQuery(Class<T> entityClazz, String sql, Map<String, Object> params) {
-		final javax.persistence.Query query = getSupportedEntityManager(entityClazz.getName()).createNativeQuery(sql, entityClazz);
+		final javax.persistence.Query query = getSupportedEntityManager(entityClazz.getName())
+				.createNativeQuery(sql, entityClazz);
 		for (final Entry<String, Object> entry : params.entrySet()) {
 			query.setParameter(entry.getKey(), entry.getValue());
 		}

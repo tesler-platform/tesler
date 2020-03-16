@@ -354,7 +354,7 @@ public class CrudmaGateway {
 	private void addActionCancel(BusinessComponent bc, final ActionsDTO actions) {
 		boolean hasCancelAction = false;
 		for (ActionDTO action : actions) {
-			if (ActionType.DELETE.isTypeOf(action)) {
+			if (ActionType.DELETE.isTypeOf(action) || ActionType.CREATE.isTypeOf(action)) {
 				action.setAvailable(false);
 			}
 			if (ActionType.CANCEL_CREATE.isTypeOf(action)) {
