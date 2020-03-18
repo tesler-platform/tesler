@@ -10,7 +10,7 @@ insert into responsibilities (id, resp_type, screens, dept_id, internal_role_cd)
     },{
       "id": "id12",
       "name": "admin",
-      "text": "Адмнистрирование",
+      "text": "Администрирование",
       "url": "/screen/admin",
       "defaultScreen": false
     }]'), 0 , 'ADMIN');
