@@ -136,7 +136,7 @@ public class SearchParameterPOJO {
 						IDictionaryType type = LovUtils.getType(dtoField);
 						if (type == null) {
 							throw new ServerException("Необходимо указать аннотацию @Lov в DTO для поля типа LOV: " + dtoFieldName);
-						}
+						} //тут LOV.class
 						pojo.value = param.getStringValuesAsList().stream()
 								.map(string -> type.lookupName(string))
 								.collect(Collectors.toList());
@@ -154,6 +154,10 @@ public class SearchParameterPOJO {
 						break;
 					case LONG:
 						pojo.value = param.getLongValuesAsList();
+						break;
+					case MULTIVALUE:
+						pojo.field = param.getName() + "." + dtoField.getDeclaredAnnotation(SearchParameter.class).name();
+						pojo.value = param.getLongValuesAsList();//todo long
 						break;
 					default:
 						throw new ClientException("фильтрация по листу поддерживается только для строковых типов, дат и LOV-ов");
@@ -243,6 +247,12 @@ public class SearchParameterPOJO {
 						}
 						pojo.value = type.lookupName(param.getStringValue());
 						break;
+					case MULTIVALUE:
+						pojo.value = param.getStringValue();
+						pojo.value = param.getLongValue();
+
+						pojo.field = dtoField.getDeclaredAnnotation(SearchParameter.class).name();
+						break;
 					case LONG:
 						pojo.value = param.getLongValue();
 						break;
@@ -257,6 +267,17 @@ public class SearchParameterPOJO {
 		result.add(pojo);
 
 		return result;
+	}
+
+
+	private static void parseMultiValue(FilterParameter param, Field dtoField) {
+
+		dtoField.getDeclaredAnnotations();
+
+		param.getStringValuesAsList();
+//		return param.getStringValuesAsList().stream()
+//				.map(string -> type.lookupName(string))
+//				.collect(Collectors.toList());
 	}
 
 }
