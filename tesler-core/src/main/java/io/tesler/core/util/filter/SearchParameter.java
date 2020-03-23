@@ -44,4 +44,10 @@ public @interface SearchParameter {
 	 */
 	boolean suppressProcess() default false;
 
+	/**
+	 * In case of multi-field value use as the key
+	 * @return SearchParameterType
+	 */
+	SearchParameterType multiFieldKey() default SearchParameterType.LONG;
+
 }

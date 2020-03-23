@@ -20,11 +20,13 @@
 
 package io.tesler.core.dao;
 
-import static io.tesler.api.data.dictionary.DictionaryCache.dictionary;
+import static io.tesler.core.controller.param.SearchOperation.CONTAINS_ONE_OF;
+import static io.tesler.core.controller.param.SearchOperation.EQUALS_ONE_OF;
+import static io.tesler.core.controller.param.SearchOperation.SPECIFIED;
+import static io.tesler.core.util.filter.SearchParameterType.MULTIFIELD;
 import static lombok.AccessLevel.PRIVATE;
 
 import io.tesler.api.data.Period;
-import io.tesler.api.data.dictionary.DictionaryCache;
 import io.tesler.api.data.dictionary.IDictionaryType;
 import io.tesler.api.data.dto.rowmeta.FieldDTO;
 import io.tesler.api.exception.ServerException;
@@ -65,8 +67,9 @@ public class SearchParameterPOJO {
 	private SearchParameterType type;
 
 	public static List<SearchParameterPOJO> mapSearchParamsToPOJO(Class dtoClazz, FilterParameters searchParams) {
+
 		List<SearchParameterPOJO> result = new ArrayList<>();
-		DictionaryCache dc = dictionary();
+
 		searchParams.forEach(param -> {
 			try {
 				Field dtoField = ReflectionUtils.findField(dtoClazz, param.getName());
@@ -83,7 +86,7 @@ public class SearchParameterPOJO {
 					pojo.operator = param.getOperation();
 
 					pojo.value = Stream.of(multisourceParameter.value())
-							.map(par -> parseSingleParameter(dtoField, par, dc, param))
+							.map(par -> parseSingleParameter(dtoField, par, param))
 							.filter(par -> !par.isEmpty())
 							.collect(Collectors.toList());
 					result.add(pojo);
@@ -93,7 +96,7 @@ public class SearchParameterPOJO {
 						throw new IllegalArgumentException(
 								"Необходимо указать аннотацию @SearchParameter в DTO для поля: " + param.getName());
 					}
-					result.addAll(parseSingleParameter(dtoField, parameter, dc, param));
+					result.addAll(parseSingleParameter(dtoField, parameter, param));
 				}
 			} catch (Exception e) {
 				log.warn("Не удалось распарсить параметр фильтрации: " + param, e);
@@ -104,7 +107,7 @@ public class SearchParameterPOJO {
 	}
 
 	private static List<SearchParameterPOJO> parseSingleParameter(Field dtoField, SearchParameter parameter,
-			DictionaryCache dc, FilterParameter param) {
+			FilterParameter param) {
 		List<SearchParameterPOJO> result = new ArrayList<>();
 		if (parameter.suppressProcess()) {
 			return result;
@@ -112,172 +115,163 @@ public class SearchParameterPOJO {
 		SearchParameterPOJO pojo = new SearchParameterPOJO();
 		String dtoFieldName = param.getName();
 		pojo.operator = param.getOperation();
+
 		if ("id".equals(dtoFieldName)) {
 			pojo.field = dtoFieldName;
 			pojo.value = param.getLongValue();
 			pojo.type = SearchParameterType.LONG;
-		} else {
-			boolean tzAware = FieldDTO.isTzAware(dtoField);
-			pojo.type = parameter.type();
-			if (!"".equals(parameter.name())) {
-				pojo.field = parameter.name();
-			} else {
-				pojo.field = dtoFieldName;
-			}
-			if (pojo.operator == SearchOperation.SPECIFIED) {
-				pojo.value = param.getBooleanValue();
-			} else if (pojo.operator.equals(SearchOperation.CONTAINS_ONE_OF) ||
-					pojo.operator.equals(SearchOperation.EQUALS_ONE_OF)) {
-				switch (parameter.type()) {
-					case STRING:
-						pojo.value = param.getStringValuesAsList();
-						break;
-					case LOV:
-						IDictionaryType type = LovUtils.getType(dtoField);
-						if (type == null) {
-							throw new ServerException("Необходимо указать аннотацию @Lov в DTO для поля типа LOV: " + dtoFieldName);
-						} //тут LOV.class
-						pojo.value = param.getStringValuesAsList().stream()
-								.map(string -> type.lookupName(string))
-								.collect(Collectors.toList());
-						break;
-					case DATE:
-						List<Period<LocalDateTime>> periods = new ArrayList<>();
-						for (LocalDateTime value : param.getDateValueAsList()) {
-							LocalDateTime startValue = value.with(DateTimeUtil.asStartOfDay())
-									.with(DateTimeUtil.fromSession(tzAware));
-							LocalDateTime endValue = value.with(DateTimeUtil.asEndOfDay()).with(DateTimeUtil.fromSession(tzAware));
-							periods.add(new Period<>(startValue, endValue));
-						}
-						pojo.value = periods;
-						pojo.operator = SearchOperation.INTERVALS;
-						break;
-					case LONG:
-						pojo.value = param.getLongValuesAsList();
-						break;
-					case MULTIVALUE:
-						pojo.field = param.getName() + "." + dtoField.getDeclaredAnnotation(SearchParameter.class).name();
-						pojo.value = param.getLongValuesAsList();//todo long
-						break;
-					default:
-						throw new ClientException("фильтрация по листу поддерживается только для строковых типов, дат и LOV-ов");
-				}
-			} else {
-				switch (parameter.type()) {
-					case STRING:
-						pojo.value = param.getStringValue();
-						break;
-					case DATE_TIME:
-						switch (pojo.operator) {
-							case GREATER_OR_EQUAL_THAN:
-							case LESS_THAN:
-								pojo.value = param.getDateValue().with(DateTimeUtil.asStartOfDay())
-										.with(DateTimeUtil.fromSession(tzAware));
-								if (parameter.strict()) {
-									pojo.value = param.getDateValue().with(DateTimeUtil.fromSession(tzAware));
-								}
-								break;
-							case LESS_OR_EQUAL_THAN:
-							case GREATER_THAN:
-								pojo.value = param.getDateValue().with(DateTimeUtil.asEndOfDay())
-										.with(DateTimeUtil.fromSession(tzAware));
-								if (parameter.strict()) {
-									pojo.value = param.getDateValue().with(DateTimeUtil.fromSession(tzAware));
-								}
-								break;
-							case EQUALS:
-								LocalDateTime startValue = param.getDateValue().withSecond(0);
-								pojo.value = startValue.with(DateTimeUtil.fromSession(tzAware));
-								pojo.operator = SearchOperation.GREATER_OR_EQUAL_THAN;
-								SearchParameterPOJO pojoAdditional = new SearchParameterPOJO();
-								pojoAdditional.operator = SearchOperation.LESS_THAN;
-								pojoAdditional.field = pojo.field;
-
-								pojoAdditional.value = LocalDateTime.of(
-										startValue.toLocalDate(),
-										startValue.toLocalTime().plusMinutes(1)
-								).with(DateTimeUtil.fromSession(tzAware));
-								result.add(pojoAdditional);
-								break;
-							default:
-								pojo.value = param.getDateValue().with(DateTimeUtil.fromSession(tzAware));
-								break;
-						}
-						break;
-					case DATE:
-						switch (pojo.operator) {
-							case GREATER_OR_EQUAL_THAN:
-							case LESS_THAN:
-								pojo.value = param.getDateValue().with(DateTimeUtil.asStartOfDay())
-										.with(DateTimeUtil.fromSession(tzAware));
-								if (parameter.strict()) {
-									pojo.value = param.getDateValue().with(DateTimeUtil.fromSession(tzAware));
-								}
-								break;
-							case LESS_OR_EQUAL_THAN:
-							case GREATER_THAN:
-								pojo.value = param.getDateValue().with(DateTimeUtil.asEndOfDay())
-										.with(DateTimeUtil.fromSession(tzAware));
-								if (parameter.strict()) {
-									pojo.value = param.getDateValue().with(DateTimeUtil.fromSession(tzAware));
-								}
-								break;
-							case EQUALS:
-								LocalDateTime startValue = param.getDateValue().with(DateTimeUtil.asStartOfDay());
-								pojo.value = startValue.with(DateTimeUtil.fromSession(tzAware));
-								pojo.operator = SearchOperation.GREATER_OR_EQUAL_THAN;
-								SearchParameterPOJO pojoAdditional = new SearchParameterPOJO();
-								pojoAdditional.operator = SearchOperation.LESS_THAN;
-								pojoAdditional.field = pojo.field;
-
-								pojoAdditional.value = startValue.with(DateTimeUtil.asEndOfDay())
-										.with(DateTimeUtil.fromSession(tzAware));
-								result.add(pojoAdditional);
-								break;
-							default:
-								pojo.value = param.getDateValue().with(DateTimeUtil.fromSession(tzAware));
-								break;
-						}
-						break;
-					case LOV:
-						IDictionaryType type = LovUtils.getType(dtoField);
-						if (type == null) {
-							throw new IllegalArgumentException(
-									"Необходимо указать аннотацию @Lov в DTO для поля типа LOV: " + dtoFieldName);
-						}
-						pojo.value = type.lookupName(param.getStringValue());
-						break;
-					case MULTIVALUE:
-						pojo.value = param.getStringValue();
-						pojo.value = param.getLongValue();
-
-						pojo.field = dtoField.getDeclaredAnnotation(SearchParameter.class).name();
-						break;
-					case LONG:
-						pojo.value = param.getLongValue();
-						break;
-					case BOOLEAN:
-						pojo.value = param.getBooleanValue();
-						break;
-					case BIG_DECIMAL:
-						pojo.value = param.getBigDecimalValue();
-				}
-			}
+			result.add(pojo);
+			return result;
 		}
-		result.add(pojo);
 
+		pojo.type = parameter.type();
+		pojo.field = parameter.name().isEmpty() ?
+				parameter.name()
+				: dtoFieldName;
+
+		if (pojo.operator == SPECIFIED) {
+			pojo.value = param.getBooleanValue();
+			result.add(pojo);
+			return result;
+		}
+
+		if (CONTAINS_ONE_OF.equals(pojo.operator) || EQUALS_ONE_OF.equals(pojo.operator)) {
+			multipleValuesSwitch(parameter.type(), pojo, param, dtoField);
+		} else {
+			singleValuesSwitch(parameter, pojo, param, dtoField, result);
+		}
+
+		result.add(pojo);
 		return result;
 	}
 
 
-	private static void parseMultiValue(FilterParameter param, Field dtoField) {
+	private static void singleValuesSwitch(SearchParameter searchParameter, SearchParameterPOJO pojo,
+			FilterParameter filterParameter, Field dtoField, List<SearchParameterPOJO> result) {
 
-		dtoField.getDeclaredAnnotations();
+		switch (searchParameter.type()) {
+			case STRING:
+				pojo.value = filterParameter.getStringValue();
+				break;
+			case DATE_TIME:
+			case DATE:
+				caseDateTime(pojo, filterParameter, FieldDTO.isTzAware(dtoField), searchParameter, result);
+				break;
+			case LOV:
+				IDictionaryType type = LovUtils.getType(dtoField);
+				if (type == null) {
+					throw new IllegalArgumentException(
+							"Необходимо указать аннотацию @Lov в DTO для поля типа LOV: " + dtoField.getName());
+				}
+				pojo.value = type.lookupName(filterParameter.getStringValue());
+				break;
+			case LONG:
+				pojo.value = filterParameter.getLongValue();
+				break;
+			case BOOLEAN:
+				pojo.value = filterParameter.getBooleanValue();
+				break;
+			case BIG_DECIMAL:
+				pojo.value = filterParameter.getBigDecimalValue();
+				break;
+			default:
+				pojo.value = null;
+		}
+	}
 
-		param.getStringValuesAsList();
-//		return param.getStringValuesAsList().stream()
-//				.map(string -> type.lookupName(string))
-//				.collect(Collectors.toList());
+	private static void multipleValuesSwitch(SearchParameterType typeS, SearchParameterPOJO pojo, FilterParameter param,
+			Field dtoField) {
+		boolean tzAware = FieldDTO.isTzAware(dtoField);
+		switch (typeS) {
+			case STRING:
+				pojo.value = param.getStringValuesAsList();
+				break;
+			case LOV:
+				IDictionaryType type = LovUtils.getType(dtoField);
+				if (type == null) {
+					throw new ServerException("Необходимо указать аннотацию @Lov в DTO для поля типа LOV: " + dtoField.getName());
+				}
+				pojo.value = param.getStringValuesAsList().stream()
+						.map(type::lookupName)
+						.collect(Collectors.toList());
+				break;
+			case DATE:
+				List<Period<LocalDateTime>> periods = new ArrayList<>();
+				for (LocalDateTime value : param.getDateValueAsList()) {
+					LocalDateTime startValue = value.with(DateTimeUtil.asStartOfDay())
+							.with(DateTimeUtil.fromSession(tzAware));
+					LocalDateTime endValue = value.with(DateTimeUtil.asEndOfDay()).with(DateTimeUtil.fromSession(tzAware));
+					periods.add(new Period<>(startValue, endValue));
+				}
+				pojo.value = periods;
+				pojo.operator = SearchOperation.INTERVALS;
+				break;
+			case LONG:
+				pojo.value = param.getLongValuesAsList();
+				break;
+			case MULTIFIELD:
+				pojo.field = dtoField.getDeclaredAnnotation(SearchParameter.class).name();
+
+				SearchParameterType searchParameterType = dtoField.getDeclaredAnnotation(SearchParameter.class).multiFieldKey();
+				if (MULTIFIELD.equals(searchParameterType) || pojo.field == null) {
+					return;
+				}
+				multipleValuesSwitch(searchParameterType, pojo, param, dtoField);
+				break;
+			default:
+				throw new ClientException("фильтрация по листу поддерживается только для строковых типов, дат и LOV-ов");
+		}
+	}
+
+	private static void caseDateTime(SearchParameterPOJO pojo, FilterParameter param, boolean tzAware,
+			SearchParameter parameter, List<SearchParameterPOJO> result) {
+
+		switch (pojo.operator) {
+			case GREATER_OR_EQUAL_THAN:
+			case LESS_THAN:
+				pojo.value = param.getDateValue().with(DateTimeUtil.asStartOfDay())
+						.with(DateTimeUtil.fromSession(tzAware));
+				if (parameter.strict()) {
+					pojo.value = param.getDateValue().with(DateTimeUtil.fromSession(tzAware));
+				}
+				break;
+			case LESS_OR_EQUAL_THAN:
+			case GREATER_THAN:
+				pojo.value = param.getDateValue().with(DateTimeUtil.asEndOfDay())
+						.with(DateTimeUtil.fromSession(tzAware));
+				if (parameter.strict()) {
+					pojo.value = param.getDateValue().with(DateTimeUtil.fromSession(tzAware));
+				}
+				break;
+			case EQUALS:
+				LocalDateTime startValue;
+				if (parameter.type().equals(SearchParameterType.DATE)) {
+					startValue = param.getDateValue().with(DateTimeUtil.asStartOfDay());
+				} else { //if DATE_TIME
+					startValue = param.getDateValue().withSecond(0);
+				}
+				pojo.value = startValue.with(DateTimeUtil.fromSession(tzAware));
+				pojo.operator = SearchOperation.GREATER_OR_EQUAL_THAN;
+				SearchParameterPOJO pojoAdditional = new SearchParameterPOJO();
+				pojoAdditional.operator = SearchOperation.LESS_THAN;
+				pojoAdditional.field = pojo.field;
+
+				if (parameter.type().equals(SearchParameterType.DATE)) {
+					pojoAdditional.value = startValue.with(DateTimeUtil.asEndOfDay())
+							.with(DateTimeUtil.fromSession(tzAware));
+					result.add(pojoAdditional);
+				} else { //if DATE_TIME
+					pojoAdditional.value = LocalDateTime.of(
+							startValue.toLocalDate(),
+							startValue.toLocalTime().plusMinutes(1)
+					).with(DateTimeUtil.fromSession(tzAware));
+					result.add(pojoAdditional);
+				}
+				break;
+			default:
+				pojo.value = param.getDateValue().with(DateTimeUtil.fromSession(tzAware));
+				break;
+		}
 	}
 
 }
