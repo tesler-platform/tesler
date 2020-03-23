@@ -30,5 +30,5 @@ public enum SearchParameterType {
 	DATE_TIME,
 	MULTISOURCE,
 	BIG_DECIMAL,
-	MULTIVALUE
+	MULTIFIELD
 }
