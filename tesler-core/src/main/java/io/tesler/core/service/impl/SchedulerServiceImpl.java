@@ -32,6 +32,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import lombok.extern.slf4j.Slf4j;
 import org.quartz.CronScheduleBuilder;
 import org.quartz.CronTrigger;
@@ -88,8 +89,8 @@ public class SchedulerServiceImpl implements SchedulerService {
 			JobDetail jobDetail = jobBuilder.build();
 			Trigger trigger = triggerBuilder.withSchedule(scheduleBuilder).build();
 
-			Map<JobDetail, List<Trigger>> jobData = new HashMap<>();
-			jobData.put(jobDetail, Collections.singletonList(trigger));
+			Map<JobDetail, Set<? extends Trigger>> jobData = new HashMap<>();
+			jobData.put(jobDetail, Collections.singleton(trigger));
 
 			// мы (пока) не используем расписание отличное от cron
 			// поэтому все что отличается - это не наше, поэтому
