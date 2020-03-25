@@ -63,6 +63,15 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-war-plugin</artifactId>
+        <configuration>
+          <attachClasses>true</attachClasses>
+          <archive>
+            <manifestEntries>
+              <Enable-CDI>false</Enable-CDI>
+              <Enable-Implicit-Bean-Archive>false</Enable-Implicit-Bean-Archive>
+            </manifestEntries>
+          </archive>
+        </configuration>
       </plugin>
     </plugins>
   </build>

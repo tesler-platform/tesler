@@ -25,7 +25,6 @@
     <dependency>
       <groupId>com.fasterxml.jackson.datatype</groupId>
       <artifactId>jackson-datatype-jsr310</artifactId>
-      <version>${fasterxml.version}</version>
     </dependency>
     <dependency>
       <groupId>javax.persistence</groupId>
