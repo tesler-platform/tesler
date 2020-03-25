@@ -4,7 +4,7 @@
   <groupId>io.tesler</groupId>
   <artifactId>tesler</artifactId>
   <packaging>pom</packaging>
-  <version>2.0.4-SNAPSHOT</version>
+  <version>2.1.0</version>
   <name>IO Tesler</name>
   <description>Java framework designed for creating Enterprise Rich Web Applications</description>
   <inceptionYear>2018</inceptionYear>
@@ -36,7 +36,7 @@
     <connection>scm:git:git@github.com:tesler-platformtesler.git</connection>
     <developerConnection>scm:git:git@github.com:tesler-platform/tesler.git</developerConnection>
     <url>https://github.com/tesler-platform/tesler</url>
-    <tag>HEAD</tag>
+    <tag>tesler-2.1.0</tag>
   </scm>
 
   <distributionManagement>
