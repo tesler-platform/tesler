@@ -2,15 +2,15 @@
 
 ## Features
 
-* Add availability to create custom fields on widget.json (#51)
-* Added search parameter processing to multiValue field (#53)
+* Add availability to create custom field properties on `widget.json` file (#51)
+* Added search parameter processing to multi value field (#53)
 
 ## Fixes
 
-* AbstactResponseService#getOneAsEntity should use getParentSpecification and specifications, provided by SpecificationHolder's (#47)
+* `AbstactResponseService#getOneAsEntity` should use `getParentSpecification` and specifications, provided by `SpecificationHolder`'s (#47)
 * Archetypes: fixed Postgres compitability. (#49)
 * Archetypes: fixed typos. (#52)
-* Custom actions now dont trigger update, if autosaveBefore flag is not present(#48)
+* Custom actions now dont trigger update, if `autosaveBefore` flag is not present(#48)
 
 # Version 2.0.3
 
