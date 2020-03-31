@@ -125,9 +125,9 @@ public class SearchParameterPOJO {
 		}
 
 		pojo.type = parameter.type();
-		pojo.field = parameter.name().isEmpty() ?
-				parameter.name()
-				: dtoFieldName;
+		pojo.field = parameter.name().isEmpty()
+				? dtoFieldName
+				: parameter.name();
 
 		if (pojo.operator == SPECIFIED) {
 			pojo.value = param.getBooleanValue();
