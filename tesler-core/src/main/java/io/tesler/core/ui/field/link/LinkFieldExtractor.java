@@ -20,6 +20,7 @@
 
 package io.tesler.core.ui.field.link;
 
+import io.tesler.core.ui.field.CustomFieldExtractor;
 import io.tesler.core.ui.model.BcField;
 import io.tesler.core.ui.model.BcField.Attribute;
 import io.tesler.model.ui.entity.Widget;
@@ -48,6 +49,8 @@ public final class LinkFieldExtractor {
 				);
 			}
 		}
+		Set<BcField> customFields = CustomFieldExtractor.extract(widgetId, bc, object);
+		fields.addAll(customFields);
 		return fields;
 	}
 

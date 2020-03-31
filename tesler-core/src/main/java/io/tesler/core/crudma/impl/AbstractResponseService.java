@@ -255,18 +255,18 @@ public abstract class AbstractResponseService<T extends DataResponseDTO, E exten
 		preInvoke(bc, action.withPreActionEvents(bc), data, null);
 		T record = null;
 		if (nonNull(bc.getId())) {
-			// поменялись данные - обновляем
-			// здесь должна поставиться блокировка
-			if (nonNull(data) && data.hasChangedFields()) {
+			// Data is changed and we need to apply these changes
+			// Lock must be set here
+			if (action.isAutoSaveBefore() && nonNull(data) && data.hasChangedFields()) {
 				record = updateEntity(bc, data).getRecord();
 			} else {
-				// новые данные к нам не пришли,
-				// но действие требует блокировки
+				// No changes comes,
+				// but action requires lock
 				if (action.isUpdateRequired() && hasPersister()) {
 					loadEntity(bc, data);
 				}
-				// внимание! здесь кеш не трогаем!
-				// getOne() вызывать нельзя
+				// WARNING! Don't touch cache here!
+				// getOne() method may not be invoked
 				record = doGetOne(bc);
 			}
 		}

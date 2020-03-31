@@ -28,7 +28,6 @@ import lombok.experimental.UtilityClass;
 @UtilityClass
 public class ServiceUtils {
 
-	@SuppressWarnings("LoopStatementThatDoesntLoop")
 	public static <T> List<T> loadServices(Class<T> cls, Object caller) {
 		List<ServiceLoader<T>> serviceLoaders = new ArrayList<>();
 		serviceLoaders.add(ServiceLoader.load(cls));
@@ -51,7 +50,6 @@ public class ServiceUtils {
 		return result;
 	}
 
-	@SuppressWarnings("LoopStatementThatDoesntLoop")
 	public static <T> T getService(Class<T> cls, Object caller) {
 		for (T service : loadServices(cls, caller)) {
 			return service;

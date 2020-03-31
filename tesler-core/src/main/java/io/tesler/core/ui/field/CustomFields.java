@@ -18,17 +18,12 @@
  * #L%
  */
 
-package io.tesler.core.util.filter;
+package io.tesler.core.ui.field;
 
+import java.util.List;
 
-public enum SearchParameterType {
-	STRING,
-	LONG,
-	BOOLEAN,
-	LOV,
-	DATE,
-	DATE_TIME,
-	MULTISOURCE,
-	BIG_DECIMAL,
-	MULTIFIELD
+public interface CustomFields {
+
+	List<String> getFieldNames();
+
 }

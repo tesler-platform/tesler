@@ -20,6 +20,7 @@
 
 package io.tesler.core.ui.model.json;
 
+import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
@@ -45,6 +46,7 @@ import io.tesler.core.ui.model.json.FieldMeta.PrintFormFieldMeta;
 import io.tesler.core.ui.model.json.FieldMeta.RichTextMeta;
 import io.tesler.core.ui.model.json.FieldMeta.TextFieldMeta;
 import io.tesler.core.ui.model.json.FieldMeta.UploadFileFieldMeta;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import lombok.Getter;
@@ -140,12 +142,6 @@ public abstract class FieldMeta extends CellStyle {
 		private String bgColorKey;
 
 		@LinkToField
-		private String snapshotKey;
-
-		@LinkToField
-		private String snapshotFileIdKey;
-
-		@LinkToField
 		private String iconParamsKey;
 
 		private String iconType;
@@ -172,6 +168,13 @@ public abstract class FieldMeta extends CellStyle {
 		private Long maxInput;
 
 		private List<MultiSourceInfo> multisource;
+
+		private Map<String, String> customFields = new HashMap<>();
+
+		@JsonAnySetter
+		public void setCustomFields(String name, String value) {
+			customFields.put(name, value);
+		}
 
 	}
 
