@@ -29,6 +29,7 @@ import static org.springframework.http.HttpStatus.NOT_ACCEPTABLE;
 import io.tesler.api.exception.ServerException;
 import io.tesler.core.dto.ErrorResponseDTO;
 import io.tesler.core.exception.BusinessException;
+import io.tesler.core.exception.BusinessIntermediateException;
 import io.tesler.core.exception.ClientException;
 import io.tesler.core.exception.ExceptionHandlerSettings;
 import io.tesler.core.exception.UnconfirmedException;
@@ -80,6 +81,13 @@ public class GlobalExceptionHandler {
 	@ResponseStatus(value = I_AM_A_TEAPOT)
 	@ResponseBody
 	public ErrorResponseDTO businessException(BusinessException e) {
+		return new ErrorResponseDTO(e);
+	}
+
+	@ExceptionHandler(BusinessIntermediateException.class)
+	@ResponseStatus(value = I_AM_A_TEAPOT)
+	@ResponseBody
+	public ErrorResponseDTO businessIntermediateException(Object data, BusinessIntermediateException e) {
 		return new ErrorResponseDTO(e);
 	}
 

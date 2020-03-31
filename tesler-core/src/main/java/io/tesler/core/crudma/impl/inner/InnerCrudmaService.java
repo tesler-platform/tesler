@@ -76,10 +76,12 @@ public class InnerCrudmaService extends AbstractCrudmaService {
 	public PreviewResult preview(BusinessComponent bc, Map<String, Object> data) {
 		final InnerBcDescription bcDescription = bc.getDescription();
 		final ResponseService<?, ?> responseService = respFactory.getService(bcDescription);
-		final DataResponseDTO requestDto = respFactory.getDTOFromMap(
+		final DataResponseDTO requestDto = respFactory.getDTOFromMapIgnoreBusinessErrors(
 				data, respFactory.getDTOFromService(bcDescription), bc
 		);
 		final DataResponseDTO responseDto = responseService.preview(bc, requestDto).getRecord();
+
+		responseDto.setErrors(requestDto.getErrors());
 		return new PreviewResult(requestDto, responseDto);
 	}
 
