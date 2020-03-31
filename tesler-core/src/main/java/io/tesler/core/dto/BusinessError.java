@@ -20,10 +20,10 @@
 
 package io.tesler.core.dto;
 
-import io.tesler.core.crudma.bc.BusinessComponent;
-import io.tesler.core.dto.rowmeta.PostAction;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import io.tesler.core.crudma.bc.BusinessComponent;
+import io.tesler.core.dto.rowmeta.PostAction;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -48,7 +48,7 @@ public final class BusinessError {
 
 	@Getter
 	@ToString
-	public static class Entity {
+	public static class Entity implements io.tesler.api.data.dto.Entity {
 
 		private final String bcName;
 

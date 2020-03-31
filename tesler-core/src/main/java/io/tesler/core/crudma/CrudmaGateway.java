@@ -44,6 +44,7 @@ import io.tesler.core.crudma.bc.BcRegistry;
 import io.tesler.core.crudma.bc.BusinessComponent;
 import io.tesler.core.crudma.bc.impl.BcDescription;
 import io.tesler.core.crudma.bc.impl.InnerBcDescription;
+import io.tesler.core.dto.BusinessError.Entity;
 import io.tesler.core.dto.MessageType;
 import io.tesler.core.dto.rowmeta.ActionResultDTO;
 import io.tesler.core.dto.rowmeta.ActionType;
@@ -53,6 +54,7 @@ import io.tesler.core.dto.rowmeta.CreateResult;
 import io.tesler.core.dto.rowmeta.MetaDTO;
 import io.tesler.core.dto.rowmeta.PostAction;
 import io.tesler.core.dto.rowmeta.PostAction.BasePostActionField;
+import io.tesler.core.exception.BusinessIntermediateException;
 import io.tesler.core.security.PolicyEnforcer;
 import io.tesler.core.service.ResponseFactory;
 import io.tesler.core.service.ResponseService;
@@ -153,7 +155,12 @@ public class CrudmaGateway {
 				addActionCancel(bc, result.getMeta().getRow().getActions());
 			}
 		}
-		return result.getMeta();
+		if (result.getDto().getErrors() == null) {
+			return result.getMeta();
+		}
+		throw new BusinessIntermediateException()
+				.setObject(result.getMeta())
+				.setEntity((Entity) result.getDto().getErrors());
 	}
 
 	public ActionResultDTO update(CrudmaAction crudmaAction, Map<String, Object> data) {
