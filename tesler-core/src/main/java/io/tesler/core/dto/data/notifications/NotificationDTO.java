@@ -67,7 +67,9 @@ public class NotificationDTO extends DataResponseDTO {
 		this.url = entity.getUrl();
 		this.createdDate = entity.getCreatedDate();
 		this.read = entity.isRead();
-		this.mimeType = entity.getMimeType().getKey();
+		if (entity.getMimeType() != null) {
+			this.mimeType = entity.getMimeType().getKey();
+		}
 	}
 
 }

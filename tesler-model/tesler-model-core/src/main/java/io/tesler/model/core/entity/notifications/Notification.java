@@ -64,10 +64,10 @@ public class Notification extends BaseEntity {
 	private String uiMessage;
 
 	@Formula("BITAND(DELIVERY_STATUS, 1)")
-	private boolean read;
+	private Integer read;
 
 	@Formula("BITAND(DELIVERY_TYPE, 1)")
-	private boolean push;
+	private Integer push;
 
 	@Column(name = "URL")
 	private String url;
@@ -92,6 +92,14 @@ public class Notification extends BaseEntity {
 	public final void prePersist() {
 		this.subject = StringUtils.truncate(this.subject, 1500);
 		this.uiSubject = StringUtils.truncate(this.uiSubject, 1500);
+	}
+
+	public boolean isRead() {
+		return read == 1;
+	}
+
+	public boolean isPush() {
+		return push == 1;
 	}
 
 }
