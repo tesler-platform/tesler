@@ -59,7 +59,7 @@ public class NotificationDAOImpl implements NotificationDAO {
 			PageSpecification page) {
 		return jpaDao.getPage(
 				Notification.class,
-				getNotificationSpecification(recipientId, unread, offset),
+				getNotificationSpecification(recipientId, unread, offset, true),
 				page.isProvided() ? page : null
 		);
 	}
@@ -68,18 +68,19 @@ public class NotificationDAOImpl implements NotificationDAO {
 	public long countNotifications(Long recipientId, boolean unread, Long offset) {
 		return jpaDao.getCount(
 				Notification.class,
-				getNotificationSpecification(recipientId, unread, offset)
+				getNotificationSpecification(recipientId, unread, offset, false)
 		);
 	}
 
-	private Specification<Notification> getNotificationSpecification(Long recipientId, boolean unread, Long offset) {
+	private Specification<Notification> getNotificationSpecification(Long recipientId, boolean unread, Long offset,
+			boolean order) {
 		return (root, cq, cb) -> {
 			List<Predicate> predicates = new ArrayList<>();
 			predicates.add(cb.equal(root.get(Notification_.recipientId), recipientId));
-			predicates.add(cb.equal(root.get(Notification_.push), true));
+			predicates.add(cb.equal(root.get(Notification_.push), 1));
 			if (unread) {
 				predicates.add(
-						cb.equal(root.get(Notification_.read), false)
+						cb.equal(root.get(Notification_.read), 0)
 				);
 			}
 			if (offset != null) {
@@ -87,7 +88,9 @@ public class NotificationDAOImpl implements NotificationDAO {
 						cb.lessThan(root.get(Notification_.id), offset)
 				);
 			}
-			cq.orderBy(cb.desc(root.get(Notification_.createdDate)));
+			if (order) {
+				cq.orderBy(cb.desc(root.get(Notification_.createdDate)));
+			}
 			return cb.and(predicates.toArray(new Predicate[0]));
 		};
 	}
@@ -98,7 +101,7 @@ public class NotificationDAOImpl implements NotificationDAO {
 		for (List<NotificationDeferredResult> chunk : Lists.partition(recipients, 500)) {
 			notifications.addAll(jpaDao.getList(
 					Notification.class, (root, cq, cb) -> cb.and(
-							cb.equal(root.get(Notification_.push), true),
+							cb.equal(root.get(Notification_.push), 1),
 							cb.or(chunk.stream().map(e -> {
 										List<Predicate> predicates = new ArrayList<>();
 										predicates.add(cb.equal(root.get(Notification_.recipientId), e.getRecipientId()));
