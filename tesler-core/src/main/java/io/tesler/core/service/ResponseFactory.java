@@ -22,6 +22,10 @@ package io.tesler.core.service;
 
 import static io.tesler.api.util.i18n.ErrorMessageSource.errorMessage;
 
+import com.fasterxml.jackson.databind.DeserializationContext;
+import com.fasterxml.jackson.databind.JavaType;
+import com.fasterxml.jackson.databind.deser.DeserializationProblemHandler;
+import com.fasterxml.jackson.databind.jsontype.TypeIdResolver;
 import io.tesler.api.data.dto.DataResponseDTO;
 import io.tesler.api.data.dto.DataResponseDTO_;
 import io.tesler.core.crudma.bc.BusinessComponent;
@@ -30,10 +34,6 @@ import io.tesler.core.dto.BusinessError.Entity;
 import io.tesler.core.dto.ValidatorsProvider;
 import io.tesler.core.exception.BusinessException;
 import io.tesler.core.util.jackson.CustomObjectMapper;
-import com.fasterxml.jackson.databind.DeserializationContext;
-import com.fasterxml.jackson.databind.JavaType;
-import com.fasterxml.jackson.databind.deser.DeserializationProblemHandler;
-import com.fasterxml.jackson.databind.jsontype.TypeIdResolver;
 import java.lang.reflect.Type;
 import java.lang.reflect.TypeVariable;
 import java.util.HashSet;
@@ -71,6 +71,16 @@ public class ResponseFactory {
 	}
 
 	public DataResponseDTO getDTOFromMap(Map<String, Object> map, Class<?> clazz, BusinessComponent bc) {
+		return getDTOFromMapInner(map, clazz, bc, false);
+	}
+
+	public DataResponseDTO getDTOFromMapIgnoreBusinessErrors(Map<String, Object> map, Class<?> clazz,
+			BusinessComponent bc) {
+		return getDTOFromMapInner(map, clazz, bc, true);
+	}
+
+	private DataResponseDTO getDTOFromMapInner(Map<String, Object> map, Class<?> clazz, BusinessComponent bc,
+			boolean ignoreBusinessErrors) {
 		DtoDeserializationHandler handler = new DtoDeserializationHandler();
 		mapper.addHandler(handler);
 		Object objectResult;
@@ -83,11 +93,11 @@ public class ResponseFactory {
 		if (!(objectResult instanceof DataResponseDTO)) {
 			throw new IllegalArgumentException(clazz + " doesn't extend from " + DataResponseDTO.class);
 		}
-
+		Entity entity = null;
 		Set<ConstraintViolation<Object>> violations = validatorsProvider.getValidator(clazz).validate(objectResult);
 		Set<String> badFields = handler.getFields();
 		if (!badFields.isEmpty() || !violations.isEmpty()) {
-			Entity entity = new Entity(bc);
+			entity = new Entity(bc);
 			for (String fieldName : badFields) {
 				entity.addField(fieldName, errorMessage("error.field_deserialization_error"));
 			}
@@ -98,8 +108,10 @@ public class ResponseFactory {
 				}
 				entity.addField(fieldName, violation.getMessage());
 			}
-			throw new BusinessException()
-					.setEntity(entity);
+			if (!ignoreBusinessErrors) {
+				throw new BusinessException()
+						.setEntity(entity);
+			}
 		}
 
 		Set<String> fields = new HashSet<>(map.keySet());
@@ -110,6 +122,9 @@ public class ResponseFactory {
 		result.setChangedFields(fields);
 		// Чтобы можно было назад возвращать
 		result.setId(bc.getId());
+		if (entity != null) {
+			result.setErrors(entity);
+		}
 		return result;
 	}
 
