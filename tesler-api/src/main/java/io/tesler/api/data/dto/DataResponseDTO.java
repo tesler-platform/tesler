@@ -20,12 +20,12 @@
 
 package io.tesler.api.data.dto;
 
+import com.fasterxml.jackson.annotation.JsonFilter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.tesler.api.data.IDataContainer;
 import io.tesler.constgen.DtoField;
 import io.tesler.constgen.DtoMetamodelIgnore;
 import io.tesler.constgen.GeneratesDtoMetamodel;
-import com.fasterxml.jackson.annotation.JsonFilter;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.function.Function;
@@ -43,6 +43,8 @@ public abstract class DataResponseDTO implements CheckedDto, IDataContainer<Data
 	protected Set<String> changedFields = new TreeSet<>();
 
 	protected String id;
+
+	protected Entity errors;
 
 	@Ephemeral
 	protected long vstamp;

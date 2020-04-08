@@ -21,6 +21,7 @@
 package io.tesler.core.dto;
 
 import io.tesler.core.exception.BusinessException;
+import io.tesler.core.exception.BusinessIntermediateException;
 import io.tesler.core.exception.UnconfirmedException;
 import lombok.Getter;
 import lombok.ToString;
@@ -31,6 +32,8 @@ public final class ErrorResponseDTO {
 
 	private final boolean success = false;
 
+	private Object data;
+
 	private final BusinessError error;
 
 	public ErrorResponseDTO(BusinessException e) {
@@ -39,6 +42,11 @@ public final class ErrorResponseDTO {
 
 	public ErrorResponseDTO(UnconfirmedException e) {
 		this.error = new BusinessError(null, null, e.getPreInvokeEvents(), null);
+	}
+
+	public ErrorResponseDTO(BusinessIntermediateException e) {
+		this.data = e.getObject();
+		this.error = new BusinessError(null, e.getEntity(), null, null);
 	}
 
 }
