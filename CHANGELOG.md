@@ -2,13 +2,14 @@
 
 ## Features
 
-* Clear unused dependencies. Add spring-boot-dependencies (#54)
+* Clear unused dependencies. Add `spring-boot-dependencies` (#54)
 * Errors block added to row meta preview (#62)
 
 ## Fixes
 
 * Notifications: bitand workaround for postgreSQL (#61)
-* Fix filters in SearchParameterPOJO (#58)
+* Fix filters in `SearchParameterPOJO` (#58)
+* Fixed exception message in `AbstractResponseService#getOneAsEntity`
 
 # Version 2.1.0
 
