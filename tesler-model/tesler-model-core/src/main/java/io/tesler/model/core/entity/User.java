@@ -21,8 +21,6 @@
 package io.tesler.model.core.entity;
 
 import io.tesler.api.data.dictionary.LOV;
-import io.tesler.model.core.api.Alias;
-import io.tesler.model.core.api.Aliases;
 import io.tesler.model.core.api.security.IAccessorSupplier;
 import io.tesler.model.core.entity.security.Accessor;
 import io.tesler.model.core.entity.security.types.AccessorType;
@@ -54,9 +52,6 @@ import org.hibernate.envers.NotAudited;
 @Table(name = "users") // users, а не user, т.к. это служебное слово oracle
 @Getter
 @Setter
-@Aliases(aliases = {
-		@Alias(associationPath = "department", alias = "department")
-})
 public class User extends BaseEntity implements IAccessorSupplier {
 
 	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)

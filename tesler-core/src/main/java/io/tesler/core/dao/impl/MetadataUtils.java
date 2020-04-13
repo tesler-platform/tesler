@@ -36,20 +36,15 @@ import io.tesler.core.controller.param.SortParameters;
 import io.tesler.core.dao.SearchParameterPOJO;
 import io.tesler.core.dto.LovUtils;
 import io.tesler.core.util.filter.SearchParameter;
-import io.tesler.model.core.api.Alias;
-import io.tesler.model.core.api.Aliases;
 import io.tesler.model.core.entity.BaseEntity;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Comparator;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Expression;
@@ -137,19 +132,6 @@ public class MetadataUtils {
 	public static Path getFieldPath(String field, Root<?> root) {
 		Path result;
 		if (field.contains(".")) {
-			// здесь пытаемся поддержать совместимость со старой реализацией
-			// поиска по дочерним сущностям: если в сущности указаны алиасы
-			// то поле у нас будет несколько другим
-			Map<String, String> aliases = getAliases(root.getJavaType());
-			String association = null;
-			do {
-				int dotIndex = field.indexOf('.');
-				association = aliases.remove(field.substring(0, dotIndex));
-				if (association != null) {
-					field = association + field.substring(dotIndex);
-				}
-			} while (association != null);
-
 			String[] fieldArr = field.split("\\.");
 			From partialFrom = root;
 			for (int i = 0; i < fieldArr.length - 1; i++) {
@@ -160,15 +142,6 @@ public class MetadataUtils {
 			result = root.get(field);
 		}
 		return result;
-	}
-
-	private static Map<String, String> getAliases(Class<?> cls) {
-		Aliases aliases = cls.getAnnotation(Aliases.class);
-		if (aliases == null) {
-			return new HashMap<>();
-		}
-		return Stream.of(aliases.aliases())
-				.collect(Collectors.toMap(Alias::alias, Alias::associationPath));
 	}
 
 	public static Predicate createPredicate(Root<?> root, SearchParameterPOJO criteria, CriteriaBuilder cb) {
@@ -313,6 +286,7 @@ public class MetadataUtils {
 
 	public static Predicate getPredicateFromSearchParams(CriteriaBuilder cb, Root<?> root, Class dtoClazz,
 			FilterParameters searchParams) {
+
 		if (searchParams == null) {
 			return cb.and();
 		}
