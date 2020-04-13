@@ -21,8 +21,6 @@
 package io.tesler.model.core.entity;
 
 import io.tesler.api.data.dictionary.LOV;
-import io.tesler.model.core.api.Alias;
-import io.tesler.model.core.api.Aliases;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -33,7 +31,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.sql.JoinType;
 
 @Entity
 @Getter
@@ -41,9 +38,6 @@ import org.hibernate.sql.JoinType;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "USER_ROLE")
-@Aliases(aliases = {
-		@Alias(associationPath = "user", alias = "user", joinType = JoinType.LEFT_OUTER_JOIN)
-})
 public class UserRole extends BaseEntity {
 
 	@ManyToOne(fetch = FetchType.LAZY)
