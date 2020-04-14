@@ -18,24 +18,32 @@
  * #L%
  */
 
-package io.tesler.core.ui.model.json;
+package io.tesler.core.ui.model.json.field;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import io.tesler.core.ui.model.json.field.FieldMeta;
+import io.tesler.core.ui.model.json.field.FieldMeta.FieldContainer;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
 
-
 @Getter
 @Setter
-@JsonIgnoreProperties(ignoreUnknown = true)
-public class WidgetBcHierarchy {
+public final class FieldGroup implements FieldContainer {
 
-	private String bcName;
+	@JsonProperty(value = "break")
+	private Boolean breakBlock;
 
-	private String assocValueKey;
+	private Boolean fullSize;
 
-	private List<FieldMeta> fields;
+	private String blockId;
+
+	private String name;
+
+	private Boolean visible;
+
+	private Boolean newRow;
+
+	@JsonProperty("fields")
+	private List<FieldMeta> children;
 
 }

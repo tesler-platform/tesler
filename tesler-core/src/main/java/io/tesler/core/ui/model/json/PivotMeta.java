@@ -23,6 +23,7 @@ package io.tesler.core.ui.model.json;
 import io.tesler.core.ui.field.link.LinkToField;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import io.tesler.core.ui.model.json.field.FieldMeta;
 import java.util.List;
 import lombok.Getter;
 import lombok.Setter;

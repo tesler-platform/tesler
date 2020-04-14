@@ -18,24 +18,20 @@
  * #L%
  */
 
-package io.tesler.core.ui.model.json;
+package io.tesler.core.ui.field;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import io.tesler.core.ui.model.json.field.FieldMeta;
-import java.util.List;
-import lombok.Getter;
-import lombok.Setter;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
+@Retention(RetentionPolicy.RUNTIME)
+@Target({ElementType.TYPE})
+public @interface TeslerWidgetField {
 
-@Getter
-@Setter
-@JsonIgnoreProperties(ignoreUnknown = true)
-public class WidgetBcHierarchy {
-
-	private String bcName;
-
-	private String assocValueKey;
-
-	private List<FieldMeta> fields;
+	/**
+	 * @return array of field types, that the annotated class supports
+	 */
+	String[] value();
 
 }

@@ -18,7 +18,7 @@
  * #L%
  */
 
-package io.tesler.core.ui.model.json;
+package io.tesler.core.ui.model.json.field;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
@@ -39,7 +39,6 @@ public enum FieldType {
 	DATETIME_WITH_SECONDS("dateTimeWithSeconds"),
 	CHECKBOX("checkbox"),
 	CHECKBOX_SQL("checkboxSql"),
-	DMN("DMN"),
 	PICKLIST("pickList"),
 	INLINE_PICKLIST("inline-pickList"),
 	DICTIONARY("dictionary"),

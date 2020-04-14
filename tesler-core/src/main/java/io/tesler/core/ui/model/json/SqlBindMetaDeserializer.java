@@ -27,6 +27,7 @@ import com.fasterxml.jackson.core.TreeNode;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import io.tesler.core.ui.model.json.field.FieldMeta;
 import java.io.IOException;
 import java.util.Arrays;
 

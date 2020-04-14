@@ -23,7 +23,7 @@ package io.tesler.core.ui.field;
 import io.tesler.api.util.ServiceUtils;
 import io.tesler.core.ui.model.BcField;
 import io.tesler.core.ui.model.BcField.Attribute;
-import io.tesler.core.ui.model.json.FieldMeta.FieldMetaBase;
+import io.tesler.core.ui.model.json.field.FieldMeta.FieldMetaBase;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
