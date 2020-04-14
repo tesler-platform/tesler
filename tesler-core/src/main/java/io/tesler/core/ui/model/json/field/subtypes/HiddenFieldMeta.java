@@ -18,24 +18,21 @@
  * #L%
  */
 
-package io.tesler.core.ui.model.json;
+package io.tesler.core.ui.model.json.field.subtypes;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import io.tesler.core.ui.model.json.field.FieldMeta;
-import java.util.List;
-import lombok.Getter;
-import lombok.Setter;
+import io.tesler.core.ui.field.TeslerWidgetField;
+import io.tesler.core.ui.model.json.field.FieldMeta.FieldMetaBase;
+import java.util.Map;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
+@EqualsAndHashCode(callSuper = true)
+@Data
+@TeslerWidgetField({"hidden"})
+public class HiddenFieldMeta extends FieldMetaBase {
 
-@Getter
-@Setter
-@JsonIgnoreProperties(ignoreUnknown = true)
-public class WidgetBcHierarchy {
+	private String popupBcName;
 
-	private String bcName;
-
-	private String assocValueKey;
-
-	private List<FieldMeta> fields;
+	private Map<String, String> pickMap;
 
 }

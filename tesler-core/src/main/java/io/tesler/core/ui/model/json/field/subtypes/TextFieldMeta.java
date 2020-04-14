@@ -18,24 +18,22 @@
  * #L%
  */
 
-package io.tesler.core.ui.model.json;
+package io.tesler.core.ui.model.json.field.subtypes;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import io.tesler.core.ui.model.json.field.FieldMeta;
-import java.util.List;
-import lombok.Getter;
-import lombok.Setter;
+import io.tesler.core.ui.field.TeslerWidgetField;
+import io.tesler.core.ui.model.json.field.FieldMeta.FieldMetaBase;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
+@EqualsAndHashCode(callSuper = true)
+@Data
+@TeslerWidgetField({"text"})
+public class TextFieldMeta extends FieldMetaBase {
 
-@Getter
-@Setter
-@JsonIgnoreProperties(ignoreUnknown = true)
-public class WidgetBcHierarchy {
+	private Boolean popover;
 
-	private String bcName;
+	private Integer minInputRows;
 
-	private String assocValueKey;
-
-	private List<FieldMeta> fields;
+	private Integer maxInputRows;
 
 }

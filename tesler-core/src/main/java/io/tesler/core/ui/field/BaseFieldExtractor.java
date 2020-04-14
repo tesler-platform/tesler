@@ -27,16 +27,17 @@ import io.tesler.core.ui.model.BcField;
 import io.tesler.core.ui.model.BcField.Attribute;
 import io.tesler.core.ui.model.MultivalueField;
 import io.tesler.core.ui.model.PickListField;
-import io.tesler.core.ui.model.json.FieldMeta;
-import io.tesler.core.ui.model.json.FieldMeta.MultiSourceInfo;
-import io.tesler.core.ui.model.json.FieldType;
+import io.tesler.core.ui.model.json.field.FieldMeta;
+import io.tesler.core.ui.model.json.field.FieldMeta.FieldMetaBase.MultiSourceInfo;
+import io.tesler.core.ui.model.json.field.FieldType;
+import io.tesler.core.ui.model.json.field.subtypes.MultivalueFieldMeta;
+import io.tesler.core.ui.model.json.field.subtypes.PickListFieldMeta;
 import io.tesler.core.util.JuelUtils;
 import io.tesler.core.util.JuelUtils.Property;
 import io.tesler.model.ui.entity.Widget;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
@@ -57,11 +58,9 @@ public abstract class BaseFieldExtractor implements FieldExtractor {
 			for (final PickListField pickList : getPickLists(fieldMetaBase)) {
 				if (pickList.getPickMap() != null) {
 					for (final Entry<String, String> entry : pickList.getPickMap().entrySet()) {
-						if (fieldMetaBase.getType() != FieldType.DMN) {
-							widgetFields.add(new BcField(widget.getBc(), entry.getKey())
-									.putAttribute(Attribute.WIDGET_ID, widget.getId())
-							);
-						}
+						widgetFields.add(new BcField(widget.getBc(), entry.getKey())
+								.putAttribute(Attribute.WIDGET_ID, widget.getId())
+						);
 						pickListFields.add(new BcField(pickList.getPickListBc(), entry.getValue())
 								.putAttribute(Attribute.WIDGET_ID, widget.getId())
 								.putAttribute(Attribute.PARENT_BC, widget.getBc())
@@ -112,7 +111,7 @@ public abstract class BaseFieldExtractor implements FieldExtractor {
 
 	private MultivalueField getMultivalueField(final FieldMeta.FieldMetaBase field) {
 		if (field.getType() == FieldType.MULTIVALUE || field.getType() == FieldType.MULTIVALUE_HOVER) {
-			final FieldMeta.MultivalueFieldMeta multivalueField = (FieldMeta.MultivalueFieldMeta) field;
+			final MultivalueFieldMeta multivalueField = (MultivalueFieldMeta) field;
 			return new MultivalueField(
 					multivalueField.getPopupBcName(),
 					multivalueField.getAssocValueKey(),
@@ -125,16 +124,8 @@ public abstract class BaseFieldExtractor implements FieldExtractor {
 	private List<PickListField> getPickLists(final FieldMeta.FieldMetaBase field) {
 		final List<PickListField> pickLists = new ArrayList<>();
 		if (field.getType() == FieldType.PICKLIST || field.getType() == FieldType.INLINE_PICKLIST) {
-			final FieldMeta.PickListFieldMeta pickListField = (FieldMeta.PickListFieldMeta) field;
+			final PickListFieldMeta pickListField = (PickListFieldMeta) field;
 			pickLists.add(new PickListField(pickListField.getPopupBcName(), pickListField.getPickMap()));
-		} else if (field.getType() == FieldType.DMN) {
-			final FieldMeta.DMNFieldMeta dmnField = (FieldMeta.DMNFieldMeta) field;
-			for (final Map.Entry<String, FieldMeta.DMNFieldMeta.Popup> popupEntry : dmnField.getPopups().entrySet()) {
-				pickLists.add(new PickListField(
-						popupEntry.getValue().getPopupBcName(),
-						popupEntry.getValue().getPickMap()
-				));
-			}
 		}
 		return pickLists;
 	}

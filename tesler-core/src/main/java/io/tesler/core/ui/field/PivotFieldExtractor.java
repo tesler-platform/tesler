@@ -23,7 +23,7 @@ package io.tesler.core.ui.field;
 import io.tesler.core.ui.field.link.LinkFieldExtractor;
 import io.tesler.core.ui.model.BcField;
 import io.tesler.core.ui.model.BcField.Attribute;
-import io.tesler.core.ui.model.json.FieldMeta;
+import io.tesler.core.ui.model.json.field.FieldMeta;
 import io.tesler.core.ui.model.json.PivotMeta;
 import io.tesler.core.ui.model.json.PivotMeta.TableColRow;
 import io.tesler.core.ui.model.json.PivotMeta.TableValue;

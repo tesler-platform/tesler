@@ -18,24 +18,25 @@
  * #L%
  */
 
-package io.tesler.core.ui.model.json;
+package io.tesler.core.ui.model.json.field.subtypes;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import io.tesler.core.ui.field.TeslerWidgetField;
 import io.tesler.core.ui.model.json.field.FieldMeta;
+import io.tesler.core.ui.model.json.field.FieldMeta.FieldContainer;
+import io.tesler.core.ui.model.json.field.FieldMeta.FieldMetaBase;
 import java.util.List;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
+@EqualsAndHashCode(callSuper = true)
+@Data
+@TeslerWidgetField({"multifield"})
+public class MultifieldFieldMeta extends FieldMetaBase implements FieldContainer {
 
-@Getter
-@Setter
-@JsonIgnoreProperties(ignoreUnknown = true)
-public class WidgetBcHierarchy {
+	@JsonProperty("fields")
+	private List<FieldMeta> children;
 
-	private String bcName;
-
-	private String assocValueKey;
-
-	private List<FieldMeta> fields;
+	private String style;
 
 }

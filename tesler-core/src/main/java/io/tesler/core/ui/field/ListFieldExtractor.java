@@ -23,7 +23,7 @@ package io.tesler.core.ui.field;
 import static io.tesler.api.util.i18n.LocalizationFormatter.i18n;
 
 import io.tesler.core.ui.model.BcField;
-import io.tesler.core.ui.model.json.FieldMeta;
+import io.tesler.core.ui.model.json.field.FieldMeta;
 import io.tesler.core.util.JsonUtils;
 import io.tesler.model.ui.entity.Widget;
 import java.util.ArrayList;
