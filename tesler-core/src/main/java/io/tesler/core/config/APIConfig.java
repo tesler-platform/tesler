@@ -20,15 +20,16 @@
 
 package io.tesler.core.config;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.tesler.core.controller.http.FillLogParametersInterceptor;
 import io.tesler.core.controller.param.resolvers.LocaleParameterArgumentResolver;
 import io.tesler.core.controller.param.resolvers.PageParameterArgumentResolver;
 import io.tesler.core.controller.param.resolvers.QueryParametersResolver;
 import io.tesler.core.controller.param.resolvers.TimeZoneParameterArgumentResolver;
-import io.tesler.core.util.jackson.CustomObjectMapper;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.converter.ByteArrayHttpMessageConverter;
 import org.springframework.http.converter.HttpMessageConverter;
@@ -47,7 +48,8 @@ public class APIConfig implements WebMvcConfigurer {
 
 	protected final FillLogParametersInterceptor debugModeInterceptor;
 
-	protected final CustomObjectMapper objectMapper;
+	@Qualifier("teslerObjectMapper")
+	protected final ObjectMapper objectMapper;
 
 	@Override
 	public void addArgumentResolvers(List<HandlerMethodArgumentResolver> argumentResolvers) {

@@ -21,6 +21,7 @@
 package io.tesler.testing.tests;
 
 import io.tesler.core.bc.InnerBcTypeAware;
+import io.tesler.core.config.JacksonConfig;
 import io.tesler.core.crudma.bc.BusinessComponent;
 import io.tesler.core.crudma.bc.impl.BcDescription;
 import io.tesler.core.crudma.bc.impl.BcRegistryImpl;
@@ -33,7 +34,6 @@ import io.tesler.core.service.DTOMapper;
 import io.tesler.core.service.ResponseFactory;
 import io.tesler.core.service.ResponseService;
 import io.tesler.core.ui.BcUtils;
-import io.tesler.core.util.jackson.CustomObjectMapper;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.ContextHierarchy;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
@@ -49,11 +49,11 @@ import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 						BcUtils.class,
 						InnerBcTypeAware.class,
 						ResponseFactory.class,
-						CustomObjectMapper.class,
 						ResponseBuilder.class,
 						BcRegistryImpl.class,
 						SearchSpecDao.class,
-						ValidatorsProviderImpl.class
+						ValidatorsProviderImpl.class,
+						JacksonConfig.class
 				}
 		)
 )

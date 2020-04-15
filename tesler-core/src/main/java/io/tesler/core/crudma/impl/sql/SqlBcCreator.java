@@ -20,6 +20,8 @@
 
 package io.tesler.core.crudma.impl.sql;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.tesler.api.exception.ServerException;
 import io.tesler.core.controller.param.SearchOperation;
 import io.tesler.core.crudma.bc.impl.SqlBcDescription;
@@ -29,8 +31,6 @@ import io.tesler.core.crudma.bc.impl.SqlBcDescription.Field;
 import io.tesler.core.crudma.impl.sql.utils.SqlBcQuery;
 import io.tesler.core.crudma.impl.sql.utils.SqlFieldType;
 import io.tesler.model.ui.entity.Bc;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.time.ZoneId;
@@ -54,8 +54,13 @@ public class SqlBcCreator {
 
 	private final NamedParameterJdbcTemplate jdbcTemplate;
 
-	public SqlBcCreator(@Qualifier("primaryDS") DataSource dataSource) {
+	private final ObjectMapper objectMapper;
+
+	public SqlBcCreator(@Qualifier("primaryDS") DataSource dataSource,
+			@Qualifier("teslerObjectMapper") ObjectMapper objectMapper
+	) {
 		this.jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
+		this.objectMapper = objectMapper;
 	}
 
 	public SqlBcDescription getDescription(Bc bc) {
@@ -66,8 +71,7 @@ public class SqlBcCreator {
 
 	private List<Bind> getBindsFromJson(String bindsString) {
 		try {
-			ObjectMapper mapper = new ObjectMapper();
-			List<Bindings> binds = mapper.readValue(bindsString, new TypeReference<List<Bindings>>() {
+			List<Bindings> binds = objectMapper.readValue(bindsString, new TypeReference<List<Bindings>>() {
 			});
 			List<SqlBcDescription.Bind> sqlBcDescriptionBinds = new ArrayList<>();
 			binds.forEach(bind -> {

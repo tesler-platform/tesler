@@ -31,6 +31,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import lombok.SneakyThrows;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -51,6 +52,7 @@ public class AJAXRedirectStrategyImpl extends DefaultRedirectStrategy implements
 
 	public static final String SLASH = "/";
 
+	@Qualifier("teslerObjectMapper")
 	private final ObjectMapper objectMapper;
 
 	private final RequestMatcher ajaxRequestMatcher;

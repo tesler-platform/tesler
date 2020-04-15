@@ -29,7 +29,6 @@ import io.tesler.core.ui.model.MultivalueField;
 import io.tesler.core.ui.model.PickListField;
 import io.tesler.core.ui.model.json.field.FieldMeta;
 import io.tesler.core.ui.model.json.field.FieldMeta.FieldMetaBase.MultiSourceInfo;
-import io.tesler.core.ui.model.json.field.FieldType;
 import io.tesler.core.ui.model.json.field.subtypes.MultivalueFieldMeta;
 import io.tesler.core.ui.model.json.field.subtypes.PickListFieldMeta;
 import io.tesler.core.util.JuelUtils;
@@ -110,7 +109,7 @@ public abstract class BaseFieldExtractor implements FieldExtractor {
 	}
 
 	private MultivalueField getMultivalueField(final FieldMeta.FieldMetaBase field) {
-		if (field.getType() == FieldType.MULTIVALUE || field.getType() == FieldType.MULTIVALUE_HOVER) {
+		if (field.getType().equals("multivalue") || field.getType().equals("multivalueHover")) {
 			final MultivalueFieldMeta multivalueField = (MultivalueFieldMeta) field;
 			return new MultivalueField(
 					multivalueField.getPopupBcName(),
@@ -123,7 +122,7 @@ public abstract class BaseFieldExtractor implements FieldExtractor {
 
 	private List<PickListField> getPickLists(final FieldMeta.FieldMetaBase field) {
 		final List<PickListField> pickLists = new ArrayList<>();
-		if (field.getType() == FieldType.PICKLIST || field.getType() == FieldType.INLINE_PICKLIST) {
+		if (field.getType().equals("pickList") || field.getType().equals("inline-pickList")) {
 			final PickListFieldMeta pickListField = (PickListFieldMeta) field;
 			pickLists.add(new PickListField(pickListField.getPopupBcName(), pickListField.getPickMap()));
 		}

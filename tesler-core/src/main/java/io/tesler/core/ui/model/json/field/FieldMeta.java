@@ -63,7 +63,7 @@ public abstract class FieldMeta extends CellStyle {
 	@Data
 	public abstract static class FieldMetaBase extends FieldMeta {
 
-		private FieldType type;
+		private String type;
 
 		private Boolean isValue;
 

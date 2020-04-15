@@ -20,16 +20,17 @@
 
 package io.tesler.core.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.tesler.core.dto.ResponseBuilder;
 import io.tesler.core.dto.ResponseDTO;
 import io.tesler.core.exception.ClientException;
 import io.tesler.core.service.ViewService;
-import io.tesler.core.util.jackson.CustomObjectMapper;
 import io.tesler.model.ui.entity.WidgetLayout;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -40,7 +41,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class ViewController {
 
-	private final CustomObjectMapper mapper;
+	@Qualifier("teslerObjectMapper")
+	private final ObjectMapper mapper;
 
 	private final ViewService views;
 
