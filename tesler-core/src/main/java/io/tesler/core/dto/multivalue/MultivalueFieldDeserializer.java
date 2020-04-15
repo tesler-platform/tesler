@@ -21,7 +21,6 @@
 package io.tesler.core.dto.multivalue;
 
 import io.tesler.core.exception.ClientException;
-import io.tesler.core.util.jackson.CustomObjectMapper;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
@@ -31,10 +30,16 @@ import com.fasterxml.jackson.databind.type.CollectionType;
 import com.fasterxml.jackson.databind.type.TypeFactory;
 import java.io.IOException;
 import java.util.List;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
 
+@Component
+@RequiredArgsConstructor
 class MultivalueFieldDeserializer extends JsonDeserializer<MultivalueField> {
 
-	private static final ObjectMapper mapper = new CustomObjectMapper();
+	@Qualifier("teslerObjectMapper")
+	private final ObjectMapper mapper;
 
 	private static final CollectionType collectionType =
 			TypeFactory

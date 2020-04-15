@@ -23,7 +23,6 @@ package io.tesler.core.config;
 import io.tesler.api.service.PluginAware;
 import io.tesler.core.service.ResponsibilitiesService;
 import io.tesler.core.service.impl.ResponsibilitiesServiceImpl;
-import io.tesler.core.util.jackson.CustomObjectMapper;
 import io.tesler.model.core.dao.JpaDao;
 import io.tesler.plugin.SpringPluginManager;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -38,11 +37,6 @@ import org.springframework.context.annotation.aspectj.EnableSpringConfigured;
 @PropertySource("classpath:application.properties")
 @EnableSpringConfigured
 public class CoreApplicationConfig {
-
-	@Bean("customObjectMapper")
-	public CustomObjectMapper customObjectMapper() {
-		return CustomObjectMapper.getInstance();
-	}
 
 	@Bean(name = PluginAware.PLUGIN_MANAGER, destroyMethod = "stopPlugins")
 	public SpringPluginManager pluginManager() {

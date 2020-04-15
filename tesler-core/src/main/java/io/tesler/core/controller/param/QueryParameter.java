@@ -20,8 +20,9 @@
 
 package io.tesler.core.controller.param;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import io.tesler.core.util.SpringBeanUtils;
 import io.tesler.core.util.TypeConverter;
-import io.tesler.core.util.jackson.CustomObjectMapper;
 import com.fasterxml.jackson.core.type.TypeReference;
 import java.util.Collections;
 import java.util.List;
@@ -45,7 +46,8 @@ public interface QueryParameter {
 		if (StringUtils.isBlank(stringValue)) {
 			return Collections.emptyList();
 		}
-		List<String> strings = CustomObjectMapper.getInstance()
+		ObjectMapper teslerObjectMapper = SpringBeanUtils.getBean("teslerObjectMapper");
+		List<String> strings = teslerObjectMapper
 				.readValue(stringValue, new StringListTypeReference());
 		return strings.stream()
 				.map(value -> TypeConverter.to(cls, value))

@@ -21,7 +21,6 @@
 package io.tesler.core.util;
 
 import io.tesler.api.exception.ServerException;
-import io.tesler.core.util.jackson.CustomObjectMapper;
 import com.fasterxml.jackson.core.TreeNode;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -30,11 +29,10 @@ import java.io.IOException;
 
 public final class JsonUtils {
 
-	private static final ObjectMapper OBJECT_MAPPER = new CustomObjectMapper();
-
 	public static JsonNode readTree(String json) {
 		try {
-			return OBJECT_MAPPER.readTree(json);
+			ObjectMapper teslerObjectMapper = SpringBeanUtils.getBean("teslerObjectMapper");
+			return teslerObjectMapper.readTree(json);
 		} catch (IOException e) {
 			throw new ServerException("Не удалось распарсить Json:" + json, e);
 		}
@@ -42,7 +40,8 @@ public final class JsonUtils {
 
 	public static <T> T readValue(final Class<T> valueClass, final TreeNode treeNode) {
 		try {
-			return OBJECT_MAPPER.treeToValue(treeNode, valueClass);
+			ObjectMapper teslerObjectMapper = SpringBeanUtils.getBean("teslerObjectMapper");
+			return teslerObjectMapper.treeToValue(treeNode, valueClass);
 		} catch (IOException e) {
 			throw new IllegalArgumentException("Не удалось распарсить Json:" + treeNode, e);
 		}
@@ -50,7 +49,8 @@ public final class JsonUtils {
 
 	public static <T> T readValue(final Class<T> valueClass, final String json) {
 		try {
-			return OBJECT_MAPPER.readValue(json, valueClass);
+			ObjectMapper teslerObjectMapper = SpringBeanUtils.getBean("teslerObjectMapper");
+			return teslerObjectMapper.readValue(json, valueClass);
 		} catch (Exception e) {
 			throw new IllegalArgumentException("Не удалось распарсить Json:" + json, e);
 		}
@@ -58,7 +58,8 @@ public final class JsonUtils {
 
 	public static <T> String writeValue(final T value) {
 		try {
-			return OBJECT_MAPPER.writeValueAsString(value);
+			ObjectMapper teslerObjectMapper = SpringBeanUtils.getBean("teslerObjectMapper");
+			return teslerObjectMapper.writeValueAsString(value);
 		} catch (Exception e) {
 			throw new IllegalArgumentException("Не удалось создать Json строку из класса:" + value, e);
 		}

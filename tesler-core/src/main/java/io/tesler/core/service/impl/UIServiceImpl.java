@@ -21,6 +21,7 @@
 package io.tesler.core.service.impl;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.tesler.api.data.dictionary.CoreDictionaries;
 import io.tesler.api.data.dictionary.CoreDictionaries.ViewGroupType;
 import io.tesler.api.data.dictionary.LOV;
@@ -35,7 +36,6 @@ import io.tesler.core.dto.data.view.ScreenNavigation.ViewGroup;
 import io.tesler.core.dto.data.view.ScreenResponsibility;
 import io.tesler.core.service.ResponsibilitiesService;
 import io.tesler.core.service.UIService;
-import io.tesler.core.util.jackson.CustomObjectMapper;
 import io.tesler.model.core.dao.JpaDao;
 import io.tesler.model.core.entity.User;
 import io.tesler.model.ui.entity.BcProperties;
@@ -67,6 +67,7 @@ import javax.annotation.PostConstruct;
 import javax.persistence.criteria.Predicate;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
@@ -78,7 +79,8 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class UIServiceImpl implements UIService {
 
-	private final CustomObjectMapper objectMapper;
+	@Qualifier("teslerObjectMapper")
+	private final ObjectMapper objectMapper;
 
 	private final ResponsibilitiesService responsibilitiesService;
 

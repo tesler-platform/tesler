@@ -20,6 +20,7 @@
 
 package io.tesler.core.util.session.impl;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.tesler.api.data.dictionary.CoreDictionaries.SystemPref;
 import io.tesler.api.data.dictionary.LOV;
 import io.tesler.api.data.dictionary.SimpleDictionary;
@@ -31,7 +32,6 @@ import io.tesler.core.service.UIService;
 import io.tesler.core.service.ViewService;
 import io.tesler.core.service.ResponsibilitiesService;
 import io.tesler.core.service.impl.UserRoleService;
-import io.tesler.core.util.jackson.CustomObjectMapper;
 import io.tesler.core.util.session.LoginService;
 import io.tesler.core.util.session.SessionService;
 import io.tesler.model.core.entity.User;
@@ -43,6 +43,7 @@ import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -54,7 +55,8 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class LoginServiceImpl implements LoginService {
 
-	private final CustomObjectMapper objectMapper;
+	@Qualifier("teslerObjectMapper")
+	private final ObjectMapper objectMapper;
 
 	private final SessionService sessionService;
 

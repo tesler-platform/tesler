@@ -24,6 +24,7 @@ import static io.tesler.api.util.i18n.ErrorMessageSource.errorMessage;
 
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JavaType;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.deser.DeserializationProblemHandler;
 import com.fasterxml.jackson.databind.jsontype.TypeIdResolver;
 import io.tesler.api.data.dto.DataResponseDTO;
@@ -33,7 +34,6 @@ import io.tesler.core.crudma.bc.impl.InnerBcDescription;
 import io.tesler.core.dto.BusinessError.Entity;
 import io.tesler.core.dto.ValidatorsProvider;
 import io.tesler.core.exception.BusinessException;
-import io.tesler.core.util.jackson.CustomObjectMapper;
 import java.lang.reflect.Type;
 import java.lang.reflect.TypeVariable;
 import java.util.HashSet;
@@ -45,6 +45,7 @@ import javax.validation.Path;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.reflect.TypeUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
 
@@ -55,7 +56,8 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class ResponseFactory {
 
-	private final CustomObjectMapper mapper;
+	@Qualifier("teslerObjectMapper")
+	private final ObjectMapper mapper;
 
 	private final ApplicationContext ctx;
 

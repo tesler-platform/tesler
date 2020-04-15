@@ -27,46 +27,82 @@ import com.fasterxml.jackson.databind.jsontype.TypeIdResolver;
 import com.fasterxml.jackson.databind.type.TypeFactory;
 import io.tesler.core.ui.model.json.field.FieldMeta.FieldMetaBase;
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
-import org.reflections.Reflections;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.config.BeanDefinition;
+import org.springframework.context.annotation.ClassPathScanningCandidateComponentProvider;
+import org.springframework.core.type.filter.AnnotationTypeFilter;
+import org.springframework.stereotype.Component;
+import org.springframework.util.ClassUtils;
+import org.springframework.util.StringUtils;
 
+@Component
 public class PackageScanFieldIdResolver implements TypeIdResolver {
 
 	private JavaType baseType;
 
 	private Map<String, JavaType> typeMap = new HashMap<>();
 
+	@Value("${tesler.widget.fields.include-packages:io.tesler.core.ui.model.json.field.subtypes}")
+	private String[] includePackages;
+
+	@Value("${tesler.widget.fields.exclude-classes:}")
+	private String[] excludeClasses;
+
 	@Override
 	public void init(JavaType javaType) {
 		baseType = javaType;
-
 		Class<?> baseClazz = baseType.getRawClass();
-
-		Reflections reflections = new Reflections(); // root package to scan for subclasses
-		Set<Class<?>> fieldsClasses = (Set<Class<?>>) reflections.getTypesAnnotatedWith(TeslerWidgetField.class);
-
+		Set<Class<?>> fieldsClasses = scanForFields(includePackages);
 		fieldsClasses.forEach(annotatedClazz -> {
-
-			if (!baseClazz.isAssignableFrom(annotatedClazz)) {
-				throw new IllegalStateException(
-						"Class " + annotatedClazz.getName() + ", annotated with " + TeslerWidgetField.class.getName() +
-								" must extends from class " + baseClazz.getName()
-				);
-			}
-			TeslerWidgetField teslerWidgetField = annotatedClazz.getAnnotation(TeslerWidgetField.class);
-			for (String widgetType : teslerWidgetField.value()) {
-				if (typeMap.containsKey(widgetType)) {
+			if (!Arrays.asList(excludeClasses).contains(annotatedClazz.getCanonicalName())) {
+				if (!baseClazz.isAssignableFrom(annotatedClazz)) {
 					throw new IllegalStateException(
-							"Widget type \"" + widgetType + "\" dublicated in TeslerWidgetField annotations.");
+							"Class " + annotatedClazz.getName() + ", annotated with " + TeslerWidgetField.class.getName() +
+									" must extends from class " + baseClazz.getName()
+					);
 				}
-				typeMap.put(
-						widgetType,
-						TypeFactory.defaultInstance().constructSpecializedType(baseType, annotatedClazz)
-				);
+				TeslerWidgetField teslerWidgetField = annotatedClazz.getAnnotation(TeslerWidgetField.class);
+				for (String widgetType : teslerWidgetField.value()) {
+					if (typeMap.containsKey(widgetType)) {
+						throw new IllegalStateException(
+								"Widget type \"" + widgetType + "\" dublicated in TeslerWidgetField annotations.");
+					}
+					typeMap.put(
+							widgetType,
+							TypeFactory.defaultInstance().constructSpecializedType(baseType, annotatedClazz)
+					);
+				}
 			}
 		});
+	}
+
+	private Set<Class<?>> scanForFields(String[] packages) {
+		if (packages.length == 0) {
+			return Collections.emptySet();
+		}
+		ClassPathScanningCandidateComponentProvider scanner = new ClassPathScanningCandidateComponentProvider(false);
+		scanner.addIncludeFilter(new AnnotationTypeFilter(TeslerWidgetField.class));
+		Set<Class<?>> entitySet = new HashSet<>();
+		for (String basePackage : packages) {
+			if (StringUtils.hasText(basePackage)) {
+				for (BeanDefinition candidate : scanner.findCandidateComponents(basePackage)) {
+					try {
+						entitySet.add(ClassUtils
+								.forName(Objects.requireNonNull(candidate.getBeanClassName()), this.getClass().getClassLoader()));
+					} catch (ClassNotFoundException e) {
+						throw new IllegalStateException(e);
+					}
+				}
+			}
+		}
+		return entitySet;
 	}
 
 	@Override
@@ -82,8 +118,8 @@ public class PackageScanFieldIdResolver implements TypeIdResolver {
 	@Override
 	public String idFromValueAndType(Object o, Class<?> aClass) {
 		if (o instanceof FieldMetaBase &&
-				typeMap.containsKey(((FieldMetaBase) o).getType().getValue())) {
-			return typeMap.get(((FieldMetaBase) o).getType().getValue()).getRawClass().getSimpleName();
+				typeMap.containsKey(((FieldMetaBase) o).getType())) {
+			return typeMap.get(((FieldMetaBase) o).getType()).getRawClass().getSimpleName();
 		}
 		return null;
 	}
@@ -93,7 +129,7 @@ public class PackageScanFieldIdResolver implements TypeIdResolver {
 		if (typeMap.containsKey(s)) {
 			return typeMap.get(s);
 		}
-		throw new IOException("Cannot find class for type id \"" + s + "\"");
+		throw new IOException("Cannot find class for type = \"" + s + "\"");
 	}
 
 	@Override
