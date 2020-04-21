@@ -35,7 +35,8 @@ import lombok.Setter;
 		"dateTimeWithSeconds",
 		"richText",
 		"combo-condition",
-		"dateTime"
+		"dateTime",
+		"radio"
 })
 public class EmptyFieldMeta extends FieldMetaBase {
 
