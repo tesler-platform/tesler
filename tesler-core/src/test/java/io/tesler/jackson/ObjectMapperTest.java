@@ -28,6 +28,7 @@ import io.tesler.core.ui.field.PackageScanFieldIdResolver;
 import io.tesler.core.ui.model.json.field.FieldMeta;
 import io.tesler.core.ui.model.json.field.subtypes.DictionaryFieldMeta;
 import io.tesler.core.ui.model.json.field.subtypes.DiffTextFieldMeta;
+import io.tesler.core.ui.model.json.field.subtypes.EmptyFieldMeta;
 import io.tesler.core.ui.model.json.field.subtypes.HiddenFieldMeta;
 import io.tesler.core.ui.model.json.field.subtypes.InlinePickListFieldMeta;
 import io.tesler.core.ui.model.json.field.subtypes.InputFieldMeta;
@@ -198,6 +199,18 @@ public class ObjectMapperTest {
 		UploadFileFieldMeta textFieldMeta = (UploadFileFieldMeta) field;
 		assertThat(textFieldMeta.getFileIdKey()).isNotNull();
 		assertThat(textFieldMeta.getFileSource()).isNotNull();
+	}
+
+	@Test
+	void testRadioField() throws Exception {
+		String fields = IOUtils.toString(
+				getClass().getResourceAsStream("RadioField.json"),
+				Charset.defaultCharset()
+		);
+		final FieldMeta field = JsonUtils.readValue(FieldMeta.class, fields);
+		assertThat(field).isInstanceOf(EmptyFieldMeta.class);
+		EmptyFieldMeta emptyFieldMeta = (EmptyFieldMeta) field;
+		assertThat(emptyFieldMeta.getTitle()).isNotNull();
 	}
 
 }

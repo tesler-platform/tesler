@@ -56,6 +56,8 @@ public class FieldDTO {
 
 	Boolean filterable;
 
+	String placeholder;
+
 	@JsonIgnore
 	boolean tzAware;
 
