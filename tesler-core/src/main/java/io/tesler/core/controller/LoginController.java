@@ -64,6 +64,16 @@ public class LoginController {
 
 	private final CoreSessionService coreSessionService;
 
+	/**
+	 * Authenticate user in the application; actual authentication performed by Spring Security in client app
+	 *
+	 * @param request
+	 * @param response
+	 * @param role Required role; TODO: Used to switch role from UI, consider separate endpoint for that
+	 * @param timezone
+	 * @param locale Required locale TODO: Consider separate endpoint to switch language from UI
+	 * @return
+	 */
 	@RequestMapping(method = RequestMethod.GET, value = "/login")
 	public LoggedUser get(
 			HttpServletRequest request,
@@ -75,6 +85,11 @@ public class LoginController {
 		return loginService.getLoggedUser(role);
 	}
 
+	/**
+	 * Logout endpoint, actual session is usually cleared by client application by specifying this endpoint as
+	 * `logoutUrl` of Spring Security configuration
+	 * @return Empty list
+	 */
 	@RequestMapping(method = RequestMethod.GET, value = "/logout")
 	public ResponseDTO logout() {
 		return resp.build(new ArrayList<>());
@@ -99,13 +114,13 @@ public class LoginController {
 
 	protected Locale getLocale(LocaleContext context, LocaleSpecification locale) {
 		List<Locale> candidates = new ArrayList<>();
-		// явно указанное в запросе
+		// explicitly specified in request
 		Optional.ofNullable(locale).map(LocaleSpecification::getLocale).map(LOV::getKey)
 				.map(StringUtils::parseLocaleString).ifPresent(candidates::add);
-		// настройки пользователя
+		// user settings
 		Optional.ofNullable(coreSessionService.getLocale(null))
 				.ifPresent(candidates::add);
-		// информация из браузера (куки или Accept-language)
+		// browser information (cookies or Accept-language)
 		Optional.of(context.getLocale()).ifPresent(candidates::add);
 		return candidates.stream().filter(
 				l -> localeService.isLanguageSupported(l.getLanguage())
