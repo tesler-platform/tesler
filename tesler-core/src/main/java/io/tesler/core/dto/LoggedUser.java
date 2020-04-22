@@ -57,6 +57,9 @@ public class LoggedUser {
 
 	private List<SimpleDictionary> roles;
 
+	/**
+	 * @deprecated TODO: Remove in 3.0 in favor of separate ScreenController endpoint
+	 */
 	private List<ScreenResponsibility> screens;
 
 	private JsonNode userSettingsVersion;
