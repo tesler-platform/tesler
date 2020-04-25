@@ -1,0 +1,7 @@
+{
+  "title": "Some File Field",
+  "key": "someFileField",
+  "type": "fileUpload",
+  "fileIdKey": "fileKey",
+  "fileSource": "fileSource"
+}

@@ -18,20 +18,9 @@
  * #L%
  */
 
-package io.tesler.core.ui.model.json.field.subtypes;
+package io.tesler.core.ui.field;
 
-import io.tesler.core.ui.field.TeslerWidgetField;
-import io.tesler.core.ui.model.json.field.FieldMeta.FieldMetaBase;
-import lombok.Getter;
-import lombok.Setter;
-
-@Getter
-@Setter
-@TeslerWidgetField("diffText")
-public class DiffTextFieldMeta extends FieldMetaBase {
-
-	private String diffSource;
-
-	private String diffTarget;
+@TeslerWidgetField("someField")
+class FailedWidgetField {
 
 }

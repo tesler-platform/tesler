@@ -1,0 +1,10 @@
+{
+  "label": "Example Field 1",
+  "key": "exampleInput",
+  "type": "input",
+  "maskField": "someMaskField",
+  "mask" : {
+    "type" : "Pattern",
+    "mask" : "+{7}(000)000-00-00"
+  }
+}

@@ -26,11 +26,11 @@ import io.tesler.core.ui.model.json.field.FieldMeta;
 import io.tesler.core.ui.model.json.field.FieldMeta.FieldContainer;
 import io.tesler.core.ui.model.json.field.FieldMeta.FieldMetaBase;
 import java.util.List;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 
-@EqualsAndHashCode(callSuper = true)
-@Data
+@Getter
+@Setter
 @TeslerWidgetField({"multifield"})
 public class MultifieldFieldMeta extends FieldMetaBase implements FieldContainer {
 

@@ -30,11 +30,11 @@ import io.tesler.core.ui.model.json.CellStyle;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 
-@EqualsAndHashCode(callSuper = true)
-@Data
+@Getter
+@Setter
 @JsonTypeInfo(use = JsonTypeInfo.Id.CUSTOM, property = "type", defaultImpl = FieldMeta.ListColumnGroupMeta.class, visible = true)
 @JsonTypeIdResolver(PackageScanFieldIdResolver.class)
 public abstract class FieldMeta extends CellStyle {
@@ -49,8 +49,8 @@ public abstract class FieldMeta extends CellStyle {
 
 	}
 
-	@EqualsAndHashCode(callSuper = true)
-	@Data
+	@Getter
+	@Setter
 	public static class ListColumnGroupMeta extends FieldMeta implements FieldContainer {
 
 		@JsonProperty("childrens")
@@ -59,8 +59,8 @@ public abstract class FieldMeta extends CellStyle {
 	}
 
 
-	@EqualsAndHashCode(callSuper = true)
-	@Data
+	@Getter
+	@Setter
 	public abstract static class FieldMetaBase extends FieldMeta {
 
 		private String type;
@@ -131,7 +131,8 @@ public abstract class FieldMeta extends CellStyle {
 			customFields.put(name, value);
 		}
 
-		@Data
+		@Getter
+		@Setter
 		public static class MultiSourceInfo {
 
 			private String key;

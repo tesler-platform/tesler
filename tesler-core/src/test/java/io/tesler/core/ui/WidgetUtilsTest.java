@@ -41,7 +41,7 @@ public class WidgetUtilsTest {
 				getClass().getResourceAsStream("MultiField.json"),
 				Charset.defaultCharset()
 		));
-		assertThat(WidgetUtils.extractAllFields(widget)).isNotEmpty().hasSize(6);
+		assertThat(WidgetUtils.extractAllFields(widget)).isNotEmpty().hasSize(12);
 	}
 
 	@Test
@@ -133,6 +133,16 @@ public class WidgetUtilsTest {
 				Charset.defaultCharset()
 		));
 		assertThat(WidgetUtils.extractAllFields(widget)).isNotEmpty().hasSize(5);
+	}
+
+	@Test
+	void testFieldMetaBaseFields() throws Exception {
+		Widget widget = getEmptyWidget();
+		widget.setFields(IOUtils.toString(
+				getClass().getResourceAsStream("FieldMetaBase.json"),
+				Charset.defaultCharset()
+		));
+		assertThat(WidgetUtils.extractAllFields(widget)).isNotEmpty().hasSize(8);
 	}
 
 	private Widget getEmptyWidget() {

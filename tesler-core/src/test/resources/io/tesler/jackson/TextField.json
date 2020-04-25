@@ -1,0 +1,8 @@
+{
+  "label": "Example Field 1",
+  "key": "exampleText",
+  "type": "text",
+  "popover": true,
+  "minInputRows": 1,
+  "maxInputRows": 5
+}

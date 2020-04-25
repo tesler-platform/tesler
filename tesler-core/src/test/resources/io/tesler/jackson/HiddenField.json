@@ -1,0 +1,10 @@
+{
+  "title": "Some Hidden Field",
+  "key": "someHiddenPickListField",
+  "type": "hidden",
+  "popupBcName": "pickListBusinessComponent",
+  "pickMap": {
+    "field1": "popupField1",
+    "field2": "popupField2"
+  }
+}
