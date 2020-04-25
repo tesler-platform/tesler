@@ -1,4 +1,4 @@
-Tesler  [![Build Status](https://travis-ci.org/tesler-platform/tesler.svg?branch=master)](https://travis-ci.org/tesler-platform/tesler) 
+Tesler  [![Build Status](https://travis-ci.org/tesler-platform/tesler.svg?branch=master)](https://travis-ci.org/tesler-platform/tesler) [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=tesler-platform_tesler&metric=alert_status)](https://sonarcloud.io/dashboard?id=tesler-platform_tesler) 
 =========
 
 Tesler is a framework that allows you to quickly develop applications using the full power of existing enterprise Java solutions.
