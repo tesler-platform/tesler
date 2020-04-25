@@ -23,13 +23,11 @@ package io.tesler.core.ui.model.json.field.subtypes;
 import io.tesler.core.ui.field.TeslerWidgetField;
 import io.tesler.core.ui.field.link.LinkToField;
 import io.tesler.core.ui.model.json.field.FieldMeta.FieldMetaBase;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
-@EqualsAndHashCode(callSuper = true)
-@Data
+@Getter
+@Setter
 @TeslerWidgetField({"input", "hint"})
 public class InputFieldMeta extends FieldMetaBase {
 

@@ -1,0 +1,7 @@
+{
+  "title": "Some Number Field",
+  "key": "someNumberField",
+  "type": "number",
+  "digits": 1,
+  "nullable": true
+}

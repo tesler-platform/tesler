@@ -36,7 +36,7 @@ class MultivalueFieldSingleValueDeserializer extends JsonDeserializer<Multivalue
 				node.get("id").asText(),
 				node.get("value").asText()
 		);
-		if (node.get("options") != null && node.get("options").isArray()) {
+		if (node.get("options") != null && node.get("options").isObject()) {
 			node.get("options").fields().forEachRemaining(
 					option -> multivalueFieldSingleValue
 							.addOption(MultivalueOptionType.of(option.getKey()), option.getValue().asText())

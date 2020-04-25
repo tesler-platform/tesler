@@ -1,0 +1,11 @@
+{
+  "title": "Some Inline Pick List Field",
+  "key": "someInlinePickListField",
+  "type": "inline-pickList",
+  "searchSpec": "searchSpec",
+  "popupBcName": "pickListBusinessComponent",
+  "pickMap": {
+    "field1": "popupField1",
+    "field2": "popupField2"
+  }
+}

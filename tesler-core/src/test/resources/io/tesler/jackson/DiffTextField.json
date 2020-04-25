@@ -1,0 +1,7 @@
+{
+  "title": "Present risk zone",
+  "key": "presentRiskZoneCd",
+  "type": "diffText",
+  "diffSource": "source",
+  "diffTarget": "destination"
+}

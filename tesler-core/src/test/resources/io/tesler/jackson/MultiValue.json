@@ -1,0 +1,17 @@
+[
+  {
+    "id": "1",
+    "value": "First",
+    "options": {
+        "drillDown": "someDrillDownLink"
+    }
+  },
+  {
+    "id": "2",
+    "value": "Second"
+  },
+  {
+    "id": "3",
+    "value": "Third"
+  }
+]

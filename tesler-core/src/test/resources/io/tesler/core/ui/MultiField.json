@@ -13,7 +13,8 @@
   {
     "title": "Status",
     "key": "statusCd",
-    "type": "dictionary"
+    "type": "dictionary",
+    "dictionaryName": "DICTIONARY"
   },
   {
     "title": "Risk zones",
@@ -36,7 +37,30 @@
   {
     "title": "Present risk zone",
     "key": "presentRiskZoneCd",
-    "type": "dictionary"
+    "type": "diffText",
+    "diffSource": "source",
+    "diffTarget": "destination"
+  },
+  {
+    "title": "Some Hidden Field",
+    "key": "someHiddenPickListField",
+    "type": "hidden",
+    "popupBcName": "pickListBusinessComponent",
+    "pickMap": {
+      "field1": "popupField1",
+      "field2": "popupField2"
+    }
+  },
+  {
+    "title": "Some Inline Pick List Field",
+    "key": "someInlinePickListField",
+    "type": "inline-pickList",
+    "searchSpec": "searchSpec",
+    "popupBcName": "pickListBusinessComponent",
+    "pickMap": {
+      "field1": "popupField1",
+      "field2": "popupField2"
+    }
   },
   {
     "title": "Residual risk zone",

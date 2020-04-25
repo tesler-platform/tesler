@@ -21,11 +21,11 @@
 package io.tesler.core.ui.model.json.field.subtypes;
 
 import io.tesler.core.ui.field.TeslerWidgetField;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 
-@EqualsAndHashCode(callSuper = true)
-@Data
+@Getter
+@Setter
 @TeslerWidgetField("inline-pickList")
 public class InlinePickListFieldMeta extends PickListFieldMeta {
 
