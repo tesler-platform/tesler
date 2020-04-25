@@ -20,6 +20,7 @@
 
 package io.tesler.core.crudma.bc.impl;
 
+import com.google.common.collect.Lists;
 import io.tesler.api.service.tx.DeploymentTransactionSupport;
 import io.tesler.core.crudma.bc.BcDescriptionBuilder;
 import io.tesler.core.crudma.bc.BcIdentifier;
@@ -29,9 +30,6 @@ import io.tesler.core.crudma.bc.BcRegistry;
 import io.tesler.core.crudma.bc.BcSupplier;
 import io.tesler.core.crudma.bc.RefreshableBcSupplier;
 import io.tesler.core.exception.ClientException;
-import com.google.common.collect.BiMap;
-import com.google.common.collect.HashBiMap;
-import com.google.common.collect.Lists;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -43,7 +41,6 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-import lombok.Getter;
 import org.springframework.context.annotation.DependsOn;
 import org.springframework.stereotype.Service;
 
@@ -56,9 +53,6 @@ public class BcRegistryImpl implements BcRegistry {
 	private final List<BcOverrider> bcOverriders;
 
 	private Map<String, BcDescription> bcDescriptionMap;
-
-	@Getter
-	private BiMap<String, String> bcNamesMap;
 
 	public BcRegistryImpl(Optional<List<BcSupplier>> bcSuppliers, Optional<List<BcOverrider>> bcOverriders) {
 		this.bcSuppliers = bcSuppliers.orElse(Collections.emptyList());
@@ -88,16 +82,6 @@ public class BcRegistryImpl implements BcRegistry {
 			}
 		}
 		this.bcDescriptionMap = Collections.unmodifiableMap(bcDescriptionMap);
-		this.bcNamesMap = fillBcNamesMap();
-	}
-
-	private BiMap<String, String> fillBcNamesMap() {
-		long i = 1L;
-		BiMap<String, String> map = HashBiMap.create();
-		for (String s : getAllBcNames()) {
-			map.put(s, String.valueOf(i++));
-		}
-		return map;
 	}
 
 	@Override
@@ -113,27 +97,12 @@ public class BcRegistryImpl implements BcRegistry {
 	}
 
 	@Override
-	public String getBcRegistryIdByName(String name) {
-		return getBcNamesMap().get(name);
-	}
-
-	@Override
-	public String getBcRegistryNameById(String id) {
-		return getBcNamesMap().inverse().get(id);
-	}
-
-	@Override
 	public BcDescription getBcDescription(final String bcName) {
 		final BcDescription bcDescription = bcDescriptionMap.get(bcName);
 		if (bcDescription == null) {
 			throw new ClientException(String.format("BC не найден [%s]", bcName));
 		}
 		return bcDescription;
-	}
-
-	@Override
-	public boolean exists(final String bcName) {
-		return bcDescriptionMap.containsKey(bcName);
 	}
 
 	@Override

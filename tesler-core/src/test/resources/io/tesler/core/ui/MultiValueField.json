@@ -1,0 +1,17 @@
+[
+  {
+    "label": "MultiValue field 1",
+    "key": "testMultivalue1",
+    "type": "multivalue",
+    "popupBcName": "multiValuePopupBusinessComponent",
+    "assocValueKey": "popupBcValueKey"
+  },
+  {
+    "label": "MultiValue field 2",
+    "key": "testMultivalue2",
+    "type": "multivalueHover",
+    "popupBcName": "multiValuePopupBusinessComponent",
+    "assocValueKey": "popupBcValueKey",
+    "displayedKey": "popupBcDisplayedKey"
+  }
+]

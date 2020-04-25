@@ -1,0 +1,9 @@
+{
+  "bcName": "exampleBc",
+  "key": "showConditionKey",
+  "sequence": 1,
+  "params": {
+    "fieldKey": "exampleField",
+    "value": true
+  }
+}

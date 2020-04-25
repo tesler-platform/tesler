@@ -1,0 +1,68 @@
+{
+  "title": "Indicator / Date",
+  "bordered": true,
+  "rows": [
+    {
+      "id": "r1",
+      "title": "Indicator 1"
+    },
+    {
+      "id": "r2",
+      "title": "Indicator 2"
+    },
+    {
+      "id": "r3",
+      "title": "Indicator 3"
+    },
+    {
+      "id": "r4",
+      "title": "Indicator 4"
+    }
+  ],
+  "cols": [
+    {
+      "id": "report_date",
+      "from": "data",
+      "key": "report_date_char",
+      "align": "right"
+    }
+  ],
+  "values": [
+    {
+      "row": "r1",
+      "col": "report_date",
+      "field": {
+        "key": "mark1_amount",
+        "type": "money",
+        "digits": 2
+      }
+    },
+    {
+      "row": "r2",
+      "col": "report_date",
+      "field": {
+        "key": "mark2_amount",
+        "type": "money",
+        "digits": 2
+      }
+    },
+    {
+      "row": "r3",
+      "col": "report_date",
+      "field": {
+        "key": "mark3_amount",
+        "type": "money",
+        "digits": 2
+      }
+    },
+    {
+      "row": "r4",
+      "col": "report_date",
+      "field": {
+        "key": "mark4_amount",
+        "type": "money",
+        "digits": 2
+      }
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+[
+  {
+    "title": "Some PickList Field",
+    "key": "somePickListField",
+    "type": "pickList",
+    "popupBcName": "pickListBusinessComponent",
+    "pickMap": {
+      "field1": "popupField1",
+      "field2": "popupField2"
+    }
+  }
+]
+
+
