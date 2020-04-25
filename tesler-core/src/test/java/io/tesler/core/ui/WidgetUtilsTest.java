@@ -22,47 +22,129 @@ package io.tesler.core.ui;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import io.tesler.core.config.JacksonConfig;
 import io.tesler.core.ui.field.PackageScanFieldIdResolver;
+import io.tesler.core.util.SpringBeanUtils;
 import io.tesler.model.ui.entity.Widget;
 import java.nio.charset.Charset;
 import org.apache.commons.io.IOUtils;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
-import org.springframework.test.util.ReflectionTestUtils;
+import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
+@SpringJUnitConfig({JacksonConfig.class, PackageScanFieldIdResolver.class, SpringBeanUtils.class})
 public class WidgetUtilsTest {
 
-	private static final String[] BASE_PACKAGES = {"io.tesler.core.ui.model.json.field.subtypes"};
-
-	@BeforeEach
-	public void setUp() {
-		PackageScanFieldIdResolver packageScanFieldIdResolver = new PackageScanFieldIdResolver();
-		ReflectionTestUtils.setField(packageScanFieldIdResolver, "packagesToScan", BASE_PACKAGES);
-	}
-
 	@Test
-	@Disabled
 	void testMultiField() throws Exception {
-		Widget widget = new Widget();
-		widget.setType("List");
+		Widget widget = getEmptyWidget();
 		widget.setFields(IOUtils.toString(
 				getClass().getResourceAsStream("MultiField.json"),
 				Charset.defaultCharset()
 		));
-		assertThat(WidgetUtils.extractFields(widget)).isNotEmpty().hasSize(6);
+		assertThat(WidgetUtils.extractAllFields(widget)).isNotEmpty().hasSize(6);
 	}
 
 	@Test
-	@Disabled
+	void testPickList() throws Exception {
+		Widget widget = getEmptyWidget();
+		widget.setFields(IOUtils.toString(
+				getClass().getResourceAsStream("PickList.json"),
+				Charset.defaultCharset()
+		));
+		assertThat(WidgetUtils.extractAllFields(widget)).isNotEmpty().hasSize(5);
+	}
+
+	@Test
+	void testMultiSource() throws Exception {
+		Widget widget = getEmptyWidget();
+		widget.setFields(IOUtils.toString(
+				getClass().getResourceAsStream("MultiSource.json"),
+				Charset.defaultCharset()
+		));
+		assertThat(WidgetUtils.extractAllFields(widget)).isNotEmpty().hasSize(3);
+	}
+
+	@Test
 	void testAssocHierarchy() throws Exception {
-		Widget widget = new Widget();
+		Widget widget = getEmptyWidget();
 		widget.setType("AssocListPopup");
 		widget.setOptions(IOUtils.toString(
 				getClass().getResourceAsStream("AssocHierarchy.json"),
 				Charset.defaultCharset()
 		));
-		assertThat(WidgetUtils.extractHierarchyFields(widget)).isNotEmpty().hasSize(2);
+		assertThat(WidgetUtils.extractAllFields(widget)).isNotEmpty().hasSize(3);
+	}
+
+	@Test
+	void testMultiValue() throws Exception {
+		Widget widget = getEmptyWidget();
+		widget.setFields(IOUtils.toString(
+				getClass().getResourceAsStream("MultiValueField.json"),
+				Charset.defaultCharset()
+		));
+		assertThat(WidgetUtils.extractAllFields(widget)).isNotEmpty().hasSize(4);
+	}
+
+	@Test
+	void testTitleExraction() throws Exception {
+		Widget widget = getEmptyWidget();
+		widget.setTitle("${FieldFromTitle}");
+		assertThat(WidgetUtils.extractAllFields(widget)).isNotEmpty().hasSize(1);
+	}
+
+	@Test
+	void FormFieldExraction() throws Exception {
+		Widget widget = getEmptyWidget();
+		widget.setType("Form");
+		widget.setFields(IOUtils.toString(
+				getClass().getResourceAsStream("FormFields.json"),
+				Charset.defaultCharset()
+		));
+		assertThat(WidgetUtils.extractAllFields(widget)).isNotEmpty().hasSize(2);
+	}
+
+	@Test
+	void testShowConditionExraction() throws Exception {
+		Widget widget = getEmptyWidget();
+		widget.setShowCondition(IOUtils.toString(
+				getClass().getResourceAsStream("ShowCondition.json"),
+				Charset.defaultCharset()
+		));
+		assertThat(WidgetUtils.extractAllFields(widget)).isNotEmpty().hasSize(1);
+		widget.setShowCondition("[]");
+		assertThat(WidgetUtils.extractAllFields(widget)).isEmpty();
+	}
+
+	@Test
+	void testChartExtraction() throws Exception {
+		Widget widget = getEmptyWidget();
+		widget.setChart(IOUtils.toString(
+				getClass().getResourceAsStream("Chart.json"),
+				Charset.defaultCharset()
+		));
+		assertThat(WidgetUtils.extractAllFields(widget)).isNotEmpty().hasSize(3);
+	}
+
+	@Test
+	void testPivotExtraction() throws Exception {
+		Widget widget = getEmptyWidget();
+		widget.setPivotFields(IOUtils.toString(
+				getClass().getResourceAsStream("PivotFields.json"),
+				Charset.defaultCharset()
+		));
+		assertThat(WidgetUtils.extractAllFields(widget)).isNotEmpty().hasSize(5);
+	}
+
+	private Widget getEmptyWidget() {
+		Widget widget = new Widget();
+		widget.setType("List");
+		widget.setName("widgetName");
+		widget.setTitle("");
+		widget.setBc("testBc");
+		widget.setFields("[]");
+		widget.setShowCondition("[]");
+		widget.setChart("[]");
+		return widget;
 	}
 
 }

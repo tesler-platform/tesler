@@ -1,0 +1,17 @@
+[
+  {
+    "title": "Multi Field Example",
+    "key": "multiField",
+    "type": "input",
+    "multisource": [
+      {
+        "key": "field1",
+        "label": "Field 1"
+      },
+      {
+        "key": "field2",
+        "label": "Field 2"
+      }
+    ]
+  }
+]

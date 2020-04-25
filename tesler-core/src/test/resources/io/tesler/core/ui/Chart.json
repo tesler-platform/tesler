@@ -1,0 +1,36 @@
+[ {
+  "default" : true,
+  "name" : "Graph View",
+  "engine" : "highcharts",
+  "meta" : {
+    "chart" : {
+      "plotBackgroundColor" : null,
+      "plotBorderWidth" : null,
+      "plotShadow" : false,
+      "type" : "pie-donut"
+    },
+    "title" : {
+      "text" : "Category Turnover"
+    },
+    "series" : [ {
+      "name" : "Total by category",
+      "size" : "60%",
+      "data" : {
+        "name" : "%category%",
+        "y" : "%qty%"
+      },
+      "dataLabels" : {
+        "color" : "#ffffff",
+        "distance" : -40
+      }
+    }, {
+      "name" : "Turnover, thousand dollars",
+      "size" : "100%",
+      "innerSize" : "60%",
+      "data" : {
+        "name" : "%name%",
+        "y" : "%qty%"
+      }
+    } ]
+  }
+} ]

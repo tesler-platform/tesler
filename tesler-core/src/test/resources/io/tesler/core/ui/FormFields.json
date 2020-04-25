@@ -1,0 +1,18 @@
+[
+    {
+      "blockId": "1",
+      "name": "",
+      "fields": [
+        {
+          "label": "Example Field 1",
+          "key": "exampleInput",
+          "type": "input"
+        },
+        {
+          "label": "Example Field 2",
+          "key": "exampleDate",
+          "type": "date"
+        }
+      ]
+    }
+  ]

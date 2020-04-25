@@ -21,7 +21,6 @@
 package io.tesler.core.crudma.bc;
 
 import io.tesler.core.crudma.bc.impl.BcDescription;
-import com.google.common.collect.BiMap;
 import java.util.Collection;
 import java.util.List;
 import java.util.function.Function;
@@ -35,17 +34,9 @@ public interface BcRegistry {
 
 	BcDescription getBcDescription(final String bcName);
 
-	boolean exists(final String bcName);
-
 	String getUrlFromBc(final String bcName);
 
 	List<BcDescription> getBcHierarchy(final String bcName);
-
-	BiMap<String, String> getBcNamesMap();
-
-	String getBcRegistryIdByName(String name);
-
-	String getBcRegistryNameById(String id);
 
 	void refresh();
 
