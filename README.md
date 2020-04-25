@@ -1,4 +1,5 @@
-# Tesler
+Tesler  [![Build Status](https://travis-ci.org/tesler-platform/tesler.svg?branch=master)](https://travis-ci.org/tesler-platform/tesler) 
+=========
 
 Tesler is a framework that allows you to quickly develop applications using the full power of existing enterprise Java solutions.
 
