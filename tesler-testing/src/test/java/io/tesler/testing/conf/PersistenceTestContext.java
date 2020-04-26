@@ -26,8 +26,9 @@ import static org.mockito.Mockito.when;
 
 import io.tesler.core.dao.BaseDAO;
 import io.tesler.model.core.config.ScopeConfig;
-import io.tesler.model.core.listeners.jpa.BaseEntityListener;
+import io.tesler.model.core.listeners.jpa.DelegatingBaseEntityListener;
 import io.tesler.model.core.listeners.jpa.ExtRevisionListener;
+import io.tesler.model.core.service.TeslerBaseEntityListenerDelegate;
 import io.tesler.model.core.tx.TransactionServiceImpl;
 import io.tesler.model.core.tx.TransactionStatusImpl;
 import java.sql.Connection;
@@ -43,7 +44,8 @@ import org.springframework.context.annotation.Import;
 		TransactionServiceImpl.class,
 		TransactionStatusImpl.class,
 		ExtRevisionListener.class,
-		BaseEntityListener.class
+		DelegatingBaseEntityListener.class,
+		TeslerBaseEntityListenerDelegate.class
 })
 public class PersistenceTestContext {
 

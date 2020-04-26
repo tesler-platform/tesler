@@ -23,7 +23,10 @@ package io.tesler.core.config;
 import io.tesler.api.service.PluginAware;
 import io.tesler.core.service.ResponsibilitiesService;
 import io.tesler.core.service.impl.ResponsibilitiesServiceImpl;
+import io.tesler.model.core.api.CurrentUserAware;
 import io.tesler.model.core.dao.JpaDao;
+import io.tesler.model.core.service.BaseEntityListenerDelegate;
+import io.tesler.model.core.service.TeslerBaseEntityListenerDelegate;
 import io.tesler.plugin.SpringPluginManager;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
@@ -47,6 +50,12 @@ public class CoreApplicationConfig {
 	@ConditionalOnMissingBean
 	public ResponsibilitiesService responsibilitiesService(JpaDao jpaDao) {
 		return new ResponsibilitiesServiceImpl(jpaDao);
+	}
+
+	@Bean
+	@ConditionalOnMissingBean
+	public BaseEntityListenerDelegate baseEntityListenerDelegate(CurrentUserAware currentUserAware) {
+		return new TeslerBaseEntityListenerDelegate(currentUserAware);
 	}
 
 }
