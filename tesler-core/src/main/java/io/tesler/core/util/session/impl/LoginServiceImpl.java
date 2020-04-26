@@ -20,7 +20,6 @@
 
 package io.tesler.core.util.session.impl;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import io.tesler.api.data.dictionary.CoreDictionaries.SystemPref;
 import io.tesler.api.data.dictionary.LOV;
 import io.tesler.api.data.dictionary.SimpleDictionary;

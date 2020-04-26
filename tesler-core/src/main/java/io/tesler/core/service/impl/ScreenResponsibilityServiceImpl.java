@@ -20,6 +20,7 @@
 
 package io.tesler.core.service.impl;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.tesler.api.data.dictionary.LOV;
 import io.tesler.core.dto.data.view.ScreenDTO;
 import io.tesler.core.dto.data.view.ScreenResponsibility;
@@ -27,11 +28,11 @@ import io.tesler.core.service.ResponsibilitiesService;
 import io.tesler.core.service.ScreenResponsibilityService;
 import io.tesler.core.service.UIService;
 import io.tesler.core.service.ViewService;
-import io.tesler.core.util.jackson.CustomObjectMapper;
 import io.tesler.model.core.entity.User;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -45,7 +46,8 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ScreenResponsibilityServiceImpl implements ScreenResponsibilityService {
 
-	private final CustomObjectMapper objectMapper;
+	@Qualifier("teslerObjectMapper")
+	private final ObjectMapper objectMapper;
 
 	private final ResponsibilitiesService respService;
 
