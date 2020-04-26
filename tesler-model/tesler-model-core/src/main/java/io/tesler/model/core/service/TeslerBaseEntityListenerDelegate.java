@@ -18,32 +18,26 @@
  * #L%
  */
 
-package io.tesler.model.core.listeners.jpa;
+package io.tesler.model.core.service;
 
 import io.tesler.model.core.api.CurrentUserAware;
 import io.tesler.model.core.entity.BaseEntity;
 import io.tesler.model.core.entity.User;
-import java.io.Serializable;
 import java.time.LocalDateTime;
-import javax.persistence.PostLoad;
-import javax.persistence.PrePersist;
-import javax.persistence.PreUpdate;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Component;
 
 @RequiredArgsConstructor
-@Component
-public class BaseEntityListener implements Serializable {
+public class TeslerBaseEntityListenerDelegate implements BaseEntityListenerDelegate {
 
 	private final CurrentUserAware<User> currentUserAware;
 
-	@PostLoad
-	public void onLoad(BaseEntity baseEntity) {
+	@Override
+	public void baseEntityOnLoad(BaseEntity baseEntity) {
 		baseEntity.setLoadVstamp(baseEntity.getVstamp());
 	}
 
-	@PrePersist
-	public void onCreate(BaseEntity baseEntity) {
+	@Override
+	public void baseEntityOnCreate(BaseEntity baseEntity) {
 		baseEntity.setCreatedDate(LocalDateTime.now());
 		baseEntity.setUpdatedDate(LocalDateTime.now());
 		Long currentUser = baseEntity.getCreatedBy();
@@ -56,8 +50,8 @@ public class BaseEntityListener implements Serializable {
 		}
 	}
 
-	@PreUpdate
-	public void onUpdate(BaseEntity baseEntity) {
+	@Override
+	public void baseEntityOnUpdate(BaseEntity baseEntity) {
 		Long currentUser = currentUserAware.getCurrentUser().getId();
 		baseEntity.setUpdatedDate(LocalDateTime.now());
 		if (currentUser != null) {

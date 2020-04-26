@@ -21,7 +21,7 @@
 package io.tesler.model.core.entity;
 
 import io.tesler.model.core.hbn.PropagateAnnotations;
-import io.tesler.model.core.listeners.jpa.BaseEntityListener;
+import io.tesler.model.core.listeners.jpa.DelegatingBaseEntityListener;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import javax.persistence.Column;
@@ -48,7 +48,7 @@ import org.springframework.data.annotation.CreatedDate;
 @Getter
 @MappedSuperclass
 @EqualsAndHashCode(of = {"id"}, callSuper = false)
-@EntityListeners(BaseEntityListener.class)
+@EntityListeners(DelegatingBaseEntityListener.class)
 @DiscriminatorOptions(insert = false)
 @PropagateAnnotations({DiscriminatorOptions.class})
 public abstract class BaseEntity extends AbstractEntity implements Serializable {
