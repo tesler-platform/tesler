@@ -60,6 +60,7 @@ public class LoggedUser {
 	/**
 	 * @deprecated TODO: Remove in 3.0 in favor of separate ScreenController endpoint
 	 */
+	@Deprecated
 	private List<ScreenResponsibility> screens;
 
 	private JsonNode userSettingsVersion;

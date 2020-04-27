@@ -64,8 +64,8 @@ public class ScreenResponsibilityServiceImpl implements ScreenResponsibilityServ
 	 */
 	@Override
 	public List<ScreenResponsibility> getScreens(User user, LOV userRole) {
+		List<ScreenResponsibility> result = new ArrayList<>();
 		try {
-			List<ScreenResponsibility> result = new ArrayList<>();
 			String screens = respService.getListScreensByUser(user, userRole);
 			if (StringUtils.isNotBlank(screens)) {
 				result.addAll(objectMapper.readValue(screens, ScreenResponsibility.LIST_TYPE_REFERENCE));
@@ -84,6 +84,6 @@ public class ScreenResponsibilityServiceImpl implements ScreenResponsibilityServ
 			log.error(e.getLocalizedMessage(), e);
 		}
 
-		return null;
+		return result;
 	}
 }
