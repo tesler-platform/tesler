@@ -95,6 +95,7 @@ public class LoginServiceImpl implements LoginService {
 	 * @param userRole User role
 	 * @return JsonNode Available screens
 	 */
+	@Deprecated
 	private List<ScreenResponsibility> getScreens(User user, LOV userRole) {
 		return screenResponsibilityService.getScreens(user, userRole);
 	}
