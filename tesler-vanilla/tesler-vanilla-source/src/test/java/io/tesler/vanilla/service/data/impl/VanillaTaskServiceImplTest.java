@@ -99,8 +99,7 @@ public class VanillaTaskServiceImplTest extends BaseResponseServiceTest<VanillaT
 						VanillaServiceAssociation.taskVanilla.getBcDescription(),
 						null,
 						cntrpId.toString()
-				),
-				null
+				)
 		).getRecord();
 		assertThat(dto).isNotNull();
 		assertThat(dto.getId()).isNotNull();

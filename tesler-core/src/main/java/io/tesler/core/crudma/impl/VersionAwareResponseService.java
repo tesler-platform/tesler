@@ -29,7 +29,6 @@ import io.tesler.core.dto.rowmeta.CreateResult;
 import io.tesler.core.exception.UnableToLockException;
 import io.tesler.core.exception.VersionMismatchException;
 import io.tesler.core.service.rowmeta.FieldMetaBuilder;
-import io.tesler.core.util.session.CreationState;
 import io.tesler.model.core.entity.BaseEntity;
 import java.util.Objects;
 import javax.persistence.LockModeType;
@@ -55,23 +54,17 @@ public abstract class VersionAwareResponseService<T extends DataResponseDTO, E e
 		super(typeOfDTO, typeOfEntity, parentSpec, metaBuilder);
 	}
 
-	public CreateResult<T> createEntity(BusinessComponent bc, CreationState creationState) {
-		// todo: добавить проверку что сервис возвращает актуальные данные
+	@Override
+	public CreateResult<T> createEntity(BusinessComponent bc) {
+		// todo: add a check that the service returns actual data
 		final E entity = create(bc);
 		if (entity.getId() == null && bc.getId() != null) {
 			entity.setId(bc.getIdAsLong());
 		}
-		if (creationState != null) {
-			creationState.restore(entity);
-		}
 		final CreateResult<T> createResult = doCreateEntity(entity, bc);
 		baseDAO.flush();
 		baseDAO.refresh(entity);
-		return createResult.setCreationState(getCreationState(entity));
-	}
-
-	protected CreationState<E> getCreationState(final E entity) {
-		return new CreationState<>();
+		return createResult;
 	}
 
 	@SneakyThrows

@@ -69,7 +69,6 @@ import io.tesler.core.service.rowmeta.RowMetaType;
 import io.tesler.core.service.spec.BcSpecificationHolder;
 import io.tesler.core.service.spec.LinkSpecificationHolder;
 import io.tesler.core.service.spec.SecuritySpecificationHolder;
-import io.tesler.core.util.session.CreationState;
 import io.tesler.model.core.entity.BaseEntity;
 import io.tesler.model.core.entity.BaseEntity_;
 import io.tesler.model.ui.entity.SearchSpec;
@@ -507,7 +506,7 @@ public abstract class AbstractResponseService<T extends DataResponseDTO, E exten
 	}
 
 	@Override
-	public CreateResult<T> createEntity(BusinessComponent bc, CreationState creationState) {
+	public CreateResult<T> createEntity(BusinessComponent bc) {
 		throw new UnsupportedOperationException();
 	}
 

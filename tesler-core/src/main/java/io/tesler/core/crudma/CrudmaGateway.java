@@ -44,6 +44,8 @@ import io.tesler.core.crudma.bc.BcRegistry;
 import io.tesler.core.crudma.bc.BusinessComponent;
 import io.tesler.core.crudma.bc.impl.BcDescription;
 import io.tesler.core.crudma.bc.impl.InnerBcDescription;
+import io.tesler.core.crudma.state.BcState;
+import io.tesler.core.crudma.state.BcStateAware;
 import io.tesler.core.dto.BusinessError.Entity;
 import io.tesler.core.dto.MessageType;
 import io.tesler.core.dto.rowmeta.ActionResultDTO;
@@ -60,9 +62,6 @@ import io.tesler.core.service.ResponseFactory;
 import io.tesler.core.service.ResponseService;
 import io.tesler.core.service.action.ActionAvailableChecker;
 import io.tesler.core.service.action.ActionDescriptionBuilder;
-import io.tesler.core.util.session.BcState;
-import io.tesler.core.util.session.BcState.State;
-import io.tesler.core.util.session.CreationState;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -89,7 +88,7 @@ public class CrudmaGateway {
 
 	private final TransactionService txService;
 
-	private final BcState bcState;
+	private final BcStateAware bcState;
 
 	private final ApplicationEventPublisher eventPublisher;
 
@@ -99,7 +98,7 @@ public class CrudmaGateway {
 		BusinessComponent bc = crudmaAction.getBc();
 		boolean readOnly = isReadOnly(crudmaAction);
 		DataResponseDTO result = invoke(crudmaAction, () -> getCrudmaService(bc).get(bc), readOnly);
-		if (result != null && bcState.isNew(bc)) {
+		if (result != null && !bcState.isPersisted(bc)) {
 			result.setVstamp(-1L);
 		}
 		return result;
@@ -125,12 +124,11 @@ public class CrudmaGateway {
 			return new InterimResult(
 					getBcForState(bc.withId(createResult.getRecord().getId()), createResult.getPostActions()),
 					createResult.getRecord(),
-					metaNew,
-					createResult.getCreationState()
+					metaNew
 			);
 		}, InterimResult::getDto, readOnly);
 		if (readOnly) {
-			bcState.set(result.getBc(), null, result.getCreationState());
+			bcState.set(result.getBc(), new BcState(result.getDto(), false));
 			addActionCancel(bc, result.getMeta().getRow().getActions());
 		}
 		return result.getMeta();
@@ -147,13 +145,14 @@ public class CrudmaGateway {
 				previewResult.getResponseDto().setVstamp(previewResult.getRequestDto().getVstamp());
 			}
 			final MetaDTO metaNew = crudmaService.getOnFieldUpdateMeta(bc, previewResult.getResponseDto());
-			return new InterimResult(bc, previewResult.getRequestDto(), metaNew, bcState.getCreationState(bc));
+			return new InterimResult(bc, previewResult.getRequestDto(), metaNew);
 		}, InterimResult::getMeta, readOnly);
 		if (readOnly) {
-			bcState.set(result.getBc(), result.getDto(), result.getCreationState());
-			if (bcState.isNew(bc)) {
+			Boolean isRecordPersisted = bcState.isPersisted(bc);
+			if (!bcState.isPersisted(bc)) {
 				addActionCancel(bc, result.getMeta().getRow().getActions());
 			}
+			bcState.set(result.getBc(), new BcState(result.getDto(), isRecordPersisted));
 		}
 		if (result.getDto().getErrors() == null) {
 			return result.getMeta();
@@ -193,7 +192,7 @@ public class CrudmaGateway {
 		BusinessComponent bc = crudmaAction.getBc();
 		boolean readOnly = isReadOnly(crudmaAction);
 		String actionName = crudmaAction.getName();
-		if (Objects.equals(ActionType.CANCEL_CREATE.getType(), actionName) && bcState.isNew(bc)) {
+		if (Objects.equals(ActionType.CANCEL_CREATE.getType(), actionName)) {
 			bcState.clear();
 			BcDescription description = bc.getDescription();
 			if (description instanceof InnerBcDescription) {
@@ -214,7 +213,7 @@ public class CrudmaGateway {
 		BusinessComponent bc = crudmaAction.getBc();
 		boolean readOnly = isReadOnly(crudmaAction);
 		final MetaDTO meta = invoke(crudmaAction, () -> getCrudmaService(bc).getMeta(bc), readOnly);
-		if (bcState.isNew(bc)) {
+		if (!bcState.isPersisted(bc)) {
 			addActionCancel(bc, meta.getRow().getActions());
 			meta.getRow().getFields().get(DataResponseDTO_.vstamp.getName()).setCurrentValue(-1L);
 		}
@@ -286,10 +285,10 @@ public class CrudmaGateway {
 	}
 
 	/**
-	 * Определяет нужно ли выполнять действие в read-only транзакции
+	 * Determines whether to perform an action in a read-only transaction
 	 *
-	 * @param action действие
-	 * @return нужно ли использовать read-only транзакцию
+	 * @param action is current request action
+	 * @return should read only transaction begins
 	 */
 	private boolean isReadOnly(CrudmaAction action) {
 		CrudmaActionType actionType = action.getActionType();
@@ -308,11 +307,11 @@ public class CrudmaGateway {
 	}
 
 	/**
-	 * Определяет нужно ли очищать состояние в сесии
+	 * Determines whether to clear the state in the session
 	 *
-	 * @param readOnly использовалась ли read-only транзакция
-	 * @param action действие
-	 * @return нужно ли очищать состояние в сесии
+	 * @param readOnly whether read-only transaction was used
+	 * @param action is current request action
+	 * @return whether to clear the state in the session
 	 */
 	private boolean needClearBcState(boolean readOnly, CrudmaActionType action) {
 		// todo: здесь должно быть написано что-то более сложное
@@ -324,7 +323,7 @@ public class CrudmaGateway {
 			if (bc == null) {
 				continue;
 			}
-			final State state = bcState.getState(bc);
+			final BcState state = bcState.getState(bc);
 			if (state == null) {
 				continue;
 			}
@@ -332,8 +331,8 @@ public class CrudmaGateway {
 				continue;
 			}
 			final ResponseService<?, ?> responseService = getResponseService(bc);
-			if (state.getCreationState() != null) {
-				responseService.createEntity(bc, state.getCreationState());
+			if (!bcState.isPersisted(bc)) {
+				responseService.createEntity(bc);
 			}
 			// эти действия сами вызывают update
 			if (state.getDto() != null && !immutableEnumSet(UPDATE, PREVIEW, INVOKE).contains(action)) {
@@ -415,8 +414,6 @@ public class CrudmaGateway {
 		private final DataResponseDTO dto;
 
 		private final MetaDTO meta;
-
-		private final CreationState creationState;
 
 		@Override
 		public void transformMeta(Function<MetaDTO, MetaDTO> function) {
