@@ -18,30 +18,34 @@
  * #L%
  */
 
-package io.tesler.core.dto.rowmeta;
+package io.tesler.core.crudma.state;
 
 import io.tesler.api.data.dto.DataResponseDTO;
-import java.util.ArrayList;
-import java.util.List;
+import java.io.Serializable;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
+/**
+ * State object that uses application to store changes between read only requests
+ *
+ * @see io.tesler.core.crudma.CrudmaGateway
+ * @see DataResponseDTO
+ * @see BcStateAware
+ */
 @Getter
 @RequiredArgsConstructor
-public class CreateResult<D extends DataResponseDTO> {
+public class BcState implements Serializable {
 
-	private final D record;
+	/**
+	 * Object which stores changes to the current business component in serializable form.
+	 * If present, record should be updated with this changes as input argument before Crudma method call
+	 */
+	private final DataResponseDTO dto;
 
-	private final List<PostAction> postActions = new ArrayList<>();
-
-	public CreateResult<D> setAction(final PostAction postAction) {
-		this.postActions.add(postAction);
-		return this;
-	}
-
-	public CreateResult<D> setActions(final List<PostAction> postActions) {
-		this.postActions.addAll(postActions);
-		return this;
-	}
+	/**
+	 * Flag that indicates whether the record was stored in persistence layer
+	 * if false, record should be created before Crudma method call
+	 */
+	private final boolean isPersisted;
 
 }

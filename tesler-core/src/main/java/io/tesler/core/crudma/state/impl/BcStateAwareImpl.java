@@ -18,40 +18,60 @@
  * #L%
  */
 
-package io.tesler.core.util.session;
+package io.tesler.core.crudma.state.impl;
 
+import io.tesler.core.crudma.bc.BusinessComponent;
+import io.tesler.core.crudma.state.BcState;
+import io.tesler.core.crudma.state.BcStateAware;
+import io.tesler.core.util.session.WebHelper;
 import java.io.Serializable;
 import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
 import org.springframework.stereotype.Component;
 
-
+/**
+ * Implementation of {@link BcStateAware} that Uses HTTP servlet as state provider.
+ * Uses a "ClientId" HTTP header as store key and HttpSession attribute as store
+ *
+ * @see BcStateAware
+ * @see BcState
+ * @see HttpSession
+ */
 @Component
-public class ClientState {
+public class BcStateAwareImpl implements BcStateAware {
+
+	private static final String BC_STATE = "bcState";
 
 	private static final String CLIENT_ID = "ClientId";
 
 	private static final String NO_CLIENT = "NO_CLIENT";
 
-	private static final String CLIENT_STATE = "clientState";
-
-	public <T> T get(Object key) {
-		return (T) Optional.ofNullable(getState()).map(s -> s.get(key)).orElse(null);
-	}
-
-	public <T> void set(Object key, T value) {
-		Optional.ofNullable(getState()).ifPresent(s -> s.put(key, value));
-	}
-
+	@Override
 	public void clear() {
 		Optional.ofNullable(getState()).ifPresent(Map::clear);
 	}
 
+	@Override
+	public void set(BusinessComponent bc, BcState bcState) {
+		Optional.ofNullable(getState()).ifPresent(state -> state.put(BcKey.of(bc), bcState));
+	}
 
-	private Map<Object, Object> getState() {
+	@Override
+	public BcState getState(BusinessComponent bc) {
+		return Optional.ofNullable(getState()).map(m -> m.get(BcKey.of(bc))).orElse(null);
+	}
+
+	@Override
+	public boolean isPersisted(BusinessComponent bc) {
+		return Optional.ofNullable(getState()).map(m -> m.get(BcKey.of(bc))).map(BcState::isPersisted).orElse(true);
+	}
+
+	private Map<BcKey, BcState> getState() {
 		HttpServletRequest request = WebHelper.getCurrentRequest().orElse(null);
 		ClientStorage storage = getStorage(request);
 		if (storage == null) {
@@ -76,20 +96,33 @@ public class ClientState {
 		if (session == null) {
 			return null;
 		}
-		ClientStorage state = (ClientStorage) session.getAttribute(CLIENT_STATE);
+		ClientStorage state = (ClientStorage) session.getAttribute(BC_STATE);
 		if (state == null) {
 			state = new ClientStorage();
-			session.setAttribute(CLIENT_STATE, state);
+			session.setAttribute(BC_STATE, state);
 		}
 		return state;
 	}
 
+	@EqualsAndHashCode
+	@AllArgsConstructor
+	private static class BcKey implements Serializable {
+
+		private final String id;
+
+		private final String name;
+
+		private static BcKey of(BusinessComponent bc) {
+			return new BcKey(bc.getId(), bc.getName());
+		}
+
+	}
 
 	static class ClientStorage implements Serializable {
 
-		Map<String, Map<Object, Object>> storage = new ConcurrentHashMap<>();
+		Map<String, Map<BcKey, BcState>> storage = new ConcurrentHashMap<>();
 
-		private Map<Object, Object> getClientState(String clientId) {
+		private Map<BcKey, BcState> getClientState(String clientId) {
 			return storage.computeIfAbsent(clientId, s -> new ConcurrentHashMap<>());
 		}
 

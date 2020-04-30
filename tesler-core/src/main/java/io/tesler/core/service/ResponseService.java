@@ -30,7 +30,6 @@ import io.tesler.core.dto.rowmeta.AssociateResultDTO;
 import io.tesler.core.dto.rowmeta.CreateResult;
 import io.tesler.core.service.rowmeta.FieldMetaBuilder;
 import io.tesler.core.service.rowmeta.RowMetaType;
-import io.tesler.core.util.session.CreationState;
 import io.tesler.model.core.entity.BaseEntity;
 import java.util.List;
 
@@ -45,7 +44,7 @@ public interface ResponseService<T extends DataResponseDTO, E extends BaseEntity
 
 	ResultPage<T> getList(BusinessComponent bc);
 
-	CreateResult<T> createEntity(BusinessComponent bc, CreationState creationState);
+	CreateResult<T> createEntity(BusinessComponent bc);
 
 	ActionResultDTO<T> updateEntity(BusinessComponent bc, DataResponseDTO data);
 
