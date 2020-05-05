@@ -20,54 +20,35 @@
 
 package io.tesler.core.crudma;
 
-import static com.google.common.collect.Sets.immutableEnumSet;
 import static io.tesler.api.util.i18n.ErrorMessageSource.errorMessage;
-import static io.tesler.core.crudma.CrudmaActionType.INVOKE;
-import static io.tesler.core.crudma.CrudmaActionType.PREVIEW;
-import static io.tesler.core.crudma.CrudmaActionType.UPDATE;
-import static io.tesler.core.dto.DrillDownType.INNER;
-import static io.tesler.core.dto.rowmeta.PostAction.BasePostActionType.DRILL_DOWN;
 
 import io.tesler.api.data.ResultPage;
 import io.tesler.api.data.dto.AssociateDTO;
 import io.tesler.api.data.dto.DataResponseDTO;
-import io.tesler.api.data.dto.DataResponseDTO_;
-import io.tesler.api.data.dto.rowmeta.ActionDTO;
 import io.tesler.api.data.dto.rowmeta.PreviewResult;
-import io.tesler.api.security.obligations.IObligationSet;
 import io.tesler.api.service.tx.TransactionService;
 import io.tesler.api.util.Invoker;
-import io.tesler.core.controller.BCFactory;
-import io.tesler.core.controller.param.QueryParameters;
 import io.tesler.core.crudma.CrudmaActionHolder.CrudmaAction;
-import io.tesler.core.crudma.bc.BcRegistry;
 import io.tesler.core.crudma.bc.BusinessComponent;
 import io.tesler.core.crudma.bc.impl.BcDescription;
 import io.tesler.core.crudma.bc.impl.InnerBcDescription;
-import io.tesler.core.crudma.state.BcState;
-import io.tesler.core.crudma.state.BcStateAware;
+import io.tesler.core.crudma.ext.CrudmaGatewayInvokeExtensionProvider;
 import io.tesler.core.dto.BusinessError.Entity;
 import io.tesler.core.dto.MessageType;
 import io.tesler.core.dto.rowmeta.ActionResultDTO;
-import io.tesler.core.dto.rowmeta.ActionType;
-import io.tesler.core.dto.rowmeta.ActionsDTO;
 import io.tesler.core.dto.rowmeta.AssociateResultDTO;
 import io.tesler.core.dto.rowmeta.CreateResult;
 import io.tesler.core.dto.rowmeta.MetaDTO;
 import io.tesler.core.dto.rowmeta.PostAction;
-import io.tesler.core.dto.rowmeta.PostAction.BasePostActionField;
 import io.tesler.core.exception.BusinessIntermediateException;
-import io.tesler.core.security.PolicyEnforcer;
 import io.tesler.core.service.ResponseFactory;
 import io.tesler.core.service.ResponseService;
-import io.tesler.core.service.action.ActionAvailableChecker;
-import io.tesler.core.service.action.ActionDescriptionBuilder;
-import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
+import java.util.Set;
 import java.util.function.Function;
-import lombok.Getter;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationEventPublisher;
@@ -80,28 +61,18 @@ public class CrudmaGateway {
 
 	private final CrudmaFactory crudmaFactory;
 
-	private final BCFactory bcFactory;
-
 	private final ResponseFactory respFactory;
-
-	private final BcRegistry bcRegistry;
 
 	private final TransactionService txService;
 
-	private final BcStateAware bcState;
-
 	private final ApplicationEventPublisher eventPublisher;
 
-	private final PolicyEnforcer policyEnforcer;
+	private final Set<CrudmaGatewayInvokeExtensionProvider> extensionProviders;
 
 	public DataResponseDTO get(CrudmaAction crudmaAction) {
 		BusinessComponent bc = crudmaAction.getBc();
 		boolean readOnly = isReadOnly(crudmaAction);
-		DataResponseDTO result = invoke(crudmaAction, () -> getCrudmaService(bc).get(bc), readOnly);
-		if (result != null && !bcState.isPersisted(bc)) {
-			result.setVstamp(-1L);
-		}
-		return result;
+		return invoke(crudmaAction, () -> getCrudmaService(bc).get(bc), readOnly);
 	}
 
 	public ResultPage<? extends DataResponseDTO> getAll(CrudmaAction crudmaAction) {
@@ -115,22 +86,18 @@ public class CrudmaGateway {
 		boolean readOnly = isReadOnly(crudmaAction);
 		final InterimResult result = invoke(crudmaAction, () -> {
 			final Crudma crudmaService = getCrudmaService(bc);
-			final CreateResult createResult = crudmaService.create(bc);
+			final CreateResult<DataResponseDTO> createResult = crudmaService.create(bc);
 			if (readOnly) {
 				// мы откатываем транзакцию, помечаем DTO специальным флагом
 				createResult.getRecord().setVstamp(-1L);
 			}
 			final MetaDTO metaNew = crudmaService.getMetaNew(bc, createResult);
 			return new InterimResult(
-					getBcForState(bc.withId(createResult.getRecord().getId()), createResult.getPostActions()),
+					bc,
 					createResult.getRecord(),
 					metaNew
 			);
 		}, InterimResult::getDto, readOnly);
-		if (readOnly) {
-			bcState.set(result.getBc(), new BcState(result.getDto(), false));
-			addActionCancel(bc, result.getMeta().getRow().getActions());
-		}
 		return result.getMeta();
 	}
 
@@ -147,13 +114,6 @@ public class CrudmaGateway {
 			final MetaDTO metaNew = crudmaService.getOnFieldUpdateMeta(bc, previewResult.getResponseDto());
 			return new InterimResult(bc, previewResult.getRequestDto(), metaNew);
 		}, InterimResult::getMeta, readOnly);
-		if (readOnly) {
-			Boolean isRecordPersisted = bcState.isPersisted(bc);
-			if (!bcState.isPersisted(bc)) {
-				addActionCancel(bc, result.getMeta().getRow().getActions());
-			}
-			bcState.set(result.getBc(), new BcState(result.getDto(), isRecordPersisted));
-		}
 		if (result.getDto().getErrors() == null) {
 			return result.getMeta();
 		}
@@ -176,7 +136,7 @@ public class CrudmaGateway {
 					PostAction.showMessage(MessageType.WARNING, errorMessage("warn.no_record_to_delete"))
 			);
 		}
-		// нужно для аудита
+		// need for audit
 		DataResponseDTO[] data = new DataResponseDTO[1];
 		return invoke(crudmaAction, () -> {
 					Crudma crudma = getCrudmaService(bc);
@@ -192,14 +152,6 @@ public class CrudmaGateway {
 		BusinessComponent bc = crudmaAction.getBc();
 		boolean readOnly = isReadOnly(crudmaAction);
 		String actionName = crudmaAction.getName();
-		if (Objects.equals(ActionType.CANCEL_CREATE.getType(), actionName)) {
-			bcState.clear();
-			BcDescription description = bc.getDescription();
-			if (description instanceof InnerBcDescription) {
-				return getResponseService(bc).onCancel(bc);
-			}
-			return new ActionResultDTO().setAction(PostAction.postDelete());
-		}
 		return invoke(crudmaAction, () -> getCrudmaService(bc).invokeAction(bc, actionName, data), readOnly);
 	}
 
@@ -213,10 +165,6 @@ public class CrudmaGateway {
 		BusinessComponent bc = crudmaAction.getBc();
 		boolean readOnly = isReadOnly(crudmaAction);
 		final MetaDTO meta = invoke(crudmaAction, () -> getCrudmaService(bc).getMeta(bc), readOnly);
-		if (!bcState.isPersisted(bc)) {
-			addActionCancel(bc, meta.getRow().getActions());
-			meta.getRow().getFields().get(DataResponseDTO_.vstamp.getName()).setCurrentValue(-1L);
-		}
 		return meta;
 	}
 
@@ -262,21 +210,16 @@ public class CrudmaGateway {
 	}
 
 	private <T> T doInvoke(CrudmaAction crudmaAction, Invoker<T, RuntimeException> invoker, boolean readOnly) {
-		BusinessComponent bc = crudmaAction.getBc();
-		CrudmaActionType action = crudmaAction.getActionType();
 		final Invoker<T, RuntimeException> targetInvoker = () -> {
-			restoreBcState(bc, action);
-			// проверяем, что действие можно выполнить и
-			// набор обязательств, которые нужно соблюсти
-			IObligationSet obligationSet = policyEnforcer.check(crudmaAction);
-			// делаем набор обязательств доступным отовсюду
-			crudmaAction.setObligationSet(obligationSet);
-			final T invokeResult = invoker.invoke();
-			if (action != null && needClearBcState(readOnly, action)) {
-				bcState.clear();
+			Invoker<T, RuntimeException> extendableInvoker = invoker;
+			List<CrudmaGatewayInvokeExtensionProvider> extensionProvidersOrdered = extensionProviders
+					.stream()
+					.sorted(Comparator.comparingInt(CrudmaGatewayInvokeExtensionProvider::getOrder))
+					.collect(Collectors.toList());
+			for (CrudmaGatewayInvokeExtensionProvider extensionProvider : extensionProvidersOrdered) {
+				extendableInvoker = extensionProvider.extendInvoker(crudmaAction, extendableInvoker, readOnly);
 			}
-			// модифицируем результат выполнения действия
-			return policyEnforcer.transform(invokeResult, crudmaAction, obligationSet);
+			return extendableInvoker.invoke();
 		};
 		if (readOnly) {
 			return txService.invokeInNewRollbackOnlyTx(targetInvoker);
@@ -306,120 +249,12 @@ public class CrudmaGateway {
 		return readOnly;
 	}
 
-	/**
-	 * Determines whether to clear the state in the session
-	 *
-	 * @param readOnly whether read-only transaction was used
-	 * @param action is current request action
-	 * @return whether to clear the state in the session
-	 */
-	private boolean needClearBcState(boolean readOnly, CrudmaActionType action) {
-		// todo: здесь должно быть написано что-то более сложное
-		return !readOnly || action == CrudmaActionType.PREVIEW;
-	}
-
-	private void restoreBcState(final BusinessComponent currentBc, final CrudmaActionType action) {
-		for (final BusinessComponent bc : Arrays.asList(getParentBcForRestore(currentBc), currentBc)) {
-			if (bc == null) {
-				continue;
-			}
-			final BcState state = bcState.getState(bc);
-			if (state == null) {
-				continue;
-			}
-			if (!(bc.getDescription() instanceof InnerBcDescription)) {
-				continue;
-			}
-			final ResponseService<?, ?> responseService = getResponseService(bc);
-			if (!bcState.isPersisted(bc)) {
-				responseService.createEntity(bc);
-			}
-			// эти действия сами вызывают update
-			if (state.getDto() != null && !immutableEnumSet(UPDATE, PREVIEW, INVOKE).contains(action)) {
-				responseService.updateEntity(bc, state.getDto());
-			}
-		}
-	}
-
 	private ResponseService<?, ?> getResponseService(BusinessComponent bc) {
 		return respFactory.getService(bc.getDescription());
 	}
 
-	private BusinessComponent getParentBcForRestore(final BusinessComponent currentBc) {
-		if (currentBc.getHierarchy() == null || currentBc.getHierarchy().getParent() == null) {
-			return null;
-		}
-		return bcFactory.getBusinessComponent(
-				currentBc.getHierarchy().getParent(),
-				QueryParameters.onlyDatesQueryParameters(
-						currentBc.getParameters()
-				)
-		);
-	}
-
-	private void addActionCancel(BusinessComponent bc, final ActionsDTO actions) {
-		boolean hasCancelAction = false;
-		for (ActionDTO action : actions) {
-			if (ActionType.DELETE.isTypeOf(action) || ActionType.CREATE.isTypeOf(action)) {
-				action.setAvailable(false);
-			}
-			if (ActionType.CANCEL_CREATE.isTypeOf(action)) {
-				action.setAvailable(true);
-				hasCancelAction = true;
-			}
-		}
-
-		if (hasCancelAction) {
-			return;
-		}
-
-		actions.addMethod(
-				0,
-				new ActionDescriptionBuilder<>()
-						.action(ActionType.CANCEL_CREATE)
-						.available(ActionAvailableChecker.ALWAYS_TRUE)
-						.withoutAutoSaveBefore()
-						.build(null),
-				bc
-		);
-	}
-
-	private BusinessComponent getBcForState(final BusinessComponent bc, final List<PostAction> postActions) {
-		for (final PostAction postAction : postActions) {
-			if (DRILL_DOWN.equals(postAction.getAttribute(BasePostActionField.TYPE)) && INNER.getValue()
-					.equals(postAction.getAttribute(BasePostActionField.DRILL_DOWN_TYPE))) {
-				final String[] url = postAction.getAttribute(BasePostActionField.URL).split("/");
-				if (Objects.equals(bc.getId(), url[url.length - 1])) {
-					return new BusinessComponent(
-							bc.getId(),
-							bc.getParentId(),
-							bcRegistry.getBcDescription(url[url.length - 2])
-					);
-				}
-			}
-		}
-		return bc;
-	}
-
 	private Crudma getCrudmaService(final BusinessComponent bc) {
 		return crudmaFactory.get(bc.getDescription());
-	}
-
-	@Getter
-	@RequiredArgsConstructor
-	private static class InterimResult implements MetaContainer<MetaDTO> {
-
-		private final BusinessComponent bc;
-
-		private final DataResponseDTO dto;
-
-		private final MetaDTO meta;
-
-		@Override
-		public void transformMeta(Function<MetaDTO, MetaDTO> function) {
-			function.apply(meta);
-		}
-
 	}
 
 }

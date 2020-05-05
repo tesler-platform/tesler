@@ -20,27 +20,26 @@
 
 package io.tesler.core.crudma;
 
+import io.tesler.api.data.dto.DataResponseDTO;
+import io.tesler.core.crudma.bc.BusinessComponent;
+import io.tesler.core.dto.rowmeta.MetaDTO;
+import java.util.function.Function;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
-
 @Getter
 @RequiredArgsConstructor
-public enum CrudmaActionType {
+public class InterimResult implements MetaContainer<MetaDTO> {
 
-	INVOKE(true, false),
-	FIND(false, true),
-	GET(false, true),
-	UPDATE(true, false),
-	PREVIEW(true, true),
-	DELETE(false, false),
-	COUNT(false, true),
-	ASSOCIATE(false, false),
-	META(false, true),
-	CREATE(true, true);
+	private final BusinessComponent bc;
 
-	private final boolean flushRequired;
+	private final DataResponseDTO dto;
 
-	private final boolean readOnly;
+	private final MetaDTO meta;
+
+	@Override
+	public void transformMeta(Function<MetaDTO, MetaDTO> function) {
+		function.apply(meta);
+	}
 
 }
