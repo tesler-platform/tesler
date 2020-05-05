@@ -60,9 +60,9 @@ public class UniversalDataController {
 			HttpServletRequest request,
 			QueryParameters queryParameters) {
 		BusinessComponent bc = bcFactory.getBusinessComponent(request, queryParameters);
-		CrudmaAction crudmaAction = crudmaActionHolder.of(CrudmaActionType.FIND)
-				.setBc(bc).getAction();
 		if (bc.getId() != null) {
+			CrudmaAction crudmaAction = crudmaActionHolder.of(CrudmaActionType.GET)
+					.setBc(bc).getAction();
 			crudmaAction.setDescription(
 					String.format(
 							"Получение записи %s, id: %s, parentId: %s",
@@ -74,6 +74,8 @@ public class UniversalDataController {
 			DataResponseDTO data = crudmaGateway.get(crudmaAction);
 			return resp.build(data == null ? Collections.emptyList() : Collections.singletonList(data));
 		} else {
+			CrudmaAction crudmaAction = crudmaActionHolder.of(CrudmaActionType.FIND)
+					.setBc(bc).getAction();
 			crudmaAction.setDescription(
 					String.format(
 							"Получение списка %s, parentId: %s",

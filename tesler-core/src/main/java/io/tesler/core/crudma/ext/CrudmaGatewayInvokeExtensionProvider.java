@@ -18,29 +18,16 @@
  * #L%
  */
 
-package io.tesler.core.crudma;
+package io.tesler.core.crudma.ext;
 
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+import io.tesler.api.util.Invoker;
+import io.tesler.core.crudma.CrudmaActionHolder.CrudmaAction;
 
+public interface CrudmaGatewayInvokeExtensionProvider {
 
-@Getter
-@RequiredArgsConstructor
-public enum CrudmaActionType {
+	<T> Invoker<T, RuntimeException> extendInvoker(CrudmaAction crudmaAction, Invoker<T, RuntimeException> invoker,
+			boolean readOnly);
 
-	INVOKE(true, false),
-	FIND(false, true),
-	GET(false, true),
-	UPDATE(true, false),
-	PREVIEW(true, true),
-	DELETE(false, false),
-	COUNT(false, true),
-	ASSOCIATE(false, false),
-	META(false, true),
-	CREATE(true, true);
-
-	private final boolean flushRequired;
-
-	private final boolean readOnly;
+	int getOrder();
 
 }
