@@ -1,3 +1,18 @@
+# Version 2.2.0
+
+## Features
+
+* new `/sceens` endpoint that contains screen UI structure (extracted from `/login` endpoint) (#69)
+* Added support of declare custom widget fields. Change `FieldMeta` deserialization process (#70)
+* Added new `radio` field type and `placeholders` for `input` field (#67)
+* Added support to override `BaseEntityListener` methods (#78)
+
+## Other
+* Delete deprecated `@Aliases` annotation (#65)
+* Move CustomObjectMapper to `JacksonConfig` configuration file (#70)
+* Delete unused methods from `BcRegistry` (#70)
+* Added Code Coverage and Sonar Quality Gate checks (#71 #72 #79)
+
 # Version 2.1.1
 
 ## Features
