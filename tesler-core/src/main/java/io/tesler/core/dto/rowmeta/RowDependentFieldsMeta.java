@@ -238,4 +238,9 @@ public class RowDependentFieldsMeta<T extends DataResponseDTO> extends FieldsDTO
 				.ifPresent(fieldDTO -> fieldDTO.setCurrentValue(value));
 	}
 
+	public final void setPlaceholder(DtoField<? super T, ?> field, String placeholder) {
+		Optional.ofNullable(field).map(dtoField -> fields.get(dtoField.getName()))
+				.ifPresent(fieldDTO -> fieldDTO.setPlaceholder(placeholder));
+	}
+
 }
