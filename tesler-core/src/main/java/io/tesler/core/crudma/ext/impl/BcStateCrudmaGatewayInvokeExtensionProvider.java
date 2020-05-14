@@ -57,10 +57,12 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 import lombok.RequiredArgsConstructor;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
+@Order(100)
 public class BcStateCrudmaGatewayInvokeExtensionProvider implements CrudmaGatewayInvokeExtensionProvider {
 
 	private final BcRegistry bcRegistry;
@@ -88,54 +90,47 @@ public class BcStateCrudmaGatewayInvokeExtensionProvider implements CrudmaGatewa
 				return (T) new ActionResultDTO().setAction(PostAction.postDelete());
 			}
 			restoreBcState(bc, action);
-
 			T invokeResult = invoker.invoke();
-
-			if (action != null && !readOnly) {
-				bcStateAware.clear();
-			}
-			if (Objects.equals(crudmaAction.getActionType(), CrudmaActionType.CREATE) && readOnly) {
-				InterimResult result = (InterimResult) invokeResult;
-				invokeResult = (T) new InterimResult(
-						getBcForState(
-								bc.withId(result.getDto().getId()),
-								result.getMeta().getPostActions()
-						),
-						result.getDto(),
-						result.getMeta()
-				);
-				result = (InterimResult) invokeResult;
-				bcStateAware.set(result.getBc(), new BcState(result.getDto(), false));
-				addActionCancel(bc, result.getMeta().getRow().getActions());
-			}
-			if (Objects.equals(crudmaAction.getActionType(), CrudmaActionType.PREVIEW) && readOnly) {
-				InterimResult result = (InterimResult) invokeResult;
-				boolean isRecordPersisted = bcStateAware.isPersisted(bc);
-				bcStateAware.clear();
-				if (!bcStateAware.isPersisted(bc)) {
-					addActionCancel(bc, result.getMeta().getRow().getActions());
-				}
-				bcStateAware.set(result.getBc(), new BcState(result.getDto(), isRecordPersisted));
-			}
-			if (!bcStateAware.isPersisted(bc)) {
-				if (CrudmaActionType.META.equals(crudmaAction.getActionType())) {
-					MetaDTO meta = (MetaDTO) invokeResult;
-					addActionCancel(bc, meta.getRow().getActions());
-					meta.getRow().getFields().get(DataResponseDTO_.vstamp.getName()).setCurrentValue(-1L);
-				} else if (CrudmaActionType.GET.equals(crudmaAction.getActionType())) {
-					DataResponseDTO result = (DataResponseDTO) invokeResult;
-					if (result != null) {
-						result.setVstamp(-1L);
-					}
-				}
-			}
+			afterInvoke(crudmaAction, readOnly, bc, action, invokeResult);
 			return invokeResult;
 		};
 	}
 
-	@Override
-	public int getOrder() {
-		return 1;
+	private void afterInvoke(CrudmaAction crudmaAction, boolean readOnly, BusinessComponent bc,
+			CrudmaActionType action, Object invokeResult) {
+		if (action != null && !readOnly) {
+			bcStateAware.clear();
+		}
+		if (Objects.equals(crudmaAction.getActionType(), CrudmaActionType.CREATE) && readOnly) {
+			InterimResult result = (InterimResult) invokeResult;
+			result.setBc(getBcForState(
+					bc.withId(result.getDto().getId()),
+					result.getMeta().getPostActions()
+			));
+			bcStateAware.set(result.getBc(), new BcState(result.getDto(), false));
+			addActionCancel(bc, result.getMeta().getRow().getActions());
+		}
+		if (Objects.equals(crudmaAction.getActionType(), CrudmaActionType.PREVIEW) && readOnly) {
+			InterimResult result = (InterimResult) invokeResult;
+			boolean isRecordPersisted = bcStateAware.isPersisted(bc);
+			bcStateAware.clear();
+			if (!bcStateAware.isPersisted(bc)) {
+				addActionCancel(bc, result.getMeta().getRow().getActions());
+			}
+			bcStateAware.set(result.getBc(), new BcState(result.getDto(), isRecordPersisted));
+		}
+		if (!bcStateAware.isPersisted(bc)) {
+			if (CrudmaActionType.META.equals(crudmaAction.getActionType())) {
+				MetaDTO meta = (MetaDTO) invokeResult;
+				addActionCancel(bc, meta.getRow().getActions());
+				meta.getRow().getFields().get(DataResponseDTO_.vstamp.getName()).setCurrentValue(-1L);
+			} else if (CrudmaActionType.GET.equals(crudmaAction.getActionType())) {
+				DataResponseDTO result = (DataResponseDTO) invokeResult;
+				if (result != null) {
+					result.setVstamp(-1L);
+				}
+			}
+		}
 	}
 
 	private BusinessComponent getBcForState(final BusinessComponent bc, final List<PostAction> postActions) {

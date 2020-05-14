@@ -23,11 +23,16 @@ package io.tesler.core.crudma.ext;
 import io.tesler.api.util.Invoker;
 import io.tesler.core.crudma.CrudmaActionHolder.CrudmaAction;
 
+/** Beans, that extends standard flow of Tesler Crudma Operations
+ * Used in {@link io.tesler.core.crudma.CrudmaGateway}
+ *
+ * @see io.tesler.core.crudma.CrudmaGateway
+ * @see Invoker
+ * @see CrudmaAction
+ */
 public interface CrudmaGatewayInvokeExtensionProvider {
 
 	<T> Invoker<T, RuntimeException> extendInvoker(CrudmaAction crudmaAction, Invoker<T, RuntimeException> invoker,
 			boolean readOnly);
-
-	int getOrder();
 
 }

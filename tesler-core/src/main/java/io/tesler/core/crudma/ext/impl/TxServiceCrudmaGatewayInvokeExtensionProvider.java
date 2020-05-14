@@ -20,34 +20,33 @@
 
 package io.tesler.core.crudma.ext.impl;
 
-import io.tesler.api.security.obligations.IObligationSet;
+import io.tesler.api.service.tx.TransactionService;
 import io.tesler.api.util.Invoker;
 import io.tesler.core.crudma.CrudmaActionHolder.CrudmaAction;
 import io.tesler.core.crudma.ext.CrudmaGatewayInvokeExtensionProvider;
-import io.tesler.core.security.PolicyEnforcer;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-@Order(0)
-public class PolicyEnforcerCrudmaGatewayInvokeExtensionProvider implements CrudmaGatewayInvokeExtensionProvider {
+@Order(200)
+@Slf4j
+public class TxServiceCrudmaGatewayInvokeExtensionProvider implements CrudmaGatewayInvokeExtensionProvider {
 
-	private final PolicyEnforcer policyEnforcer;
+	private final TransactionService txService;
 
 	@Override
 	public <T> Invoker<T, RuntimeException> extendInvoker(CrudmaAction crudmaAction, Invoker<T, RuntimeException> invoker,
 			boolean readOnly) {
 		return () -> {
-			// check that the action can be performed and
-			// set of obligations to be observed
-			IObligationSet obligationSet = policyEnforcer.check(crudmaAction);
-			// make a set of obligations available from anywhere
-			crudmaAction.setObligationSet(obligationSet);
-			T invokeResult = invoker.invoke();
-			// modify the result of the action
-			return policyEnforcer.transform(invokeResult, crudmaAction, obligationSet);
+			if (readOnly) {
+				log.debug("Open read-only transaction for crudmaAction: " + crudmaAction);
+				return txService.invokeInNewRollbackOnlyTx(invoker);
+			}
+			log.debug("Open read-write transaction for crudmaAction: " + crudmaAction);
+			return txService.invokeInNewTx(invoker);
 		};
 	}
 

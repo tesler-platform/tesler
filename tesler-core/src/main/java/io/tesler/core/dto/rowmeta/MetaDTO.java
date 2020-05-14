@@ -20,10 +20,10 @@
 
 package io.tesler.core.dto.rowmeta;
 
-import io.tesler.core.crudma.MetaContainer;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import io.tesler.core.crudma.MetaContainer;
 import java.util.List;
-import java.util.function.Function;
+import java.util.function.UnaryOperator;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -44,7 +44,7 @@ public class MetaDTO implements MetaContainer<MetaDTO> {
 	}
 
 	@Override
-	public void transformMeta(Function<MetaDTO, MetaDTO> function) {
+	public void transformMeta(UnaryOperator<MetaDTO> function) {
 		function.apply(this);
 	}
 
