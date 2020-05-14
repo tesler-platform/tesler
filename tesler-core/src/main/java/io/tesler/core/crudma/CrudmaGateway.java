@@ -26,7 +26,6 @@ import io.tesler.api.data.ResultPage;
 import io.tesler.api.data.dto.AssociateDTO;
 import io.tesler.api.data.dto.DataResponseDTO;
 import io.tesler.api.data.dto.rowmeta.PreviewResult;
-import io.tesler.api.service.tx.TransactionService;
 import io.tesler.api.util.Invoker;
 import io.tesler.core.crudma.CrudmaActionHolder.CrudmaAction;
 import io.tesler.core.crudma.bc.BusinessComponent;
@@ -43,15 +42,10 @@ import io.tesler.core.dto.rowmeta.PostAction;
 import io.tesler.core.exception.BusinessIntermediateException;
 import io.tesler.core.service.ResponseFactory;
 import io.tesler.core.service.ResponseService;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
-import java.util.function.Function;
-import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 
 @Slf4j
@@ -63,11 +57,7 @@ public class CrudmaGateway {
 
 	private final ResponseFactory respFactory;
 
-	private final TransactionService txService;
-
-	private final ApplicationEventPublisher eventPublisher;
-
-	private final Set<CrudmaGatewayInvokeExtensionProvider> extensionProviders;
+	private final List<CrudmaGatewayInvokeExtensionProvider> extensionProviders;
 
 	public DataResponseDTO get(CrudmaAction crudmaAction) {
 		BusinessComponent bc = crudmaAction.getBc();
@@ -97,7 +87,7 @@ public class CrudmaGateway {
 					createResult.getRecord(),
 					metaNew
 			);
-		}, InterimResult::getDto, readOnly);
+		}, readOnly);
 		return result.getMeta();
 	}
 
@@ -113,7 +103,7 @@ public class CrudmaGateway {
 			}
 			final MetaDTO metaNew = crudmaService.getOnFieldUpdateMeta(bc, previewResult.getResponseDto());
 			return new InterimResult(bc, previewResult.getRequestDto(), metaNew);
-		}, InterimResult::getMeta, readOnly);
+		}, readOnly);
 		if (result.getDto().getErrors() == null) {
 			return result.getMeta();
 		}
@@ -137,15 +127,7 @@ public class CrudmaGateway {
 			);
 		}
 		// need for audit
-		DataResponseDTO[] data = new DataResponseDTO[1];
-		return invoke(crudmaAction, () -> {
-					Crudma crudma = getCrudmaService(bc);
-					data[0] = crudma.get(bc);
-					return crudma.delete(bc);
-				},
-				resultDTO -> data[0],
-				readOnly
-		);
+		return invoke(crudmaAction, () -> getCrudmaService(bc).delete(bc), readOnly);
 	}
 
 	public ActionResultDTO invokeAction(CrudmaAction crudmaAction, Map<String, Object> data) {
@@ -181,50 +163,11 @@ public class CrudmaGateway {
 	}
 
 	private <T> T invoke(CrudmaAction crudmaAction, Invoker<T, RuntimeException> invoker, boolean readOnly) {
-		return invoke(crudmaAction, invoker, t -> t, readOnly);
-	}
-
-	private <T, V> T invoke(
-			CrudmaAction crudmaAction,
-			Invoker<T, RuntimeException> invoker,
-			Function<T, V> resultExtractor,
-			boolean readOnly) {
-		T result = null;
-		Exception exception = null;
-		try {
-			log.debug(crudmaAction.getDescription());
-			result = doInvoke(crudmaAction, invoker, readOnly);
-			return result;
-		} catch (Exception ex) {
-			exception = ex;
-			throw ex;
-		} finally {
-			eventPublisher.publishEvent(
-					new CrudmaEvent<>(
-							this,
-							crudmaAction,
-							result == null ? null : resultExtractor.apply(result), exception
-					)
-			);
+		Invoker<T, RuntimeException> extendableInvoker = invoker;
+		for (CrudmaGatewayInvokeExtensionProvider extensionProvider : extensionProviders) {
+			extendableInvoker = extensionProvider.extendInvoker(crudmaAction, extendableInvoker, readOnly);
 		}
-	}
-
-	private <T> T doInvoke(CrudmaAction crudmaAction, Invoker<T, RuntimeException> invoker, boolean readOnly) {
-		final Invoker<T, RuntimeException> targetInvoker = () -> {
-			Invoker<T, RuntimeException> extendableInvoker = invoker;
-			List<CrudmaGatewayInvokeExtensionProvider> extensionProvidersOrdered = extensionProviders
-					.stream()
-					.sorted(Comparator.comparingInt(CrudmaGatewayInvokeExtensionProvider::getOrder))
-					.collect(Collectors.toList());
-			for (CrudmaGatewayInvokeExtensionProvider extensionProvider : extensionProvidersOrdered) {
-				extendableInvoker = extensionProvider.extendInvoker(crudmaAction, extendableInvoker, readOnly);
-			}
-			return extendableInvoker.invoke();
-		};
-		if (readOnly) {
-			return txService.invokeInNewRollbackOnlyTx(targetInvoker);
-		}
-		return txService.invokeInNewTx(targetInvoker);
+		return extendableInvoker.invoke();
 	}
 
 	/**

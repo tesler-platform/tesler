@@ -23,22 +23,24 @@ package io.tesler.core.crudma;
 import io.tesler.api.data.dto.DataResponseDTO;
 import io.tesler.core.crudma.bc.BusinessComponent;
 import io.tesler.core.dto.rowmeta.MetaDTO;
-import java.util.function.Function;
+import java.util.function.UnaryOperator;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 
 @Getter
-@RequiredArgsConstructor
+@AllArgsConstructor
 public class InterimResult implements MetaContainer<MetaDTO> {
 
-	private final BusinessComponent bc;
+	@Setter
+	private BusinessComponent bc;
 
 	private final DataResponseDTO dto;
 
 	private final MetaDTO meta;
 
 	@Override
-	public void transformMeta(Function<MetaDTO, MetaDTO> function) {
+	public void transformMeta(UnaryOperator<MetaDTO> function) {
 		function.apply(meta);
 	}
 

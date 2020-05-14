@@ -81,6 +81,7 @@ public class GlobalExceptionHandler {
 	@ResponseStatus(value = I_AM_A_TEAPOT)
 	@ResponseBody
 	public ErrorResponseDTO businessException(BusinessException e) {
+		log.warn(e.getMessage(), e);
 		return new ErrorResponseDTO(e);
 	}
 

@@ -18,14 +18,10 @@
  * #L%
  */
 
-package io.tesler.core.crudma;
+package io.tesler.core.test.util;
 
-import io.tesler.core.dto.rowmeta.MetaDTO;
-import java.util.function.UnaryOperator;
+import io.tesler.api.data.dto.DataResponseDTO;
 
-
-public interface MetaContainer<T extends MetaDTO> {
-
-	void transformMeta(UnaryOperator<T> function);
+public class TestResponseDto extends DataResponseDTO {
 
 }

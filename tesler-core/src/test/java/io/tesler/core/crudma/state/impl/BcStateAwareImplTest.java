@@ -20,13 +20,13 @@
 
 package io.tesler.core.crudma.state.impl;
 
-import io.tesler.api.data.dto.DataResponseDTO;
 import io.tesler.core.crudma.bc.BcHierarchy;
 import io.tesler.core.crudma.bc.BusinessComponent;
 import io.tesler.core.crudma.bc.impl.BcDescription;
 import io.tesler.core.crudma.bc.impl.InnerBcDescription;
 import io.tesler.core.crudma.state.BcState;
 import io.tesler.core.crudma.state.BcStateAware;
+import io.tesler.core.test.util.TestResponseDto;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -47,10 +47,6 @@ class BcStateAwareImplTest {
 
 	private static final BcHierarchy BC_HIERARCHY =
 			new BcHierarchy("screenName", "bcName", "id", null);
-
-	static class TestResponseDto extends DataResponseDTO {
-
-	}
 
 	private static final BcState STATE = new BcState(new TestResponseDto(), false);
 

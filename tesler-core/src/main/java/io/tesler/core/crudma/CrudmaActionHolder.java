@@ -31,6 +31,7 @@ import java.util.Optional;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 import lombok.experimental.Accessors;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.annotation.RequestScope;
@@ -92,6 +93,7 @@ public class CrudmaActionHolder {
 
 	@RequiredArgsConstructor
 	@Accessors(chain = true)
+	@ToString
 	public static class CrudmaAction implements IObligationSupplier<CrudmaAction> {
 
 		@Getter
