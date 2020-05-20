@@ -114,10 +114,10 @@ public class BcStateCrudmaGatewayInvokeExtensionProvider implements CrudmaGatewa
 			InterimResult result = (InterimResult) invokeResult;
 			boolean isRecordPersisted = bcStateAware.isPersisted(bc);
 			bcStateAware.clear();
+			bcStateAware.set(result.getBc(), new BcState(result.getDto(), isRecordPersisted));
 			if (!bcStateAware.isPersisted(bc)) {
 				addActionCancel(bc, result.getMeta().getRow().getActions());
 			}
-			bcStateAware.set(result.getBc(), new BcState(result.getDto(), isRecordPersisted));
 		}
 		if (!bcStateAware.isPersisted(bc)) {
 			if (CrudmaActionType.META.equals(crudmaAction.getActionType())) {
