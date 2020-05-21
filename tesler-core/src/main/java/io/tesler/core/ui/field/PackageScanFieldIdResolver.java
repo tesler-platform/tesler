@@ -25,6 +25,7 @@ import com.fasterxml.jackson.databind.DatabindContext;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.jsontype.TypeIdResolver;
 import com.fasterxml.jackson.databind.type.TypeFactory;
+import io.tesler.core.config.properties.WidgetFieldsIdResolverProperties;
 import io.tesler.core.ui.model.json.field.FieldMeta.FieldMetaBase;
 import java.io.IOException;
 import java.util.Arrays;
@@ -34,31 +35,27 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.annotation.ClassPathScanningCandidateComponentProvider;
 import org.springframework.core.type.filter.AnnotationTypeFilter;
-import org.springframework.stereotype.Component;
 import org.springframework.util.ClassUtils;
 import org.springframework.util.StringUtils;
 
-@Component
 public class PackageScanFieldIdResolver implements TypeIdResolver {
 
-	private JavaType baseType;
+	private final Map<String, JavaType> typeMap = new HashMap<>();
 
-	private Map<String, JavaType> typeMap = new HashMap<>();
+	private final WidgetFieldsIdResolverProperties widgetFieldsIdResolverProperties;
 
-	@Value("${tesler.widget.fields.include-packages:io.tesler.core.ui.model.json.field.subtypes}")
-	private String[] includePackages;
-
-	@Value("${tesler.widget.fields.exclude-classes:}")
-	private String[] excludeClasses;
+	public PackageScanFieldIdResolver(WidgetFieldsIdResolverProperties widgetFieldsIdResolverProperties) {
+		this.widgetFieldsIdResolverProperties = widgetFieldsIdResolverProperties;
+	}
 
 	@Override
 	public void init(JavaType javaType) {
-		baseType = javaType;
-		Class<?> baseClazz = baseType.getRawClass();
+		String[] includePackages = widgetFieldsIdResolverProperties.getIncludePackages();
+		String[] excludeClasses = widgetFieldsIdResolverProperties.getExcludeClasses();
+		Class<?> baseClazz = javaType.getRawClass();
 		Set<Class<?>> fieldsClasses = scanForFields(includePackages);
 		fieldsClasses.forEach(annotatedClazz -> {
 			if (!Arrays.asList(excludeClasses).contains(annotatedClazz.getCanonicalName())) {
@@ -76,7 +73,7 @@ public class PackageScanFieldIdResolver implements TypeIdResolver {
 					}
 					typeMap.put(
 							widgetType,
-							TypeFactory.defaultInstance().constructSpecializedType(baseType, annotatedClazz)
+							TypeFactory.defaultInstance().constructSpecializedType(javaType, annotatedClazz)
 					);
 				}
 			}

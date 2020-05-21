@@ -23,7 +23,6 @@ package io.tesler.core.ui;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import io.tesler.core.config.JacksonConfig;
-import io.tesler.core.ui.field.PackageScanFieldIdResolver;
 import io.tesler.core.util.SpringBeanUtils;
 import io.tesler.model.ui.entity.Widget;
 import java.nio.charset.Charset;
@@ -31,7 +30,7 @@ import org.apache.commons.io.IOUtils;
 import org.junit.jupiter.api.Test;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
-@SpringJUnitConfig({JacksonConfig.class, PackageScanFieldIdResolver.class, SpringBeanUtils.class})
+@SpringJUnitConfig({JacksonConfig.class, SpringBeanUtils.class})
 public class WidgetUtilsTest {
 
 	@Test
