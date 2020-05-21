@@ -32,8 +32,10 @@ import io.tesler.api.util.jackson.deser.contextual.TZAwareLDTContextualDeseriali
 import io.tesler.api.util.jackson.ser.contextual.I18NAwareStringContextualSerializer;
 import io.tesler.api.util.jackson.ser.contextual.TZAwareJUDContextualSerializer;
 import io.tesler.api.util.jackson.ser.contextual.TZAwareLDTContextualSerializer;
+import io.tesler.core.config.properties.WidgetFieldsIdResolverProperties;
 import java.time.LocalDateTime;
 import java.util.Date;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -41,6 +43,7 @@ import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 import org.springframework.http.converter.json.SpringHandlerInstantiator;
 
 @Configuration
+@EnableConfigurationProperties(WidgetFieldsIdResolverProperties.class)
 public class JacksonConfig {
 
 	@Bean("teslerObjectMapper")

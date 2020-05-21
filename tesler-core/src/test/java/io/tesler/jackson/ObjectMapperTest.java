@@ -24,7 +24,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import io.tesler.core.config.JacksonConfig;
 import io.tesler.core.dto.multivalue.MultivalueField;
-import io.tesler.core.ui.field.PackageScanFieldIdResolver;
 import io.tesler.core.ui.model.json.field.FieldMeta;
 import io.tesler.core.ui.model.json.field.subtypes.DictionaryFieldMeta;
 import io.tesler.core.ui.model.json.field.subtypes.DiffTextFieldMeta;
@@ -44,7 +43,6 @@ import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
 @SpringJUnitConfig({
 		JacksonConfig.class,
-		PackageScanFieldIdResolver.class,
 		SpringBeanUtils.class
 })
 public class ObjectMapperTest {

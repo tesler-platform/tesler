@@ -21,10 +21,12 @@
 package io.tesler.core.ui.field;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.Mockito.when;
 
 import com.fasterxml.jackson.annotation.JsonTypeInfo.Id;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.tesler.core.config.properties.WidgetFieldsIdResolverProperties;
 import io.tesler.core.ui.model.json.field.FieldMeta;
 import java.io.IOException;
 import java.util.Map;
@@ -34,16 +36,18 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.test.util.ReflectionTestUtils;
 
 //TODO This test needs work
 class PackageScanFieldIdResolverTest {
 
 	@Mock
-	JavaType baseType;
+	WidgetFieldsIdResolverProperties widgetFieldsIdResolverProperties;
 
 	@Mock
 	Map<String, JavaType> typeMap;
+
+	@Mock
+	JavaType baseType;
 
 	@InjectMocks
 	PackageScanFieldIdResolver packageScanFieldIdResolver;
@@ -51,8 +55,8 @@ class PackageScanFieldIdResolverTest {
 	@BeforeEach
 	void setUp() {
 		MockitoAnnotations.initMocks(this);
-		ReflectionTestUtils.setField(packageScanFieldIdResolver, "includePackages", new String[0]);
-		ReflectionTestUtils.setField(packageScanFieldIdResolver, "excludeClasses", new String[0]);
+		when(widgetFieldsIdResolverProperties.getIncludePackages()).thenReturn(new String[0]);
+		when(widgetFieldsIdResolverProperties.getExcludeClasses()).thenReturn(new String[0]);
 	}
 
 	@Test
@@ -64,7 +68,7 @@ class PackageScanFieldIdResolverTest {
 	void testFailedInit() {
 		String[] value = {"io.tesler.core.ui.field"};
 		baseType = new ObjectMapper().getTypeFactory().constructType(FieldMeta.class);
-		ReflectionTestUtils.setField(packageScanFieldIdResolver, "includePackages", value);
+		when(widgetFieldsIdResolverProperties.getIncludePackages()).thenReturn(value);
 		assertThrows(IllegalStateException.class, () -> packageScanFieldIdResolver.init(baseType));
 	}
 
@@ -104,5 +108,3 @@ class PackageScanFieldIdResolverTest {
 	}
 
 }
-
-//Generated with love by TestMe :) Please report issues and submit feature requests at: http://weirddev.com/forum#!/testme

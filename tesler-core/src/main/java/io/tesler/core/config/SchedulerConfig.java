@@ -21,6 +21,7 @@
 package io.tesler.core.config;
 
 import com.google.common.base.Objects;
+import io.tesler.core.config.properties.SchedulerProperties;
 import io.tesler.core.ext.quartz.QuartzJobFactory;
 import io.tesler.core.ext.quartz.QuartzSchedulerListener;
 import io.tesler.core.util.db.ProxyAwarePrivilegedDataSource;
@@ -28,6 +29,7 @@ import java.util.Properties;
 import javax.sql.DataSource;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -47,6 +49,7 @@ import org.springframework.transaction.interceptor.TransactionProxyFactoryBean;
 @Configuration
 @EnableAsync
 @EnableScheduling
+@EnableConfigurationProperties(SchedulerProperties.class)
 public class SchedulerConfig {
 
 	private final Environment environment;
@@ -61,18 +64,20 @@ public class SchedulerConfig {
 
 	private final TaskExecutor taskExecutor;
 
+	private final SchedulerProperties schedulerProperties;
+
 	@Bean
 	public SchedulerFactoryBean quartzScheduler(@Qualifier("primaryDS") DataSource primaryDS,
 			@Qualifier("primaryDatabase") Database primaryDatabase) {
 		SchedulerFactoryBean schedulerFactoryBean = new SchedulerFactoryBean();
 		schedulerFactoryBean.setAutoStartup(!environment.acceptsProfiles("quartzDisable"));
-		schedulerFactoryBean.setStartupDelay(600);
+		schedulerFactoryBean.setStartupDelay((int) schedulerProperties.getStartupDelay().getSeconds());
 		schedulerFactoryBean.setOverwriteExistingJobs(true);
 		schedulerFactoryBean.setApplicationContext(applicationContext);
 		schedulerFactoryBean.setTaskExecutor(taskExecutor);
 		schedulerFactoryBean.setJobFactory(quartzJobFactory);
 		schedulerFactoryBean.setTransactionManager(transactionManager);
-		schedulerFactoryBean.setSchedulerName("teslerScheduler");
+		schedulerFactoryBean.setSchedulerName(schedulerProperties.getSchedulerName());
 		schedulerFactoryBean.setDataSource(
 				new TransactionAwareDataSourceProxy(
 						new ProxyAwarePrivilegedDataSource(primaryDS)

@@ -150,6 +150,11 @@
       <groupId>de.odysseus.juel</groupId>
       <artifactId>juel-impl</artifactId>
     </dependency>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-configuration-processor</artifactId>
+      <optional>true</optional>
+    </dependency>
 
     <dependency>
       <groupId>org.junit.jupiter</groupId>
