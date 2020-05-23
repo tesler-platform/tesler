@@ -25,6 +25,7 @@ import static java.util.Objects.nonNull;
 import io.tesler.api.data.dto.DataResponseDTO;
 import io.tesler.api.data.dto.rowmeta.ActionDTO;
 import io.tesler.api.data.dto.rowmeta.PreActionDTO;
+import io.tesler.core.crudma.bc.BcIdentifier;
 import io.tesler.core.crudma.bc.BusinessComponent;
 import io.tesler.core.dto.rowmeta.ActionResultDTO;
 import io.tesler.core.dto.rowmeta.PreAction;
@@ -40,6 +41,9 @@ public final class ActionDescription<T extends DataResponseDTO> {
 
 	@Getter
 	private final String text;
+
+	@Getter
+	private final BcIdentifier bcKey;
 
 	private final ActionAvailableChecker actionAvailableChecker;
 
@@ -95,6 +99,7 @@ public final class ActionDescription<T extends DataResponseDTO> {
 		PreAction preAction = withPreAction(bc);
 		return ActionDTO.builder()
 				.available(isAvailable(bc))
+				.bcKey(this.getBcKey() == null ? null : this.getBcKey().getName())
 				.type(this.getKey())
 				.text(this.getText())
 				.icon(this.getIconCode())

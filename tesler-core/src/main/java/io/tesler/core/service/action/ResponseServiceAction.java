@@ -21,6 +21,7 @@
 package io.tesler.core.service.action;
 
 import io.tesler.api.data.dto.DataResponseDTO;
+import io.tesler.core.crudma.bc.BcIdentifier;
 import io.tesler.core.crudma.bc.BusinessComponent;
 import io.tesler.core.dto.rowmeta.ActionResultDTO;
 import io.tesler.core.dto.rowmeta.PreAction;
@@ -31,6 +32,10 @@ import java.util.List;
 public abstract class ResponseServiceAction<T extends DataResponseDTO> {
 
 	public abstract String getButtonName();
+
+	public BcIdentifier getBCName() {
+		return null;
+	}
 
 	public abstract boolean isAvailable(BusinessComponent bc);
 

@@ -55,6 +55,8 @@ public class ActionDTO {
 
 	private String icon;
 
+	private String bcKey;
+
 	private boolean showOnlyIcon;
 
 	private String scope;

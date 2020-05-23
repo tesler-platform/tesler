@@ -26,6 +26,7 @@ import static java.util.Objects.nonNull;
 import static org.apache.commons.lang3.ObjectUtils.defaultIfNull;
 
 import io.tesler.api.data.dto.DataResponseDTO;
+import io.tesler.core.crudma.bc.BcIdentifier;
 import io.tesler.core.crudma.bc.BusinessComponent;
 import io.tesler.core.dto.rowmeta.ActionResultDTO;
 import io.tesler.core.dto.rowmeta.ActionType;
@@ -60,6 +61,8 @@ public class ActionDescriptionBuilder<T extends DataResponseDTO> {
 	private boolean showOnlyIcon = false;
 
 	private ActionScope actionScope = ActionScope.RECORD;
+
+	private BcIdentifier bcKey;
 
 	private boolean autoSaveBefore = true;
 
@@ -150,6 +153,11 @@ public class ActionDescriptionBuilder<T extends DataResponseDTO> {
 		return this;
 	}
 
+	public ActionDescriptionBuilder<T> bcKey(BcIdentifier bcKey) {
+		this.bcKey = bcKey;
+		return this;
+	}
+
 	public ActionDescriptionBuilder<T> withAutoSaveBefore() {
 		this.autoSaveBefore = true;
 		return this;
@@ -208,6 +216,7 @@ public class ActionDescriptionBuilder<T extends DataResponseDTO> {
 		return new ActionDescription<>(
 				key,
 				text,
+				bcKey,
 				and(
 						defaultIfNull(baseActionAvailableChecker, ActionAvailableChecker.ALWAYS_TRUE),
 						defaultIfNull(actionAvailableChecker, ActionAvailableChecker.ALWAYS_TRUE)
