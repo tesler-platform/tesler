@@ -22,6 +22,7 @@ package io.tesler.core.controller;
 
 import io.tesler.api.data.ResultPage;
 import io.tesler.api.data.dto.DataResponseDTO;
+import io.tesler.core.controller.finish.DataFinishAction;
 import io.tesler.core.controller.param.QueryParameters;
 import io.tesler.core.crudma.CrudmaActionHolder;
 import io.tesler.core.crudma.CrudmaActionHolder.CrudmaAction;
@@ -55,6 +56,9 @@ public class UniversalDataController {
 	@Autowired
 	private CrudmaActionHolder crudmaActionHolder;
 
+	@Autowired(required = false)
+	private DataFinishAction dataFinishAction;
+
 	@RequestMapping(method = {RequestMethod.GET, RequestMethod.POST}, value = {"data/**"})
 	public ResponseDTO find(
 			HttpServletRequest request,
@@ -84,7 +88,7 @@ public class UniversalDataController {
 					)
 			);
 			ResultPage<? extends DataResponseDTO> data = crudmaGateway.getAll(crudmaAction);
-			return resp.build(data.getResult(), data.isHasNext());
+			return processFinishAction(resp.build(data.getResult(), data.isHasNext()));
 		}
 	}
 
@@ -107,7 +111,7 @@ public class UniversalDataController {
 								bc.getParentId()
 						)
 				).getAction();
-		return resp.build(crudmaGateway.update(crudmaAction, requestBody));
+		return processFinishAction(resp.build(crudmaGateway.update(crudmaAction, requestBody)));
 	}
 
 	@RequestMapping(method = RequestMethod.DELETE, value = {"data/**"})
@@ -124,7 +128,7 @@ public class UniversalDataController {
 								bc.getParentId()
 						)
 				).getAction();
-		return resp.build(crudmaGateway.delete(crudmaAction));
+		return processFinishAction(resp.build(crudmaGateway.delete(crudmaAction)));
 	}
 
 	@RequestMapping(method = {RequestMethod.GET, RequestMethod.POST}, value = {"count/**"})
@@ -141,7 +145,14 @@ public class UniversalDataController {
 								bc.getParentId()
 						)
 				).getAction();
-		return resp.build(crudmaGateway.count(crudmaAction));
+		return processFinishAction(resp.build(crudmaGateway.count(crudmaAction)));
+	}
+
+	protected ResponseDTO processFinishAction(ResponseDTO result) {
+		if (dataFinishAction != null) {
+			dataFinishAction.invoke(result);
+		}
+		return result;
 	}
 
 }

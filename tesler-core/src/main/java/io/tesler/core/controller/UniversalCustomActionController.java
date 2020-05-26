@@ -20,6 +20,7 @@
 
 package io.tesler.core.controller;
 
+import io.tesler.core.controller.finish.CustomActionFinishAction;
 import io.tesler.core.controller.param.QueryParameters;
 import io.tesler.core.crudma.CrudmaActionHolder;
 import io.tesler.core.crudma.CrudmaActionHolder.CrudmaAction;
@@ -53,6 +54,9 @@ public class UniversalCustomActionController {
 	@Autowired
 	private CrudmaActionHolder crudmaActionHolder;
 
+	@Autowired(required = false)
+	private CustomActionFinishAction customActionFinishAction;
+
 	@RequestMapping(method = RequestMethod.POST)
 	public ResponseDTO invoke(HttpServletRequest request,
 			QueryParameters queryParameters,
@@ -72,7 +76,14 @@ public class UniversalCustomActionController {
 								bc.getParentId()
 						)
 				).getAction();
-		return responseBuilder.build(crudmaGateway.invokeAction(crudmaAction, requestBody.get("data")));
+		return processFinishAction(responseBuilder.build(crudmaGateway.invokeAction(crudmaAction, requestBody.get("data"))));
+	}
+
+	protected ResponseDTO processFinishAction(ResponseDTO result) {
+		if (customActionFinishAction != null) {
+			customActionFinishAction.invoke(result);
+		}
+		return result;
 	}
 
 }

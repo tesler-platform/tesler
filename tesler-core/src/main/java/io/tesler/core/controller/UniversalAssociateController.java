@@ -23,6 +23,7 @@ package io.tesler.core.controller;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
 import io.tesler.api.data.dto.AssociateDTO;
+import io.tesler.core.controller.finish.DataFinishAction;
 import io.tesler.core.controller.param.QueryParameters;
 import io.tesler.core.crudma.CrudmaActionHolder;
 import io.tesler.core.crudma.CrudmaActionHolder.CrudmaAction;
@@ -62,6 +63,9 @@ public class UniversalAssociateController {
 	@Autowired
 	private CrudmaActionHolder crudmaActionHolder;
 
+	@Autowired(required = false)
+	private DataFinishAction dataFinishAction;
+
 	@RequestMapping(method = POST)
 	public ResponseDTO associate(HttpServletRequest request,
 			QueryParameters queryParameters,
@@ -79,12 +83,19 @@ public class UniversalAssociateController {
 								bc.getParentId()
 						)
 				).getAction();
-		return resp.build(crudmaGateway.associate(crudmaAction, convertData(data)));
+		return processFinishAction(resp.build(crudmaGateway.associate(crudmaAction, convertData(data))));
 	}
 
 	private List<AssociateDTO> convertData(List<Object> data) {
 		List<AssociateDTO> result = new ArrayList<>();
 		data.forEach(d -> result.add(objectMapper.convertValue(d, AssociateDTO.class)));
+		return result;
+	}
+
+	protected ResponseDTO processFinishAction(ResponseDTO result) {
+		if (dataFinishAction != null) {
+			dataFinishAction.invoke(result);
+		}
 		return result;
 	}
 

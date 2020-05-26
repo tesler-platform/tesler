@@ -23,6 +23,7 @@ package io.tesler.core.controller;
 import static io.tesler.api.util.i18n.ErrorMessageSource.errorMessage;
 
 import io.tesler.api.exception.ServerException;
+import io.tesler.core.controller.finish.FileFinishAction;
 import io.tesler.core.dto.ResponseBuilder;
 import io.tesler.core.dto.ResponseDTO;
 import io.tesler.core.dto.data.FileUploadDto;
@@ -70,12 +71,15 @@ public class FileController {
 	@Autowired
 	private JpaDao jpaDao;
 
+	@Autowired(required = false)
+	private FileFinishAction fileFinishAction;
+
 	@RequestMapping(method = RequestMethod.POST)
 	public ResponseDTO upload(
 			@RequestParam("file") MultipartFile file,
 			@RequestParam(value = "source", required = false) String source) {
 		try {
-			return resp.build(doUpload(file, source));
+			return processFinishAction(resp.build(doUpload(file, source)));
 		} catch (IOException e) {
 			log.error(e.getMessage(), e);
 			throw new ClientException(errorMessage("error.failed_to_upload_file", file.getName()));
@@ -151,6 +155,7 @@ public class FileController {
 		);
 		header.setContentType(getMediaType(fileType));
 		header.setContentLength(content.length);
+		processFinishAction(resp.build("Download file. Name: " + fileName + ", type: " + fileType));
 		return new HttpEntity<>(content, header);
 	}
 
@@ -159,6 +164,7 @@ public class FileController {
 			@RequestParam("id") Long id,
 			@RequestParam("source") String source) {
 		fileService.remove(id);
+		processFinishAction(resp.build("Remove file with id: " + id));
 		return resp.build(new ArrayList<>());
 	}
 
@@ -169,6 +175,13 @@ public class FileController {
 			log.debug("Invalid media type", e);
 			return MediaType.APPLICATION_OCTET_STREAM;
 		}
+	}
+
+	protected ResponseDTO processFinishAction(ResponseDTO result) {
+		if (fileFinishAction != null) {
+			fileFinishAction.invoke(result);
+		}
+		return result;
 	}
 
 }

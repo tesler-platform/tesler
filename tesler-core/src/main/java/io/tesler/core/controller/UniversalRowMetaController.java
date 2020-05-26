@@ -20,6 +20,7 @@
 
 package io.tesler.core.controller;
 
+import io.tesler.core.controller.finish.RowMetaFinishAction;
 import io.tesler.core.controller.param.QueryParameters;
 import io.tesler.core.crudma.CrudmaActionHolder;
 import io.tesler.core.crudma.CrudmaActionHolder.CrudmaAction;
@@ -30,8 +31,8 @@ import io.tesler.core.dto.ResponseBuilder;
 import io.tesler.core.dto.ResponseDTO;
 import io.tesler.core.exception.ClientException;
 import java.util.Map;
+import java.util.Optional;
 import javax.servlet.http.HttpServletRequest;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -40,7 +41,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 @Slf4j
 @RestController
-@RequiredArgsConstructor
 public class UniversalRowMetaController {
 
 	private final CrudmaGateway crudmaGateway;
@@ -50,6 +50,22 @@ public class UniversalRowMetaController {
 	private final BCFactory bcFactory;
 
 	private final CrudmaActionHolder crudmaActionHolder;
+
+	private final RowMetaFinishAction rowMetaFinishAction;
+
+	public UniversalRowMetaController(
+			CrudmaGateway crudmaGateway,
+			ResponseBuilder resp,
+			BCFactory bcFactory,
+			CrudmaActionHolder crudmaActionHolder,
+			Optional<RowMetaFinishAction> rowMetaFinishAction
+	) {
+		this.crudmaGateway = crudmaGateway;
+		this.resp = resp;
+		this.bcFactory = bcFactory;
+		this.crudmaActionHolder = crudmaActionHolder;
+		this.rowMetaFinishAction = rowMetaFinishAction.orElse(null);
+	}
 
 	@RequestMapping(method = {RequestMethod.GET, RequestMethod.POST}, value = "row-meta-new/**")
 	public ResponseDTO rowMetaNew(
@@ -64,7 +80,7 @@ public class UniversalRowMetaController {
 								bc.getParentId()
 						)
 				).getAction();
-		return resp.build(crudmaGateway.create(crudmaAction));
+		return processFinishAction(resp.build(crudmaGateway.create(crudmaAction)));
 	}
 
 	@RequestMapping(method = RequestMethod.GET, value = "row-meta-empty/**")
@@ -78,7 +94,7 @@ public class UniversalRowMetaController {
 								bc.getParentId()
 						)
 				).getAction();
-		return resp.build(crudmaGateway.getMetaEmpty(crudmaAction));
+		return processFinishAction(resp.build(crudmaGateway.getMetaEmpty(crudmaAction)));
 	}
 
 	@RequestMapping(method = RequestMethod.GET, value = "row-meta/**")
@@ -93,7 +109,7 @@ public class UniversalRowMetaController {
 								bc.getParentId()
 						)
 				).getAction();
-		return resp.build(crudmaGateway.getMeta(crudmaAction));
+		return processFinishAction(resp.build(crudmaGateway.getMeta(crudmaAction)));
 	}
 
 	@RequestMapping(method = RequestMethod.POST, value = "row-meta/**")
@@ -116,7 +132,14 @@ public class UniversalRowMetaController {
 								bc.getParentId()
 						)
 				).getAction();
-		return resp.build(crudmaGateway.preview(crudmaAction, requestBody));
+		return processFinishAction(resp.build(crudmaGateway.preview(crudmaAction, requestBody)));
+	}
+
+	private ResponseDTO processFinishAction(ResponseDTO result) {
+		if (rowMetaFinishAction != null) {
+			rowMetaFinishAction.invoke(result);
+		}
+		return result;
 	}
 
 }
