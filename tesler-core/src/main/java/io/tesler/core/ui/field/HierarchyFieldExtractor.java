@@ -45,9 +45,11 @@ public class HierarchyFieldExtractor implements FieldExtractor {
 				.map(options -> JsonUtils.readValue(WidgetOptions.class, options))
 				.map(WidgetOptions::getHierarchy)
 				.ifPresent(list -> list.forEach(item -> {
-							fields.add(new BcField(item.getBcName(), item.getAssocValueKey())
-									.putAttribute(Attribute.WIDGET_ID, widget.getId()));
-							item.getFields().forEach(field -> {
+					if (item.getAssocValueKey() != null) {
+						fields.add(new BcField(item.getBcName(), item.getAssocValueKey())
+								.putAttribute(Attribute.WIDGET_ID, widget.getId()));
+					}
+					item.getFields().forEach(field -> {
 								fields.add(new BcField(item.getBcName(), field.getKey())
 										.putAttribute(Attribute.WIDGET_ID, widget.getId()));
 								fields.addAll(LinkFieldExtractor.extract(widget.getId(), item.getBcName(), field));
