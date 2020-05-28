@@ -71,7 +71,19 @@ public class WidgetUtilsTest {
 				getClass().getResourceAsStream("AssocHierarchy.json"),
 				Charset.defaultCharset()
 		));
-		assertThat(WidgetUtils.extractAllFields(widget)).isNotEmpty().hasSize(3);
+		assertThat(WidgetUtils.extractAllFields(widget)).isNotEmpty().hasSize(4);
+	}
+
+
+	@Test
+	void testHierarchy() throws Exception {
+		Widget widget = getEmptyWidget();
+		widget.setType("Hierarchy");
+		widget.setOptions(IOUtils.toString(
+				getClass().getResourceAsStream("Hierarchy.json"),
+				Charset.defaultCharset()
+		));
+		assertThat(WidgetUtils.extractAllFields(widget)).isNotEmpty().hasSize(2);
 	}
 
 	@Test
