@@ -21,7 +21,19 @@
 package io.tesler.core.test.util;
 
 import io.tesler.api.data.dto.DataResponseDTO;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+import javax.validation.constraints.Size;
+
+@Getter
+@Setter
+@NoArgsConstructor
 public class TestResponseDto extends DataResponseDTO {
 
+	@Size(min = 10, message = "Minimal length is 10")
+	private String validatedField;
+
+	private Number number;
 }

@@ -103,14 +103,14 @@ public class ResponseFactory {
 			for (String fieldName : badFields) {
 				entity.addField(fieldName, errorMessage("error.field_deserialization_error"));
 			}
-			for (ConstraintViolation<Object> violation : violations) {
-				String fieldName = null;
-				for (Path.Node node : violation.getPropertyPath()) {
-					fieldName = node.getName();
-				}
-				entity.addField(fieldName, violation.getMessage());
-			}
 			if (!ignoreBusinessErrors) {
+				for (ConstraintViolation<Object> violation : violations) {
+					String fieldName = null;
+					for (Path.Node node : violation.getPropertyPath()) {
+						fieldName = node.getName();
+					}
+					entity.addField(fieldName, violation.getMessage());
+				}
 				throw new BusinessException()
 						.setEntity(entity);
 			}
@@ -124,7 +124,7 @@ public class ResponseFactory {
 		result.setChangedFields(fields);
 		// Чтобы можно было назад возвращать
 		result.setId(bc.getId());
-		if (entity != null) {
+		if (entity != null && !entity.getFields().isEmpty()) {
 			result.setErrors(entity);
 		}
 		return result;
