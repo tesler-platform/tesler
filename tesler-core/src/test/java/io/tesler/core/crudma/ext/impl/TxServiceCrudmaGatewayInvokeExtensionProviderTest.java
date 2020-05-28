@@ -20,9 +20,6 @@
 
 package io.tesler.core.crudma.ext.impl;
 
-import static org.mockito.Mockito.any;
-import static org.mockito.Mockito.when;
-
 import io.tesler.api.service.tx.TransactionService;
 import io.tesler.api.util.Invoker;
 import io.tesler.core.crudma.CrudmaActionHolder.CrudmaAction;
@@ -30,10 +27,14 @@ import io.tesler.core.crudma.CrudmaActionType;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.function.Executable;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.slf4j.Logger;
+
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
 
 class TxServiceCrudmaGatewayInvokeExtensionProviderTest {
 
@@ -53,9 +54,11 @@ class TxServiceCrudmaGatewayInvokeExtensionProviderTest {
 
 	@Test
 	void testExtendInvoker() {
-		when(txService.invokeInNewTx(any())).thenReturn(false);
-		when(txService.invokeInNewRollbackOnlyTx(any())).thenReturn(true);
-
+		Executable executable = () -> {
+			when(txService.invokeInNewTx(any())).thenReturn(false);
+			when(txService.invokeInNewRollbackOnlyTx(any())).thenReturn(true);
+		};
+		Assertions.assertDoesNotThrow(executable);
 		CrudmaAction crudmaAction = new CrudmaAction(CrudmaActionType.INVOKE);
 		Invoker<Object, RuntimeException> result;
 		result = txServiceCrudmaGatewayInvokeExtensionProvider.extendInvoker(crudmaAction, null, true);

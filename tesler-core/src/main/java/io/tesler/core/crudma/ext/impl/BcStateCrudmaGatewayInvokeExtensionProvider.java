@@ -20,13 +20,6 @@
 
 package io.tesler.core.crudma.ext.impl;
 
-import static com.google.common.collect.Sets.immutableEnumSet;
-import static io.tesler.core.crudma.CrudmaActionType.INVOKE;
-import static io.tesler.core.crudma.CrudmaActionType.PREVIEW;
-import static io.tesler.core.crudma.CrudmaActionType.UPDATE;
-import static io.tesler.core.dto.DrillDownType.INNER;
-import static io.tesler.core.dto.rowmeta.PostAction.BasePostActionType.DRILL_DOWN;
-
 import io.tesler.api.data.dto.DataResponseDTO;
 import io.tesler.api.data.dto.DataResponseDTO_;
 import io.tesler.api.data.dto.rowmeta.ActionDTO;
@@ -43,22 +36,24 @@ import io.tesler.core.crudma.bc.impl.InnerBcDescription;
 import io.tesler.core.crudma.ext.CrudmaGatewayInvokeExtensionProvider;
 import io.tesler.core.crudma.state.BcState;
 import io.tesler.core.crudma.state.BcStateAware;
-import io.tesler.core.dto.rowmeta.ActionResultDTO;
-import io.tesler.core.dto.rowmeta.ActionType;
-import io.tesler.core.dto.rowmeta.ActionsDTO;
-import io.tesler.core.dto.rowmeta.MetaDTO;
-import io.tesler.core.dto.rowmeta.PostAction;
+import io.tesler.core.dto.rowmeta.*;
 import io.tesler.core.dto.rowmeta.PostAction.BasePostActionField;
 import io.tesler.core.service.ResponseFactory;
 import io.tesler.core.service.ResponseService;
 import io.tesler.core.service.action.ActionAvailableChecker;
 import io.tesler.core.service.action.ActionDescriptionBuilder;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.Objects;
+
+import static com.google.common.collect.Sets.immutableEnumSet;
+import static io.tesler.core.crudma.CrudmaActionType.*;
+import static io.tesler.core.dto.DrillDownType.INNER;
+import static io.tesler.core.dto.rowmeta.PostAction.BasePostActionType.DRILL_DOWN;
 
 @Component
 @RequiredArgsConstructor
@@ -72,10 +67,9 @@ public class BcStateCrudmaGatewayInvokeExtensionProvider implements CrudmaGatewa
 	private final ResponseFactory respFactory;
 
 	private final BcStateAware bcStateAware;
-	
+
 	@Override
-	public <T> Invoker<T, RuntimeException> extendInvoker(CrudmaAction crudmaAction, Invoker<T, RuntimeException> invoker,
-			boolean readOnly) {
+	public <T> Invoker<T, RuntimeException> extendInvoker(CrudmaAction crudmaAction, Invoker<T, RuntimeException> invoker, boolean readOnly) {
 		return () -> {
 			BusinessComponent bc = crudmaAction.getBc();
 			CrudmaActionType action = crudmaAction.getActionType();
@@ -96,8 +90,7 @@ public class BcStateCrudmaGatewayInvokeExtensionProvider implements CrudmaGatewa
 		};
 	}
 
-	private void afterInvoke(CrudmaAction crudmaAction, boolean readOnly, BusinessComponent bc,
-			CrudmaActionType action, Object invokeResult) {
+	private void afterInvoke(CrudmaAction crudmaAction, boolean readOnly, BusinessComponent bc, CrudmaActionType action, Object invokeResult) {
 		if (action != null && !readOnly) {
 			bcStateAware.clear();
 		}
@@ -107,7 +100,7 @@ public class BcStateCrudmaGatewayInvokeExtensionProvider implements CrudmaGatewa
 					bc.withId(result.getDto().getId()),
 					result.getMeta().getPostActions()
 			));
-			bcStateAware.set(result.getBc(), new BcState(result.getDto(), false));
+			bcStateAware.set(result.getBc(), new BcState(null, false));
 			addActionCancel(bc, result.getMeta().getRow().getActions());
 		}
 		if (Objects.equals(crudmaAction.getActionType(), CrudmaActionType.PREVIEW) && readOnly) {
