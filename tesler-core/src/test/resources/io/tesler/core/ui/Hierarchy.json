@@ -2,7 +2,6 @@
   "hierarchy": [
     {
       "bcName": "riskResponse",
-      "assocValueKey": "name",
       "fields": [
         {
           "key": "name",
@@ -13,7 +12,6 @@
     },
     {
       "bcName": "deeplyNestedBc",
-      "assocValueKey": "someValueField",
       "fields": [
         {
           "key": "anotherName",
