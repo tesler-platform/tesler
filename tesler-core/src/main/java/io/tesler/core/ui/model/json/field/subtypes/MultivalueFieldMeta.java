@@ -36,4 +36,6 @@ public class MultivalueFieldMeta extends FieldMetaBase {
 
 	private String displayedKey;
 
+	private String associateFieldKey;
+
 }
