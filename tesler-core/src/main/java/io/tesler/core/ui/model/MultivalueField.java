@@ -33,4 +33,6 @@ public final class MultivalueField {
 
 	private final String displayedKey;
 
+	private final String associateFieldKey;
+
 }

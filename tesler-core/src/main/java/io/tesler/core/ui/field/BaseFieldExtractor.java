@@ -114,7 +114,8 @@ public abstract class BaseFieldExtractor implements FieldExtractor {
 			return new MultivalueField(
 					multivalueField.getPopupBcName(),
 					multivalueField.getAssocValueKey(),
-					multivalueField.getDisplayedKey()
+					multivalueField.getDisplayedKey(),
+					multivalueField.getAssociateFieldKey()
 			);
 		}
 		return null;
