@@ -27,6 +27,7 @@ import static java.util.Objects.nonNull;
 import io.tesler.api.data.dto.DataResponseDTO;
 import io.tesler.core.crudma.bc.BcIdentifier;
 import io.tesler.core.dto.rowmeta.ActionType;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -129,7 +130,7 @@ public class ActionsBuilder<T extends DataResponseDTO> {
 						responseServiceAction::preActionSpecifier,
 						responseServiceAction::preActionEventSpecifier,
 						responseServiceAction::dataValidator,
-						responseServiceAction.getIcon().antIconName,
+						responseServiceAction.getIcon().getActionIconCode(),
 						responseServiceAction.isIconWithText(),
 						responseServiceAction.getScope(),
 						responseServiceAction.isAutoSaveBefore()

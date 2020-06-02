@@ -20,22 +20,8 @@
 
 package io.tesler.core.service.action;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
+public interface ActionIconSpecifier {
 
-@Getter
-@AllArgsConstructor
-public enum ActionIcon {
-
-	WITHOUT_ICON(null),
-	PLUS("plus"),
-	PLUS_CIRCLE("plus-circle"),
-	DELETE("delete"),
-	SAVE("save"),
-	COPY("copy"),
-	BARS("bars"),
-	CLOSE("close");
-
-	String antIconName;
+	String getActionIconCode();
 
 }
