@@ -21,7 +21,7 @@
 package io.tesler.core.service.action;
 
 import static io.tesler.core.service.action.ActionAvailableChecker.and;
-import static io.tesler.core.service.action.ActionIcon.WITHOUT_ICON;
+import static io.tesler.core.service.action.TeslerActionIconSpecifier.WITHOUT_ICON;
 import static java.util.Objects.nonNull;
 import static org.apache.commons.lang3.ObjectUtils.defaultIfNull;
 
@@ -31,8 +31,10 @@ import io.tesler.core.crudma.bc.BusinessComponent;
 import io.tesler.core.dto.rowmeta.ActionResultDTO;
 import io.tesler.core.dto.rowmeta.ActionType;
 import io.tesler.core.dto.rowmeta.PreAction;
+
 import java.util.Arrays;
 import java.util.Collections;
+
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor
@@ -56,7 +58,7 @@ public class ActionDescriptionBuilder<T extends DataResponseDTO> {
 
 	private ActionsBuilder<T> actionsBuilder;
 
-	private ActionIcon iconCode = WITHOUT_ICON;
+	private ActionIconSpecifier iconCode = WITHOUT_ICON;
 
 	private boolean showOnlyIcon = false;
 
@@ -142,7 +144,7 @@ public class ActionDescriptionBuilder<T extends DataResponseDTO> {
 		return this;
 	}
 
-	public ActionDescriptionBuilder<T> withIcon(ActionIcon icon, boolean showOnlyIcon) {
+	public ActionDescriptionBuilder<T> withIcon(ActionIconSpecifier icon, boolean showOnlyIcon) {
 		this.iconCode = icon;
 		this.showOnlyIcon = showOnlyIcon;
 		return this;
@@ -225,7 +227,7 @@ public class ActionDescriptionBuilder<T extends DataResponseDTO> {
 				defaultIfNull(preActionSpecifier, PreActionSpecifierType.WITHOUT_PREACTION),
 				defaultIfNull(preActionEventSpecifier, bc -> null),
 				defaultIfNull(dataValidator, (bc, data, entityDto) -> Collections.emptyList()),
-				iconCode.antIconName,
+				iconCode.getActionIconCode(),
 				showOnlyIcon,
 				actionScope,
 				autoSaveBefore

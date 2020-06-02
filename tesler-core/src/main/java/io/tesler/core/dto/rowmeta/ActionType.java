@@ -27,9 +27,11 @@ import static io.tesler.core.service.action.ActionAvailableChecker.NOT_NULL_PARE
 
 import io.tesler.api.data.dto.rowmeta.ActionDTO;
 import io.tesler.core.service.action.ActionAvailableChecker;
-import io.tesler.core.service.action.ActionIcon;
+import io.tesler.core.service.action.TeslerActionIconSpecifier;
+
 import java.util.Objects;
 import java.util.function.Supplier;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -38,18 +40,18 @@ import lombok.Getter;
 @AllArgsConstructor
 public enum ActionType {
 
-	CREATE("create", () -> uiMessage("action.create"), ActionIcon.PLUS, NOT_NULL_PARENT_ID),
-	CANCEL_CREATE("cancel-create", () -> uiMessage("action.cancel-create"), ActionIcon.CLOSE, ALWAYS_TRUE),
-	SAVE("save", () -> uiMessage("action.save"), ActionIcon.SAVE, NOT_NULL_ID),
-	COPY("copy", () -> uiMessage("action.copy"), ActionIcon.COPY, NOT_NULL_ID),
-	ASSOCIATE("associate", () -> uiMessage("action.add"), ActionIcon.PLUS, NOT_NULL_PARENT_ID),
-	DELETE("delete", () -> uiMessage("action.delete"), ActionIcon.DELETE, NOT_NULL_ID);
+	CREATE("create", () -> uiMessage("action.create"), TeslerActionIconSpecifier.PLUS, NOT_NULL_PARENT_ID),
+	CANCEL_CREATE("cancel-create", () -> uiMessage("action.cancel-create"), TeslerActionIconSpecifier.CLOSE, ALWAYS_TRUE),
+	SAVE("save", () -> uiMessage("action.save"), TeslerActionIconSpecifier.SAVE, NOT_NULL_ID),
+	COPY("copy", () -> uiMessage("action.copy"), TeslerActionIconSpecifier.COPY, NOT_NULL_ID),
+	ASSOCIATE("associate", () -> uiMessage("action.add"), TeslerActionIconSpecifier.PLUS, NOT_NULL_PARENT_ID),
+	DELETE("delete", () -> uiMessage("action.delete"), TeslerActionIconSpecifier.DELETE, NOT_NULL_ID);
 
 	private final String type;
 
 	private final Supplier<String> text;
 
-	private final ActionIcon icon;
+	private final TeslerActionIconSpecifier icon;
 
 	private final ActionAvailableChecker baseAvailableChecker;
 

@@ -25,6 +25,7 @@ import io.tesler.core.crudma.bc.BcIdentifier;
 import io.tesler.core.crudma.bc.BusinessComponent;
 import io.tesler.core.dto.rowmeta.ActionResultDTO;
 import io.tesler.core.dto.rowmeta.PreAction;
+
 import java.util.Collections;
 import java.util.List;
 
@@ -53,8 +54,8 @@ public abstract class ResponseServiceAction<T extends DataResponseDTO> {
 		return Collections.emptyList();
 	}
 
-	public ActionIcon getIcon() {
-		return ActionIcon.WITHOUT_ICON;
+	public ActionIconSpecifier getIcon() {
+		return TeslerActionIconSpecifier.WITHOUT_ICON;
 	}
 
 	public ActionScope getScope() {
