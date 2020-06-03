@@ -67,7 +67,7 @@ public class ActionDTO {
 	private boolean available;
 
 	/**
-	 * Конструктор, используемый для создания Action'а - одиночки
+	 * The constructor used to create one Action
 	 */
 	public ActionDTO(String type, String text) {
 		this.type = type;
@@ -75,19 +75,10 @@ public class ActionDTO {
 	}
 
 	/**
-	 * Конструктор, используемый для создания группы Action'ов
+	 * Constructor used to create group of Actions
 	 */
 	public ActionDTO(String type, String text, int maxGroupVisualButtonsCount, List<ActionDTO> actions) {
 		this.type = type;
-		this.text = text;
-		this.maxGroupVisualButtonsCount = maxGroupVisualButtonsCount;
-		this.actions = actions;
-	}
-
-	/**
-	 * Конструктор, используемый для создания группы Action'ов для WF
-	 */
-	public ActionDTO(String text, int maxGroupVisualButtonsCount, List<ActionDTO> actions) {
 		this.text = text;
 		this.maxGroupVisualButtonsCount = maxGroupVisualButtonsCount;
 		this.actions = actions;
