@@ -28,5 +28,13 @@
     "hintKey": "hintField",
     "maxInput": 20,
     "customField1": "firstCustomField",
-    "customField2": "secondCustomField"
+    "customField2": "secondCustomField",
+    "showCondition" : {
+      "key" : "1",
+      "sequence" : 1,
+      "params" : {
+        "fieldKey" : "fieldKey",
+        "value" : "value"
+      }
+    }
   }
