@@ -18,22 +18,39 @@
  * #L%
  */
 
-package io.tesler.core.util.export.transform;
+package io.tesler.core.util.export.base.model;
 
 import java.math.BigDecimal;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Map.Entry;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
+@Getter
+@ToString
 @RequiredArgsConstructor
-public class DraftVersion implements Transformation {
+public class ExportedRecord {
 
-	final boolean draftVersion;
+	final String tableName;
 
-	@Override
-	public Object transform(final Object value) {
-		if (value instanceof BigDecimal && draftVersion) {
-			return BigDecimal.ONE;
-		}
-		return value;
+	final Map<ColumnMeta, Object> columns = new HashMap<>();
+
+	@Setter
+	BigDecimal id;
+
+	public void addColumn(final ColumnMeta meta, final Object value) {
+		columns.put(meta, value);
+	}
+
+	public Object getValue(final String columnName) {
+		return columns.entrySet().stream()
+				.filter(entry -> columnName.equalsIgnoreCase(entry.getKey().getName()))
+				.findAny()
+				.map(Entry::getValue)
+				.orElse(null);
 	}
 
 }

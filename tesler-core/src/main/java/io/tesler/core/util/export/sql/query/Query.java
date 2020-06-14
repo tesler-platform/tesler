@@ -18,20 +18,11 @@
  * #L%
  */
 
-package io.tesler.core.util.export.model.db;
+package io.tesler.core.util.export.sql.query;
 
-import io.tesler.core.crudma.impl.sql.utils.SqlFieldType;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.ToString;
 
-@Getter
-@ToString
-@RequiredArgsConstructor
-public class ColumnMeta {
+public interface Query {
 
-	private final String name;
-
-	private final SqlFieldType type;
+	String toSql();
 
 }

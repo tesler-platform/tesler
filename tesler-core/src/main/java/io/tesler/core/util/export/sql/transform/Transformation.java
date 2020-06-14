@@ -18,7 +18,7 @@
  * #L%
  */
 
-package io.tesler.core.util.export.transform;
+package io.tesler.core.util.export.sql.transform;
 
 
 public interface Transformation {

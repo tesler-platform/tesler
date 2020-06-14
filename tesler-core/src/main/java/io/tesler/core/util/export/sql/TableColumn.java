@@ -18,11 +18,19 @@
  * #L%
  */
 
-package io.tesler.core.util.export.model.query;
+package io.tesler.core.util.export.sql;
 
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
-public interface Query {
+@Getter
+@EqualsAndHashCode
+@RequiredArgsConstructor
+public class TableColumn {
 
-	String toSql();
+	private final String table;
+
+	private final String column;
 
 }
