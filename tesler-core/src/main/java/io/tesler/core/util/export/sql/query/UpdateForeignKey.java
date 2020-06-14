@@ -18,10 +18,8 @@
  * #L%
  */
 
-package io.tesler.core.util.export.model.query;
+package io.tesler.core.util.export.sql.query;
 
-import io.tesler.core.util.export.model.db.ColumnMeta;
-import io.tesler.core.util.export.model.db.ColumnValue;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -35,39 +33,27 @@ import org.apache.commons.lang3.StringUtils;
 @Getter
 @ToString
 @RequiredArgsConstructor
-public class Insert implements Query {
+public class UpdateForeignKey implements Query {
 
 	private final String tableName;
 
 	private final BigDecimal lineId;
 
-	private final Map<String, ColumnValue> columns = new LinkedHashMap<>();
+	private final Map<String, BigDecimal> columns = new LinkedHashMap<>();
 
-	public void addColumn(final ColumnMeta meta, final Object value) {
+	public void addColumn(final String name, final BigDecimal value) {
 		if (value != null) {
-			columns.put(meta.getName(), new ColumnValue(meta.getType(), value));
+			columns.put(name, value);
 		}
-	}
-
-	public Object getValue(final String columnName) {
-		final ColumnValue columnValue = columns.get(columnName);
-		return columnValue == null ? null : columnValue.getObjectValue();
 	}
 
 	@Override
 	public String toSql() {
 		final List<String> columns = new ArrayList<>();
-		final List<String> values = new ArrayList<>();
-		for (final Map.Entry<String, ColumnValue> column : this.columns.entrySet()) {
-			columns.add(column.getKey());
-			values.add(column.getValue().getValueForInsert());
+		for (final Map.Entry<String, BigDecimal> column : this.columns.entrySet()) {
+			columns.add(column.getKey() + " = " + column.getValue());
 		}
-		return String.format(
-				"INSERT INTO %s (%s) VALUES (%s);",
-				tableName,
-				StringUtils.join(columns, ", "),
-				StringUtils.join(values, ", ")
-		);
+		return String.format("UPDATE %s SET %s WHERE ID = %s;", tableName, StringUtils.join(columns, ", "), lineId);
 	}
 
 }

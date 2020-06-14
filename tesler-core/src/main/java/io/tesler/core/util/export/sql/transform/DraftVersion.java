@@ -18,26 +18,22 @@
  * #L%
  */
 
-package io.tesler.core.util.export.model.db;
+package io.tesler.core.util.export.sql.transform;
 
-import io.tesler.core.crudma.impl.sql.utils.SqlFieldType;
-import java.util.ArrayList;
-import java.util.List;
-import lombok.Getter;
+import java.math.BigDecimal;
 import lombok.RequiredArgsConstructor;
-import lombok.ToString;
 
-@Getter
-@ToString
 @RequiredArgsConstructor
-public class TableMeta {
+public class DraftVersion implements Transformation {
 
-	final String name;
+	final boolean draftVersion;
 
-	final List<ColumnMeta> columns = new ArrayList<>();
-
-	public void addColumn(final String name, final SqlFieldType type) {
-		columns.add(new ColumnMeta(name, type));
+	@Override
+	public Object transform(final Object value) {
+		if (value instanceof BigDecimal && draftVersion) {
+			return BigDecimal.ONE;
+		}
+		return value;
 	}
 
 }

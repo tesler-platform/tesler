@@ -18,31 +18,20 @@
  * #L%
  */
 
-package io.tesler.core.util.export.transform;
+package io.tesler.core.util.export.base.model;
 
-import java.math.BigDecimal;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.function.Supplier;
+import io.tesler.core.crudma.impl.sql.utils.SqlFieldType;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.ToString;
 
+@Getter
+@ToString
 @RequiredArgsConstructor
-public class NewId implements Transformation {
+public class ColumnMeta {
 
-	private final Supplier<BigDecimal> idSupplier;
+	private final String name;
 
-	private final Map<BigDecimal, BigDecimal> values = new HashMap<>();
-
-	@Override
-	public Object transform(Object value) {
-		if (value instanceof BigDecimal) {
-			final BigDecimal bigDecimal = (BigDecimal) value;
-			if (!values.containsKey(bigDecimal)) {
-				values.put(bigDecimal, idSupplier.get());
-			}
-			return values.get(value);
-		}
-		return value;
-	}
+	private final SqlFieldType type;
 
 }
