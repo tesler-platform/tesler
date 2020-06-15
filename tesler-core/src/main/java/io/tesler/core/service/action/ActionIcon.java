@@ -23,9 +23,14 @@ package io.tesler.core.service.action;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
+/**
+ * @deprecated use TeslerActionIconSpecifier instead
+ * TODO delete in 3.0
+ */
 @Getter
 @AllArgsConstructor
-public enum TeslerActionIconSpecifier implements ActionIconSpecifier {
+@Deprecated
+public enum ActionIcon implements ActionIconSpecifier {
 
 	WITHOUT_ICON(null),
 	PLUS("plus"),
