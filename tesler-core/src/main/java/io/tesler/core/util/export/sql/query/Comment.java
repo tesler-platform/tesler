@@ -18,19 +18,20 @@
  * #L%
  */
 
-package io.tesler.core.util.export.model.query;
+package io.tesler.core.util.export.sql.query;
 
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
-import org.apache.commons.lang3.StringUtils;
 
 @ToString
 @RequiredArgsConstructor
-public class BlankLine implements Query {
+public class Comment implements Query {
+
+	private final String text;
 
 	@Override
 	public String toSql() {
-		return StringUtils.EMPTY;
+		return "-- " + text;
 	}
 
 }

@@ -18,9 +18,9 @@
  * #L%
  */
 
-package io.tesler.core.util.export.transform;
+package io.tesler.core.util.export.sql.transform;
 
-import io.tesler.core.util.export.model.TableColumn;
+import io.tesler.core.util.export.sql.TableColumn;
 import java.util.HashMap;
 import java.util.Map;
 

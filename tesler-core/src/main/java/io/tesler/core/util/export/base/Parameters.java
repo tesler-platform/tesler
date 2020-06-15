@@ -18,9 +18,10 @@
  * #L%
  */
 
-package io.tesler.core.util.export.model;
+package io.tesler.core.util.export.base;
 
-import io.tesler.core.util.export.model.query.Insert;
+import io.tesler.core.util.export.base.model.ExportedRecord;
+import io.tesler.core.util.export.sql.query.Insert;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -47,14 +48,18 @@ public class Parameters {
 		return id("ID", id);
 	}
 
-	public static Parameters ids(final List<Insert> inserts) {
-		return ids("ID", inserts);
+	public static Parameters ids(final List<?> objects) {
+		return ids("ID", objects);
 	}
 
-	public static Parameters ids(final String columnName, final List<Insert> inserts) {
+	public static Parameters ids(final String columnName, final List<?> objects) {
 		final Parameters parameters = new Parameters(columnName);
-		for (final Insert insert : inserts) {
-			parameters.add(insert.getLineId());
+		for (final Object object : objects) {
+			if (object instanceof Insert) {
+				parameters.add(((Insert) object).getLineId());
+			} else if (object instanceof ExportedRecord) {
+				parameters.add(((ExportedRecord) object).getId());
+			}
 		}
 		return parameters;
 	}
