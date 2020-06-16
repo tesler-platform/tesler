@@ -164,7 +164,13 @@ public class BaseDAOImpl extends JpaDaoImpl implements BaseDAO {
 		if (pdqSearchSpec == null) {
 			pdqSearchSpec = (root1, cq1, cb1) -> cb1.and();
 		}
+		int joinsInRoot = root.getJoins().size();
 		Predicate searchParamsPredicate = getPredicateFromSearchParams(cb, root, dtoClazz, filter);
+
+		if (root.getJoins().size() > joinsInRoot) {
+			cq.distinct(true);
+		}
+
 		if (cq.getRestriction() != null) {
 			cq.where(cb.and(
 					cq.getRestriction(),
