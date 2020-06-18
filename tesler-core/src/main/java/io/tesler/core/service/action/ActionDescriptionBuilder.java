@@ -26,15 +26,13 @@ import static java.util.Objects.nonNull;
 import static org.apache.commons.lang3.ObjectUtils.defaultIfNull;
 
 import io.tesler.api.data.dto.DataResponseDTO;
-import io.tesler.core.crudma.bc.BcIdentifier;
 import io.tesler.core.crudma.bc.BusinessComponent;
 import io.tesler.core.dto.rowmeta.ActionResultDTO;
 import io.tesler.core.dto.rowmeta.ActionType;
 import io.tesler.core.dto.rowmeta.PreAction;
-
 import java.util.Arrays;
 import java.util.Collections;
-
+import java.util.Map;
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor
@@ -64,7 +62,7 @@ public class ActionDescriptionBuilder<T extends DataResponseDTO> {
 
 	private ActionScope actionScope = ActionScope.RECORD;
 
-	private BcIdentifier bcKey;
+	private Map<String, String> customParameter;
 
 	private boolean autoSaveBefore = true;
 
@@ -155,8 +153,8 @@ public class ActionDescriptionBuilder<T extends DataResponseDTO> {
 		return this;
 	}
 
-	public ActionDescriptionBuilder<T> bcKey(BcIdentifier bcKey) {
-		this.bcKey = bcKey;
+	public ActionDescriptionBuilder<T> withCustomParameter(Map<String, String> parametersTuple) {
+		this.customParameter = parametersTuple;
 		return this;
 	}
 
@@ -218,7 +216,7 @@ public class ActionDescriptionBuilder<T extends DataResponseDTO> {
 		return new ActionDescription<>(
 				key,
 				text,
-				bcKey,
+				customParameter,
 				and(
 						defaultIfNull(baseActionAvailableChecker, ActionAvailableChecker.ALWAYS_TRUE),
 						defaultIfNull(actionAvailableChecker, ActionAvailableChecker.ALWAYS_TRUE)
