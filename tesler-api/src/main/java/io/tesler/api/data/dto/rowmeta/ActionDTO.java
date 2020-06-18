@@ -20,12 +20,14 @@
 
 package io.tesler.api.data.dto.rowmeta;
 
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import io.tesler.api.data.dto.LocaleAware;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import java.util.List;
+import java.util.Map;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
@@ -33,38 +35,54 @@ import lombok.Getter;
 import lombok.Setter;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@Getter
 @Setter
 @Builder
 @EqualsAndHashCode
 @AllArgsConstructor
 public class ActionDTO {
 
+	@Getter
 	private String type;
 
+	@Getter
 	@LocaleAware
 	private String text;
 
+	@Getter
 	private Integer maxGroupVisualButtonsCount;
 
+	@Getter
 	@JsonSerialize(using = ActionDTOListSerializer.class)
 	private List<ActionDTO> actions;
 
+	@Getter
 	@JsonProperty(value = "preInvoke")
 	private PreActionDTO preActionDTO;
 
+	@Getter
 	private String icon;
 
-	private String bcKey;
+	@Getter
+	private Map<String, String> customParameters;
 
+	@Getter
 	private boolean showOnlyIcon;
 
+	@Getter
 	private String scope;
 
+	@Getter
 	private boolean autoSaveBefore;
 
+	@Getter
 	@JsonIgnore
 	private boolean available;
+
+	@JsonAnyGetter
+	public Map<String, String> getCustomParameters() {
+		return customParameters;
+	}
+
 
 	/**
 	 * The constructor used to create one Action
