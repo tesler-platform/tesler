@@ -1,0 +1,141 @@
+/*-
+ * #%L
+ * IO Tesler - Core
+ * %%
+ * Copyright (C) 2018 - 2019 Tesler Contributors
+ * %%
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ * #L%
+ */
+
+package io.tesler.core.service;
+
+import static java.util.Collections.emptyMap;
+
+import io.tesler.api.data.dto.DataResponseDTO;
+import io.tesler.api.service.tx.TransactionService;
+import io.tesler.api.util.Invoker;
+import io.tesler.constgen.DtoField;
+import io.tesler.core.config.properties.FieldsFilteringProperties;
+import io.tesler.core.crudma.CrudmaActionHolder;
+import io.tesler.core.crudma.CrudmaActionType;
+import io.tesler.core.crudma.bc.BcIdentifier;
+import io.tesler.core.dto.mapper.DtoConstructorService;
+import io.tesler.core.ui.BcUtils;
+import io.tesler.model.core.api.EntitySerializationEvent;
+import io.tesler.model.core.entity.BaseEntity;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.stereotype.Component;
+
+@Slf4j
+@Component
+@RequiredArgsConstructor
+public class DTOMapperImpl implements DTOMapper {
+
+	private final ApplicationEventPublisher applicationEventPublisher;
+
+	private final DtoConstructorService dtoConstructorService;
+
+	private final TransactionService txService;
+
+	private final BcUtils bcUtils;
+
+	private final FieldsFilteringProperties fieldsFilteringProperties;
+
+	public <E extends BaseEntity, D extends DataResponseDTO> D entityToDto(BcIdentifier bc, E entity, Class<D> dtoClass,
+			boolean flushRequired, Map<String, Object> attributes) {
+		return entityToDto(bc, entity, dtoClass, bcUtils.getDtoFieldsForCurrentScreen(bc), flushRequired, attributes);
+	}
+
+	public <E extends BaseEntity, D extends DataResponseDTO> D entityToDto(BcIdentifier bc, E entity, Class<D> dtoClass,
+			boolean flushRequired) {
+		return entityToDto(bc, entity, dtoClass, bcUtils.getDtoFieldsForCurrentScreen(bc), flushRequired, emptyMap());
+	}
+
+	public <E extends BaseEntity, D extends DataResponseDTO> D entityToDto(BcIdentifier bc, E entity, Class<D> dtoClass) {
+		return entityToDto(bc, entity, dtoClass, isFlushRequired(), emptyMap());
+	}
+
+	public <E extends BaseEntity, D extends DataResponseDTO> D entityToDto(BcIdentifier bc, E entity, Class<D> dtoClass,
+			Map<String, Object> attributes) {
+		return entityToDto(bc, entity, dtoClass, isFlushRequired(), attributes);
+	}
+
+	public <E extends BaseEntity, D extends DataResponseDTO> D entityToDto(E entity, Class<D> dtoClass) {
+		return entityToDto(null, entity, dtoClass, bcUtils.getDtoFields(dtoClass), isFlushRequired(), emptyMap());
+	}
+
+	public <E extends BaseEntity, D extends DataResponseDTO> D entityToDto(E entity, Class<D> dtoClass,
+			Set<DtoField<D, ?>> fields, boolean flushRequired) {
+		return entityToDto(null, entity, dtoClass, fields, flushRequired, emptyMap());
+	}
+
+	public <E extends BaseEntity, D extends DataResponseDTO> D entityToDto(E entity, Class<D> dtoClass,
+			DtoField<D, ?> field) {
+		return entityToDto(entity, dtoClass, Collections.singleton(field));
+	}
+
+	public <E extends BaseEntity, D extends DataResponseDTO> D entityToDto(E entity, Class<D> dtoClass,
+			Set<DtoField<D, ?>> fields) {
+		return entityToDto(entity, dtoClass, fields, isFlushRequired());
+	}
+
+	private <E extends BaseEntity, D extends DataResponseDTO> D entityToDto(BcIdentifier bc, E entity, Class<D> dtoClass,
+			Set<DtoField<D, ?>> fields, boolean flushRequired, final Map<String, Object> attributes) {
+		if (flushRequired) {
+			sendSerializationEvent(entity);
+		}
+		List<String> excludedBcs = Arrays.asList(fieldsFilteringProperties.getExcludeBusinessComponents());
+		boolean enableFiltering = (fieldsFilteringProperties.getEnableFiltering()
+				&& bc != null && !excludedBcs.contains(bc.getName())
+		) || bc != null && excludedBcs.contains(bc.getName());
+		Set<DtoField<D, ?>> fieldsToPass = fields;
+		if (!enableFiltering) {
+			fieldsToPass = bcUtils.getDtoFields(dtoClass);
+		}
+		D result = createDto(entity, dtoClass, fieldsToPass, attributes);
+		setVstamp(result, entity);
+		return result;
+	}
+
+	private <E extends BaseEntity, D extends DataResponseDTO> D createDto(E entity, Class<D> dtoClass,
+			Set<DtoField<D, ?>> dtoFields, final Map<String, Object> attributes) {
+		return dtoConstructorService.create(entity, dtoClass, dtoFields, attributes);
+	}
+
+	private void setVstamp(Object dto, BaseEntity entity) {
+		if (!(dto instanceof DataResponseDTO)) {
+			return;
+		}
+		DataResponseDTO responseDTO = (DataResponseDTO) dto;
+		responseDTO.setVstamp(entity.getVstamp());
+		txService.invokeAfterCompletion(Invoker.of(() -> responseDTO.setVstamp(entity.getVstamp())));
+	}
+
+	private void sendSerializationEvent(BaseEntity entity) {
+		applicationEventPublisher.publishEvent(new EntitySerializationEvent(this, entity));
+	}
+
+	private boolean isFlushRequired() {
+		CrudmaActionType action = CrudmaActionHolder.getActionType();
+		return action != null && action.isFlushRequired();
+	}
+
+}

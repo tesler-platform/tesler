@@ -22,6 +22,7 @@ package io.tesler.testing.tests;
 
 import io.tesler.core.bc.InnerBcTypeAware;
 import io.tesler.core.config.JacksonConfig;
+import io.tesler.core.config.UiComponentsConfig;
 import io.tesler.core.crudma.bc.BusinessComponent;
 import io.tesler.core.crudma.bc.impl.BcDescription;
 import io.tesler.core.crudma.bc.impl.BcRegistryImpl;
@@ -30,10 +31,14 @@ import io.tesler.core.dto.ResponseBuilder;
 import io.tesler.core.dto.ValidatorsProviderImpl;
 import io.tesler.core.dto.mapper.DtoConstructorService;
 import io.tesler.core.dto.mapper.RequestValueCache;
-import io.tesler.core.service.DTOMapper;
+import io.tesler.core.service.DTOMapperImpl;
 import io.tesler.core.service.ResponseFactory;
 import io.tesler.core.service.ResponseService;
-import io.tesler.core.ui.BcUtils;
+import io.tesler.core.ui.BcUtilsImpl;
+import io.tesler.core.ui.cache.BcFieldCache;
+import io.tesler.core.ui.cache.DtoFieldCache;
+import io.tesler.core.ui.cache.ViewFieldCache;
+import io.tesler.core.ui.cache.WidgetFieldCache;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.ContextHierarchy;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
@@ -44,16 +49,21 @@ import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 				name = "child",
 				classes = {
 						DtoConstructorService.class,
-						DTOMapper.class,
+						DTOMapperImpl.class,
 						RequestValueCache.class,
-						BcUtils.class,
+						BcUtilsImpl.class,
+						BcFieldCache.class,
+						DtoFieldCache.class,
+						ViewFieldCache.class,
+						WidgetFieldCache.class,
 						InnerBcTypeAware.class,
 						ResponseFactory.class,
 						ResponseBuilder.class,
 						BcRegistryImpl.class,
 						SearchSpecDao.class,
 						ValidatorsProviderImpl.class,
-						JacksonConfig.class
+						JacksonConfig.class,
+						UiComponentsConfig.class
 				}
 		)
 )
