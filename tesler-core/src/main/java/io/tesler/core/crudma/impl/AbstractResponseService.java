@@ -20,13 +20,6 @@
 
 package io.tesler.core.crudma.impl;
 
-import static io.tesler.api.data.dao.SpecificationUtils.and;
-import static io.tesler.api.data.dao.SpecificationUtils.or;
-import static io.tesler.api.data.dao.SpecificationUtils.trueSpecification;
-import static io.tesler.api.util.i18n.ErrorMessageSource.errorMessage;
-import static java.util.Objects.isNull;
-import static java.util.Objects.nonNull;
-
 import io.tesler.api.data.ResultPage;
 import io.tesler.api.data.dictionary.LOV;
 import io.tesler.api.data.dto.AssociateDTO;
@@ -41,12 +34,7 @@ import io.tesler.core.dao.BaseDAO;
 import io.tesler.core.dao.impl.SearchSpecDao;
 import io.tesler.core.dto.DrillDownType;
 import io.tesler.core.dto.PreInvokeEvent;
-import io.tesler.core.dto.rowmeta.ActionResultDTO;
-import io.tesler.core.dto.rowmeta.ActionType;
-import io.tesler.core.dto.rowmeta.ActionsDTO;
-import io.tesler.core.dto.rowmeta.AssociateResultDTO;
-import io.tesler.core.dto.rowmeta.CreateResult;
-import io.tesler.core.dto.rowmeta.PostAction;
+import io.tesler.core.dto.rowmeta.*;
 import io.tesler.core.exception.BusinessException;
 import io.tesler.core.exception.EntityNotFoundException;
 import io.tesler.core.exception.UnconfirmedException;
@@ -55,15 +43,7 @@ import io.tesler.core.service.BcSpecificationBuilder;
 import io.tesler.core.service.DTOMapper;
 import io.tesler.core.service.IOutwardReportEngineService;
 import io.tesler.core.service.ResponseService;
-import io.tesler.core.service.action.ActionDescription;
-import io.tesler.core.service.action.Actions;
-import io.tesler.core.service.action.AssocPreActionEventParameters;
-import io.tesler.core.service.action.DataResponsePreActionEventParameters;
-import io.tesler.core.service.action.PreActionCondition;
-import io.tesler.core.service.action.PreActionConditionHolderAssoc;
-import io.tesler.core.service.action.PreActionConditionHolderDataResponse;
-import io.tesler.core.service.action.PreActionEvent;
-import io.tesler.core.service.action.PreActionEventChecker;
+import io.tesler.core.service.action.*;
 import io.tesler.core.service.rowmeta.FieldMetaBuilder;
 import io.tesler.core.service.rowmeta.RowMetaType;
 import io.tesler.core.service.spec.BcSpecificationHolder;
@@ -72,17 +52,6 @@ import io.tesler.core.service.spec.SecuritySpecificationHolder;
 import io.tesler.model.core.entity.BaseEntity;
 import io.tesler.model.core.entity.BaseEntity_;
 import io.tesler.model.ui.entity.SearchSpec;
-import java.lang.reflect.Modifier;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.concurrent.atomic.AtomicReference;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-import javax.persistence.EntityGraph;
-import javax.persistence.metamodel.SingularAttribute;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
@@ -93,6 +62,19 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.transaction.annotation.Transactional;
+
+import javax.persistence.EntityGraph;
+import javax.persistence.metamodel.SingularAttribute;
+import java.lang.reflect.Modifier;
+import java.util.*;
+import java.util.concurrent.atomic.AtomicReference;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+import static io.tesler.api.data.dao.SpecificationUtils.*;
+import static io.tesler.api.util.i18n.ErrorMessageSource.errorMessage;
+import static java.util.Objects.isNull;
+import static java.util.Objects.nonNull;
 
 @Slf4j
 @Transactional
@@ -273,10 +255,7 @@ public abstract class AbstractResponseService<T extends DataResponseDTO, E exten
 	}
 
 
-	private void preInvoke(BusinessComponent bc,
-			List<PreActionEvent> preActionEvents,
-			DataResponseDTO data,
-			AssociateDTO associateDTO) {
+	private void preInvoke(BusinessComponent bc, List<PreActionEvent> preActionEvents, DataResponseDTO data, AssociateDTO associateDTO) {
 		List<String> preInvokeParameters = bc.getPreInvokeParameters();
 		List<PreInvokeEvent> preInvokeEvents = new ArrayList<>();
 		if (nonNull(preActionEvents)) {
@@ -285,7 +264,7 @@ public abstract class AbstractResponseService<T extends DataResponseDTO, E exten
 						(data == null ? getCheckerAssoc(preActionEvent.getPreActionCondition())
 								.check(new AssocPreActionEventParameters(associateDTO, bc, preInvokeParameters))
 								: getCheckerData(preActionEvent.getPreActionCondition())
-										.check(new DataResponsePreActionEventParameters(data, bc, preInvokeParameters)))) {
+								.check(new DataResponsePreActionEventParameters(data, bc, preInvokeParameters)))) {
 					preInvokeEvents.add(PreInvokeEvent.of(
 							preActionEvent.getKey(),
 							preActionEvent.getType().getKey(),
