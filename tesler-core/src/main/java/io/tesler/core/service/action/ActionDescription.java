@@ -107,6 +107,7 @@ public final class ActionDescription<T extends DataResponseDTO> {
 				.preActionDTO(nonNull(preAction) ? PreActionDTO.builder()
 						.type(preAction.getType())
 						.message(preAction.getMessage(this.getKey()))
+						.customParameter(preAction.getCustomParameters())
 						.build() : null)
 				.scope(this.getActionScope().toString().toLowerCase())
 				.autoSaveBefore(this.isAutoSaveBefore())

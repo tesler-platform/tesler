@@ -24,6 +24,8 @@ import static java.util.Objects.nonNull;
 import static org.apache.commons.lang3.StringUtils.isBlank;
 import static org.apache.commons.lang3.StringUtils.trimToEmpty;
 
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
+import java.util.Map;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 
@@ -36,15 +38,18 @@ public class PreAction {
 
 	private final String message;
 
-	private static PreAction preAction(PreActionType preAction, String message) {
+	private final Map<String, String> customParameters;
+
+	private static PreAction preAction(PreActionType preAction, String message, Map<String, String> customParameters) {
 		return PreAction.builder()
 				.preActionType(preAction)
 				.message(message)
+				.customParameters(customParameters)
 				.build();
 	}
 
 	public static PreAction confirm(String message) {
-		return PreAction.preAction(PreActionType.CONFIRMATION, message);
+		return PreAction.preAction(PreActionType.CONFIRMATION, message, null);
 	}
 
 	public static PreAction confirm() {
@@ -52,7 +57,7 @@ public class PreAction {
 	}
 
 	public static PreAction info(String message) {
-		return PreAction.preAction(PreActionType.INFORMATION, message);
+		return PreAction.preAction(PreActionType.INFORMATION, message, null);
 	}
 
 	public static PreAction info() {
@@ -60,11 +65,15 @@ public class PreAction {
 	}
 
 	public static PreAction error(String message) {
-		return PreAction.preAction(PreActionType.ERROR, message);
+		return PreAction.preAction(PreActionType.ERROR, message, null);
 	}
 
 	public static PreAction error() {
 		return PreAction.error(null);
+	}
+
+	public static PreAction custom(String message, Map<String, String> customParameters) {
+		return PreAction.preAction(PreActionType.CUSTOM, message, customParameters);
 	}
 
 	public String getType() {
@@ -73,6 +82,11 @@ public class PreAction {
 
 	public String getMessage() {
 		return message;
+	}
+
+	@JsonAnyGetter
+	public Map<String, String> getCustomParameters() {
+		return customParameters;
 	}
 
 	public String getMessage(String action) {
