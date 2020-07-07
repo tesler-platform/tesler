@@ -31,7 +31,8 @@ public enum PreActionType {
 
 	CONFIRMATION("confirm", "Подтвердить действие '%s'?"),
 	INFORMATION("info", "Выполняется действие '%s'"),
-	ERROR("error", "Действие '%s' не может быть выполнено");
+	ERROR("error", "Действие '%s' не может быть выполнено"),
+	CUSTOM("custom", "");
 
 	private final String type;
 
