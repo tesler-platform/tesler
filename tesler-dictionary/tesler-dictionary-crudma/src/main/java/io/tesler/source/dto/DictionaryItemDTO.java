@@ -20,10 +20,9 @@
 
 package io.tesler.source.dto;
 
-import static io.tesler.core.util.filter.SearchParameterType.BOOLEAN;
-
 import io.tesler.api.data.dto.DataResponseDTO;
 import io.tesler.core.util.filter.SearchParameter;
+import io.tesler.core.util.filter.provider.impl.BooleanValueProvider;
 import io.tesler.model.dictionary.entity.DictionaryItem;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -42,7 +41,7 @@ public class DictionaryItemDTO extends DataResponseDTO {
 	@SearchParameter
 	private String value;
 
-	@SearchParameter(type = BOOLEAN)
+	@SearchParameter(provider = BooleanValueProvider.class)
 	private Boolean active;
 
 	@SearchParameter
@@ -52,7 +51,7 @@ public class DictionaryItemDTO extends DataResponseDTO {
 
 	private String description;
 
-	@SearchParameter(type = BOOLEAN)
+	@SearchParameter(provider = BooleanValueProvider.class)
 	private boolean additionFlg;
 
 	public DictionaryItemDTO(DictionaryItem dictionaryItem) {

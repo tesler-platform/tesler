@@ -20,10 +20,9 @@
 
 package io.tesler.core.dto.data;
 
-import static io.tesler.core.util.filter.SearchParameterType.DATE;
-
 import io.tesler.api.data.dto.DataResponseDTO;
 import io.tesler.core.util.filter.SearchParameter;
+import io.tesler.core.util.filter.provider.impl.DateValueProvider;
 import io.tesler.model.ui.entity.FieldComment;
 import java.time.LocalDateTime;
 import lombok.Getter;
@@ -55,7 +54,7 @@ public class FieldCommentDTO extends DataResponseDTO {
 
 	private String fullName;
 
-	@SearchParameter(type = DATE, strict = true)
+	@SearchParameter(provider = DateValueProvider.class, strict = true)
 	private LocalDateTime createdDate;
 
 	private LocalDateTime updatedDate;

@@ -27,7 +27,7 @@ import io.tesler.api.data.dictionary.LOV;
 import io.tesler.api.data.dto.DataResponseDTO;
 import io.tesler.core.dto.Lov;
 import io.tesler.core.util.filter.SearchParameter;
-import io.tesler.core.util.filter.SearchParameterType;
+import io.tesler.core.util.filter.provider.impl.LovValueProvider;
 import io.tesler.model.core.entity.Department;
 import io.tesler.model.dictionary.links.entity.DictionaryLnkRuleCond;
 import java.util.Optional;
@@ -42,7 +42,7 @@ import lombok.Setter;
 @AllArgsConstructor
 public class DictionaryLnkRuleCondDto extends DataResponseDTO {
 
-	@SearchParameter(type = SearchParameterType.LOV)
+	@SearchParameter(provider = LovValueProvider.class)
 	@Lov(DICTIONARY_TERM_TYPE)
 	private String type;
 

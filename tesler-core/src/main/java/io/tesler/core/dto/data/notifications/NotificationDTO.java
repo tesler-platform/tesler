@@ -21,12 +21,12 @@
 package io.tesler.core.dto.data.notifications;
 
 import static io.tesler.api.data.dictionary.DictionaryType.MIME_TYPE;
-import static io.tesler.core.util.filter.SearchParameterType.BOOLEAN;
 
 import io.tesler.api.data.dto.DataResponseDTO;
 import io.tesler.api.data.dto.TZAware;
 import io.tesler.core.dto.Lov;
 import io.tesler.core.util.filter.SearchParameter;
+import io.tesler.core.util.filter.provider.impl.BooleanValueProvider;
 import io.tesler.model.core.entity.notifications.Notification;
 import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
@@ -46,7 +46,7 @@ public class NotificationDTO extends DataResponseDTO {
 	@SearchParameter(name = "uiMessage")
 	private String message;
 
-	@SearchParameter(type = BOOLEAN)
+	@SearchParameter(provider = BooleanValueProvider.class)
 	private boolean read;
 
 	private String url;

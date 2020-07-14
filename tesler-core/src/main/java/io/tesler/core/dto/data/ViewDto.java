@@ -20,8 +20,6 @@
 
 package io.tesler.core.dto.data;
 
-import static io.tesler.core.util.filter.SearchParameterType.STRING;
-
 import io.tesler.api.data.dto.DataResponseDTO;
 import io.tesler.api.data.dto.LocaleAware;
 import io.tesler.core.util.filter.SearchParameter;
@@ -35,13 +33,13 @@ public class ViewDto extends DataResponseDTO {
 	private String name;
 
 	@LocaleAware
-	@SearchParameter(type = STRING)
+	@SearchParameter
 	private String title;
 
 	private String url;
 
 	@LocaleAware
-	@SearchParameter(type = STRING)
+	@SearchParameter
 	private String path;
 
 }

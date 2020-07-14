@@ -22,7 +22,7 @@ package io.tesler.source.dto;
 
 import io.tesler.api.data.dto.DataResponseDTO;
 import io.tesler.core.util.filter.SearchParameter;
-import io.tesler.core.util.filter.SearchParameterType;
+import io.tesler.core.util.filter.provider.impl.BooleanValueProvider;
 import io.tesler.model.dictionary.links.entity.DictionaryLnkRule;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -44,13 +44,13 @@ public class DictionaryLnkRuleDto extends DataResponseDTO {
 	@SearchParameter
 	private String type;
 
-	@SearchParameter(type = SearchParameterType.BOOLEAN)
+	@SearchParameter(provider = BooleanValueProvider.class)
 	private Boolean allValues;
 
-	@SearchParameter(type = SearchParameterType.BOOLEAN)
+	@SearchParameter(provider = BooleanValueProvider.class)
 	private Boolean filterableField;
 
-	@SearchParameter(type = SearchParameterType.BOOLEAN)
+	@SearchParameter(provider = BooleanValueProvider.class)
 	private Boolean defaultRuleFlg;
 
 	public DictionaryLnkRuleDto(DictionaryLnkRule entity) {

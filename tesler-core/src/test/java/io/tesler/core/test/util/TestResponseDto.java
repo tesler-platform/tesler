@@ -20,15 +20,20 @@
 
 package io.tesler.core.test.util;
 
-import static io.tesler.core.util.filter.SearchParameterType.STRING;
-
+import io.tesler.api.data.dictionary.DictionaryType;
 import io.tesler.api.data.dto.DataResponseDTO;
+import io.tesler.core.dto.Lov;
+import io.tesler.core.dto.multivalue.MultivalueField;
+import io.tesler.core.util.filter.MultisourceSearchParameter;
 import io.tesler.core.util.filter.SearchParameter;
+import io.tesler.core.util.filter.provider.impl.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.validation.constraints.Size;
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -40,6 +45,36 @@ public class TestResponseDto extends DataResponseDTO {
 
 	private Number number;
 
-	@SearchParameter(type = STRING)
+	@SearchParameter
 	private String string;
+
+	@SearchParameter(provider = BooleanValueProvider.class)
+	private Boolean aBoolean;
+
+	@SearchParameter(name = "multiValueFieldKey", provider = MultiFieldValueProvider.class)
+	private MultivalueField multivalueField;
+
+	@SearchParameter(provider = LongValueProvider.class)
+	private Long aLong;
+
+	@SearchParameter(provider = DateTimeValueProvider.class)
+	private LocalDateTime dateTime;
+
+	@SearchParameter(provider = DateValueProvider.class)
+	private LocalDateTime date;
+
+	@SearchParameter(provider = BigDecimalValueProvider.class)
+	private BigDecimal bigDecimal;
+
+	@MultisourceSearchParameter({
+			@SearchParameter(name = "multisource1"),
+			@SearchParameter(name = "multisource2"),
+			@SearchParameter(name = "multisource3"),
+			@SearchParameter(name = "multisource4")
+	})
+	private String multiSource;
+
+	@SearchParameter(provider = LovValueProvider.class)
+	@Lov(DictionaryType.TASK_TYPE)
+	private String lov;
 }
