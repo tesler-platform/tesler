@@ -30,8 +30,6 @@ import io.tesler.core.ui.model.json.CellStyle;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import io.tesler.core.ui.model.json.Condition;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -123,9 +121,6 @@ public abstract class FieldMeta extends CellStyle {
 		private String hintKey;
 
 		private Long maxInput;
-
-		@JsonProperty("showCondition")
-		private Condition condition;
 
 		private List<MultiSourceInfo> multisource;
 

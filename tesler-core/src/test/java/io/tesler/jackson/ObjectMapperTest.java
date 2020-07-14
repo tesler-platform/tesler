@@ -80,10 +80,6 @@ public class ObjectMapperTest {
 		assertThat(inputFieldMeta.getDrillDown()).isNotNull();
 		assertThat(inputFieldMeta.getDrillDownKey()).isNotNull();
 		assertThat(inputFieldMeta.getIconColorKey()).isNotNull();
-		assertThat(inputFieldMeta.getCondition()).isNotNull();
-		assertThat(inputFieldMeta.getCondition().getKey()).isNotNull();
-		assertThat(inputFieldMeta.getCondition().getParams()).isNotNull();
-		assertThat(inputFieldMeta.getCondition().getSequence()).isNotNull();
 	}
 
 	@Test
