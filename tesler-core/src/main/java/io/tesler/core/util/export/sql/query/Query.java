@@ -18,7 +18,7 @@
  * #L%
  */
 
-package io.tesler.core.util.export.model.query;
+package io.tesler.core.util.export.sql.query;
 
 
 public interface Query {

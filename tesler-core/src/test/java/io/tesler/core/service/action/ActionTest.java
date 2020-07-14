@@ -20,9 +20,8 @@
 
 package io.tesler.core.service.action;
 
-import static io.tesler.core.crudma.bc.TestServiceAssociation.innerBcExample;
-
 import io.tesler.core.test.util.TestResponseDto;
+import org.apache.commons.collections.map.SingletonMap;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -35,7 +34,8 @@ class ActionTest {
 				.save()
 				.withoutIcon()
 				.add()
-				.associate(innerBcExample)
+				.associate()
+				.withCustomParameter(new SingletonMap("bcKey", "innerBcExample"))
 				.withoutIcon()
 				.withoutAutoSaveBefore()
 				.add()
@@ -44,11 +44,11 @@ class ActionTest {
 		Assertions.assertEquals(2, actions.actionDefinitions.size());
 		Assertions.assertEquals(ActionScope.RECORD, actions.actionDefinitions.get(0).getActionScope());
 		Assertions.assertEquals("save", actions.actionDefinitions.get(0).getKey());
-		Assertions.assertNull(actions.actionDefinitions.get(0).getBcKey());
+		Assertions.assertNull(actions.actionDefinitions.get(0).getCustomParameters());
 
 		Assertions.assertEquals(ActionScope.BC, actions.actionDefinitions.get(1).getActionScope());
 		Assertions.assertEquals("associate", actions.actionDefinitions.get(1).getKey());
-		Assertions.assertEquals(innerBcExample, actions.actionDefinitions.get(1).getBcKey());
+		Assertions.assertEquals("innerBcExample", actions.actionDefinitions.get(1).getCustomParameters().get("bcKey"));
 	}
 
 }

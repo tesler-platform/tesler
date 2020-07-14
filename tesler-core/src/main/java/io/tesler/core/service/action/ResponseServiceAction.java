@@ -21,20 +21,20 @@
 package io.tesler.core.service.action;
 
 import io.tesler.api.data.dto.DataResponseDTO;
-import io.tesler.core.crudma.bc.BcIdentifier;
 import io.tesler.core.crudma.bc.BusinessComponent;
 import io.tesler.core.dto.rowmeta.ActionResultDTO;
 import io.tesler.core.dto.rowmeta.PreAction;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 
 public abstract class ResponseServiceAction<T extends DataResponseDTO> {
 
 	public abstract String getButtonName();
 
-	public BcIdentifier getBCName() {
-		return null;
+	public Map<String, String> getCustomParameters() {
+		return Collections.emptyMap();
 	}
 
 	public abstract boolean isAvailable(BusinessComponent bc);
@@ -53,8 +53,8 @@ public abstract class ResponseServiceAction<T extends DataResponseDTO> {
 		return Collections.emptyList();
 	}
 
-	public ActionIcon getIcon() {
-		return ActionIcon.WITHOUT_ICON;
+	public ActionIconSpecifier getIcon() {
+		return TeslerActionIconSpecifier.WITHOUT_ICON;
 	}
 
 	public ActionScope getScope() {

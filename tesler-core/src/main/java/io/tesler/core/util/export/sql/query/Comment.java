@@ -18,21 +18,20 @@
  * #L%
  */
 
-package io.tesler.core.ui.model;
+package io.tesler.core.util.export.sql.query;
 
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.ToString;
 
-@Getter
+@ToString
 @RequiredArgsConstructor
-public final class MultivalueField {
+public class Comment implements Query {
 
-	private final String popupBcName;
+	private final String text;
 
-	private final String assocValueKey;
-
-	private final String displayedKey;
-
-	private final String associateFieldKey;
+	@Override
+	public String toSql() {
+		return "-- " + text;
+	}
 
 }

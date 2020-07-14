@@ -18,21 +18,39 @@
  * #L%
  */
 
-package io.tesler.core.ui.model;
+package io.tesler.core.util.export.base.model;
 
+import java.math.BigDecimal;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Map.Entry;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
 @Getter
+@ToString
 @RequiredArgsConstructor
-public final class MultivalueField {
+public class ExportedRecord {
 
-	private final String popupBcName;
+	final String tableName;
 
-	private final String assocValueKey;
+	final Map<ColumnMeta, Object> columns = new HashMap<>();
 
-	private final String displayedKey;
+	@Setter
+	BigDecimal id;
 
-	private final String associateFieldKey;
+	public void addColumn(final ColumnMeta meta, final Object value) {
+		columns.put(meta, value);
+	}
+
+	public Object getValue(final String columnName) {
+		return columns.entrySet().stream()
+				.filter(entry -> columnName.equalsIgnoreCase(entry.getKey().getName()))
+				.findAny()
+				.map(Entry::getValue)
+				.orElse(null);
+	}
 
 }

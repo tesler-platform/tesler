@@ -27,6 +27,7 @@ import io.tesler.core.dto.rowmeta.ActionsDTO;
 import io.tesler.core.dto.rowmeta.AssociateResultDTO;
 import io.tesler.core.dto.rowmeta.CreateResult;
 import io.tesler.core.service.ResponseService;
+import io.tesler.core.service.action.Actions;
 import io.tesler.core.service.rowmeta.FieldMetaBuilder;
 import io.tesler.core.service.rowmeta.RowMetaType;
 import io.tesler.model.core.entity.BaseEntity;
@@ -83,6 +84,11 @@ public class TestReponseService implements ResponseService {
 
 	@Override
 	public ActionsDTO getAvailableActions(RowMetaType metaType, DataResponseDTO data, BusinessComponent bc) {
+		return null;
+	}
+
+	@Override
+	public Actions getActions() {
 		return null;
 	}
 

@@ -18,20 +18,11 @@
  * #L%
  */
 
-package io.tesler.core.util.export.model.query;
+package io.tesler.core.util.export.sql.transform;
 
-import lombok.RequiredArgsConstructor;
-import lombok.ToString;
 
-@ToString
-@RequiredArgsConstructor
-public class Comment implements Query {
+public interface Transformation {
 
-	private final String text;
-
-	@Override
-	public String toSql() {
-		return "-- " + text;
-	}
+	Object transform(Object value);
 
 }

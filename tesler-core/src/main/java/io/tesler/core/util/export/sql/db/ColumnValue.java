@@ -18,7 +18,7 @@
  * #L%
  */
 
-package io.tesler.core.util.export.model.db;
+package io.tesler.core.util.export.sql.db;
 
 import io.tesler.core.crudma.impl.sql.utils.SqlFieldType;
 import com.google.common.base.Splitter;

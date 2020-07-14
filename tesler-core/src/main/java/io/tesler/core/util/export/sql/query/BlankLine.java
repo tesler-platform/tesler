@@ -18,31 +18,19 @@
  * #L%
  */
 
-package io.tesler.core.util.export.transform;
+package io.tesler.core.util.export.sql.query;
 
-import java.math.BigDecimal;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.function.Supplier;
 import lombok.RequiredArgsConstructor;
+import lombok.ToString;
+import org.apache.commons.lang3.StringUtils;
 
+@ToString
 @RequiredArgsConstructor
-public class NewId implements Transformation {
-
-	private final Supplier<BigDecimal> idSupplier;
-
-	private final Map<BigDecimal, BigDecimal> values = new HashMap<>();
+public class BlankLine implements Query {
 
 	@Override
-	public Object transform(Object value) {
-		if (value instanceof BigDecimal) {
-			final BigDecimal bigDecimal = (BigDecimal) value;
-			if (!values.containsKey(bigDecimal)) {
-				values.put(bigDecimal, idSupplier.get());
-			}
-			return values.get(value);
-		}
-		return value;
+	public String toSql() {
+		return StringUtils.EMPTY;
 	}
 
 }

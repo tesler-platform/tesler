@@ -18,26 +18,19 @@
  * #L%
  */
 
-package io.tesler.core.util.export.model.db;
+package io.tesler.core.util.export.sql;
 
-import io.tesler.core.crudma.impl.sql.utils.SqlFieldType;
-import java.util.ArrayList;
-import java.util.List;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import lombok.ToString;
 
 @Getter
-@ToString
+@EqualsAndHashCode
 @RequiredArgsConstructor
-public class TableMeta {
+public class TableColumn {
 
-	final String name;
+	private final String table;
 
-	final List<ColumnMeta> columns = new ArrayList<>();
-
-	public void addColumn(final String name, final SqlFieldType type) {
-		columns.add(new ColumnMeta(name, type));
-	}
+	private final String column;
 
 }

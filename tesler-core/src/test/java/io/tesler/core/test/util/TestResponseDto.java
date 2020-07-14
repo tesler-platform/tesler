@@ -20,7 +20,10 @@
 
 package io.tesler.core.test.util;
 
+import static io.tesler.core.util.filter.SearchParameterType.STRING;
+
 import io.tesler.api.data.dto.DataResponseDTO;
+import io.tesler.core.util.filter.SearchParameter;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -36,4 +39,7 @@ public class TestResponseDto extends DataResponseDTO {
 	private String validatedField;
 
 	private Number number;
+
+	@SearchParameter(type = STRING)
+	private String string;
 }

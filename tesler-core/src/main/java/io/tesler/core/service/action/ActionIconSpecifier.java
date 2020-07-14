@@ -18,20 +18,10 @@
  * #L%
  */
 
-package io.tesler.core.util.export.model.db;
+package io.tesler.core.service.action;
 
-import io.tesler.core.crudma.impl.sql.utils.SqlFieldType;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.ToString;
+public interface ActionIconSpecifier {
 
-@Getter
-@ToString
-@RequiredArgsConstructor
-public class ColumnMeta {
-
-	private final String name;
-
-	private final SqlFieldType type;
+	String getActionIconCode();
 
 }

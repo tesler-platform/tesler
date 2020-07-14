@@ -28,9 +28,11 @@ import io.tesler.core.dto.rowmeta.ActionResultDTO;
 import io.tesler.core.dto.rowmeta.ActionsDTO;
 import io.tesler.core.dto.rowmeta.AssociateResultDTO;
 import io.tesler.core.dto.rowmeta.CreateResult;
+import io.tesler.core.service.action.Actions;
 import io.tesler.core.service.rowmeta.FieldMetaBuilder;
 import io.tesler.core.service.rowmeta.RowMetaType;
 import io.tesler.model.core.entity.BaseEntity;
+
 import java.util.List;
 
 
@@ -57,6 +59,8 @@ public interface ResponseService<T extends DataResponseDTO, E extends BaseEntity
 	AssociateResultDTO associate(List<AssociateDTO> data, BusinessComponent bc);
 
 	ActionsDTO getAvailableActions(RowMetaType metaType, DataResponseDTO data, BusinessComponent bc);
+
+	Actions<T> getActions();
 
 	ActionResultDTO onCancel(BusinessComponent bc);
 

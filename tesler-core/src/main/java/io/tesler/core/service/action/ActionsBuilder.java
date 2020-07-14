@@ -25,7 +25,6 @@ import static io.tesler.core.service.action.ActionAvailableChecker.ALWAYS_TRUE;
 import static java.util.Objects.nonNull;
 
 import io.tesler.api.data.dto.DataResponseDTO;
-import io.tesler.core.crudma.bc.BcIdentifier;
 import io.tesler.core.dto.rowmeta.ActionType;
 import java.util.ArrayList;
 import java.util.List;
@@ -92,12 +91,6 @@ public class ActionsBuilder<T extends DataResponseDTO> {
 		return actionDescriptionBuilder;
 	}
 
-	public ActionDescriptionBuilder<T> associate(BcIdentifier bc) {
-		actionDescriptionBuilder = action(ActionType.ASSOCIATE)
-				.scope(ActionScope.BC).bcKey(bc);
-		return actionDescriptionBuilder;
-	}
-
 	public ActionDescriptionBuilder<T> delete() {
 		actionDescriptionBuilder = action(ActionType.DELETE)
 				.withoutAutoSaveBefore();
@@ -123,13 +116,13 @@ public class ActionsBuilder<T extends DataResponseDTO> {
 				new ActionDescription<>(
 						key,
 						responseServiceAction.getButtonName(),
-						responseServiceAction.getBCName(),
+						responseServiceAction.getCustomParameters(),
 						responseServiceAction::isAvailable,
 						responseServiceAction::invoke,
 						responseServiceAction::preActionSpecifier,
 						responseServiceAction::preActionEventSpecifier,
 						responseServiceAction::dataValidator,
-						responseServiceAction.getIcon().antIconName,
+						responseServiceAction.getIcon().getActionIconCode(),
 						responseServiceAction.isIconWithText(),
 						responseServiceAction.getScope(),
 						responseServiceAction.isAutoSaveBefore()

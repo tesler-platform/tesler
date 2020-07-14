@@ -18,19 +18,22 @@
  * #L%
  */
 
-package io.tesler.core.util.export.model.query;
+package io.tesler.core.util.export.sql.transform;
 
+import java.math.BigDecimal;
 import lombok.RequiredArgsConstructor;
-import lombok.ToString;
-import org.apache.commons.lang3.StringUtils;
 
-@ToString
 @RequiredArgsConstructor
-public class BlankLine implements Query {
+public class DraftVersion implements Transformation {
+
+	final boolean draftVersion;
 
 	@Override
-	public String toSql() {
-		return StringUtils.EMPTY;
+	public Object transform(final Object value) {
+		if (value instanceof BigDecimal && draftVersion) {
+			return BigDecimal.ONE;
+		}
+		return value;
 	}
 
 }

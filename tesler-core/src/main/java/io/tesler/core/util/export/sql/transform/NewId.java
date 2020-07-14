@@ -18,19 +18,31 @@
  * #L%
  */
 
-package io.tesler.core.util.export.model;
+package io.tesler.core.util.export.sql.transform;
 
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
+import java.math.BigDecimal;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.function.Supplier;
 import lombok.RequiredArgsConstructor;
 
-@Getter
-@EqualsAndHashCode
 @RequiredArgsConstructor
-public class TableColumn {
+public class NewId implements Transformation {
 
-	private final String table;
+	private final Supplier<BigDecimal> idSupplier;
 
-	private final String column;
+	private final Map<BigDecimal, BigDecimal> values = new HashMap<>();
+
+	@Override
+	public Object transform(Object value) {
+		if (value instanceof BigDecimal) {
+			final BigDecimal bigDecimal = (BigDecimal) value;
+			if (!values.containsKey(bigDecimal)) {
+				values.put(bigDecimal, idSupplier.get());
+			}
+			return values.get(value);
+		}
+		return value;
+	}
 
 }

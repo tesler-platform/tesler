@@ -18,42 +18,26 @@
  * #L%
  */
 
-package io.tesler.core.util.export.model.query;
+package io.tesler.core.util.export.base.model;
 
-import java.math.BigDecimal;
+import io.tesler.core.crudma.impl.sql.utils.SqlFieldType;
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
-import org.apache.commons.lang3.StringUtils;
 
 @Getter
 @ToString
 @RequiredArgsConstructor
-public class UpdateForeignKey implements Query {
+public class TableMeta {
 
-	private final String tableName;
+	final String tableName;
 
-	private final BigDecimal lineId;
+	final List<ColumnMeta> columns = new ArrayList<>();
 
-	private final Map<String, BigDecimal> columns = new LinkedHashMap<>();
-
-	public void addColumn(final String name, final BigDecimal value) {
-		if (value != null) {
-			columns.put(name, value);
-		}
-	}
-
-	@Override
-	public String toSql() {
-		final List<String> columns = new ArrayList<>();
-		for (final Map.Entry<String, BigDecimal> column : this.columns.entrySet()) {
-			columns.add(column.getKey() + " = " + column.getValue());
-		}
-		return String.format("UPDATE %s SET %s WHERE ID = %s;", tableName, StringUtils.join(columns, ", "), lineId);
+	public void addColumn(final String name, final SqlFieldType type) {
+		columns.add(new ColumnMeta(name, type));
 	}
 
 }

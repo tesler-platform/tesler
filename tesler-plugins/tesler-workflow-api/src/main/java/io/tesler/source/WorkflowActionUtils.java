@@ -25,6 +25,7 @@ import static java.util.stream.Collectors.groupingBy;
 import static java.util.stream.Collectors.mapping;
 
 import io.tesler.api.data.dto.rowmeta.ActionDTO;
+import io.tesler.core.service.action.ActionScope;
 import io.tesler.model.workflow.entity.WorkflowTransition;
 import io.tesler.model.workflow.entity.WorkflowTransitionGroup;
 import java.util.Collections;
@@ -43,7 +44,7 @@ public final class WorkflowActionUtils {
 
 	private static final String WF_TRANSITION_ID = "wf_transition_id_";
 
-	private static final ActionGroup WITHOUT_GROUP = new ActionGroup(null, null);
+	private static final ActionGroup WITHOUT_GROUP = new ActionGroup(null, null, null);
 
 	public static String actionNameFromTransitionId(final Long transitionId) {
 		return WF_TRANSITION_ID + transitionId;
@@ -68,18 +69,29 @@ public final class WorkflowActionUtils {
 
 	private static List<ActionDTO> getActionWithGroup(final Map<ActionGroup, List<WorkflowTransition>> transitionGroup) {
 		return transitionGroup.entrySet().stream()
-				.map(entry -> new ActionDTO(
-						entry.getKey().getText(),
-						entry.getKey().getMaxGroupVisualButtonsCount(),
-						getActionsWithoutGroup(entry.getValue())
-				))
+				.map(entry -> {
+					ActionDTO actionDTO = new ActionDTO(
+							entry.getKey().getText(),
+							entry.getKey().getText(),
+							entry.getKey().getMaxGroupVisualButtonsCount(),
+							getActionsWithoutGroup(entry.getValue())
+					);
+					actionDTO.setAvailable(true);
+					actionDTO.setScope(ActionScope.RECORD.toString().toLowerCase());
+					return actionDTO;
+				})
 				.collect(Collectors.toList());
 	}
 
 	private static List<ActionDTO> getActionsWithoutGroup(final List<WorkflowTransition> transitions) {
 		if (transitions != null) {
 			return transitions.stream()
-					.map(transition -> new ActionDTO(actionNameFromTransitionId(transition.getId()), transition.getName()))
+					.map(transition -> {
+						ActionDTO actionDTO = new ActionDTO(actionNameFromTransitionId(transition.getId()), transition.getName());
+						actionDTO.setAvailable(true);
+						actionDTO.setScope(ActionScope.RECORD.toString().toLowerCase());
+						return actionDTO;
+					})
 					.collect(Collectors.toList());
 		}
 		return Collections.emptyList();
@@ -90,12 +102,18 @@ public final class WorkflowActionUtils {
 	@RequiredArgsConstructor
 	private static class ActionGroup {
 
+		private final String type;
+
 		private final String text;
 
 		private final Integer maxGroupVisualButtonsCount;
 
 		private ActionGroup(final WorkflowTransitionGroup transitionGroup) {
-			this(transitionGroup.getNameButtonYet(), transitionGroup.getMaxShowButtonsInGroup());
+			this(
+					transitionGroup.getNameButtonYet(),
+					transitionGroup.getDescription(),
+					transitionGroup.getMaxShowButtonsInGroup()
+			);
 		}
 
 	}

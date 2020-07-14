@@ -28,21 +28,22 @@ import io.tesler.api.exception.ServerException;
 import io.tesler.core.crudma.bc.BusinessComponent;
 import io.tesler.core.crudma.bc.impl.InnerBcDescription;
 import io.tesler.core.crudma.impl.AbstractCrudmaService;
-import io.tesler.core.dto.rowmeta.ActionResultDTO;
-import io.tesler.core.dto.rowmeta.AssociateResultDTO;
-import io.tesler.core.dto.rowmeta.CreateResult;
-import io.tesler.core.dto.rowmeta.MetaDTO;
+import io.tesler.core.dto.rowmeta.*;
 import io.tesler.core.exception.BusinessException;
 import io.tesler.core.service.ResponseFactory;
 import io.tesler.core.service.ResponseService;
+import io.tesler.core.service.action.ActionDescription;
 import io.tesler.core.service.rowmeta.RowMetaType;
 import io.tesler.core.service.rowmeta.RowResponseService;
-import java.util.List;
-import java.util.Map;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Map;
+
+import static io.tesler.api.util.i18n.ErrorMessageSource.errorMessage;
 
 @Service
 public class InnerCrudmaService extends AbstractCrudmaService {
@@ -57,6 +58,7 @@ public class InnerCrudmaService extends AbstractCrudmaService {
 	@Override
 	public CreateResult create(BusinessComponent bc) {
 		ResponseService<?, ?> responseService = getResponseService(bc.getDescription());
+		availabilityCheck(responseService, ActionType.CREATE.getType(), bc);
 		return responseService.createEntity(bc);
 	}
 
@@ -89,6 +91,7 @@ public class InnerCrudmaService extends AbstractCrudmaService {
 	public ActionResultDTO update(BusinessComponent bc, Map<String, Object> data) {
 		final InnerBcDescription bcDescription = bc.getDescription();
 		ResponseService<?, ?> responseService = respFactory.getService(bcDescription);
+		availabilityCheck(responseService, ActionType.SAVE.getType(), bc);
 		DataResponseDTO requestDTO = respFactory.getDTOFromMap(data, respFactory.getDTOFromService(bcDescription), bc);
 		responseService.validate(bc, requestDTO);
 		return responseService.updateEntity(bc, requestDTO);
@@ -97,19 +100,19 @@ public class InnerCrudmaService extends AbstractCrudmaService {
 	@Override
 	public ActionResultDTO delete(BusinessComponent bc) {
 		ResponseService<?, ?> responseService = getResponseService(bc.getDescription());
+		availabilityCheck(responseService, ActionType.DELETE.getType(), bc);
 		return responseService.deleteEntity(bc);
 	}
 
 	@Override
 	public AssociateResultDTO associate(BusinessComponent bc, List<AssociateDTO> data) {
 		ResponseService<?, ?> responseService = getResponseService(bc.getDescription());
+		availabilityCheck(responseService, ActionType.ASSOCIATE.getType(), bc);
 		return responseService.associate(data, bc);
 	}
 
 	@Override
-	public ActionResultDTO invokeAction(BusinessComponent bc,
-			String actionName,
-			Map<String, Object> data) {
+	public ActionResultDTO invokeAction(BusinessComponent bc, String actionName, Map<String, Object> data) {
 		final InnerBcDescription bcDescription = bc.getDescription();
 		ResponseService<?, ?> responseService = respFactory.getService(bcDescription);
 		DataResponseDTO requestDTO = respFactory.getDTOFromMap(data, respFactory.getDTOFromService(bcDescription), bc);
@@ -173,6 +176,15 @@ public class InnerCrudmaService extends AbstractCrudmaService {
 		}
 		Class<?> dto = respFactory.getDTOFromService(bc.getDescription());
 		return (DataResponseDTO) dto.getConstructor().newInstance();
+	}
+
+	private void availabilityCheck(ResponseService<?, ?> service, String actionName, BusinessComponent bc) {
+		ActionDescription<?> action = service.getActions().getAction(actionName);
+		if (action == null || !action.isAvailable(bc)) {
+			throw new BusinessException().addPopup(
+					errorMessage("error.action_unavailable", actionName)
+			);
+		}
 	}
 
 }

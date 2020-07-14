@@ -21,18 +21,18 @@
 package io.tesler.core.service.action;
 
 import static io.tesler.core.service.action.ActionAvailableChecker.and;
-import static io.tesler.core.service.action.ActionIcon.WITHOUT_ICON;
+import static io.tesler.core.service.action.TeslerActionIconSpecifier.WITHOUT_ICON;
 import static java.util.Objects.nonNull;
 import static org.apache.commons.lang3.ObjectUtils.defaultIfNull;
 
 import io.tesler.api.data.dto.DataResponseDTO;
-import io.tesler.core.crudma.bc.BcIdentifier;
 import io.tesler.core.crudma.bc.BusinessComponent;
 import io.tesler.core.dto.rowmeta.ActionResultDTO;
 import io.tesler.core.dto.rowmeta.ActionType;
 import io.tesler.core.dto.rowmeta.PreAction;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Map;
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor
@@ -56,13 +56,13 @@ public class ActionDescriptionBuilder<T extends DataResponseDTO> {
 
 	private ActionsBuilder<T> actionsBuilder;
 
-	private ActionIcon iconCode = WITHOUT_ICON;
+	private ActionIconSpecifier iconCode = WITHOUT_ICON;
 
 	private boolean showOnlyIcon = false;
 
 	private ActionScope actionScope = ActionScope.RECORD;
 
-	private BcIdentifier bcKey;
+	private Map<String, String> customParameter;
 
 	private boolean autoSaveBefore = true;
 
@@ -142,7 +142,7 @@ public class ActionDescriptionBuilder<T extends DataResponseDTO> {
 		return this;
 	}
 
-	public ActionDescriptionBuilder<T> withIcon(ActionIcon icon, boolean showOnlyIcon) {
+	public ActionDescriptionBuilder<T> withIcon(ActionIconSpecifier icon, boolean showOnlyIcon) {
 		this.iconCode = icon;
 		this.showOnlyIcon = showOnlyIcon;
 		return this;
@@ -153,8 +153,8 @@ public class ActionDescriptionBuilder<T extends DataResponseDTO> {
 		return this;
 	}
 
-	public ActionDescriptionBuilder<T> bcKey(BcIdentifier bcKey) {
-		this.bcKey = bcKey;
+	public ActionDescriptionBuilder<T> withCustomParameter(Map<String, String> parametersTuple) {
+		this.customParameter = parametersTuple;
 		return this;
 	}
 
@@ -216,7 +216,7 @@ public class ActionDescriptionBuilder<T extends DataResponseDTO> {
 		return new ActionDescription<>(
 				key,
 				text,
-				bcKey,
+				customParameter,
 				and(
 						defaultIfNull(baseActionAvailableChecker, ActionAvailableChecker.ALWAYS_TRUE),
 						defaultIfNull(actionAvailableChecker, ActionAvailableChecker.ALWAYS_TRUE)
@@ -225,7 +225,7 @@ public class ActionDescriptionBuilder<T extends DataResponseDTO> {
 				defaultIfNull(preActionSpecifier, PreActionSpecifierType.WITHOUT_PREACTION),
 				defaultIfNull(preActionEventSpecifier, bc -> null),
 				defaultIfNull(dataValidator, (bc, data, entityDto) -> Collections.emptyList()),
-				iconCode.antIconName,
+				iconCode.getActionIconCode(),
 				showOnlyIcon,
 				actionScope,
 				autoSaveBefore

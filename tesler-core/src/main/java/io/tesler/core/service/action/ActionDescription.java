@@ -25,11 +25,11 @@ import static java.util.Objects.nonNull;
 import io.tesler.api.data.dto.DataResponseDTO;
 import io.tesler.api.data.dto.rowmeta.ActionDTO;
 import io.tesler.api.data.dto.rowmeta.PreActionDTO;
-import io.tesler.core.crudma.bc.BcIdentifier;
 import io.tesler.core.crudma.bc.BusinessComponent;
 import io.tesler.core.dto.rowmeta.ActionResultDTO;
 import io.tesler.core.dto.rowmeta.PreAction;
 import java.util.List;
+import java.util.Map;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
@@ -43,7 +43,7 @@ public final class ActionDescription<T extends DataResponseDTO> {
 	private final String text;
 
 	@Getter
-	private final BcIdentifier bcKey;
+	private final Map<String, String> customParameters;
 
 	private final ActionAvailableChecker actionAvailableChecker;
 
@@ -99,7 +99,7 @@ public final class ActionDescription<T extends DataResponseDTO> {
 		PreAction preAction = withPreAction(bc);
 		return ActionDTO.builder()
 				.available(isAvailable(bc))
-				.bcKey(this.getBcKey() == null ? null : this.getBcKey().getName())
+				.customParameters(this.getCustomParameters())
 				.type(this.getKey())
 				.text(this.getText())
 				.icon(this.getIconCode())
@@ -107,6 +107,7 @@ public final class ActionDescription<T extends DataResponseDTO> {
 				.preActionDTO(nonNull(preAction) ? PreActionDTO.builder()
 						.type(preAction.getType())
 						.message(preAction.getMessage(this.getKey()))
+						.customParameter(preAction.getCustomParameters())
 						.build() : null)
 				.scope(this.getActionScope().toString().toLowerCase())
 				.autoSaveBefore(this.isAutoSaveBefore())

@@ -18,11 +18,24 @@
  * #L%
  */
 
-package io.tesler.core.util.export.transform;
+package io.tesler.core.service.action;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 
-public interface Transformation {
+@Getter
+@AllArgsConstructor
+public enum TeslerActionIconSpecifier implements ActionIconSpecifier {
 
-	Object transform(Object value);
+	WITHOUT_ICON(null),
+	PLUS("plus"),
+	PLUS_CIRCLE("plus-circle"),
+	DELETE("delete"),
+	SAVE("save"),
+	COPY("copy"),
+	BARS("bars"),
+	CLOSE("close");
+
+	String actionIconCode;
 
 }

@@ -20,14 +20,14 @@
 
 package io.tesler.api.data.dto.rowmeta;
 
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import java.util.Map;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
-import lombok.Getter;
 import lombok.Setter;
 
 
-@Getter
 @Setter
 @Builder
 @EqualsAndHashCode
@@ -37,5 +37,20 @@ public class PreActionDTO {
 	private String type;
 
 	private String message;
+
+	private Map<String, String> customParameter;
+
+	@JsonAnyGetter
+	public Map<String, String> getCustomParameter() {
+		return customParameter;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public String getMessage() {
+		return message;
+	}
 
 }

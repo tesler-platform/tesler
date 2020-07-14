@@ -40,7 +40,7 @@ import io.tesler.core.dto.rowmeta.CreateResult;
 import io.tesler.core.dto.rowmeta.PostAction;
 import io.tesler.core.dto.rowmeta.PreAction;
 import io.tesler.core.exception.BusinessException;
-import io.tesler.core.service.action.ActionIcon;
+import io.tesler.core.service.action.TeslerActionIconSpecifier;
 import io.tesler.core.service.action.ActionScope;
 import io.tesler.core.service.action.Actions;
 import io.tesler.core.service.action.PreActionEvent;
@@ -277,7 +277,7 @@ public class VanillaDocServiceImpl extends VersionAwareResponseService<VanillaDo
 						.invoker(this::actionDelayedRefreshBC).add()
 						.build()
 				)
-				.action("bars", "Открыть пик-лист").withIcon(ActionIcon.BARS, false)
+				.action("bars", "Открыть пик-лист").withIcon(TeslerActionIconSpecifier.BARS, false)
 				.available(this::notNullAndPreAction).invoker(this::openPickList)
 				.add()
 				.delete().withPreAction(PreAction.error()).add()
