@@ -18,17 +18,27 @@
  * #L%
  */
 
-package io.tesler.core.util.filter;
+package io.tesler.core.dao;
 
+import io.tesler.core.controller.param.SearchOperation;
+import io.tesler.core.util.filter.provider.ClassifyDataProvider;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.Setter;
 
-public enum SearchParameterType {
-	STRING,
-	LONG,
-	BOOLEAN,
-	LOV,
-	DATE,
-	DATE_TIME,
-	MULTISOURCE,
-	BIG_DECIMAL,
-	MULTIFIELD
+@AllArgsConstructor
+@Getter
+@Setter
+@Builder
+public class ClassifyDataParameter {
+
+	private String field;
+
+	private SearchOperation operator;
+
+	private Object value;
+
+	private Class<? extends ClassifyDataProvider> provider;
+
 }

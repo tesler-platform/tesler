@@ -20,6 +20,9 @@
 
 package io.tesler.core.util.filter;
 
+import io.tesler.core.util.filter.provider.ClassifyDataProvider;
+import io.tesler.core.util.filter.provider.impl.MultisourceValueProvider;
+
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -30,5 +33,7 @@ import java.lang.annotation.Target;
 public @interface MultisourceSearchParameter {
 
 	SearchParameter[] value();
+
+	Class<? extends ClassifyDataProvider> provider() default MultisourceValueProvider.class;
 
 }
