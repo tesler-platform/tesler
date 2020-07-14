@@ -22,8 +22,6 @@ package io.tesler.vanilla.dto;
 
 import static io.tesler.api.data.dictionary.DictionaryType.TASK_CATEGORY;
 import static io.tesler.api.data.dictionary.DictionaryType.TASK_TYPE;
-import static io.tesler.core.util.filter.SearchParameterType.BOOLEAN;
-import static io.tesler.core.util.filter.SearchParameterType.LONG;
 import static java.lang.Math.abs;
 
 import io.tesler.api.data.dictionary.DictionaryType;
@@ -33,6 +31,8 @@ import io.tesler.core.dto.DrillDownType;
 import io.tesler.core.dto.Lov;
 import io.tesler.core.dto.multivalue.MultivalueField;
 import io.tesler.core.util.filter.SearchParameter;
+import io.tesler.core.util.filter.provider.impl.BooleanValueProvider;
+import io.tesler.core.util.filter.provider.impl.LongValueProvider;
 import io.tesler.vanilla.entity.VanillaTask;
 import java.time.LocalDateTime;
 import java.util.Random;
@@ -50,7 +50,7 @@ public class VanillaDocDTO extends DataResponseDTO {
 	private String drllDwnWthSrchSpc;
 	//Поля для документации
 
-	@SearchParameter(name = "isExecute", type = BOOLEAN)
+	@SearchParameter(name = "isExecute", provider = BooleanValueProvider.class)
 	private Boolean testCheckbox;
 
 	private String testInput;
@@ -65,10 +65,10 @@ public class VanillaDocDTO extends DataResponseDTO {
 
 	private Double testFractional; //плавающая точка
 
-	@SearchParameter(name = "numberInputTest", type = LONG)
+	@SearchParameter(name = "numberInputTest", provider = LongValueProvider.class)
 	private Long testNumber; //число
 
-	@SearchParameter(name = "virtualNumberTest", type = LONG)
+	@SearchParameter(name = "virtualNumberTest", provider = LongValueProvider.class)
 	private Long testVirtualNumber; //число (виртуальная колонка)
 
 	private Double testMoney;

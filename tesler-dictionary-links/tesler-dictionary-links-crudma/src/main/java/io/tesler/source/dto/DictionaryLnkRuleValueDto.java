@@ -21,7 +21,6 @@
 package io.tesler.source.dto;
 
 import static io.tesler.api.data.dictionary.DictionaryCache.dictionary;
-import static io.tesler.core.util.filter.SearchParameterType.STRING;
 
 import io.tesler.api.data.dto.DataResponseDTO;
 import io.tesler.core.util.filter.SearchParameter;
@@ -37,10 +36,10 @@ import lombok.Setter;
 @AllArgsConstructor
 public class DictionaryLnkRuleValueDto extends DataResponseDTO {
 
-	@SearchParameter(type = STRING)
+	@SearchParameter
 	private String value;
 
-	@SearchParameter(type = STRING)
+	@SearchParameter
 	private String valueCd;
 
 	public DictionaryLnkRuleValueDto(DictionaryLnkRuleValue entity) {

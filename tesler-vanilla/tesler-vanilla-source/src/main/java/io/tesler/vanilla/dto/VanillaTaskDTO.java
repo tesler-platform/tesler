@@ -30,7 +30,8 @@ import io.tesler.api.data.dto.DataResponseDTO;
 import io.tesler.api.data.dto.TZAware;
 import io.tesler.core.dto.Lov;
 import io.tesler.core.util.filter.SearchParameter;
-import io.tesler.core.util.filter.SearchParameterType;
+import io.tesler.core.util.filter.provider.impl.DateValueProvider;
+import io.tesler.core.util.filter.provider.impl.LovValueProvider;
 import io.tesler.vanilla.entity.VanillaTask;
 import java.time.LocalDateTime;
 import lombok.Getter;
@@ -47,34 +48,34 @@ public class VanillaTaskDTO extends DataResponseDTO {
 
 	private String activityType;
 
-	@SearchParameter(type = SearchParameterType.LOV)
+	@SearchParameter(provider = LovValueProvider.class)
 	@Lov(TASK_CATEGORY)
 	private String taskCategory;
 
-	@SearchParameter(type = SearchParameterType.LOV)
+	@SearchParameter(provider = LovValueProvider.class)
 	@Lov(TASK_TYPE)
 	private String taskType;
 
 	@SearchParameter
 	private String name;
 
-	@SearchParameter(type = SearchParameterType.LOV)
+	@SearchParameter(provider = LovValueProvider.class)
 	@Lov(TASK_PRIORITY)
 	private String priority;
 
 	private String job;
 
-	@SearchParameter(type = SearchParameterType.DATE)
+	@SearchParameter(provider = DateValueProvider.class)
 	private String reportPeriod;
 
-	@SearchParameter(type = SearchParameterType.DATE)
+	@SearchParameter(provider = DateValueProvider.class)
 	private LocalDateTime reportDate;
 
 	private Boolean supervisedMonitor;
 
 	private String result;
 
-	@SearchParameter(type = SearchParameterType.DATE)
+	@SearchParameter(provider = DateValueProvider.class)
 	private LocalDateTime planDate;
 
 	private String periodicalType;
@@ -86,7 +87,7 @@ public class VanillaTaskDTO extends DataResponseDTO {
 	private Long executorId;
 
 	@TZAware
-	@SearchParameter(type = SearchParameterType.DATE)
+	@SearchParameter(provider = DateValueProvider.class)
 	private LocalDateTime createDate;
 
 	private String fileName;

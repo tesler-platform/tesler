@@ -20,6 +20,10 @@
 
 package io.tesler.core.util.filter;
 
+import io.tesler.core.util.filter.provider.impl.LongValueProvider;
+import io.tesler.core.util.filter.provider.impl.StringValueProvider;
+import io.tesler.core.util.filter.provider.ClassifyDataProvider;
+
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -31,23 +35,27 @@ public @interface SearchParameter {
 
 	String name() default "";
 
-	SearchParameterType type() default SearchParameterType.STRING;
-
 	boolean strict() default false;
 
 	/**
-	 * Блокировать механизм фильтрации на уровне ядра или нет. Если блокировано - фильтрация должна быть
-	 * реализована на уровне сервисов, которые управляют сущностью, в которую входит данный параметр.
-	 * По умолчанию - фильтрация на уровне ядра не блокируется.
+	 * Whether to block the mechanism at the Tesler level or not. If blocked, filtering should be
+	 * implemented at the level of services that manage the entity.
+	 * By default, the Tesler filter is not blocked.
 	 *
-	 * @return необходимость блокировки механизма фильтрации на уровне ядра
+	 * @return Whether to block the mechanism at the tesler level or not
 	 */
 	boolean suppressProcess() default false;
 
 	/**
 	 * In case of multi-field value use as the key
-	 * @return SearchParameterType
+	 * @return ClassifyDataProvider
 	 */
-	SearchParameterType multiFieldKey() default SearchParameterType.LONG;
+	Class<? extends ClassifyDataProvider> multiFieldKey() default LongValueProvider.class;
+
+	/**
+	 * Get a provider for defining of classify data parameter in sorting or searching cases
+	 * @return ClassifyDataProvider
+	 */
+	Class<? extends ClassifyDataProvider> provider() default StringValueProvider.class;
 
 }

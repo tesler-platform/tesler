@@ -24,7 +24,7 @@ import io.tesler.api.data.dictionary.DictionaryType;
 import io.tesler.api.data.dto.DataResponseDTO;
 import io.tesler.core.dto.Lov;
 import io.tesler.core.util.filter.SearchParameter;
-import io.tesler.core.util.filter.SearchParameterType;
+import io.tesler.core.util.filter.provider.impl.LovValueProvider;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -39,7 +39,7 @@ public class WorkflowDto extends DataResponseDTO {
 	private String description;
 
 	@Lov(DictionaryType.TASK_TYPE)
-	@SearchParameter(type = SearchParameterType.LOV)
+	@SearchParameter(provider = LovValueProvider.class)
 	private String taskTypeCd;
 
 	private Long deptId;

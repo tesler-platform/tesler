@@ -20,8 +20,6 @@
 
 package io.tesler.source.dto;
 
-import static io.tesler.core.util.filter.SearchParameterType.STRING;
-
 import io.tesler.api.data.dto.DataResponseDTO;
 import io.tesler.core.util.filter.SearchParameter;
 import lombok.Getter;
@@ -31,10 +29,10 @@ import lombok.Setter;
 @Setter
 public class WorkflowTaskFieldDto extends DataResponseDTO {
 
-	@SearchParameter(type = STRING)
+	@SearchParameter
 	private String key;
 
-	@SearchParameter(type = STRING)
+	@SearchParameter
 	private String title;
 
 }

@@ -20,10 +20,9 @@
 
 package io.tesler.source.dto;
 
-import static io.tesler.core.util.filter.SearchParameterType.LONG;
-
 import io.tesler.api.data.dto.DataResponseDTO;
 import io.tesler.core.util.filter.SearchParameter;
+import io.tesler.core.util.filter.provider.impl.LongValueProvider;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -31,7 +30,7 @@ import lombok.Setter;
 @Setter
 public class WorkflowTaskMigrationDto extends DataResponseDTO {
 
-	@SearchParameter(type = LONG, name = "workflowStep.id")
+	@SearchParameter(provider = LongValueProvider.class, name = "workflowStep.id")
 	private Long currentStepId;
 
 	private String currentStepName;

@@ -26,7 +26,7 @@ import static io.tesler.api.data.dictionary.DictionaryType.NOTIFICATION_SETTINGS
 import io.tesler.api.data.dto.DataResponseDTO;
 import io.tesler.core.dto.Lov;
 import io.tesler.core.util.filter.SearchParameter;
-import io.tesler.core.util.filter.SearchParameterType;
+import io.tesler.core.util.filter.provider.impl.LovValueProvider;
 import io.tesler.model.core.entity.notifications.NotificationSettings;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -39,7 +39,7 @@ import lombok.Setter;
 public class NotificationSettingsDTO extends DataResponseDTO {
 
 	@Lov(DATABASE_EVENT)
-	@SearchParameter(type = SearchParameterType.LOV)
+	@SearchParameter(provider = LovValueProvider.class)
 	private String eventName;
 
 	@Lov(NOTIFICATION_SETTINGS_TYPE)

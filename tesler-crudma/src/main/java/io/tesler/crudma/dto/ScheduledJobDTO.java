@@ -25,7 +25,9 @@ import io.tesler.api.data.dictionary.LOV;
 import io.tesler.api.data.dto.DataResponseDTO;
 import io.tesler.core.dto.Lov;
 import io.tesler.core.util.filter.SearchParameter;
-import io.tesler.core.util.filter.SearchParameterType;
+import io.tesler.core.util.filter.provider.impl.BooleanValueProvider;
+import io.tesler.core.util.filter.provider.impl.DateValueProvider;
+import io.tesler.core.util.filter.provider.impl.LovValueProvider;
 import io.tesler.model.core.entity.ScheduledJob;
 import java.time.LocalDateTime;
 import java.util.Optional;
@@ -40,21 +42,21 @@ import lombok.Setter;
 public class ScheduledJobDTO extends DataResponseDTO {
 
 	@Lov(DictionaryType.SCHEDULED_SERVICES)
-	@SearchParameter(type = SearchParameterType.LOV, name = "service")
+	@SearchParameter(provider = LovValueProvider.class, name = "service")
 	private String serviceName;
 
 	private String serviceKey;
 
 	private String cronExpression;
 
-	@SearchParameter(type = SearchParameterType.DATE)
+	@SearchParameter(provider = DateValueProvider.class)
 	private LocalDateTime lastLaunchDate;
 
 	@Lov(DictionaryType.LAUNCH_STATUS)
-	@SearchParameter(type = SearchParameterType.LOV, name = "lastLaunchStatus")
+	@SearchParameter(provider = LovValueProvider.class, name = "lastLaunchStatus")
 	private String launchStatusCd;
 
-	@SearchParameter(type = SearchParameterType.BOOLEAN)
+	@SearchParameter(provider = BooleanValueProvider.class)
 	private boolean active;
 
 	public ScheduledJobDTO(ScheduledJob job) {

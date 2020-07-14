@@ -20,12 +20,6 @@
 
 package io.tesler.core.dao.impl;
 
-import static io.tesler.api.data.dictionary.DictionaryCache.dictionary;
-import static io.tesler.core.controller.param.SortType.ASC;
-import static io.tesler.core.controller.param.SortType.DESC;
-import static io.tesler.core.util.filter.SearchParameterType.BOOLEAN;
-import static io.tesler.core.util.filter.SearchParameterType.MULTISOURCE;
-
 import io.tesler.api.data.Period;
 import io.tesler.api.data.dictionary.IDictionaryType;
 import io.tesler.api.data.dictionary.LOV;
@@ -33,18 +27,19 @@ import io.tesler.api.data.dictionary.SimpleDictionary;
 import io.tesler.core.controller.param.FilterParameters;
 import io.tesler.core.controller.param.SortParameter;
 import io.tesler.core.controller.param.SortParameters;
-import io.tesler.core.dao.SearchParameterPOJO;
+import io.tesler.core.dao.ClassifyDataParameter;
 import io.tesler.core.dto.LovUtils;
+import io.tesler.core.util.filter.MultisourceSearchParameter;
 import io.tesler.core.util.filter.SearchParameter;
+import io.tesler.core.util.filter.provider.ClassifyDataProvider;
+import io.tesler.core.util.filter.provider.impl.BooleanValueProvider;
+import io.tesler.core.util.filter.provider.impl.MultisourceValueProvider;
 import io.tesler.model.core.entity.BaseEntity;
-import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Objects;
-import java.util.Set;
-import java.util.stream.Collectors;
+import lombok.experimental.UtilityClass;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.BooleanUtils;
+import org.springframework.util.ReflectionUtils;
+
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Expression;
@@ -59,15 +54,74 @@ import javax.persistence.criteria.Root;
 import javax.persistence.metamodel.Bindable;
 import javax.persistence.metamodel.Bindable.BindableType;
 import javax.persistence.metamodel.ManagedType;
-import lombok.experimental.UtilityClass;
-import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.BooleanUtils;
-import org.springframework.util.ReflectionUtils;
+import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
+
+import static io.tesler.api.data.dictionary.DictionaryCache.dictionary;
+import static io.tesler.api.util.i18n.ErrorMessageSource.errorMessage;
+import static io.tesler.core.controller.param.SortType.ASC;
+import static io.tesler.core.controller.param.SortType.DESC;
 
 
 @Slf4j
 @UtilityClass
 public class MetadataUtils {
+
+	public List<ClassifyDataParameter> mapSearchParamsToPOJO(Class dtoClazz, FilterParameters filterParameters, List<ClassifyDataProvider> providers) {
+
+		List<ClassifyDataParameter> result = new ArrayList<>();
+
+		filterParameters.forEach(filterParam -> {
+					try {
+						Field dtoField = Optional.ofNullable(ReflectionUtils.findField(dtoClazz, filterParam.getName()))
+								.orElseThrow(
+										() -> new IllegalArgumentException(
+												errorMessage(
+														"error.class_field_not_found",
+														filterParam.getName(),
+														dtoClazz.getName()
+												)
+										)
+								);
+						MultisourceSearchParameter multisourceParameter = dtoField
+								.getDeclaredAnnotation(MultisourceSearchParameter.class);
+						if (multisourceParameter != null) {
+							providers.stream().filter(p -> p.getClass().equals(multisourceParameter.provider()))
+									.findFirst()
+									.ifPresent(
+											dataProvider -> result.addAll(dataProvider.getClassifyDataParameters(dtoField, filterParam, null, providers))
+									);
+						} else {
+							SearchParameter searchParam = Optional.ofNullable(dtoField.getDeclaredAnnotation(SearchParameter.class))
+									.orElseThrow(
+											() -> new IllegalArgumentException(
+													errorMessage(
+															"error.missing_search_parameter_annotation",
+															filterParam.getName()
+													)
+											)
+									);
+							providers.stream().filter(p -> p.getClass().equals(searchParam.provider()))
+									.findFirst()
+									.ifPresent(
+											dataProvider -> result.addAll(dataProvider.getClassifyDataParameters(dtoField, filterParam, searchParam, providers))
+									);
+						}
+					} catch (Exception e) {
+						log.warn(errorMessage("error.failed_to_parse_filter_param", filterParam), e);
+					}
+
+				}
+		);
+		return result;
+	}
 
 	public static boolean mayBeNull(Root<?> root, Path path) {
 		Bindable model = path.getModel();
@@ -144,7 +198,7 @@ public class MetadataUtils {
 		return result;
 	}
 
-	public static Predicate createPredicate(Root<?> root, SearchParameterPOJO criteria, CriteriaBuilder cb) {
+	public static Predicate createPredicate(Root<?> root, ClassifyDataParameter criteria, CriteriaBuilder cb) {
 		try {
 			Object value = criteria.getValue();
 
@@ -177,7 +231,7 @@ public class MetadataUtils {
 							.toArray(Predicate[]::new));
 				case SPECIFIED:
 					boolean isSpecified = BooleanUtils.isTrue((Boolean) value);
-					if (BOOLEAN.equals(criteria.getType())) {
+					if (BooleanValueProvider.class.equals(criteria.getProvider())) {
 						return isSpecified ?
 								cb.equal(field, true) :
 								mayBeNull(root, field) ?
@@ -262,7 +316,7 @@ public class MetadataUtils {
 				throw new IllegalArgumentException(
 						"Не найдено поле " + parameter.getName() + " в классе " + dtoClazz.getName());
 			}
-			SearchParameter fieldParameter = dtoField.getDeclaredAnnotation(SearchParameter.class);
+			SearchParameter fieldParameter = dtoField.getDeclaredAnnotation(io.tesler.core.util.filter.SearchParameter.class);
 			if (fieldParameter != null && !"".equals(fieldParameter.name())) {
 				field = fieldParameter.name();
 			} else {
@@ -285,24 +339,24 @@ public class MetadataUtils {
 	}
 
 	public static Predicate getPredicateFromSearchParams(CriteriaBuilder cb, Root<?> root, Class dtoClazz,
-			FilterParameters searchParams) {
+			FilterParameters searchParams, List<ClassifyDataProvider> providers) {
 
 		if (searchParams == null) {
 			return cb.and();
 		}
-		List<SearchParameterPOJO> criteriaStrings = SearchParameterPOJO.mapSearchParamsToPOJO(dtoClazz, searchParams);
+		List<ClassifyDataParameter> criteriaStrings = mapSearchParamsToPOJO(dtoClazz, searchParams, providers);
 		return getAllSpecifications(cb, root, criteriaStrings);
 	}
 
 	public static Predicate getAllSpecifications(CriteriaBuilder cb, Root<?> root,
-			List<SearchParameterPOJO> criteriaStrings) {
+			List<ClassifyDataParameter> criteriaStrings) {
 		return cb.and(criteriaStrings.stream()
 				.map(criteria -> getSingleSpecification(cb, root, criteria))
 				.filter(Objects::nonNull).toArray(Predicate[]::new));
 	}
 
-	private static Predicate getSingleSpecification(CriteriaBuilder cb, Root<?> root, SearchParameterPOJO criteria) {
-		if (MULTISOURCE.equals(criteria.getType())) {
+	private static Predicate getSingleSpecification(CriteriaBuilder cb, Root<?> root, ClassifyDataParameter criteria) {
+		if (MultisourceValueProvider.class.equals(criteria.getProvider())) {
 			List criteriaValue = (List) criteria.getValue();
 			List<Predicate> predicates = new ArrayList<>();
 			for (Object innerList : criteriaValue) {

@@ -27,6 +27,7 @@ import io.tesler.core.controller.param.QueryParameters;
 import io.tesler.core.controller.param.SortParameters;
 import io.tesler.core.dao.BaseDAO;
 import io.tesler.core.dao.IPdqExtractor;
+import io.tesler.core.util.filter.provider.ClassifyDataProvider;
 import io.tesler.model.core.dao.impl.JpaDaoImpl;
 import java.util.ArrayList;
 import java.util.List;
@@ -52,13 +53,17 @@ public class BaseDAOImpl extends JpaDaoImpl implements BaseDAO {
 
 	private final Optional<IPdqExtractor> pdqExtractor;
 
+	private final List<ClassifyDataProvider> providers;
+
 	public BaseDAOImpl(
 			Set<EntityManager> entityManagers,
 			TransactionService txService,
-			Optional<IPdqExtractor> pdqExtractor
+			Optional<IPdqExtractor> pdqExtractor,
+			List<ClassifyDataProvider> providers
 	) {
 		super(entityManagers, txService);
 		this.pdqExtractor = pdqExtractor;
+		this.providers = providers;
 	}
 
 	private Specification getPdqSearchSpec(final QueryParameters queryParameters) {
@@ -89,7 +94,7 @@ public class BaseDAOImpl extends JpaDaoImpl implements BaseDAO {
 			Class dtoClazz,
 			FilterParameters searchParams
 	) {
-		return MetadataUtils.getPredicateFromSearchParams(cb, root, dtoClazz, searchParams);
+		return MetadataUtils.getPredicateFromSearchParams(cb, root, dtoClazz, searchParams, providers);
 	}
 
 	@Override

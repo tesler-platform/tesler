@@ -20,13 +20,12 @@
 
 package io.tesler.source.dto;
 
-import static io.tesler.core.util.filter.SearchParameterType.LONG;
-
 import io.tesler.api.data.dto.DataResponseDTO;
 import io.tesler.core.dict.WorkflowDictionaryType;
 import io.tesler.core.dict.WorkflowLov;
 import io.tesler.core.util.filter.SearchParameter;
-import io.tesler.core.util.filter.SearchParameterType;
+import io.tesler.core.util.filter.provider.impl.LongValueProvider;
+import io.tesler.core.util.filter.provider.impl.LovValueProvider;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -34,14 +33,14 @@ import lombok.Setter;
 @Setter
 public class WorkflowPostFunctionDto extends DataResponseDTO {
 
-	@SearchParameter(type = LONG)
+	@SearchParameter(provider = LongValueProvider.class)
 	private Long seq;
 
 	@WorkflowLov(WorkflowDictionaryType.WF_TRN_ACT)
-	@SearchParameter(type = SearchParameterType.LOV)
+	@SearchParameter(provider = LovValueProvider.class)
 	private String actionCd;
 
-	@SearchParameter(type = LONG)
+	@SearchParameter(provider = LongValueProvider.class)
 	private Long stepTerm;
 
 }
