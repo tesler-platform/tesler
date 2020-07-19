@@ -1,3 +1,22 @@
+# Version 2.3.0
+
+## Features
+
+* Create ability to change Crudma flow by implement `CrudmaGatewayInvokeExtensionProvider` interface
+* Change interfaces responsible for Crudma state
+* Added ability to create a custom parameter in Action
+* Added ability to create a custom parameter in Pre-Action
+* Added scheduler settings in Spring application.properties
+* Added ability to extend icon codes
+* Extend JdbcTemplate based export
+
+## Fixes
+
+* DTO validation should respect `ignoreBusinessErrors` flag and do not validate fields during preview call
+* `Cancel create` now remain after a preview request call
+* Fixed duplication during OneToMany field filtering
+* Fixed HierarchyFieldExtractor for non-popup Hierarchy widgets
+
 # Version 2.2.0
 
 ## Features
