@@ -35,17 +35,17 @@ import lombok.ToString;
 public class BusinessComponent implements BcIdentifier {
 
 	/**
-	 * Идентификатор
+	 * Identifier
 	 */
 	private final String id;
 
 	/**
-	 * Идентификатор родителя
+	 * Parent identifier
 	 */
 	private final String parentId;
 
 	/**
-	 * Метаданные бизнес-компонента
+	 * Business component metadata
 	 */
 	private final BcDescription description;
 

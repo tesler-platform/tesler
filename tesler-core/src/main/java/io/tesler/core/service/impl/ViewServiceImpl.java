@@ -272,7 +272,7 @@ public class ViewServiceImpl implements ViewService {
 	}
 
 	/**
-	 * Получает БК из виджета, с учетом наличия у виджетов с иерархией зависимых БК без собственного виджета
+	 * Gets a DB from a widget, taking into account whether widgets with a hierarchy have dependent BCS without their own widget
 	 */
 	@SneakyThrows
 	private List<BusinessComponentDTO> getWidgetBc(WidgetDTO widgetDTO) {

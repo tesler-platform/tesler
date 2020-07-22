@@ -46,10 +46,10 @@ import lombok.extern.slf4j.Slf4j;
 public class RowDependentFieldsMeta<T extends DataResponseDTO> extends FieldsDTO {
 
 	/**
-	 * Добавляет в существующий список доступных для выбора значений
+	 * Adds a value to an existing list of selectable values
 	 *
-	 * @param field поле виджета с типом dictionary
-	 * @param dictDTO ДТО со значением справочника
+	 * @param field widget field with type dictionary
+	 * @param dictDTO DTO with dictionary value
 	 */
 	public final void addConcreteValue(DtoField<? super T, ?> field, SimpleDictionary dictDTO) {
 		Optional.ofNullable(field).map(dtoField -> fields.get(dtoField.getName()))
@@ -57,11 +57,11 @@ public class RowDependentFieldsMeta<T extends DataResponseDTO> extends FieldsDTO
 	}
 
 	/**
-	 * Заполняет список доступных для выбора значений в выпадающем списке конкретными значениями справочника
+	 * Fills the list of selectable values in the dropdown list with concrete dictionary values
 	 *
-	 * @param field поле виджета с типом dictionary
-	 * @param type тип справочника
-	 * @param lovs список кодов справочника(с типом LOV)
+	 * @param field widget field with type dictionary
+	 * @param type dictionary type
+	 * @param lovs list of dictionary codes (with type LOV)
 	 */
 	public final void setDictionaryTypeWithConcreteValuesFromList(DtoField<? super T, ?> field, IDictionaryType type,
 			List<LOV> lovs) {

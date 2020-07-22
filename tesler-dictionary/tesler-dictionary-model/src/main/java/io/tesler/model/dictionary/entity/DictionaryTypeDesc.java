@@ -33,7 +33,7 @@ import lombok.Setter;
 
 
 /**
- * Сущность для типов справочников
+ * Entity for dictionary types
  */
 @Entity
 @Getter

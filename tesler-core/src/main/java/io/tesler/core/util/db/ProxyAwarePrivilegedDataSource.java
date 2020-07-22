@@ -24,7 +24,7 @@ import javax.sql.DataSource;
 import org.springframework.core.InfrastructureProxy;
 
 /**
- * Предназначен исключительно для использования внутри TransactionAwareDataSourceProxy
+ * Intended exclusively for use inside TransactionAwareDataSourceProxy
  */
 public class ProxyAwarePrivilegedDataSource extends PrivilegedDataSource implements InfrastructureProxy {
 

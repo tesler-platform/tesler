@@ -32,7 +32,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 /**
- * Сетки для вьюх по пользователям
+ * View grids by user
  */
 @Entity
 @Table(name = "layouts_views")

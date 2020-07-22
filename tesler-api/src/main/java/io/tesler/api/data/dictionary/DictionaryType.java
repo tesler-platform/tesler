@@ -27,7 +27,7 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 /**
- * Типы простых справочников
+ * Types of simple dictionaries
  * https://kb-liga.phoenixit.ru/pages/viewpage.action?pageId=8753193
  */
 @Getter

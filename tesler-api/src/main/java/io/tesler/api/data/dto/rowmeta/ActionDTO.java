@@ -93,7 +93,7 @@ public class ActionDTO {
 	}
 
 	/**
-	 * Constructor used to create group of Actions
+	 * The constructor used to create group of Actions
 	 */
 	public ActionDTO(String type, String text, int maxGroupVisualButtonsCount, List<ActionDTO> actions) {
 		this.type = type;

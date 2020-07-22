@@ -35,7 +35,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 /**
- * Связь между группой и другими сущностями
+ * Relationship between group and other entities
  */
 @Getter
 @Setter
@@ -48,7 +48,7 @@ import lombok.Setter;
 public abstract class GroupAccessorRelation extends BaseEntity {
 
 	/**
-	 * Группа
+	 * Group
 	 */
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "group_id")

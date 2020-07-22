@@ -48,14 +48,14 @@ import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Service;
 
 /**
- * Инициатор кэша простых справочников.
- * Идея простая, при запуске приложения и поднятии контекста спринга имеем кэш простых справочников,
- * обращение к этому кэшу а не в базу на всем протяжении работы приложения.
- * Ключ - имя справочника (DICTIONARY_TYPE), значение - справочник простой структуры String - String
+ * Initiator of the cache of simple dictionaries.
+ * The idea is simple, when you start the application and raise the context of the spring, we have a cache of simple directories,
+ * access to this cache and not to the base throughout the entire operation of the application.
+ * Key - the name of the dictionary (DICTIONARY_TYPE), value - the dictionary of a simple structure String - String
  * <p>
- * Общая структура простого справочника:
- * KEY(LIC) - ключ независимый от языка
- * VALUE- значение
+ * General structure of a simple dictionary:
+ * KEY (LIC) - independent language key
+ * VALUE- value
  */
 @Slf4j
 @DependsOn(DeploymentTransactionSupport.SERVICE_NAME)
@@ -85,8 +85,8 @@ public class DictionaryCacheImpl implements DictionaryCache {
 	}
 
 	/**
-	 * @param type тип справочника
-	 * @param key ключ справочника
+	 * @param type dictionary type
+	 * @param key dictionary key
 	 * @return SimpleDictionary
 	 */
 	@Override
@@ -100,7 +100,7 @@ public class DictionaryCacheImpl implements DictionaryCache {
 	}
 
 	/**
-	 * @param dictionaryType тип справочника
+	 * @param dictionaryType dictionary type
 	 * @return SimpleDictionary
 	 */
 	@Override
@@ -116,11 +116,11 @@ public class DictionaryCacheImpl implements DictionaryCache {
 	}
 
 	/**
-	 * Поиск значения справочника по ключу
+	 * Finding dictionary values by key
 	 *
-	 * @param key ключ
-	 * @param type тип справочника
-	 * @return русскоязычное значение справочника
+	 * @param key key
+	 * @param type dictionary type
+	 * @return Russian-language value of the dictionary
 	 */
 	@Override
 	public String lookupValue(LOV key, IDictionaryType type) {
@@ -188,11 +188,11 @@ public class DictionaryCacheImpl implements DictionaryCache {
 	}
 
 	/**
-	 * Поиск ключа в справочнике по значению
+	 * Finding a key in the dictionary by value
 	 *
-	 * @param val значение
-	 * @param type тип справочника
-	 * @return ключ справочника
+	 * @param val value
+	 * @param type dictionary type
+	 * @return dictionary key
 	 */
 	@Override
 	public LOV lookupName(String val, IDictionaryType type) {

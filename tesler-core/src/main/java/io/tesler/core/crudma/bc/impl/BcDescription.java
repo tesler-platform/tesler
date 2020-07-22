@@ -38,7 +38,7 @@ public abstract class BcDescription implements BcIdentifier {
 	private final Class<? extends Crudma> crudmaService;
 
 	/**
-	 * запрет кэширования БК фронтом;
+	 * Prohibition of caching BC by the front
 	 */
 	private final boolean refresh;
 

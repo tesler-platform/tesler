@@ -28,22 +28,22 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 /**
- * Тип списка доступа
+ * Access List Type
  */
 @Getter
 @RequiredArgsConstructor
 public enum AccessListType {
 
 	/**
-	 * индивидуальный для каждой сущности
+	 * individual for each entity
 	 */
 	PRIVATE(parseInt(Values.PRIVATE)),
 	/**
-	 * используется несколькими сущностями
+	 * used by multiple entities
 	 */
 	SHARED(parseInt(Values.SHARED)),
 	/**
-	 * шаблон
+	 * template
 	 */
 	TEMPLATE(parseInt(Values.TEMPLATE));
 
@@ -57,7 +57,7 @@ public enum AccessListType {
 	}
 
 	/**
-	 * Строковые константы для использования в качестве дискриминатора
+	 * String constants to use as a discriminator
 	 */
 	static class Values {
 

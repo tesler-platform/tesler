@@ -28,81 +28,81 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Subquery;
 
 /**
- * Сервис управления членством в группах
+ * Group membership management service
  */
 public interface GroupService {
 
 	/**
-	 * Возвращает набор идентификаторов групп,
-	 * в которые пользователь входит непосредственно
+	 * Returns a set of all groups identifiers
+	 * that include the user directly
 	 *
-	 * @param user пользователь
-	 * @return набор идентификаторов
+	 * @param user user
+	 * @return set of identifiers
 	 */
 	Set<Long> getUserDirectGroups(User user);
 
 	/**
-	 * Возвращает набор идентификаторов всех групп,
-	 * в которые пользователь входит непосредственно
-	 * или опосредованно (через другие группы)
+	 * Returns a set of all groups identifiers
+	 * that include the user directly
+	 * or indirectly (through other groups)
 	 *
-	 * @param user пользователь
-	 * @return набор идентификаторов
+	 * @param user user
+	 * @return set of identifiers
 	 */
 	Set<Long> getUserAllGroups(User user);
 
 	/**
-	 * Добавляет пользователя в группу
+	 * Add the user to the group
 	 *
-	 * @param parent родительская группа
-	 * @param user пользователь
+	 * @param parent parent group
+	 * @param user user
 	 */
 	void addUserToGroup(Group parent, User user);
 
 	/**
-	 * Удаляет пользователя из группы
+	 * Removes the user from the group
 	 *
-	 * @param parent родительская группа
-	 * @param user пользователь
+	 * @param parent parent group
+	 * @param user user
 	 */
 	void removeUserFromGroup(Group parent, User user);
 
 	/**
-	 * Добавляет группу в группу
+	 * Add the group to the group
 	 *
-	 * @param parent родительская группа
-	 * @param group дочерняя группа
+	 * @param parent parent group
+	 * @param group child group
 	 */
 	void addGroupToGroup(Group parent, Group group);
 
 	/**
-	 * Удаляет группу из группы
+	 * Remove the group from the group
 	 *
-	 * @param parent родительская группа
-	 * @param group дочерняя группа
+	 * @param parent parent group
+	 * @param group child group
 	 */
 	void removeGroupFromGroup(Group parent, Group group);
 
 	/**
-	 * Входит ли пользователь в группу непосредственно
+	 * Is the user a member of the group directly
 	 *
-	 * @param parent родительская группа
-	 * @param user пользователь
+	 * @param parent parent group
+	 * @param user user
 	 * @return true/false
 	 */
 	boolean isUserInGroup(Group parent, User user);
 
 	/**
-	 * Входит ли группа в группу непосредственно
+	 * Is the group a member of the group directly
 	 *
-	 * @param parent родительская группа
-	 * @param group дочерняя группа
+	 * @param parent parent group
+	 * @param group child group
 	 * @return true/false
 	 */
 	boolean isGroupInGroup(Group parent, Group group);
 
 	/**
-	 * Возвращает подзапрос, возвращающий идентификаторы всех групп пользователя
+	 * Returns a subquery returning the identifiers of all user groups
 	 *
 	 * @param user пользователь
 	 * @param cq CriteriaBuilder
@@ -112,28 +112,28 @@ public interface GroupService {
 	Subquery<Long> getAllGroupsSubquery(User user, CriteriaQuery<?> cq, CriteriaBuilder cb);
 
 	/**
-	 * Возвращает подзапрос, возвращающий идентификаторы непосредственных групп пользователя
+	 * Returns a subquery that returns identifiers of the user's direct groups
 	 *
-	 * @param user пользователь
+	 * @param user user
 	 * @param cq CriteriaBuilder
 	 * @param cb CriteriaQuery
-	 * @return подзапрос
+	 * @return subquery
 	 */
 	Subquery<Long> getDirectGroupsSubquery(User user, CriteriaQuery<?> cq, CriteriaBuilder cb);
 
 	/**
-	 * Возвращает набор идентификаторов пользователей - непосредственных членов группы
+	 * Returns a set of identifiers of users who are direct members of the group
 	 *
-	 * @param group группа
-	 * @return набор идентификаторов
+	 * @param group group
+	 * @return set of identifiers
 	 */
 	Set<Long> getDirectGroupMembers(Group group);
 
 	/**
-	 * Возвращает набор идентификаторов пользователей - всех членов группы
+	 * Returns a set of user identifiers for all members of the group
 	 *
-	 * @param group группа
-	 * @return набор идентификаторов
+	 * @param group group
+	 * @return set of identifiers
 	 */
 	Set<Long> getAllGroupMembers(Group group);
 

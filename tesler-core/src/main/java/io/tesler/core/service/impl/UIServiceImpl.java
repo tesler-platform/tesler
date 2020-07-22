@@ -128,7 +128,7 @@ public class UIServiceImpl implements UIService {
 	}
 
 	/**
-	 * Получить пользовательские настройки
+	 * Get custom settings
 	 *
 	 * @return JsonNode
 	 */

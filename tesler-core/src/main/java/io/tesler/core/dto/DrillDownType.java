@@ -30,27 +30,27 @@ import lombok.Getter;
 public enum DrillDownType {
 
 	/**
-	 * Переход внутри приложения. Текущая вкладка.
+	 * Transition inside the application. Current tab
 	 */
 	INNER("inner"),
 
 	/**
-	 * Переход по относительной ссылке с сохранением протокола, хоста, порта. Текущая вкладка.
+	 * Transition by a relative link while keeping the protocol, host, port. Current tab
 	 */
 	RELATIVE("relative"),
 
 	/**
-	 * Переход по относительной ссылке с сохранением протокола, хоста, порта. Новая вкладка.
+	 * Transition by a relative link while keeping the protocol, host, port. New tab
 	 */
 	RELATIVE_NEW("relativeNew"),
 
 	/**
-	 * Переход по абсолютной ссылке во внешний источник. Текущая вкладка.
+	 * Transition by an absolute link to an external source. Current tab.
 	 */
 	EXTERNAL("external"),
 
 	/**
-	 * Переход по абсолютной ссылке во внешний источник. Новая вкладка.
+	 * Transition by an absolute link to an external source. New tab.
 	 */
 	EXTERNAL_NEW("externalNew");
 

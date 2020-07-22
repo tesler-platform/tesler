@@ -30,17 +30,17 @@ import lombok.Getter;
 public enum MessageType {
 
 	/**
-	 * Информационное сообщение
+	 * Information message
 	 */
 	INFO("info"),
 
 	/**
-	 * Сообщение об ошибке
+	 * Error message
 	 */
 	ERROR("error"),
 
 	/**
-	 * Предупреждающее сообщение
+	 * Warning message
 	 */
 	WARNING("warning");
 
