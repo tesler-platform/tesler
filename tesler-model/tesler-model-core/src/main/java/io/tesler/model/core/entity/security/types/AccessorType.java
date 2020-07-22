@@ -29,18 +29,18 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 /**
- * Тип правополучателя
+ * Accessor type
  */
 @Getter
 @RequiredArgsConstructor
 public enum AccessorType {
 
 	/**
-	 * пользователь
+	 * User
 	 */
 	USER(parseInt(Values.USER)),
 	/**
-	 * группа
+	 * group
 	 */
 	GROUP(parseInt(Values.GROUP));
 
@@ -58,7 +58,7 @@ public enum AccessorType {
 	}
 
 	/**
-	 * Строковые константы для использования в качестве дискриминатора
+	 * String constants to use as a discriminator
 	 */
 	public static class Values {
 

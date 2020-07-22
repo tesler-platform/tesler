@@ -23,7 +23,7 @@ package io.tesler.api.data.dictionary;
 import java.util.List;
 
 /**
- * Абстракция для сервисов, которые загружают значения справочников в кеш приложения.
+ * Abstraction for services that load dictionary values into the application cache
  */
 public interface DictionaryCacheLoader {
 

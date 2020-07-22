@@ -29,7 +29,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 /**
- * Критерий поиска
+ * Search criteria
  */
 @Getter
 @Setter

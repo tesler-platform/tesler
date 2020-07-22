@@ -32,10 +32,10 @@ import org.hibernate.annotations.common.reflection.AnnotationReader;
 import org.hibernate.annotations.common.reflection.MetadataProvider;
 
 /**
- * Реализация AnnotationReader, добавляющая аннотации родительской сущности, помеченные
- * при помощи @PropagateAnnotations, к аннотациям дочерней сущности. Создан по причине того,
- * что аннотации JPA и Hibernate не помечены как @Inherited, и поэтому не применяются к
- * дочерним сущностям.
+ * Implementation of AnnotationReader adding parent entity annotations marked
+ * using @PropagateAnnotations, to the annotations of the child entity. Created for the reason
+ * that JPA and Hibernate annotations are not marked as @Inherited and therefore do not apply to
+ * child entities
  */
 public class PropagateAnnotationReader implements AnnotationReader {
 
@@ -56,10 +56,10 @@ public class PropagateAnnotationReader implements AnnotationReader {
 	}
 
 	/**
-	 * возвращает набор потенциально наследуемых типов аннотаций
+	 * Returns a set of potentially inherited annotation types
 	 *
-	 * @param annotatedElement аннотируемый элемент
-	 * @return набор аннотаций
+	 * @param annotatedElement annotated element
+	 * @return set of annotations
 	 */
 	private Set<Class<? extends Annotation>> getPropagatedAnnotations(AnnotatedElement annotatedElement) {
 		if (!(annotatedElement instanceof Class)) {
@@ -75,10 +75,10 @@ public class PropagateAnnotationReader implements AnnotationReader {
 	}
 
 	/**
-	 * возвращает аннотацию указанного типа для элемента, а учетом наследования
+	 * Returns an annotation of the specified type for an element, taking into account inheritance
 	 *
-	 * @param annotationType тип аннотации
-	 * @return аннотация
+	 * @param annotationType annotation type
+	 * @return annotation
 	 */
 	@Override
 	public <T extends Annotation> T getAnnotation(Class<T> annotationType) {
@@ -92,9 +92,9 @@ public class PropagateAnnotationReader implements AnnotationReader {
 	}
 
 	/**
-	 * возвращает указана ли аннотация указанного типа для аннотируемого элемента с учетом наследования
+	 * returns whether an annotation of the specified type is specified for the element being annotated, considering inheritance
 	 *
-	 * @param annotationType тип аннотации
+	 * @param annotationType annotation type
 	 * @return true/false
 	 */
 	@Override
@@ -109,9 +109,9 @@ public class PropagateAnnotationReader implements AnnotationReader {
 	}
 
 	/**
-	 * возвращает массив всех аннотаций элемента с учетом наследования
+	 * returns an array of all element annotations taking into account inheritance
 	 *
-	 * @return массив аннотаций
+	 * @return array of annotations
 	 */
 	@Override
 	public Annotation[] getAnnotations() {
@@ -130,10 +130,10 @@ public class PropagateAnnotationReader implements AnnotationReader {
 	}
 
 	/**
-	 * Получает AnnotationReader родительского элемента
+	 * Gets the AnnotationReader of the parent element
 	 *
-	 * @param annotatedElement аннотируемый элемент
-	 * @return AnnotationReader, привязанный к родительскому элементу (классу)
+	 * @param annotatedElement annotated element
+	 * @return AnnotationReader attached to the parent element (class)
 	 */
 	private AnnotationReader getParentAnnotationReader(AnnotatedElement annotatedElement) {
 		if (!(annotatedElement instanceof Class) || annotatedElement == Object.class) {

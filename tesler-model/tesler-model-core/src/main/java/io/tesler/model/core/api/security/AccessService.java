@@ -29,141 +29,141 @@ import io.tesler.model.core.entity.security.types.Permission;
 import org.springframework.data.jpa.domain.Specification;
 
 /**
- * Сервис управления правами доступа
+ * Access rights management service
  */
 public interface AccessService {
 
 	String SERVICE_NAME = "accessService";
 
 	/**
-	 * Возвращает спецификацию безопасности для получения списка сущностей
-	 * для текущего пользователя и запрашиваемого уровня доступа
+	 * Returns the security specification for getting a list of entities
+	 * for the current user and the requested access level
 	 *
-	 * @param permission запрашиваемый уровень доступа
-	 * @return спецификация безопасности
+	 * @param permission requested access level
+	 * @return security specification
 	 */
 	<T extends SecurableEntity> Specification<T> getSecuritySpecification(Permission permission);
 
 	/**
-	 * Возвращает спецификацию безопасности для получения списка сущностей
-	 * для указанного пользователя и запрашиваемого уровня доступа
+	 * Returns the security specification for getting a list of entities
+	 * for the specified user and the requested access level
 	 *
-	 * @param user пользователь
-	 * @param permission запрашиваемый уровень доступа
-	 * @return спецификация безопасности
+	 * @param user user
+	 * @param permission requested access level
+	 * @return security specification
 	 */
 	<T extends SecurableEntity> Specification<T> getSecuritySpecification(User user, Permission permission);
 
 	/**
-	 * Возвращает права текущего пользователья
+	 * Returns the rights of the current user
 	 *
-	 * @param entity сущность
-	 * @return права
+	 * @param entity entity
+	 * @return rights
 	 */
 	Permission getPermission(SecurableEntity entity);
 
 	/**
-	 * Возвращает права указанного пользователя
+	 * Returns the rights of the specified user
 	 *
-	 * @param entity сущность
-	 * @param user пользователь
-	 * @return права
+	 * @param entity entity
+	 * @param user user
+	 * @return rights
 	 */
 	Permission getPermission(SecurableEntity entity, User user);
 
 	/**
-	 * Возвращает права указанного пользователя
+	 * Returns the rights of the specified user
 	 *
-	 * @param accessList список доуступа
-	 * @param user пользователь
-	 * @return права
+	 * @param accessList access list
+	 * @param user user
+	 * @return rights
 	 */
 	Permission getPermission(AccessList accessList, User user);
 
 	/**
-	 * Возвращает права текущего пользователя
+	 * Returns the rights of the current user
 	 *
-	 * @param accessList список доступа
-	 * @return права
+	 * @param accessList access list
+	 * @return rights
 	 */
 	Permission getPermission(AccessList accessList);
 
 	/**
-	 * Возвращает запись о праве доступа пользователя/группы
+	 * Returns a record of the user / group's access rights
 	 *
-	 * @param accessList список доступа
-	 * @param supplier пользователь/группа
-	 * @return запись о праве доступа
+	 * @param accessList access list
+	 * @param supplier user / group
+	 * @return record of the access right
 	 */
 	AccessRecord getAccessRecord(AccessList accessList, IAccessorSupplier supplier);
 
 	/**
-	 * Выдает права указанному пользователю/группе, предварительно скопировав
-	 * список доступа если он не является приватным
+	 * Grants rights to the specified user / group, after copying
+	 * access list if not private
 	 *
-	 * @param entity сущность
-	 * @param supplier пользователь/группа
-	 * @param permission права
+	 * @param entity entity
+	 * @param supplier user / group
+	 * @param permission rights
 	 */
 	void grantPermission(SecurableEntity entity, IAccessorSupplier supplier, Permission permission);
 
 	/**
-	 * Выдает права указанному пользователю/группе, предварительно скопировав
-	 * список доступа если он не является приватным
+	 * Grants rights to the specified user / group, after copying
+	 * access list if not private
 	 *
-	 * @param entity сущность
-	 * @param supplier пользователь/группа
-	 * @param permission права
-	 * @param mandatory признак обязательного совпадения
+	 * @param entity entity
+	 * @param supplier user / group
+	 * @param permission rights
+	 * @param mandatory mandatory match attribute
 	 */
 	void grantPermission(SecurableEntity entity, IAccessorSupplier supplier, Permission permission, Boolean mandatory);
 
 	/**
-	 * Удаляет запись о праве доступа указанного пользователя/группы, предварительно скопировав
-	 * список доступа если он не является приватным
+	 * Deletes the entry on the access right of the specified user / group, after copying
+	 * access list if not private
 	 *
-	 * @param entity сущность
-	 * @param supplier пользователь/группа
+	 * @param entity entity
+	 * @param supplier user / group
 	 */
 	void removeAccessor(SecurableEntity entity, IAccessorSupplier supplier);
 
 	/**
-	 * Удаляет запись о праве доступа указанного пользователя/группы
+	 * Deletes the entry on the access right of the specified user / group
 	 *
-	 * @param entity список доступа
-	 * @param supplier пользователь/группа
+	 * @param entity access list
+	 * @param supplier user / group
 	 */
 	void removeAccessor(AccessList entity, IAccessorSupplier supplier);
 
 	/**
-	 * Выдает права указанному пользователю/группе
+	 * Grants rights to the specified user / group
 	 *
-	 * @param entity список доуступа
-	 * @param supplier пользователь/группа
-	 * @param permission права
+	 * @param entity access list
+	 * @param supplier user / group
+	 * @param permission rights
 	 */
 	void grantPermission(AccessList entity, IAccessorSupplier supplier, Permission permission);
 
 	/**
-	 * Выдает права указанному пользователю/группе
+	 * Grants rights to the specified user / group
 	 *
-	 * @param entity список доуступа
-	 * @param supplier пользователь/группа
-	 * @param permission права
-	 * @param mandatory признак обязательного совпадения
+	 * @param entity access list
+	 * @param supplier user / group
+	 * @param permission rights
+	 * @param mandatory mandatory match attribute
 	 */
 	void grantPermission(AccessList entity, IAccessorSupplier supplier, Permission permission, Boolean mandatory);
 
 	/**
-	 * Назначает список доступа сущности
+	 * Assigns an access list to an entity
 	 *
-	 * @param entity сущность
-	 * @param accessList список доступа
+	 * @param entity entity
+	 * @param accessList access list
 	 */
 	void assignAccessList(SecurableEntity entity, AccessList accessList);
 
 	/**
-	 * Копирует существующий список доступа присваивая нужный тип
+	 * Copies the existing access list and assigns the appropriate type
 	 *
 	 * @param accessList оригинальный список доступа
 	 * @param targetType целевой тип списка доступа

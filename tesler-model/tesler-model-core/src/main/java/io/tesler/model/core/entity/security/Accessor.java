@@ -31,7 +31,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 /**
- * Правополучатель
+ * Accessor
  */
 @Embeddable
 @Getter
@@ -42,13 +42,13 @@ import lombok.Setter;
 public class Accessor implements Serializable {
 
 	/**
-	 * Тип правополучателя
+	 * Accessor type
 	 */
 	@Column(name = "accessor_type")
 	private AccessorType accessorType;
 
 	/**
-	 * Идентификатор правополучателя
+	 * Accessor identifier
 	 */
 	@Column(name = "accessor_id")
 	private Long accessorId;

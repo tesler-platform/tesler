@@ -118,7 +118,7 @@ public class BcUtils {
 	}
 
 	/**
-	 * Возвращает набор dto-полей ({@link DtoField}) для переданного dto-класса
+	 * Returns a set of dto fields ({@link DtoField}) for the given dto class
 	 */
 	@SneakyThrows
 	public <D extends DataResponseDTO> Set<DtoField<D, ?>> getDtoFields(final Class<D> dtoClass) {
@@ -126,7 +126,7 @@ public class BcUtils {
 	}
 
 	/**
-	 * Возвращает набор dto-полей ({@link DtoField}) для переданного бизнес-компонента
+	 * Returns a set of dto fields ({@link DtoField}) for the given business component
 	 */
 	public <D extends DataResponseDTO> Set<DtoField<D, ?>> getDtoFields(final BcIdentifier bcIdentifier) {
 		final BcDescription bcDescription = bcRegistry.getBcDescription(bcIdentifier.getName());
@@ -143,7 +143,7 @@ public class BcUtils {
 	}
 
 	/**
-	 * Возвращает набор необходимых полей для переданного бизнес-компонента на текущем экране
+	 * Returns a set of required fields for the given business component on the current screen
 	 */
 	@SneakyThrows
 	@Cacheable(cacheNames = {CacheConfig.REQUEST_CACHE}, key = "{#root.methodName, #bc.name}")
@@ -159,7 +159,7 @@ public class BcUtils {
 	}
 
 	/**
-	 * Возвращает набор необходимых dto-полей ({@link DtoField}) для переданного бизнес-компонента на текущем экране
+	 * Returns a set of required dto fields ({@link DtoField}) for the given business component on the current screen
 	 */
 	@Cacheable(cacheNames = {CacheConfig.REQUEST_CACHE}, key = "{#root.methodName, #bc.name}")
 	public <D extends DataResponseDTO> Set<DtoField<D, ?>> getDtoFieldsForCurrentScreen(final BcIdentifier bc) {
@@ -171,7 +171,7 @@ public class BcUtils {
 	}
 
 	/**
-	 * Возвращает набор необходимых dto-полей ({@link DtoField}) для переданного бизнес-компонента на текущем экране
+	 * Returns a set of required dto fields ({@link DtoField}) for the given business component on the current screen
 	 */
 	@Cacheable(cacheNames = {CacheConfig.REQUEST_CACHE}, key = "{#root.methodName, #bc.name, #dtoClass}")
 	public <D extends DataResponseDTO> Set<DtoField<D, ?>> getDtoFieldsForCurrentScreen(

@@ -45,7 +45,7 @@ import org.hibernate.envers.Audited;
 import org.hibernate.envers.NotAudited;
 
 /**
- * Пользователь
+ * User
  */
 @Audited
 @Entity

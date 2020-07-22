@@ -28,9 +28,9 @@ import java.util.LinkedList;
 import org.springframework.stereotype.Component;
 
 /**
- * реализует только некоторые методы, поскольку есть методы,
- * которые выполняются довольно часто и поэтому оказывают
- * влияние на производительность, например onAfterResultSetGet
+ * Implements only some of the methods, since there are methods,
+ * which are executed quite often and therefore provide
+ * performance impact, e.g. onAfterResultSetGet
  */
 @Component
 public class ThreadLocalJdbcEventListener extends JdbcEventListener {

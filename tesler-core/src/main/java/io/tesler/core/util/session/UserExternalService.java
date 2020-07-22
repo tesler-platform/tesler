@@ -28,10 +28,10 @@ public interface UserExternalService<T extends SessionUser> {
 	T getSessionUser();
 
 	/**
-	 * Создать/обновить информацию о пользователе
+	 * Create / update user information
 	 *
-	 * @param sessionUser Информация о пользователе
-	 * @param role Роль
+	 * @param sessionUser user information
+	 * @param role role
 	 * @return User
 	 */
 	User upsert(T sessionUser, String role);

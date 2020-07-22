@@ -50,7 +50,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
 
 /**
- * Фабрика для создания сервисов
+ * Factory for services creation
  */
 @Service
 @RequiredArgsConstructor
@@ -65,8 +65,8 @@ public class ResponseFactory {
 	private ValidatorsProvider validatorsProvider;
 
 	/**
-	 * @param innerBcDescription информация о БК;
-	 * @return {@link ResponseService} общий интерфейс, который реализуют все сервисы работающие с контроллером
+	 * @param innerBcDescription information about BC;
+	 * @return {@link ResponseService} common interface implemented by all services working with the controller
 	 */
 	public ResponseService getService(InnerBcDescription innerBcDescription) {
 		return ctx.getBean(getServiceClass(innerBcDescription));

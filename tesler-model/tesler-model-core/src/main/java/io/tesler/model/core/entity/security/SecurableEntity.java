@@ -35,7 +35,7 @@ import lombok.Setter;
 public abstract class SecurableEntity extends BaseEntity {
 
 	/**
-	 * Список прав доступа
+	 * Access rights list
 	 */
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "access_list_id")

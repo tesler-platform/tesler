@@ -31,57 +31,57 @@ import lombok.RequiredArgsConstructor;
 public enum SearchOperation {
 
 	/**
-	 * Равно
+	 * Equal
 	 */
 	EQUALS("equals"),
 
 	/**
-	 * Больше
+	 * Greater
 	 */
 	GREATER_THAN("greaterThan"),
 
 	/**
-	 * Меньше
+	 * Less
 	 */
 	LESS_THAN("lessThan"),
 
 	/**
-	 * Больше или равно
+	 * Greater or equal
 	 */
 	GREATER_OR_EQUAL_THAN("greaterOrEqualThan"),
 
 	/**
-	 * Меньше или равно
+	 * Less or equal
 	 */
 	LESS_OR_EQUAL_THAN("lessOrEqualThan"),
 
 	/**
-	 * Содержит
+	 * Contains
 	 */
 	CONTAINS("contains"),
 
 	/**
-	 * Указано
+	 * Specified
 	 */
 	SPECIFIED("specified"),
 
 	/**
-	 * Указано булево значение, использовать для sql-сущностей
+	 * Boolean value specified, use for sql entities
 	 */
 	SPECIFIED_BOOLEAN_SQL("specifiedBooleanSql"),
 
 	/**
-	 * Равно одному из списка
+	 * Equal to one of the list
 	 */
 	EQUALS_ONE_OF("equalsOneOf"),
 
 	/**
-	 * Содержит один из списка
+	 * Contains one from the list
 	 */
 	CONTAINS_ONE_OF("containsOneOf"),
 
 	/**
-	 * Указано значение в итервалах
+	 * Specified value in intervals
 	 */
 	INTERVALS("intervals");
 

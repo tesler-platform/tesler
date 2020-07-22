@@ -29,7 +29,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 /**
- * Список прав доступа
+ * Access rights list
  */
 @Setter
 @Getter
@@ -38,13 +38,13 @@ import lombok.Setter;
 public class AccessList extends BaseEntity {
 
 	/**
-	 * Тип списка доступа
+	 * Access list type
 	 */
 	@Column(name = "list_type")
 	private AccessListType type;
 
 	/**
-	 * Название
+	 * Name
 	 */
 	@Column(name = "name")
 	private String name;

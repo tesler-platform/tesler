@@ -38,8 +38,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 /**
- * Осуществляет автоматическое обновление {@link Session#refresh(java.lang.Object)}
- * объектов помеченных как {@link RefreshOnFlush} после вызова {@link org.hibernate.Session#flush()}
+ * Performs automatic updates {@link Session#refresh(java.lang.Object)}
+ * objects marked as {@link RefreshOnFlush} after calling {@link org.hibernate.Session#flush()}
  */
 @Component
 public class FlushInterceptor {

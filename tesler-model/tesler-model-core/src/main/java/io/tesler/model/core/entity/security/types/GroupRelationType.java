@@ -29,22 +29,22 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 /**
- * Тип связи между группой и другими сущностями
+ * The type of relationship between the group and other entities
  */
 @Getter
 @RequiredArgsConstructor
 public enum GroupRelationType {
 
 	/**
-	 * пользователь, непосредственный член группы
+	 * user, direct member of the group
 	 */
 	MEMBER_USER(parseInt(Values.MEMBER_USER)),
 	/**
-	 * группа, непосредственный член группы
+	 * group, direct member of the group
 	 */
 	MEMBER_GROUP(parseInt(Values.MEMBER_GROUP)),
 	/**
-	 * SUPER_GROUP - вышестоящая группа
+	 * SUPER_GROUP - ranking group
 	 */
 	SUPER_GROUP(parseInt(Values.SUPER_GROUP));
 
@@ -63,7 +63,7 @@ public enum GroupRelationType {
 	}
 
 	/**
-	 * Строковые константы для использования в качестве дискриминатора
+	 * String constants to use as a discriminator
 	 */
 	public static class Values {
 

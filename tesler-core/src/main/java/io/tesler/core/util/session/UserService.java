@@ -29,18 +29,18 @@ import io.tesler.model.core.entity.User;
 public interface UserService {
 
 	/**
-	 * Упомянутый по фио или логину пользователь
+	 * Get user mentioned by name or login
 	 *
-	 * @param mention Поиск
-	 * @param page Параметры запроса
+	 * @param mention search
+	 * @param page request parameters
 	 * @return ResultPage
 	 */
 	ResultPage<UserDto> getByMention(String mention, PageSpecification page);
 
 	/**
-	 * Получить пользователя по логину
+	 * Get user by login
 	 *
-	 * @param login Логин
+	 * @param login login
 	 * @return User
 	 */
 	User getUserByLogin(String login);

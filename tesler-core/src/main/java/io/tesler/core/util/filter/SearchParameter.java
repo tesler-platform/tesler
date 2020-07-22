@@ -36,11 +36,11 @@ public @interface SearchParameter {
 	boolean strict() default false;
 
 	/**
-	 * Блокировать механизм фильтрации на уровне ядра или нет. Если блокировано - фильтрация должна быть
-	 * реализована на уровне сервисов, которые управляют сущностью, в которую входит данный параметр.
-	 * По умолчанию - фильтрация на уровне ядра не блокируется.
+	 * Block the filtering mechanism at the core level or not. If blocked, filtering must be
+	 * implemented at the level of services that manage the entity that this parameter is part of.
+	 * By default, filtering is not blocked at the core level
 	 *
-	 * @return необходимость блокировки механизма фильтрации на уровне ядра
+	 * @return necessity to block the filtering mechanism at the core level
 	 */
 	boolean suppressProcess() default false;
 

@@ -28,26 +28,26 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 /**
- * Тип прав доступа
+ * Access rights type
  */
 @Getter
 @RequiredArgsConstructor
 public enum Permission {
 
 	/**
-	 * нет доступа
+	 * No access
 	 */
 	NONE(parseInt(Values.NONE)),
 	/**
-	 * чтение
+	 * reading
 	 */
 	READ(parseInt(Values.READ)),
 	/**
-	 * запись
+	 * writing
 	 */
 	WRITE(parseInt(Values.WRITE)),
 	/**
-	 * удаление
+	 * deletion
 	 */
 	DELETE(parseInt(Values.DELETE));
 
@@ -61,7 +61,7 @@ public enum Permission {
 	}
 
 	/**
-	 * Строковые константы для использования в качестве дискриминатора
+	 * String constants to use as a discriminator
 	 */
 	public static class Values {
 

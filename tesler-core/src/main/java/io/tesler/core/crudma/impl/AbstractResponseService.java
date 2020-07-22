@@ -419,8 +419,8 @@ public abstract class AbstractResponseService<T extends DataResponseDTO, E exten
 	}
 
 	/**
-	 * deprecated, Логика по формированию hasNext перенесена в DAO-слой
-	 * Оставлено для кастомных DAO, которые возвращают List вместо ResultPage
+	 * deprecated, the hasNext formation logic has been moved to the DAO layer
+	 * Left for custom DAOs that return List instead of ResultPage
 	 */
 	@Deprecated
 	protected ResultPage<E> entityListToResultPage(final List<E> entities, final int limit) {

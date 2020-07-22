@@ -21,8 +21,8 @@
 package io.tesler.api.data.dao.databaselistener;
 
 /**
- * Слушатели, реализующие этот интерфейс могут вызываться
- * несколько раз за время жизни транзакции
+ * Listeners that implement this interface can be called
+ * several times during the lifetime of a transaction
  */
 public interface InterimChangeListener<E> extends IChangeListener<E> {
 

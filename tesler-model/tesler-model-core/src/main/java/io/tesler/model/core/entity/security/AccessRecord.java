@@ -33,7 +33,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 /**
- * Запись о праве доступа
+ * Access right record
  */
 @Setter
 @Getter
@@ -42,26 +42,26 @@ import lombok.Setter;
 public class AccessRecord extends BaseEntity {
 
 	/**
-	 * Родительский список доступа
+	 * Parent access list
 	 */
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "access_list_id")
 	private AccessList accessList;
 
 	/**
-	 * Правополучатель
+	 * Accessor
 	 */
 	@Embedded
 	private Accessor accessor;
 
 	/**
-	 * Права доступа
+	 * Access rights
 	 */
 	@Column(name = "permission")
 	private Permission permission;
 
 	/**
-	 * Признка обязательности
+	 * Mandatory sign
 	 */
 	@Column(name = "mandatory")
 	private boolean mandatory;

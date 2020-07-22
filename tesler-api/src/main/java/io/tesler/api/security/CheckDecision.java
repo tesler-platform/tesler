@@ -26,22 +26,22 @@ import lombok.RequiredArgsConstructor;
 public enum CheckDecision {
 
 	/**
-	 * Запретить
+	 * To deny
 	 */
 	Deny("Запретить"),
 
 	/**
-	 * Не применимо
+	 * Is not applicable
 	 */
 	NotApplicable("Не применимо"),
 
 	/**
-	 * Разрешить
+	 * To permit
 	 */
 	Permit("Разрешить");
 
 	/**
-	 * Описание действия
+	 * Action description
 	 */
 	private final String name;
 

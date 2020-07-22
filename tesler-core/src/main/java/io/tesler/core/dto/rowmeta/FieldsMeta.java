@@ -38,10 +38,10 @@ import lombok.extern.slf4j.Slf4j;
 public class FieldsMeta<T extends DataResponseDTO> extends RowDependentFieldsMeta<T> {
 
 	/**
-	 * Добавляет в существующий список доступных для фильтрации значений
+	 * Adds a value to the existing list of filterable values
 	 *
-	 * @param field поле виджета с типом dictionary
-	 * @param dictDTO ДТО со значением справочника
+	 * @param field widget field with type dictionary
+	 * @param dictDTO DTO with dictionary value
 	 */
 	public final void addConcreteFilterValue(DtoField<? super T, ?> field, SimpleDictionary dictDTO) {
 		Optional.ofNullable(field).map(dtoField -> fields.get(dtoField.getName()))
