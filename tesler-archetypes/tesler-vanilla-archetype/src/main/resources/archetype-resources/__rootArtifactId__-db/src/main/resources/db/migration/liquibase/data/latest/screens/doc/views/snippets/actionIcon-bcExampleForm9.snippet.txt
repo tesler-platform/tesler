@@ -1,2 +1,0 @@
-// иконка с кодом "bars"
-.action("bars", "Открыть пик-лист").available(this::notNullAndPreAction).invoker(this::openPickList)

@@ -1,5 +1,0 @@
-{
-  "name" : "sql-doc-bubble",
-  "queryFile" : "db/migration/liquibase/data/latest/sqlbc/doc/sql-doc-bubble/sql-doc-bubble.sqlbc.sql",
-  "pageLimit" : 1000
-}

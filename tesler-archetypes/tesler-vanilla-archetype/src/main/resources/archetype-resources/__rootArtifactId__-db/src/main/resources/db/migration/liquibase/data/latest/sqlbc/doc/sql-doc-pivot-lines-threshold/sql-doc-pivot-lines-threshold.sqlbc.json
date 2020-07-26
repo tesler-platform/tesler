@@ -1,6 +1,0 @@
-{
-  "name" : "sql-doc-pivot-lines-threshold",
-  "queryFile" : "db/migration/liquibase/data/latest/sqlbc/doc/sql-doc-pivot-lines-threshold/sql-doc-pivot-lines-threshold.sqlbc.sql",
-  "defaultOrder" : "sort,as_of_date",
-  "pageLimit" : 1000
-}

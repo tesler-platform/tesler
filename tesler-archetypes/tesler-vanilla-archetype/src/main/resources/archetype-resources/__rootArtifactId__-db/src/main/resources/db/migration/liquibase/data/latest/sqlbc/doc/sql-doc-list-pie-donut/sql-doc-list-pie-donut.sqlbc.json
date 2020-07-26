@@ -1,6 +1,0 @@
-{
-  "name" : "sql-doc-list-pie-donut",
-  "queryFile" : "db/migration/liquibase/data/latest/sqlbc/doc/sql-doc-list-pie-donut/sql-doc-list-pie-donut.sqlbc.sql",
-  "defaultOrder" : "id",
-  "pageLimit" : 10
-}

@@ -1,9 +1,0 @@
-
- Для вывода чисел служат поля типа number, percent, money
- <br/>
-  <b>number</b> - число
-  <br/>
-  <b>percent</b> - процент
-  <br/>
-  <b>money</b> - деньги
-  
