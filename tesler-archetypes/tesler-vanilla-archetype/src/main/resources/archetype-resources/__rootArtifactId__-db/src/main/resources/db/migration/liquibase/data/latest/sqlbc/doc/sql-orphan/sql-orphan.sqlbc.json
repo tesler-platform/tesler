@@ -1,7 +1,0 @@
-{
-  "name" : "sql-orphan",
-  "parentName" : "bcIrresponsibleParent",
-  "queryFile" : "db/migration/liquibase/data/latest/sqlbc/doc/sql-orphan/sql-orphan.sqlbc.sql",
-  "defaultOrder" : "name",
-  "pageLimit" : 500
-}

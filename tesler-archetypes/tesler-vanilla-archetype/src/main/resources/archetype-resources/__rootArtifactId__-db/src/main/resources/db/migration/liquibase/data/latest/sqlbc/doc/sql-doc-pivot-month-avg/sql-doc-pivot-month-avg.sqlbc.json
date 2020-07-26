@@ -1,6 +1,0 @@
-{
-  "name" : "sql-doc-pivot-month-avg",
-  "queryFile" : "db/migration/liquibase/data/latest/sqlbc/doc/sql-doc-pivot-month-avg/sql-doc-pivot-month-avg.sqlbc.sql",
-  "defaultOrder" : "report_date",
-  "pageLimit" : 1000
-}

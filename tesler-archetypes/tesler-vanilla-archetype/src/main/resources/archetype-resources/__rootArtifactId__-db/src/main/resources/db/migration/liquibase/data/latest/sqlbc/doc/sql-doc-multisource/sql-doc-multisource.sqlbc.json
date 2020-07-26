@@ -1,6 +1,0 @@
-{
-  "name" : "sql-doc-multisource",
-  "queryFile" : "db/migration/liquibase/data/latest/sqlbc/doc/sql-doc-multisource/sql-doc-multisource.sqlbc.sql",
-  "defaultOrder" : "inn",
-  "pageLimit" : 10
-}

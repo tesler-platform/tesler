@@ -1,9 +1,0 @@
-
- Для вывода дат служат поля типа date, dateTime, dateTimeWithSeconds
- <br/>
-  <b>date</b> - дата
-  <br/>
-  <b>dateTime</b> - дата и время
-  <br/>
-  <b>dateTimeWithSeconds</b> - дата и время с секундами
-  

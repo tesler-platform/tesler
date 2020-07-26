@@ -278,8 +278,6 @@
     <module>tesler-core</module>
     <module>tesler-crudma</module>
     <module>tesler-testing</module>
-    <module>tesler-plugins</module>
-    <module>tesler-vanilla</module>
     <module>tesler-liquibase</module>
     <module>tesler-plugin</module>
     <module>tesler-archetypes</module>

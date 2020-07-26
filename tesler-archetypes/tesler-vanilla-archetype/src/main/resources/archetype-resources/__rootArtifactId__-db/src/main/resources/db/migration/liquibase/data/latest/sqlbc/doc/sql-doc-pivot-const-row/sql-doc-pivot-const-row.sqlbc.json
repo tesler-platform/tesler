@@ -1,6 +1,0 @@
-{
-  "name" : "sql-doc-pivot-const-row",
-  "queryFile" : "db/migration/liquibase/data/latest/sqlbc/doc/sql-doc-pivot-const-row/sql-doc-pivot-const-row.sqlbc.sql",
-  "defaultOrder" : "report_date",
-  "pageLimit" : 30
-}

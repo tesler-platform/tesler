@@ -1,6 +1,0 @@
-{
-  "name" : "sql-doc-pivot",
-  "queryFile" : "db/migration/liquibase/data/latest/sqlbc/doc/sql-doc-pivot/sql-doc-pivot.sqlbc.sql",
-  "defaultOrder" : "report_date",
-  "pageLimit" : 1000
-}

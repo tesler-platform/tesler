@@ -1,4 +1,0 @@
-
-    INSERT INTO VIEWS (ID, NAME, TEMPLATE, TITLE, URL, EDITABLE) VALUES (13004, "customTemplate", "CustomTemplate", "Расположение элементов в три колонки", "/screen/vanilla/view/tripleColumnView", 1);
-    INSERT INTO VIEW_WIDGETS (VIEW_ID, WIDGET_ID, POSITON) VALUES (1, 1, 1); INSERT INTO VIEW_WIDGETS (VIEW_ID, WIDGET_ID, POSITON) VALUES (1, 2, 2);
-    INSERT INTO VIEW_WIDGETS (VIEW_ID, WIDGET_ID, POSITON) VALUES (1, 3, 3);

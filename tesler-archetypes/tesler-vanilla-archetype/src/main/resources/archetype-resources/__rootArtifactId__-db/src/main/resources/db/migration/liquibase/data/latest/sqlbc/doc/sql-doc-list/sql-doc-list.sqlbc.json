@@ -1,7 +1,0 @@
-{
-  "name" : "sql-doc-list",
-  "queryFile" : "db/migration/liquibase/data/latest/sqlbc/doc/sql-doc-list/sql-doc-list.sqlbc.sql",
-  "defaultOrder" : "report_date",
-  "pageLimit" : 1000,
-  "editable" : 1
-}

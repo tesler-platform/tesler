@@ -1,7 +1,0 @@
-// Виджет-фильтры
-"options" : {
-  "showFilters": [ {
-    "key": "testNumber",
-    "type": "contains"
-  } ]
-}

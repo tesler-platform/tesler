@@ -15,8 +15,6 @@
 
   <modules>
     <module>tesler-base-archetype</module>
-    <module>tesler-vanilla-archetype</module>
-    <module>tesler-workflow-archetype</module>
   </modules>
 
   <properties>

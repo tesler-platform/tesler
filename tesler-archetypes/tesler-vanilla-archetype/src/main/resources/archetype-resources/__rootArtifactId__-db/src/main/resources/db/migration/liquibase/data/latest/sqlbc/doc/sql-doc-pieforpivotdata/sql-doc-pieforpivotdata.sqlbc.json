@@ -1,6 +1,0 @@
-{
-  "name" : "sql-doc-pieforpivotdata",
-  "queryFile" : "db/migration/liquibase/data/latest/sqlbc/doc/sql-doc-pieforpivotdata/sql-doc-pieforpivotdata.sqlbc.sql",
-  "defaultOrder" : "report_date",
-  "pageLimit" : 1000
-}

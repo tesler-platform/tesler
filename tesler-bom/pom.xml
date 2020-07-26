@@ -100,32 +100,6 @@
       </dependency>
       <dependency>
         <groupId>io.tesler</groupId>
-        <artifactId>tesler-workflow-api</artifactId>
-        <version>2.3.1-SNAPSHOT</version>
-      </dependency>
-      <dependency>
-        <groupId>io.tesler</groupId>
-        <artifactId>tesler-workflow-model</artifactId>
-        <version>2.3.1-SNAPSHOT</version>
-      </dependency>
-      <dependency>
-        <groupId>io.tesler</groupId>
-        <artifactId>tesler-workflow-impl</artifactId>
-        <version>2.3.1-SNAPSHOT</version>
-      </dependency>
-      <dependency>
-        <groupId>io.tesler</groupId>
-        <artifactId>tesler-workflow-impl</artifactId>
-        <version>2.3.1-SNAPSHOT</version>
-        <classifier>jar-with-dependencies</classifier>
-      </dependency>
-      <dependency>
-        <groupId>io.tesler</groupId>
-        <artifactId>tesler-vanilla-source</artifactId>
-        <version>2.3.1-SNAPSHOT</version>
-      </dependency>
-      <dependency>
-        <groupId>io.tesler</groupId>
         <artifactId>tesler-liquibase</artifactId>
         <version>2.3.1-SNAPSHOT</version>
       </dependency>

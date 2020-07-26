@@ -1,6 +1,0 @@
-{
-  "name" : "sql-doc-pivot-sumByCategory",
-  "queryFile" : "db/migration/liquibase/data/latest/sqlbc/doc/sql-doc-pivot-sumByCategory/sql-doc-pivot-sumByCategory.sqlbc.sql",
-  "defaultOrder" : "report_date",
-  "pageLimit" : 1000
-}

@@ -1,5 +1,0 @@
-{
-  "name" : "sql-doc-graph",
-  "queryFile" : "db/migration/liquibase/data/latest/sqlbc/doc/sql-doc-graph/sql-doc-graph.sqlbc.sql",
-  "defaultOrder" : "sort"
-}

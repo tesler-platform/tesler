@@ -1,5 +1,0 @@
-{
-  "name" : "sql-doc-gantt",
-  "queryFile" : "db/migration/liquibase/data/latest/sqlbc/doc/sql-doc-gantt/sql-doc-gantt.sqlbc.sql",
-  "pageLimit" : 1000
-}
