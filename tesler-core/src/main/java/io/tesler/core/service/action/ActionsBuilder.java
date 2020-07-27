@@ -125,7 +125,8 @@ public class ActionsBuilder<T extends DataResponseDTO> {
 						responseServiceAction.getIcon().getActionIconCode(),
 						responseServiceAction.isIconWithText(),
 						responseServiceAction.getScope(),
-						responseServiceAction.isAutoSaveBefore()
+						responseServiceAction.isAutoSaveBefore(),
+						responseServiceAction.getOrder()
 				)
 		);
 		return this;

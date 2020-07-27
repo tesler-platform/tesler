@@ -24,6 +24,7 @@ import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import java.io.IOException;
+import java.util.Comparator;
 import java.util.List;
 
 
@@ -33,6 +34,7 @@ public class ActionDTOListSerializer extends JsonSerializer<List<ActionDTO>> {
 	public void serialize(List<ActionDTO> toSerialize, JsonGenerator jgen, SerializerProvider provider)
 			throws IOException {
 		jgen.writeStartArray();
+		toSerialize.sort(Comparator.comparing(ActionDTO::getOrder));
 		for (ActionDTO dto : toSerialize) {
 			if (isAvailable(dto) || isNonEmptyGroup(dto)) {
 				jgen.writeObject(dto);

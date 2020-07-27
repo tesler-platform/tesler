@@ -69,5 +69,8 @@ public abstract class ResponseServiceAction<T extends DataResponseDTO> {
 		return false;
 	}
 
+	public Integer getOrder() {
+		return 0;
+	}
 
 }

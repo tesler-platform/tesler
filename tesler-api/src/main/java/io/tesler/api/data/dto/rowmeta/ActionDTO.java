@@ -78,6 +78,9 @@ public class ActionDTO {
 	@JsonIgnore
 	private boolean available;
 
+	@Getter
+	private Integer order;
+
 	@JsonAnyGetter
 	public Map<String, String> getCustomParameters() {
 		return customParameters;

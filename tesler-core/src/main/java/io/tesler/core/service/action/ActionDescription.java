@@ -67,6 +67,9 @@ public final class ActionDescription<T extends DataResponseDTO> {
 	@Getter
 	private final boolean autoSaveBefore;
 
+	@Getter
+	private final Integer order;
+
 	public static <T extends DataResponseDTO> ActionDescriptionBuilder<T> builder() {
 		return new ActionDescriptionBuilder<>();
 	}

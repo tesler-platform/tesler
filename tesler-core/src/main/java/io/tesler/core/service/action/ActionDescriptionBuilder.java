@@ -66,6 +66,8 @@ public class ActionDescriptionBuilder<T extends DataResponseDTO> {
 
 	private boolean autoSaveBefore = true;
 
+	private Integer order = 0;
+
 	private static <T extends DataResponseDTO> ActionInvoker<T> withoutUpdate(ActionInvoker<T> wrapped) {
 
 		return new ActionInvoker<T>() {
@@ -184,6 +186,12 @@ public class ActionDescriptionBuilder<T extends DataResponseDTO> {
 		return this;
 	}
 
+	public ActionDescriptionBuilder<T> withOrder(Integer order) {
+		this.order = order;
+		return this;
+	}
+
+
 	public ActionDescriptionBuilder<T> validator(DataValidator<T> dataValidator) {
 		this.dataValidator = dataValidator;
 		return this;
@@ -228,7 +236,8 @@ public class ActionDescriptionBuilder<T extends DataResponseDTO> {
 				iconCode.getActionIconCode(),
 				showOnlyIcon,
 				actionScope,
-				autoSaveBefore
+				autoSaveBefore,
+				order
 		);
 	}
 
