@@ -218,6 +218,7 @@
         <artifactId>maven-surefire-plugin</artifactId>
         <configuration>
           <useManifestOnlyJar>false</useManifestOnlyJar>
+          <trimStackTrace>false</trimStackTrace>
         </configuration>
         <dependencies>
           <dependency>
