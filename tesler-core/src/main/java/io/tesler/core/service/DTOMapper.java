@@ -56,7 +56,7 @@ public class DTOMapper {
 	private final BcUtils bcUtils;
 
 	/**
-	 * Создает dto с необходимым набором полей для текущего экрана
+	 * Creates a dto with the required set of fields for the current screen
 	 */
 	public <E extends BaseEntity, D extends DataResponseDTO> D entityToDto(BcIdentifier bc, E entity, Class<D> dtoClass,
 			boolean flushRequired, Map<String, Object> attributes) {
@@ -64,7 +64,7 @@ public class DTOMapper {
 	}
 
 	/**
-	 * Создает dto с необходимым набором полей для текущего экрана
+	 * Creates a dto with the required set of fields for the current screen
 	 */
 	public <E extends BaseEntity, D extends DataResponseDTO> D entityToDto(BcIdentifier bc, E entity, Class<D> dtoClass,
 			boolean flushRequired) {
@@ -72,14 +72,14 @@ public class DTOMapper {
 	}
 
 	/**
-	 * Создает dto с необходимым набором полей для текущего экрана
+	 * Creates a dto with the required set of fields for the current screen
 	 */
 	public <E extends BaseEntity, D extends DataResponseDTO> D entityToDto(BcIdentifier bc, E entity, Class<D> dtoClass) {
 		return entityToDto(bc, entity, dtoClass, isFlushRequired(), emptyMap());
 	}
 
 	/**
-	 * Создает dto с необходимым набором полей для текущего экрана
+	 * Creates a dto with the required set of fields for the current screen
 	 */
 	public <E extends BaseEntity, D extends DataResponseDTO> D entityToDto(BcIdentifier bc, E entity, Class<D> dtoClass,
 			Map<String, Object> attributes) {
@@ -87,14 +87,14 @@ public class DTOMapper {
 	}
 
 	/**
-	 * Создает dto с полным набором полей
+	 * Creates a dto with a complete set of fields
 	 */
 	public <E extends BaseEntity, D extends DataResponseDTO> D entityToDto(E entity, Class<D> dtoClass) {
 		return entityToDto(entity, dtoClass, bcUtils.getDtoFields(dtoClass), isFlushRequired(), emptyMap());
 	}
 
 	/**
-	 * Создает dto с заданным набором полей
+	 * Creates a dto with a given set of fields
 	 */
 	public <E extends BaseEntity, D extends DataResponseDTO> D entityToDto(E entity, Class<D> dtoClass,
 			Set<DtoField<D, ?>> fields, boolean flushRequired) {
@@ -107,7 +107,7 @@ public class DTOMapper {
 	}
 
 	/**
-	 * Создает dto с заданным набором полей
+	 * Creates a dto with a given set of fields
 	 */
 	public <E extends BaseEntity, D extends DataResponseDTO> D entityToDto(E entity, Class<D> dtoClass,
 			Set<DtoField<D, ?>> fields) {

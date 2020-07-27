@@ -29,22 +29,22 @@ import lombok.Getter;
 public class BcHierarchy {
 
 	/**
-	 * Наименование экрана
+	 * Screen name
 	 */
 	private final String screenName;
 
 	/**
-	 * Наименование
+	 * Name
 	 */
 	private final String bcName;
 
 	/**
-	 * Идентификатор
+	 * Identifier
 	 */
 	private final String id;
 
 	/**
-	 * Родитель
+	 * Parent
 	 */
 	private final BcHierarchy parent;
 

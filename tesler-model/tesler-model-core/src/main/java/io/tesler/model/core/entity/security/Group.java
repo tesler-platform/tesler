@@ -30,7 +30,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 /**
- * Группа
+ * Group
  */
 @Setter
 @Getter
@@ -39,7 +39,7 @@ import lombok.Setter;
 public class Group extends BaseEntity implements IAccessorSupplier {
 
 	/**
-	 * Название
+	 * Name
 	 */
 	@Column(name = "name")
 	private String name;

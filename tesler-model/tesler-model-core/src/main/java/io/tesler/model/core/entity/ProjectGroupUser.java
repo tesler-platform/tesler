@@ -30,7 +30,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 /**
- * Пользователь группы
+ * Group user
  */
 @Entity
 @Getter
@@ -41,14 +41,14 @@ import lombok.Setter;
 public class ProjectGroupUser extends BaseEntity {
 
 	/**
-	 * Группа
+	 * Group
 	 */
 	@ManyToOne
 	@JoinColumn(name = "PRJ_GRP_ID", nullable = false)
 	private ProjectGroup projectGroup;
 
 	/**
-	 * Пользователь
+	 * User
 	 */
 	@ManyToOne
 	@JoinColumn(name = "USER_ID", nullable = false)

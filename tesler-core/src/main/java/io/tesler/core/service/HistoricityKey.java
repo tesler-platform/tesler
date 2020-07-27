@@ -35,7 +35,7 @@ public abstract class HistoricityKey<E extends HistoricityEntity, D extends Hist
 	private final List<KeyAttribute<E, D, ?>> attributes;
 
 	/**
-	 * @param attributes атрибуты ключа
+	 * @param attributes key attributes
 	 */
 	@SafeVarargs
 	public HistoricityKey(final KeyAttribute<E, D, ?>... attributes) {
@@ -58,9 +58,9 @@ public abstract class HistoricityKey<E extends HistoricityEntity, D extends Hist
 		private final DtoField<D, ?>[] dtoFields;
 
 		/**
-		 * @param attribute атрибут
-		 * @param valueSupplier функция получения значения атрибута
-		 * @param dtoFields поля dto изменение которых повлечет изменение значения атрибута
+		 * @param attribute attribute
+		 * @param valueSupplier function to get attribute value
+		 * @param dtoFields dto fields, which changing will change the attribute value
 		 */
 		@SafeVarargs
 		public KeyAttribute(

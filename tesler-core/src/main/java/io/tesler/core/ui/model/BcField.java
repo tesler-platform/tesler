@@ -56,12 +56,12 @@ public final class BcField {
 	public enum Attribute {
 
 		/**
-		 * Id виджета
+		 * widget identifier
 		 */
 		WIDGET_ID,
 
 		/**
-		 * Тип поля
+		 * Field type
 		 */
 		TYPE,
 
@@ -70,17 +70,17 @@ public final class BcField {
 		HINT_KEY,
 
 		/**
-		 * Список полей пиклиста
+		 * List of picklist fields
 		 */
 		PICK_LIST_FIELDS,
 
 		/**
-		 * Поле в пиклисте которого указано текущее поле
+		 * Field with the current field specified in the picklist
 		 */
 		PARENT_FIELD,
 
 		/**
-		 * BC в пиклисте которого указано текущее поле
+		 * BC with the current field specified in the picklist
 		 */
 		PARENT_BC;
 

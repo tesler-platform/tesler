@@ -58,9 +58,9 @@ public class UserRoleService {
 	private final DictionaryCache dictionaryCache;
 
 	/**
-	 * Получить основную роль пользователя (последняя активная роль)
+	 * Get the main user role (last active role)
 	 *
-	 * @param user Пользователь
+	 * @param user User
 	 * @return LOV
 	 */
 	public LOV getMainUserRoleKey(User user) {
@@ -76,10 +76,10 @@ public class UserRoleService {
 	}
 
 	/**
-	 * Обновить список ролей пользователя
+	 * Refresh the list of user roles
 	 *
-	 * @param userId Пользователь
-	 * @param intUserRoleKeyList Список ролей на основании групп ЕСК
+	 * @param userId User
+	 * @param intUserRoleKeyList List of roles based on ESK groups
 	 */
 	public void upsertUserRoles(Long userId, List<String> intUserRoleKeyList) {
 		User user = jpaDao.findById(User.class, userId);
@@ -90,9 +90,9 @@ public class UserRoleService {
 	}
 
 	/**
-	 * Получить основную роль на основании групп ЕСК
+	 * Get the main role based on ESK groups
 	 *
-	 * @param intUserRoleKeyList Список ролей на основании групп ЕСК
+	 * @param intUserRoleKeyList List of roles based on ESK groups
 	 * @return String
 	 */
 	public String getMainUserRole(List<String> intUserRoleKeyList) {
@@ -110,9 +110,9 @@ public class UserRoleService {
 	}
 
 	/**
-	 * Получить список доступных для выбора ролей пользователя
+	 * Get a list of user roles available for selection
 	 *
-	 * @param user Пользователь
+	 * @param user User
 	 * @return List
 	 */
 	public List<SimpleDictionary> getUserRoles(User user) {
@@ -136,10 +136,10 @@ public class UserRoleService {
 	}
 
 	/**
-	 * Обновить основную роль (основная роль - последняя выбранная пользователем)
+	 * Update main role (main role is last role selected by user)
 	 *
-	 * @param user Пользователь
-	 * @param mainUserRole Основная роль
+	 * @param user user
+	 * @param mainUserRole main role
 	 */
 	public void updateMainUserRole(User user, LOV mainUserRole) {
 		user.setInternalRole(mainUserRole);
@@ -165,10 +165,10 @@ public class UserRoleService {
 	}
 
 	/**
-	 * Обновить список ролей пользователя (включая опции OPT_%)
+	 * Update the list of user roles (including OPT_% options)
 	 *
-	 * @param user Пользователь
-	 * @param intUserRoleKeyList Список кодов ролей из ЕСК
+	 * @param user user
+	 * @param intUserRoleKeyList list of role codes from ESK
 	 * @return List
 	 */
 	private List<UserRole> updateUserRoles(User user, List<String> intUserRoleKeyList) {
@@ -223,10 +223,10 @@ public class UserRoleService {
 	}
 
 	/**
-	 * Обновить группы пользователя
+	 * Update user groups
 	 *
-	 * @param user Пользователь
-	 * @param activeUserRoleList Список активных ролей пользователя
+	 * @param user user
+	 * @param activeUserRoleList list of active user roles
 	 */
 	private void updateProjectGroupUserList(User user, List<UserRole> activeUserRoleList) {
 		List<LoginRole> loginRoleList = listByDeptByInternalRole(user);
@@ -281,9 +281,9 @@ public class UserRoleService {
 	}
 
 	/**
-	 * Получить список всех ролей пользователя
+	 * Get a list of all user roles
 	 *
-	 * @param user Пользователь
+	 * @param user user
 	 * @return List
 	 */
 	private List<UserRole> getListByUser(User user) {

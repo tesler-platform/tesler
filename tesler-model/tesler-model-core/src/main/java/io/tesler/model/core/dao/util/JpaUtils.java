@@ -93,10 +93,10 @@ public final class JpaUtils {
 
 	/**
 	 * @param entityManager entityManager
-	 * @param procedureName Название хранимой процедуры в БД
-	 * @param input Входные параметры с их значениями
-	 * @param output Названия выходных параметров
-	 * @return Выходные параметры с их значениями
+	 * @param procedureName name of the stored procedure in the database
+	 * @param input input parameters with their values
+	 * @param output output parameter names
+	 * @return output parameters with their values
 	 */
 	public Map<String, Object> executeStoredProcedure(final EntityManager entityManager, final String procedureName,
 			final Map<Integer, Object> input, final List<String> output) {

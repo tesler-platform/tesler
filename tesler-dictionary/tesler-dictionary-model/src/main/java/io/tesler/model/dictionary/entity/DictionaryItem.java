@@ -41,7 +41,7 @@ import lombok.Setter;
 
 
 /**
- * Сущность для простых справочников
+ * Entity for simple dictionaries
  */
 @Entity
 @Getter

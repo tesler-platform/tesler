@@ -27,7 +27,7 @@ import lombok.Setter;
 import org.hibernate.envers.Audited;
 
 /**
- * Проект
+ * Project
  */
 @Audited
 @Entity

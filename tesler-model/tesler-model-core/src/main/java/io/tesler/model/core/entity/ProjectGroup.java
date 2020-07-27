@@ -29,7 +29,7 @@ import lombok.Setter;
 import org.hibernate.envers.Audited;
 
 /**
- * Группа
+ * Group
  */
 @Audited
 @Entity
@@ -39,14 +39,14 @@ import org.hibernate.envers.Audited;
 public class ProjectGroup extends BaseEntity {
 
 	/**
-	 * Проект
+	 * Project
 	 */
 	@ManyToOne
 	@JoinColumn(name = "PROJECT_ID", nullable = false)
 	private Project project;
 
 	/**
-	 * Название группы
+	 * Group name
 	 */
 	private String name;
 

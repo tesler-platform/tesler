@@ -29,7 +29,7 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
 /**
- * Указывает какие аннотации применять к дочерним сущностям, см. {@code PropagateAnnotationReader}
+ * Specifies which annotations to apply to child entities, see {@code PropagateAnnotationReader}
  */
 @Target(TYPE)
 @Retention(RUNTIME)
@@ -37,7 +37,7 @@ import java.lang.annotation.Target;
 public @interface PropagateAnnotations {
 
 	/**
-	 * @return список аннотаций, которые нужно применять к дочерним сущностям
+	 * @return list of annotations to apply to child entities
 	 */
 	Class<? extends Annotation>[] value() default {};
 

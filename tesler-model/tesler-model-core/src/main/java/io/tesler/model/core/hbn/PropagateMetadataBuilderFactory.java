@@ -28,8 +28,8 @@ import org.hibernate.boot.spi.MetadataBuilderImplementor;
 import org.hibernate.cfg.annotations.reflection.JPAMetadataProvider;
 
 /**
- * Модифицирует стандартный MetadataBuilderImplementor, чтобы последний использовал
- * кастомизированный AnnotationReader (PropagateAnnotationReader) вместо стандартного
+ * Modifies the standard MetadataBuilderImplementor to use
+ * customized AnnotationReader (PropagateAnnotationReader) instead of standard reader
  */
 public class PropagateMetadataBuilderFactory implements MetadataBuilderFactory {
 

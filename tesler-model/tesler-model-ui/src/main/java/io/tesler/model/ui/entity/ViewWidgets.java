@@ -35,7 +35,7 @@ import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
 /**
- * Виджеты для Вью с позицией и лимитом
+ * View widgets with position and limit
  */
 @Entity
 @Getter

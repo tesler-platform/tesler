@@ -29,8 +29,8 @@ import org.hibernate.cfg.annotations.reflection.JPAMetadataProvider;
 import org.hibernate.cfg.annotations.reflection.XMLContext;
 
 /**
- * Декоратор базового JPAMetadataProvider, используется наследование, потому что
- * в HBN используются яные преобразования к JPAMetadataProvider
+ * Decorator base JPAMetadataProvider, inheritance is used because
+ * HBN uses explicit conversions to JPAMetadataProvider
  */
 public class PropagateMetadataProvider extends JPAMetadataProvider {
 

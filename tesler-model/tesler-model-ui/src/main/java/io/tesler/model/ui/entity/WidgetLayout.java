@@ -31,7 +31,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 /**
- * Расположение виджета на сетке
+ * Positioning the widget on the grid
  */
 @Entity
 @Table(name = "layouts_widgets")

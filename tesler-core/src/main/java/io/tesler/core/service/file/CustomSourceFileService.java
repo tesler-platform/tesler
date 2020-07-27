@@ -59,10 +59,10 @@ public class CustomSourceFileService {
 	}
 
 	/**
-	 * Возвращает файл из настраиваемого источника
+	 * Returns a file from a custom source
 	 *
-	 * @param source - название источника
-	 * @param id - идентификатор файла
+	 * @param source - source name
+	 * @param id - file identifier
 	 */
 	public CustomSourceFile getFileFromSource(String source, Long id) {
 		FileDatasource fileDatasource = jpaDao
@@ -91,10 +91,10 @@ public class CustomSourceFileService {
 
 
 	/**
-	 * сохраняет файл в указанный источник
+	 * Saves the file to the specified source
 	 *
-	 * @param source - название источника
-	 * @return идентификатор созданного файла
+	 * @param source - source name
+	 * @return generated file identifier
 	 */
 	public Long saveFileToSource(String source, MultipartFile file) {
 		FileDatasource fileDatasource = jpaDao

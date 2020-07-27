@@ -25,7 +25,7 @@ import org.quartz.PersistJobDataAfterExecution;
 import org.quartz.jobs.NoOpJob;
 
 /**
- * ВНИМАНИЕ! При переименовании нужно делать датафиксы
+ * ATTENTION! Data fixes required when renaming
  */
 @PersistJobDataAfterExecution
 @DisallowConcurrentExecution

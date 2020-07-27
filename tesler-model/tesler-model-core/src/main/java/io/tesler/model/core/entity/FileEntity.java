@@ -32,7 +32,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 /**
- * Информация о файле
+ * File information
  */
 @Getter
 @Setter
@@ -54,7 +54,7 @@ public class FileEntity extends BaseEntity {
 	private String fileUrl;
 
 	/**
-	 * Контент
+	 * Content
 	 */
 	@Lob
 	private byte[] fileContent;
