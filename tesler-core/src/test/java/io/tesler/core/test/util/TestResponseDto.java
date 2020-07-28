@@ -54,17 +54,29 @@ public class TestResponseDto extends DataResponseDTO {
 	@SearchParameter(name = "multiValueFieldKey", provider = MultiFieldValueProvider.class)
 	private MultivalueField multivalueField;
 
+	@SearchParameter(provider = MultiFieldValueProvider.class)
+	private MultivalueField emptyNameMultiValueField;
+
 	@SearchParameter(provider = LongValueProvider.class)
 	private Long aLong;
 
 	@SearchParameter(provider = DateTimeValueProvider.class)
 	private LocalDateTime dateTime;
 
+	@SearchParameter(strict = true, provider = DateTimeValueProvider.class)
+	private LocalDateTime strictDateTime;
+
 	@SearchParameter(provider = DateValueProvider.class)
 	private LocalDateTime date;
 
+	@SearchParameter(strict = true, provider = DateValueProvider.class)
+	private LocalDateTime strictDate;
+
 	@SearchParameter(provider = BigDecimalValueProvider.class)
 	private BigDecimal bigDecimal;
+
+	@SearchParameter(suppressProcess = true)
+	private String suppressProcessString;
 
 	@MultisourceSearchParameter({
 			@SearchParameter(name = "multisource1"),
@@ -77,4 +89,7 @@ public class TestResponseDto extends DataResponseDTO {
 	@SearchParameter(provider = LovValueProvider.class)
 	@Lov(DictionaryType.TASK_TYPE)
 	private String lov;
+
+	@SearchParameter(provider = LovValueProvider.class)
+	private String lovWithoutAnnotation;
 }
