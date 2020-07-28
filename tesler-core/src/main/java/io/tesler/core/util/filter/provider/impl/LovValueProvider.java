@@ -21,6 +21,7 @@
 package io.tesler.core.util.filter.provider.impl;
 
 import io.tesler.api.data.dictionary.IDictionaryType;
+import io.tesler.api.exception.ServerException;
 import io.tesler.core.controller.param.FilterParameter;
 import io.tesler.core.dao.ClassifyDataParameter;
 import io.tesler.core.dto.LovUtils;
@@ -49,7 +50,7 @@ public class LovValueProvider extends AbstractClassifyDataProvider implements Cl
 		List<ClassifyDataParameter> result;
 		IDictionaryType type = LovUtils.getType(dtoField);
 		if (type == null) {
-			throw new IllegalArgumentException(
+			throw new ServerException(
 					errorMessage("error.missing_lov_annotation", dtoField.getName()));
 		}
 		if (CONTAINS_ONE_OF.equals(dataParameter.getOperator()) || EQUALS_ONE_OF.equals(dataParameter.getOperator())) {
