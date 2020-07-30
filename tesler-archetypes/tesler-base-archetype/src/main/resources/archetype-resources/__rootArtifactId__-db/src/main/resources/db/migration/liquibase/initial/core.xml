@@ -330,6 +330,7 @@
             <column name="BC_NAME" remarks="Имя БК" type="VARCHAR2(255)"/>
             <column name="FIELD_TYPE" remarks="Тип справочника связанного поля" type="VARCHAR2(255)"/>
             <column name="FIELD_BOOLEAN_VALUE" type="NUMBER(1, 0)"/>
+            <column name="FIELD_MULTI_VALUE" type="VARCHAR2(255)"/>
             <column defaultValueNumeric="0" name="RULE_INVERSION_FLG" remarks="Инверсия результата выполнения условия" type="NUMBER(1)">
                 <constraints nullable="false"/>
             </column>

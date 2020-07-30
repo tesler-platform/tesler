@@ -300,6 +300,8 @@ public class CoreDictionaries {
 
 		public static final LOV BOOLEAN_FIELD = new LOV("BOOLEAN_FIELD");
 
+		public static final LOV MULTISELECT_FIELD = new LOV("MULTISELECT_FIELD");
+
 	}
 
 	@UtilityClass

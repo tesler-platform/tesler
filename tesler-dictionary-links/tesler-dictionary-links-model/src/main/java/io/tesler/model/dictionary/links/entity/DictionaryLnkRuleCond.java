@@ -52,6 +52,8 @@ public class DictionaryLnkRuleCond extends BaseEntity {
 
 	private String fieldType;
 
+	private String fieldMultiValue;
+
 	private boolean ruleInversionFlg;
 
 	@ManyToOne
