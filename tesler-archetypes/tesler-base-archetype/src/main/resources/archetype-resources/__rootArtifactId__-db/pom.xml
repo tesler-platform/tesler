@@ -22,6 +22,11 @@
       <groupId>io.tesler</groupId>
       <artifactId>tesler-liquibase</artifactId>
     </dependency>
+    <dependency>
+      <groupId>org.postgresql</groupId>
+      <artifactId>postgresql</artifactId>
+      <version>42.2.8</version>
+    </dependency>
   </dependencies>
 
   <build>
@@ -29,6 +34,7 @@
       <plugin>
         <groupId>org.liquibase</groupId>
         <artifactId>liquibase-maven-plugin</artifactId>
+        <version>3.6.3</version>
         <configuration>
           <skip>false</skip>
           <driver>${dollar.sign}{jdbc.driver}</driver>

@@ -19,6 +19,12 @@
         <module>${dollar.sign}{rootArtifactId}-it</module>
       </modules>
     </profile>
+    <profile>
+      <id>UI</id>
+      <modules>
+        <module>${dollar.sign}{rootArtifactId}-ui</module>
+      </modules>
+    </profile>
   </profiles>
 
   <modules>
