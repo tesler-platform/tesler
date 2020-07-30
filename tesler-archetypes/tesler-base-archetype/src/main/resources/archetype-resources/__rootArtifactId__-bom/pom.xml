@@ -47,6 +47,11 @@
         <version>${dollar.sign}{version}</version>
         <classifier>tests</classifier>
       </dependency>
+      <dependency>
+        <groupId>${dollar.sign}{groupId}</groupId>
+        <artifactId>${dollar.sign}{rootArtifactId}-ui</artifactId>
+        <version>${dollar.sign}{version}</version>
+      </dependency>
     </dependencies>
   </dependencyManagement>
 

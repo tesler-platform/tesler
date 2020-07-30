@@ -139,6 +139,12 @@
         <include>pom.xml</include>
       </includes>
     </fileSet>
+    <fileSet filtered="true">
+      <directory>__rootArtifactId__-ui-template</directory>
+      <includes>
+        <include>pom.xml</include>
+      </includes>
+    </fileSet>
   </fileSets>
 
 </archetype-descriptor>

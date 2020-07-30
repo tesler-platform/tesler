@@ -1,0 +1,99 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+  <modelVersion>4.0.0</modelVersion>
+  <artifactId>${dollar.sign}{rootArtifactId}-ui</artifactId>
+  <packaging>jar</packaging>
+  <version>${dollar.sign}{version}</version>
+  <name>${dollar.sign}{appUpperCaseName} - UI</name>
+
+  <parent>
+    <groupId>${dollar.sign}{groupId}</groupId>
+    <artifactId>${dollar.sign}{rootArtifactId}-base</artifactId>
+    <version>${dollar.sign}{version}</version>
+    <relativePath>../${dollar.sign}{rootArtifactId}-base/pom.xml</relativePath>
+  </parent>
+
+  <build>
+    <plugins>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-clean-plugin</artifactId>
+        <configuration>
+          <filesets>
+            <fileset>
+              <directory>node_modules</directory>
+            </fileset>
+            <fileset>
+              <directory>build</directory>
+            </fileset>
+          </filesets>
+        </configuration>
+      </plugin>
+
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>exec-maven-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>exec-npm-install</id>
+            <phase>generate-sources</phase>
+            <configuration>
+              <workingDirectory>${dollar.sign}{project.basedir}</workingDirectory>
+              <executable>npm</executable>
+              <arguments>
+                <argument>install</argument>
+              </arguments>
+            </configuration>
+            <goals>
+              <goal>exec</goal>
+            </goals>
+          </execution>
+          <execution>
+            <id>exec-npm-run-build</id>
+            <phase>generate-sources</phase>
+            <configuration>
+              <workingDirectory>${dollar.sign}{project.basedir}</workingDirectory>
+              <executable>npm</executable>
+              <arguments>
+                <argument>run</argument>
+                <argument>build</argument>
+              </arguments>
+            </configuration>
+            <goals>
+              <goal>exec</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-resources-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>ui-resources</id>
+            <phase>prepare-package</phase>
+            <goals>
+              <goal>copy-resources</goal>
+            </goals>
+            <configuration>
+              <outputDirectory>${dollar.sign}{project.build.outputDirectory}/ui</outputDirectory>
+              <resources>
+                <resource>
+                  <directory>${dollar.sign}{project.basedir}/build</directory>
+                  <filtering>false</filtering>
+                </resource>
+              </resources>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+
+    </plugins>
+
+  </build>
+
+
+</project>
