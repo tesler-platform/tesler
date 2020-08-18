@@ -44,8 +44,14 @@ public class BcState implements Serializable {
 
 	/**
 	 * Flag that indicates whether the record was stored in persistence layer
-	 * if false, record should be created before Crudma method call
+	 * if false, pendingAction should be processed before Crudma method call
 	 */
 	private final boolean isPersisted;
+
+	/**
+	 * If record is not persisted, this field can be used to determine which action
+	 * should be used to persist the record before Crudma method call
+	 */
+	private final String pendingAction;
 
 }

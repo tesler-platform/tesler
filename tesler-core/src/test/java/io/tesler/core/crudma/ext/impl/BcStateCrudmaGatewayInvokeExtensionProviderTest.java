@@ -93,7 +93,7 @@ class BcStateCrudmaGatewayInvokeExtensionProviderTest {
 		when(respFactory.getService(any())).thenReturn(responseService);
 		when(bcRegistry.getBcDescription(anyString())).thenReturn(bcDescription);
 		when(bcFactory.getBusinessComponent(any(), any())).thenReturn(bc);
-		when(bcStateAware.getState(any())).thenReturn(new BcState(null, true));
+		when(bcStateAware.getState(any())).thenReturn(new BcState(null, true, null));
 		when(bcStateAware.isPersisted(any())).thenReturn(true);
 	}
 

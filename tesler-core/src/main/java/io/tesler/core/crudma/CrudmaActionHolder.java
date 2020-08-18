@@ -91,6 +91,11 @@ public class CrudmaActionHolder {
 		return this;
 	}
 
+	public CrudmaActionHolder setOriginalActionType(String originalActionType) {
+		Objects.requireNonNull(crudmaAction).setOriginalActionType(originalActionType);
+		return this;
+	}
+
 	@RequiredArgsConstructor
 	@Accessors(chain = true)
 	@ToString
@@ -114,6 +119,14 @@ public class CrudmaActionHolder {
 		@Getter
 		@Setter
 		private IObligationSet obligationSet;
+
+		/**
+		 * If action has been initiated as custom action and transformed to CrudmaAction via `actionRole` parameter,
+		 * this field is used to store an original action name.
+		 */
+		@Getter
+		@Setter
+		private String originalActionType;
 
 		@Override
 		public CrudmaAction getContext() {

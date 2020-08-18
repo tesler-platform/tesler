@@ -48,7 +48,7 @@ class BcStateAwareImplTest {
 	private static final BcHierarchy BC_HIERARCHY =
 			new BcHierarchy("screenName", "bcName", "id", null);
 
-	private static final BcState STATE = new BcState(new TestResponseDto(), false);
+	private static final BcState STATE = new BcState(new TestResponseDto(), false, null);
 
 	@BeforeEach
 	void setUp() {

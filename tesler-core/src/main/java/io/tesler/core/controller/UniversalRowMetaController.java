@@ -55,9 +55,10 @@ public class UniversalRowMetaController {
 	public ResponseDTO rowMetaNew(
 			HttpServletRequest request,
 			QueryParameters queryParameters) {
+		final String action = queryParameters.getParameter("_action");
 		BusinessComponent bc = bcFactory.getBusinessComponent(request, queryParameters);
 		CrudmaAction crudmaAction = crudmaActionHolder.of(CrudmaActionType.CREATE)
-				.setBc(bc).setDescription(
+				.setBc(bc).setOriginalActionType(action).setDescription(
 						String.format(
 								"Создание записи %s, parentId: %s",
 								bc.getDescription().getName(),

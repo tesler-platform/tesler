@@ -97,9 +97,10 @@ public class UniversalDataController {
 		} else {
 			requestBody = (Map) requestBody.get("data");
 		}
+		final String action = queryParameters.getParameter("_action");
 		BusinessComponent bc = bcFactory.getBusinessComponent(request, queryParameters);
 		CrudmaAction crudmaAction = crudmaActionHolder.of(CrudmaActionType.UPDATE)
-				.setBc(bc).setDescription(
+				.setBc(bc).setOriginalActionType(action).setDescription(
 						String.format(
 								"Изменение записи %s, id: %s, parentId: %s",
 								bc.getDescription().getName(),
@@ -115,8 +116,9 @@ public class UniversalDataController {
 			QueryParameters queryParameters
 	) {
 		BusinessComponent bc = bcFactory.getBusinessComponent(request, queryParameters);
+		final String action = queryParameters.getParameter("_action");
 		CrudmaAction crudmaAction = crudmaActionHolder.of(CrudmaActionType.DELETE)
-				.setBc(bc).setDescription(
+				.setBc(bc).setOriginalActionType(action).setDescription(
 						String.format(
 								"Удаление записи %s, id: %s, parentId: %s",
 								bc.getDescription().getName(),

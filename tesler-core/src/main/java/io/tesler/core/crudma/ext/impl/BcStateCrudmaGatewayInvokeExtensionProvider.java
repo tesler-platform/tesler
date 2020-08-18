@@ -49,6 +49,7 @@ import org.springframework.stereotype.Component;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 import static com.google.common.collect.Sets.immutableEnumSet;
 import static io.tesler.core.crudma.CrudmaActionType.*;
@@ -100,14 +101,17 @@ public class BcStateCrudmaGatewayInvokeExtensionProvider implements CrudmaGatewa
 					bc.withId(result.getDto().getId()),
 					result.getMeta().getPostActions()
 			));
-			bcStateAware.set(result.getBc(), new BcState(null, false));
+			BcState bcState = new BcState(null,false,
+					Optional.ofNullable(crudmaAction.getOriginalActionType()).orElse(ActionType.CREATE.getType())
+			);
+			bcStateAware.set(result.getBc(), bcState);
 			addActionCancel(bc, result.getMeta().getRow().getActions());
 		}
 		if (Objects.equals(crudmaAction.getActionType(), CrudmaActionType.PREVIEW) && readOnly) {
 			InterimResult result = (InterimResult) invokeResult;
 			boolean isRecordPersisted = bcStateAware.isPersisted(bc);
 			bcStateAware.clear();
-			bcStateAware.set(result.getBc(), new BcState(result.getDto(), isRecordPersisted));
+			bcStateAware.set(result.getBc(), new BcState(result.getDto(), isRecordPersisted, ActionType.CREATE.getType()));
 			if (!bcStateAware.isPersisted(bc)) {
 				addActionCancel(bc, result.getMeta().getRow().getActions());
 			}
@@ -154,6 +158,11 @@ public class BcStateCrudmaGatewayInvokeExtensionProvider implements CrudmaGatewa
 			}
 			if (!(bc.getDescription() instanceof InnerBcDescription)) {
 				continue;
+			}
+			if (state.getPendingAction() != null) {
+				QueryParameters originalParameters = bc.getParameters();
+				originalParameters.setParameter("_action", state.getPendingAction());
+				bc.setParameters(originalParameters);
 			}
 			final ResponseService<?, ?> responseService = getResponseService(bc);
 			if (!bcStateAware.isPersisted(bc)) {
