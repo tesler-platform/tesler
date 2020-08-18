@@ -70,8 +70,9 @@ public class UniversalAssociateController {
 		if (data == null) {
 			throw new ClientException("request must contain body");
 		}
+		final String action = queryParameters.getParameter("_action");
 		CrudmaAction crudmaAction = crudmaActionHolder.of(CrudmaActionType.ASSOCIATE)
-				.setBc(bc).setDescription(
+				.setBc(bc).setOriginalActionType(action).setDescription(
 						String.format(
 								"Связывание %s, id: %s, parentId: %s",
 								bc.getDescription().getName(),
