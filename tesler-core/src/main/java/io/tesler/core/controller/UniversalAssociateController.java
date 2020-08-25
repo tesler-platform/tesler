@@ -21,6 +21,7 @@
 package io.tesler.core.controller;
 
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
+import static io.tesler.api.util.i18n.InfoMessageSource.infoMessage;
 
 import io.tesler.api.data.dto.AssociateDTO;
 import io.tesler.core.controller.param.QueryParameters;
@@ -73,8 +74,8 @@ public class UniversalAssociateController {
 		final String action = queryParameters.getParameter("_action");
 		CrudmaAction crudmaAction = crudmaActionHolder.of(CrudmaActionType.ASSOCIATE)
 				.setBc(bc).setOriginalActionType(action).setDescription(
-						String.format(
-								"Связывание %s, id: %s, parentId: %s",
+						infoMessage(
+								"info.associate_request",
 								bc.getDescription().getName(),
 								bc.getId(),
 								bc.getParentId()
