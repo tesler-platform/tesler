@@ -20,6 +20,8 @@
 
 package io.tesler.core.controller;
 
+import static io.tesler.api.util.i18n.InfoMessageSource.infoMessage;
+
 import io.tesler.core.controller.param.QueryParameters;
 import io.tesler.core.crudma.CrudmaActionHolder;
 import io.tesler.core.crudma.CrudmaActionHolder.CrudmaAction;
@@ -59,8 +61,8 @@ public class UniversalRowMetaController {
 		BusinessComponent bc = bcFactory.getBusinessComponent(request, queryParameters);
 		CrudmaAction crudmaAction = crudmaActionHolder.of(CrudmaActionType.CREATE)
 				.setBc(bc).setOriginalActionType(action).setDescription(
-						String.format(
-								"Создание записи %s, parentId: %s",
+						infoMessage(
+								"info.record_create_request",
 								bc.getDescription().getName(),
 								bc.getParentId()
 						)
@@ -73,8 +75,8 @@ public class UniversalRowMetaController {
 		BusinessComponent bc = bcFactory.getBusinessComponent(request, queryParameters);
 		CrudmaAction crudmaAction = crudmaActionHolder.of(CrudmaActionType.META)
 				.setBc(bc).setDescription(
-						String.format(
-								"Получение MetaEmpty %s, parentId: %s",
+						infoMessage(
+								"info.row_meta_empty_request",
 								bc.getDescription().getName(),
 								bc.getParentId()
 						)
@@ -87,8 +89,8 @@ public class UniversalRowMetaController {
 		BusinessComponent bc = bcFactory.getBusinessComponent(request, queryParameters);
 		CrudmaAction crudmaAction = crudmaActionHolder.of(CrudmaActionType.META)
 				.setBc(bc).setDescription(
-						String.format(
-								"Получение Meta %s, id: %s, parentId: %s",
+						infoMessage(
+								"info.row_meta_request",
 								bc.getDescription().getName(),
 								bc.getId(),
 								bc.getParentId()
@@ -110,8 +112,8 @@ public class UniversalRowMetaController {
 		BusinessComponent bc = bcFactory.getBusinessComponent(request, queryParameters);
 		CrudmaAction crudmaAction = crudmaActionHolder.of(CrudmaActionType.PREVIEW)
 				.setBc(bc).setDescription(
-						String.format(
-								"Предпросмотр записи %s, id: %s, parentId: %s",
+						infoMessage(
+								"info.record_preview_request",
 								bc.getDescription().getName(),
 								bc.getId(),
 								bc.getParentId()
