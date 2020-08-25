@@ -251,7 +251,7 @@ public abstract class AbstractResponseService<T extends DataResponseDTO, E exten
 				record = doGetOne(bc);
 			}
 		}
-		return action.invoke(bc, record);
+		return action.invoke(bc, Optional.ofNullable(record).orElse((T)data));
 	}
 
 
