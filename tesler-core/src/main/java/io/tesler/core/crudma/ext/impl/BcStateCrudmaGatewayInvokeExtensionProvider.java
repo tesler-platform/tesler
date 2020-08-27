@@ -111,7 +111,13 @@ public class BcStateCrudmaGatewayInvokeExtensionProvider implements CrudmaGatewa
 			InterimResult result = (InterimResult) invokeResult;
 			boolean isRecordPersisted = bcStateAware.isPersisted(bc);
 			bcStateAware.clear();
-			bcStateAware.set(result.getBc(), new BcState(result.getDto(), isRecordPersisted, ActionType.CREATE.getType()));
+			bcStateAware.set(result.getBc(),
+					new BcState(
+							result.getDto(),
+							isRecordPersisted,
+							Optional.ofNullable(result.getBc()).map(BusinessComponent::getParameters)
+									.map(par -> par.getParameter("_action")).orElse((ActionType.CREATE.getType()))
+					));
 			if (!bcStateAware.isPersisted(bc)) {
 				addActionCancel(bc, result.getMeta().getRow().getActions());
 			}
