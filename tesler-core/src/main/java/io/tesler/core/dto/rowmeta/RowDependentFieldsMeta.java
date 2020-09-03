@@ -29,8 +29,8 @@ import io.tesler.api.data.dto.DataResponseDTO;
 import io.tesler.api.data.dto.rowmeta.FieldsDTO;
 import io.tesler.api.data.dto.rowmeta.IconCode;
 import io.tesler.constgen.DtoField;
-import io.tesler.core.dto.DrillDownType;
 import io.tesler.core.dto.FieldDrillDown;
+import io.tesler.core.service.action.DrillDownTypeSpecifier;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -203,7 +203,7 @@ public class RowDependentFieldsMeta<T extends DataResponseDTO> extends FieldsDTO
 				});
 	}
 
-	public final void setDrilldown(DtoField<? super T, ?> field, DrillDownType drillDownType, String drillDown) {
+	public final void setDrilldown(DtoField<? super T, ?> field, DrillDownTypeSpecifier drillDownType, String drillDown) {
 		Optional.ofNullable(field).map(dtoField -> fields.get(dtoField.getName()))
 				.ifPresent(fieldDTO -> {
 					fieldDTO.setDrillDown(drillDown);
