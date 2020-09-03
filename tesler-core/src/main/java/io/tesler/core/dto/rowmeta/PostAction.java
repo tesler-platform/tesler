@@ -23,8 +23,8 @@ package io.tesler.core.dto.rowmeta;
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import io.tesler.core.crudma.bc.BcIdentifier;
-import io.tesler.core.dto.DrillDownType;
 import io.tesler.core.dto.MessageType;
+import io.tesler.core.service.action.DrillDownTypeSpecifier;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -132,11 +132,11 @@ public class PostAction {
 				.add(BasePostActionField.PICK_LIST, pickList);
 	}
 
-	public static PostAction drillDown(DrillDownType drillDownType, String url) {
+	public static PostAction drillDown(DrillDownTypeSpecifier drillDownType, String url) {
 		return drillDown(drillDownType, url, null);
 	}
 
-	public static PostAction drillDown(DrillDownType drillDownType, String url, String urlName) {
+	public static PostAction drillDown(DrillDownTypeSpecifier drillDownType, String url, String urlName) {
 		return new PostAction()
 				.add(BasePostActionField.TYPE, BasePostActionType.DRILL_DOWN)
 				.add(BasePostActionField.URL, url)

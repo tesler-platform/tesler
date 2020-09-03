@@ -21,13 +21,14 @@
 package io.tesler.core.dto;
 
 import io.tesler.api.util.MapUtils;
+import io.tesler.core.service.action.DrillDownTypeSpecifier;
 import java.util.Map;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public enum DrillDownType {
+public enum DrillDownType implements DrillDownTypeSpecifier {
 
 	/**
 	 * Transition inside the application. Current tab
