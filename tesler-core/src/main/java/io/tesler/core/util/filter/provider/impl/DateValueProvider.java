@@ -34,7 +34,6 @@ import org.springframework.stereotype.Component;
 import java.lang.reflect.Field;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import static io.tesler.core.controller.param.SearchOperation.CONTAINS_ONE_OF;
@@ -63,7 +62,7 @@ public class DateValueProvider extends AbstractClassifyDataProvider implements C
 		} else {
 			setClassifyDateParameterDateValue(dataParameter, filterParam, FieldDTO.isTzAware(dtoField), searchParam, result);
 		}
-		result = Collections.singletonList(dataParameter);
+		result.add(dataParameter);
 		return result;
 	}
 

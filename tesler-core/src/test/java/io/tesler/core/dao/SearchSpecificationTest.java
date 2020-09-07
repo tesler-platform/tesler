@@ -91,7 +91,7 @@ class SearchSpecificationTest {
 	@Test
 	void searchSpecTest() {
 		FilterParameters fp = FilterParameters.fromMap(successMap);
-		Assertions.assertEquals(MetadataUtils.mapSearchParamsToPOJO(TestResponseDto.class, fp, providers).size(), 30);
+		Assertions.assertEquals(MetadataUtils.mapSearchParamsToPOJO(TestResponseDto.class, fp, providers).size(), 31);
 	}
 
 	@Test
