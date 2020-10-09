@@ -79,8 +79,6 @@ public class SessionServiceImpl implements SessionService {
 
 	private final BcHierarchyAware bcHierarchyAware;
 
-	private final SessionCache sessionCache;
-
 	private final GroupService groupService;
 
 	// если у нас транзакции нет, то здесь будут происходить
@@ -219,7 +217,7 @@ public class SessionServiceImpl implements SessionService {
 
 	@Override
 	public Map<String, Boolean> getResponsibilities() {
-		return sessionCache.getResponsibilities(getSessionUser(), getSessionUserRole());
+		return uiService.getResponsibilities(getSessionUser(),getSessionUserRole());
 	}
 
 	@Override
@@ -269,7 +267,7 @@ public class SessionServiceImpl implements SessionService {
 
 	@Override
 	public List<String> getViews(final String screenName) {
-		return sessionCache.getViews(screenName, getSessionUser(), getSessionUserRole());
+		return uiService.getViews(screenName, getSessionUser(), getSessionUserRole());
 	}
 
 	@Cacheable(cacheNames = {CacheConfig.REQUEST_CACHE}, key = "#root.methodName")
@@ -277,36 +275,4 @@ public class SessionServiceImpl implements SessionService {
 	public Set<Long> getAllUserGroups() {
 		return groupService.getUserAllGroups(getSessionUser());
 	}
-
-	@Component
-	@RequiredArgsConstructor
-	public static class SessionCache {
-
-		private final UIService uiService;
-
-		@Cacheable(
-				cacheNames = {CacheConfig.SESSION_CACHE},
-				key = "{#root.methodName, #user.id, #userRole}"
-		)
-		public Map<String, Boolean> getResponsibilities(final User user, final LOV userRole) {
-			return uiService.getResponsibilities(
-					user,
-					userRole
-			);
-		}
-
-		@Cacheable(
-				cacheNames = {CacheConfig.SESSION_CACHE},
-				key = "{#root.methodName, #screenName, #user.id, #userRole}"
-		)
-		public List<String> getViews(final String screenName, final User user, final LOV userRole) {
-			return uiService.getViews(
-					screenName,
-					user,
-					userRole
-			);
-		}
-
-	}
-
 }
