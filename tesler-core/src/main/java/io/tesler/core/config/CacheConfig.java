@@ -51,6 +51,8 @@ public class CacheConfig extends CachingConfigurerSupport {
 
 	public static final String WORKFLOW_CACHE = "workflow";
 
+	public static final String USER_CACHE = "userCache";
+
 	public static final String REQUEST_CACHE = "requestCache";
 
 	public static final String LINKED_DICTIONARY_RULES = "linkedDictionaryRules";
@@ -60,6 +62,11 @@ public class CacheConfig extends CachingConfigurerSupport {
 	public static final String UI_CACHE = "widgetcache";
 
 	private final ApplicationContext applicationContext;
+
+	@Bean(name = USER_CACHE)
+	public Cache sessionCache() {
+		return new ConcurrentMapCache(USER_CACHE);
+	}
 
 	@Bean(name = REQUEST_CACHE)
 	@RequestScope
@@ -85,7 +92,7 @@ public class CacheConfig extends CachingConfigurerSupport {
 				SPECIFICATION_CACHE,
 				UI_CACHE
 		));
-		result.add(buildRequestAwareCacheManager(REQUEST_CACHE));
+		result.add(buildRequestAwareCacheManager(USER_CACHE, REQUEST_CACHE));
 		return result;
 	}
 

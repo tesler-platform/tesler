@@ -52,6 +52,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.security.web.authentication.session.SessionAuthenticationException;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -77,6 +78,8 @@ public class SessionServiceImpl implements SessionService {
 	private final CoreSessionService coreSessionService;
 
 	private final BcHierarchyAware bcHierarchyAware;
+
+	private final SessionCache sessionCache;
 
 	private final GroupService groupService;
 
@@ -216,7 +219,7 @@ public class SessionServiceImpl implements SessionService {
 
 	@Override
 	public Map<String, Boolean> getResponsibilities() {
-		return uiService.getResponsibilities(getSessionUser(),getSessionUserRole());
+		return sessionCache.getResponsibilities(getSessionUser(), getSessionUserRole());
 	}
 
 	@Override
@@ -266,7 +269,7 @@ public class SessionServiceImpl implements SessionService {
 
 	@Override
 	public List<String> getViews(final String screenName) {
-		return uiService.getViews(screenName, getSessionUser(), getSessionUserRole());
+		return sessionCache.getViews(screenName, getSessionUser(), getSessionUserRole());
 	}
 
 	@Cacheable(cacheNames = {CacheConfig.REQUEST_CACHE}, key = "#root.methodName")
@@ -274,4 +277,36 @@ public class SessionServiceImpl implements SessionService {
 	public Set<Long> getAllUserGroups() {
 		return groupService.getUserAllGroups(getSessionUser());
 	}
+
+	@Component
+	@RequiredArgsConstructor
+	public static class SessionCache {
+
+		private final UIService uiService;
+
+		@Cacheable(
+				cacheNames = {CacheConfig.USER_CACHE},
+				key = "{#root.methodName, #user.id, #userRole}"
+		)
+		public Map<String, Boolean> getResponsibilities(final User user, final LOV userRole) {
+			return uiService.getResponsibilities(
+					user,
+					userRole
+			);
+		}
+
+		@Cacheable(
+				cacheNames = {CacheConfig.USER_CACHE},
+				key = "{#root.methodName, #screenName, #user.id, #userRole}"
+		)
+		public List<String> getViews(final String screenName, final User user, final LOV userRole) {
+			return uiService.getViews(
+					screenName,
+					user,
+					userRole
+			);
+		}
+
+	}
+
 }
