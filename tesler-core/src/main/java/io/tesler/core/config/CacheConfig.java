@@ -64,7 +64,7 @@ public class CacheConfig extends CachingConfigurerSupport {
 	private final ApplicationContext applicationContext;
 
 	@Bean(name = USER_CACHE)
-	public Cache sessionCache() {
+	public Cache userCache() {
 		return new ConcurrentMapCache(USER_CACHE);
 	}
 
