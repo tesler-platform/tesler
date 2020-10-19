@@ -44,7 +44,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.hibernate.Session;
 import org.hibernate.criterion.CriteriaSpecification;
 import org.hibernate.query.Query;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.orm.jpa.vendor.Database;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -57,15 +59,19 @@ public class BaseDAOImpl extends JpaDaoImpl implements BaseDAO {
 
 	private final List<ClassifyDataProvider> providers;
 
+	private final Database primaryDatabase;
+
 	public BaseDAOImpl(
 			Set<EntityManager> entityManagers,
 			TransactionService txService,
 			Optional<IPdqExtractor> pdqExtractor,
-			List<ClassifyDataProvider> providers
+			List<ClassifyDataProvider> providers,
+			@Qualifier("primaryDatabase") Database primaryDatabase
 	) {
 		super(entityManagers, txService);
 		this.pdqExtractor = pdqExtractor;
 		this.providers = providers;
+		this.primaryDatabase = primaryDatabase;
 	}
 
 	private Specification getPdqSearchSpec(final QueryParameters queryParameters) {
@@ -174,6 +180,18 @@ public class BaseDAOImpl extends JpaDaoImpl implements BaseDAO {
 		int joinsInRoot = root.getJoins().size();
 		Predicate searchParamsPredicate = getPredicateFromSearchParams(cb, root, dtoClazz, filter);
 
+		// TODO: Narrow it down based on criteria
+		boolean distinctRequired = root.getJoins().size() > joinsInRoot;
+		/**
+		 * Non-Oracle DB can handle distinct for CLOBs so it can be applied
+		 * as sql clause.
+		 *
+		 * @see https://hibernate.atlassian.net/browse/HHH-3606
+		 */
+		if (!this.primaryDatabase.equals(Database.ORACLE) && distinctRequired) {
+			cq.distinct(true);
+		}
+
 		if (cq.getRestriction() != null) {
 			cq.where(cb.and(
 					cq.getRestriction(),
@@ -205,13 +223,14 @@ public class BaseDAOImpl extends JpaDaoImpl implements BaseDAO {
 		 * because it does not support CLOBs and criteria query's `distinct()` can't properly handle
 		 * `QueryHints.HINT_PASS_DISTINCT_THROUGH` in nested (i.e. paginated) requests.
 		 *
-		 * @see https://hibernate.atlassian.net/browse/HHH-3606
+		 * Downside is that when distinct actually does filters out duplicates the number of records
+		 * in result set will be less than required by pagination parameters.
+		 *
 		 * @see https://hibernate.atlassian.net/browse/HHH-11726
 		 * @see https://discourse.hibernate.org/t/hibernate-resulttransformer-is-deprecated-what-to-use-instead/232
 		 *
-		 * TODO: It's possible to narrow this transform to apply only when needed by criteria
 		 */
-		if (root.getJoins().size() > joinsInRoot) {
+		if (this.primaryDatabase.equals(Database.ORACLE) && distinctRequired) {
 			query.setResultTransformer(CriteriaSpecification.DISTINCT_ROOT_ENTITY);
 		}
 
