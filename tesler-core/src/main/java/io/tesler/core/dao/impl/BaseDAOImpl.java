@@ -35,13 +35,15 @@ import java.util.Optional;
 import java.util.Set;
 import javax.persistence.EntityGraph;
 import javax.persistence.EntityManager;
-import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import javax.persistence.metamodel.SingularAttribute;
 import lombok.extern.slf4j.Slf4j;
+import org.hibernate.Session;
+import org.hibernate.criterion.CriteriaSpecification;
+import org.hibernate.query.Query;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -172,10 +174,6 @@ public class BaseDAOImpl extends JpaDaoImpl implements BaseDAO {
 		int joinsInRoot = root.getJoins().size();
 		Predicate searchParamsPredicate = getPredicateFromSearchParams(cb, root, dtoClazz, filter);
 
-		if (root.getJoins().size() > joinsInRoot) {
-			cq.distinct(true);
-		}
-
 		if (cq.getRestriction() != null) {
 			cq.where(cb.and(
 					cq.getRestriction(),
@@ -192,12 +190,31 @@ public class BaseDAOImpl extends JpaDaoImpl implements BaseDAO {
 		}
 		MetadataUtils.addSorting(dtoClazz, root, cq, cb, sort);
 
-		// правильно было бы вызывать
 		// query.setHint("javax.persistence.fetchgraph", fetchGraph)
-		// но возникают проблемы с производительностью
+		// more correct but causes performance troubles
 		applyGraph(root, fetchGraph);
 
-		TypedQuery<T> query = applyPaging(entityManager.createQuery(cq), parameters.getPage());
+		Query<T> query = entityManager.unwrap(Session.class).getSession().createQuery(cq);
+		applyPaging(query, parameters.getPage());
+
+		/**
+		 * Joins from filters (e.g. multivalue fields) can cause duplications in result set,
+		 * which are handled by applying `distinct` in memory.
+		 *
+		 * Deprecated `setResultTransformer` usage due to DB-level `distinct` clause is not applicable
+		 * because it does not support CLOBs and criteria query's `distinct()` can't properly handle
+		 * `QueryHints.HINT_PASS_DISTINCT_THROUGH` in nested (i.e. paginated) requests.
+		 *
+		 * @see https://hibernate.atlassian.net/browse/HHH-3606
+		 * @see https://hibernate.atlassian.net/browse/HHH-11726
+		 * @see https://discourse.hibernate.org/t/hibernate-resulttransformer-is-deprecated-what-to-use-instead/232
+		 *
+		 * TODO: It's possible to narrow this transform to apply only when needed by criteria
+		 */
+		if (root.getJoins().size() > joinsInRoot) {
+			query.setResultTransformer(CriteriaSpecification.DISTINCT_ROOT_ENTITY);
+		}
+
 		return ResultPage.of(query.getResultList(), parameters.getPage());
 	}
 
