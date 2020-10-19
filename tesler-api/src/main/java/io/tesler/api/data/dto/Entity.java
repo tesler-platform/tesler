@@ -20,6 +20,8 @@
 
 package io.tesler.api.data.dto;
 
-public interface Entity {
+import java.io.Serializable;
+
+public interface Entity extends Serializable {
 
 }

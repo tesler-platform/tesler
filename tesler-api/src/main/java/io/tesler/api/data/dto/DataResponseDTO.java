@@ -26,6 +26,8 @@ import io.tesler.api.data.IDataContainer;
 import io.tesler.constgen.DtoField;
 import io.tesler.constgen.DtoMetamodelIgnore;
 import io.tesler.constgen.GeneratesDtoMetamodel;
+
+import java.io.Serializable;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.function.Function;
@@ -36,7 +38,7 @@ import lombok.Setter;
 @Setter
 @GeneratesDtoMetamodel
 @JsonFilter("dtoPropertyFilter")
-public abstract class DataResponseDTO implements CheckedDto, IDataContainer<DataResponseDTO> {
+public abstract class DataResponseDTO implements CheckedDto, IDataContainer<DataResponseDTO>, Serializable {
 
 	@JsonIgnore
 	@DtoMetamodelIgnore
