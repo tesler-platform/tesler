@@ -57,17 +57,12 @@ public class GlobalExceptionHandler {
 	private ExceptionHandlerSettings settings;
 
 	@ExceptionHandler(Exception.class)
-	public ResponseEntity<String> exception(Exception e) {
+	@ResponseStatus(value = INTERNAL_SERVER_ERROR)
+	@ResponseBody
+	public ErrorResponseDTO exception(Exception e) {
 		UUID uuid = UUID.randomUUID();
 		log.error(buildLogMessage(e, uuid), e);
-		return buildResponse(buildResponseBody(e, uuid), INTERNAL_SERVER_ERROR);
-	}
-
-	@ExceptionHandler(ServerException.class)
-	public ResponseEntity<String> serverException(ServerException e) {
-		UUID uuid = UUID.randomUUID();
-		log.error(buildLogMessage(e, uuid), e);
-		return buildResponse(buildResponseBody(e, uuid), INTERNAL_SERVER_ERROR);
+		return new ErrorResponseDTO(buildResponseBody(e, uuid));
 	}
 
 	@ExceptionHandler(ClientException.class)
@@ -108,7 +103,7 @@ public class GlobalExceptionHandler {
 
 	private ResponseEntity<String> buildResponse(String message, HttpStatus status) {
 		HttpHeaders headers = new HttpHeaders();
-		headers.setContentType(MediaType.valueOf("text/plain;charset=UTF-8"));
+		headers.setContentType(MediaType.valueOf("application/json;charset=UTF-8"));
 		return new ResponseEntity<>(message, headers, status);
 	}
 

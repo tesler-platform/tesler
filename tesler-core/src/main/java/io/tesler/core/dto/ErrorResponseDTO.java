@@ -34,7 +34,13 @@ public final class ErrorResponseDTO {
 
 	private Object data;
 
-	private final BusinessError error;
+	private String errorMessage;
+
+	private BusinessError error;
+
+	public ErrorResponseDTO(String e) {
+		this.errorMessage = e;
+	}
 
 	public ErrorResponseDTO(BusinessException e) {
 		this.error = new BusinessError(e.getPopup(), e.getEntity(), null, e.getPostActions());
