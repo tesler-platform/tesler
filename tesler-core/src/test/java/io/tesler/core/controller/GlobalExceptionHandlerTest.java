@@ -23,7 +23,6 @@ package io.tesler.core.controller;
 import static io.tesler.api.util.i18n.ErrorMessageSource.errorMessage;
 import static org.mockito.Mockito.when;
 
-import io.tesler.api.exception.ServerException;
 import io.tesler.core.dto.ErrorResponseDTO;
 import io.tesler.core.exception.BusinessException;
 import io.tesler.core.exception.BusinessIntermediateException;
@@ -61,14 +60,8 @@ class GlobalExceptionHandlerTest {
 
 	@Test
 	void testException() {
-		ResponseEntity<String> result = globalExceptionHandler.exception(new Exception("something is wrong"));
-		Assertions.assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, result.getStatusCode());
-	}
-
-	@Test
-	void testServerException() {
-		ResponseEntity<String> result = globalExceptionHandler.serverException(new ServerException("message", null));
-		Assertions.assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, result.getStatusCode());
+		ErrorResponseDTO result = globalExceptionHandler.exception(new Exception("something is wrong"));
+		Assertions.assertTrue(result.getErrorMessage().contains("something is wrong"));
 	}
 
 	@Test
