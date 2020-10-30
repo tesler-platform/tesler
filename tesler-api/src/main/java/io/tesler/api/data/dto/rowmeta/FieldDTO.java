@@ -31,7 +31,9 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import java.lang.reflect.Field;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.LinkedHashSet;
+import java.util.Map;
 import java.util.Set;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -74,6 +76,8 @@ public class FieldDTO {
 
 	Set<DictValue> filterValues = new LinkedHashSet<>();
 
+	Map<String, String> options = new HashMap<>();
+
 	private FieldDTO() {
 	}
 
@@ -86,6 +90,10 @@ public class FieldDTO {
 		this.filterable = false;
 		this.key = field.getName();
 		this.tzAware = isTzAware(field);
+	}
+
+	public void addOption(String key, String value) {
+		this.options.put(key, value);
 	}
 
 	public static FieldDTO disabledField(String key) {
@@ -185,7 +193,7 @@ public class FieldDTO {
 	@AllArgsConstructor
 	@JsonInclude(JsonInclude.Include.NON_NULL)
 	@Getter
-	static final class DictValue {
+	public static final class DictValue {
 
 		private final String value;
 
@@ -193,6 +201,8 @@ public class FieldDTO {
 
 		@JsonIgnore
 		private final int hash;
+
+		private final Map<String, String> options = new HashMap<>();
 
 		private DictValue(String value) {
 			this(value, null);
@@ -202,6 +212,10 @@ public class FieldDTO {
 			this.value = value;
 			this.icon = icon;
 			this.hash = value != null ? value.hashCode() : 0;
+		}
+
+		public void addOption(String key, String value) {
+			this.options.put(key, value);
 		}
 
 		@Override
