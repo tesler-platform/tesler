@@ -26,6 +26,7 @@ import io.tesler.api.data.dictionary.IDictionaryType;
 import io.tesler.api.data.dictionary.LOV;
 import io.tesler.api.data.dictionary.SimpleDictionary;
 import io.tesler.api.data.dto.DataResponseDTO;
+import io.tesler.api.data.dto.rowmeta.FieldDTO;
 import io.tesler.api.data.dto.rowmeta.FieldsDTO;
 import io.tesler.api.data.dto.rowmeta.IconCode;
 import io.tesler.constgen.DtoField;
@@ -44,6 +45,10 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public class RowDependentFieldsMeta<T extends DataResponseDTO> extends FieldsDTO {
+
+	public FieldDTO get(final DtoField<? super T, ?> field) {
+		return fields.get(field.getName());
+	}
 
 	/**
 	 * Adds a value to an existing list of selectable values
