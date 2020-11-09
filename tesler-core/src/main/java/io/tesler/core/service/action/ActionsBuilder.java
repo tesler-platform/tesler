@@ -105,6 +105,12 @@ public class ActionsBuilder<T extends DataResponseDTO> {
 		return this;
 	}
 
+	public ActionsBuilder<T> withIcon(ActionIconSpecifier icon, boolean showOnlyIcon) {
+		this.actionGroupDefinitions.get(actionGroupDefinitions.size() - 1).setIconCode(icon);
+		this.actionGroupDefinitions.get(actionGroupDefinitions.size() - 1).setShowOnlyIcon(showOnlyIcon);
+		return this;
+	}
+
 	public ActionsBuilder<T> addAll(Actions<T> actions) {
 		actionDefinitions.addAll(actions.actionDefinitions);
 		actionGroupDefinitions.addAll(actions.actionGroupDefinitions);

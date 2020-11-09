@@ -20,10 +20,13 @@
 
 package io.tesler.core.service.action;
 
+import static io.tesler.core.service.action.TeslerActionIconSpecifier.WITHOUT_ICON;
+
 import io.tesler.api.data.dto.DataResponseDTO;
 import java.util.List;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 
 @RequiredArgsConstructor
 @Getter
@@ -36,5 +39,11 @@ public final class ActionGroupDescription<T extends DataResponseDTO> {
 	private final int maxGroupVisualButtonsCount;
 
 	private final List<ActionDescription<T>> actions;
+
+	@Setter
+	private ActionIconSpecifier iconCode = WITHOUT_ICON;
+
+	@Setter
+	private boolean showOnlyIcon = false;
 
 }
