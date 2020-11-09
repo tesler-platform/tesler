@@ -95,11 +95,13 @@ public class ActionDTO {
 	/**
 	 * The constructor used to create group of Actions
 	 */
-	public ActionDTO(String type, String text, int maxGroupVisualButtonsCount, List<ActionDTO> actions) {
+	public ActionDTO(String type, String text, int maxGroupVisualButtonsCount, List<ActionDTO> actions, String icon, boolean showOnlyIcon) {
 		this.type = type;
 		this.text = text;
 		this.maxGroupVisualButtonsCount = maxGroupVisualButtonsCount;
 		this.actions = actions;
+		this.icon = icon;
+		this.showOnlyIcon = showOnlyIcon;
 	}
 
 }

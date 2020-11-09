@@ -26,6 +26,7 @@ import io.tesler.core.crudma.bc.BusinessComponent;
 import io.tesler.core.service.action.ActionDescription;
 import com.fasterxml.jackson.annotation.JsonValue;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import io.tesler.core.service.action.ActionIconSpecifier;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -46,8 +47,8 @@ public class ActionsDTO implements Iterable<ActionDTO> {
 		return this;
 	}
 
-	public ActionsDTO addGroup(String type, String label, int maxGroupVisualButtonsCount, List<ActionDTO> actionDtos) {
-		actions.add(new ActionDTO(type, label, maxGroupVisualButtonsCount, actionDtos));
+	public ActionsDTO addGroup(String type, String label, int maxGroupVisualButtonsCount, List<ActionDTO> actionDtos, ActionIconSpecifier icon, boolean showOnlyIcon) {
+		actions.add(new ActionDTO(type, label, maxGroupVisualButtonsCount, actionDtos, icon.getActionIconCode(), showOnlyIcon));
 		return this;
 	}
 

@@ -56,7 +56,7 @@ public class Actions<T extends DataResponseDTO> {
 			List<ActionDTO> groupActionDtos = new ArrayList<>();
 			List<ActionDescription<T>> groupActions = group.getActions();
 			groupActions.forEach(actionDescription -> groupActionDtos.add(actionDescription.toDto(bc)));
-			result.addGroup(group.getKey(), group.getText(), group.getMaxGroupVisualButtonsCount(), groupActionDtos);
+			result.addGroup(group.getKey(), group.getText(), group.getMaxGroupVisualButtonsCount(), groupActionDtos, group.getIconCode(), group.isShowOnlyIcon());
 		}
 		return result;
 	}
