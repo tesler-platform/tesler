@@ -12,7 +12,7 @@ deploy:
   provider: pages
   skip_cleanup: true
   github_token: $TOKEN
-  local_dir: /target/site/apidocs
+  local_dir: target/site/apidocs
   target_branch: javadoc
   keep_history: true
   on:
