@@ -16,6 +16,6 @@ deploy:
   target_branch: javadoc
   keep_history: true
   on:
-    branch: main
+    branch: master
 after_success:
   - bash <(curl -s https://codecov.io/bash)
