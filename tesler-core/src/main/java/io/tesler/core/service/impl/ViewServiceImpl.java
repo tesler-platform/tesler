@@ -24,7 +24,6 @@ import static io.tesler.api.util.i18n.ErrorMessageSource.errorMessage;
 
 import io.tesler.core.crudma.bc.BcRegistry;
 import io.tesler.core.crudma.bc.impl.BcDescription;
-import io.tesler.core.crudma.bc.impl.SqlBcDescription;
 import io.tesler.core.dao.impl.ViewDAO;
 import io.tesler.core.dto.data.view.BcSourceBaseDTO;
 import io.tesler.core.dto.data.view.BusinessComponentDTO;
@@ -36,6 +35,7 @@ import io.tesler.core.dto.data.view.WidgetDTO;
 import io.tesler.core.dto.rowmeta.FilterGroupDTO;
 import io.tesler.core.exception.ClientException;
 import io.tesler.core.service.ViewService;
+import io.tesler.core.service.impl.UIServiceImpl;
 import io.tesler.core.ui.model.json.WidgetOptions;
 import io.tesler.core.util.JsonUtils;
 import io.tesler.core.util.session.SessionService;
@@ -228,9 +228,7 @@ public class ViewServiceImpl implements ViewService {
 
 	private void setBcId(BusinessComponentDTO dto) {
 		BcDescription description = bcRegistry.getBcDescription(dto.getName());
-		if (description instanceof SqlBcDescription) {
-			dto.setId(((SqlBcDescription) description).getId());
-		}
+		dto.setId(description.getId());
 	}
 
 	private void setBcParameters(final BusinessObjectDTO boDto) {
@@ -247,10 +245,8 @@ public class ViewServiceImpl implements ViewService {
 			BcDescription bcDescription = bcRegistry.getBcDescription(dto.getName());
 			dto.setParentName(bcDescription.getParentName());
 			dto.setRefresh(bcDescription.isRefresh());
-			if (bcDescription instanceof SqlBcDescription) {
-				dto.setBinds(((SqlBcDescription) bcDescription).getBindsString());
-				dto.setLimit(((SqlBcDescription) bcDescription).getPageLimit());
-			}
+			dto.setBinds(bcDescription.getBindsString());
+			dto.setLimit(bcDescription.getPageLimit());
 		});
 	}
 

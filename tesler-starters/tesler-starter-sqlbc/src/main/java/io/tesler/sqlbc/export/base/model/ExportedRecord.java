@@ -18,36 +18,40 @@
  * #L%
  */
 
-package io.tesler.core.crudma.bc.impl;
+package io.tesler.sqlbc.export.base.model;
 
-import io.tesler.core.crudma.Crudma;
-import io.tesler.core.crudma.bc.BcIdentifier;
+import java.math.BigDecimal;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Map.Entry;
+
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 import lombok.ToString;
 
 @Getter
 @ToString
 @RequiredArgsConstructor
-public abstract class BcDescription implements BcIdentifier {
+public class ExportedRecord {
 
-	private final String name;
+	final String tableName;
 
-	private final String parentName;
+	final Map<ColumnMeta, Object> columns = new HashMap<>();
 
-	private final Class<? extends Crudma> crudmaService;
+	@Setter
+	BigDecimal id;
 
-	/**
-	 * Prohibition of caching BC by the front
-	 */
-	private final boolean refresh;
+	public void addColumn(final ColumnMeta meta, final Object value) {
+		columns.put(meta, value);
+	}
 
-	//TODO used only for SqlBC. Delete after refactoring
-	protected Long id;
+	public Object getValue(final String columnName) {
+		return columns.entrySet().stream()
+				.filter(entry -> columnName.equalsIgnoreCase(entry.getKey().getName()))
+				.findAny()
+				.map(Entry::getValue)
+				.orElse(null);
+	}
 
-	//TODO used only for SqlBC. Delete after refactoring
-	protected String bindsString;
-
-	//TODO used only for SqlBC. Delete after refactoring
-	protected Long pageLimit;
 }

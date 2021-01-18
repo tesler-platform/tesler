@@ -18,36 +18,19 @@
  * #L%
  */
 
-package io.tesler.core.crudma.bc.impl;
+package io.tesler.sqlbc.export.sql.query;
 
-import io.tesler.core.crudma.Crudma;
-import io.tesler.core.crudma.bc.BcIdentifier;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
+import org.apache.commons.lang3.StringUtils;
 
-@Getter
 @ToString
 @RequiredArgsConstructor
-public abstract class BcDescription implements BcIdentifier {
+public class BlankLine implements Query {
 
-	private final String name;
+	@Override
+	public String toSql() {
+		return StringUtils.EMPTY;
+	}
 
-	private final String parentName;
-
-	private final Class<? extends Crudma> crudmaService;
-
-	/**
-	 * Prohibition of caching BC by the front
-	 */
-	private final boolean refresh;
-
-	//TODO used only for SqlBC. Delete after refactoring
-	protected Long id;
-
-	//TODO used only for SqlBC. Delete after refactoring
-	protected String bindsString;
-
-	//TODO used only for SqlBC. Delete after refactoring
-	protected Long pageLimit;
 }

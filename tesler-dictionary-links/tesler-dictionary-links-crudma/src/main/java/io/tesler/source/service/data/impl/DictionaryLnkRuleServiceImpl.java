@@ -24,7 +24,6 @@ import static io.tesler.api.util.i18n.ErrorMessageSource.errorMessage;
 
 import io.tesler.core.crudma.bc.BusinessComponent;
 import io.tesler.core.crudma.impl.VersionAwareResponseService;
-import io.tesler.core.crudma.impl.sql.SqlCrudmaService;
 import io.tesler.core.dto.DTOUtils;
 import io.tesler.core.dto.rowmeta.ActionResultDTO;
 import io.tesler.core.dto.rowmeta.CreateResult;
@@ -65,7 +64,7 @@ public class DictionaryLnkRuleServiceImpl extends
 	protected ActionResultDTO<DictionaryLnkRuleDto> doUpdateEntity(DictionaryLnkRule entity, DictionaryLnkRuleDto data,
 			BusinessComponent bc) {
 		boolean needChildDeletion = false;
-		boolean isSqlService = SqlCrudmaService.class.getSimpleName().equals(entity.getService().getServiceName());
+		boolean isSqlService = "SqlCrudmaService".equals(entity.getService().getServiceName());
 		if (data.hasChangedFields()) {
 			if (data.isFieldChanged(DictionaryLnkRuleDto_.name)) {
 				entity.setName(data.getName());

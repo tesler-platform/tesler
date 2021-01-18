@@ -292,6 +292,7 @@
     <module>tesler-dictionary-links</module>
     <module>tesler-starter-parent</module>
     <module>tesler-archetypes</module>
+    <module>tesler-starters/tesler-starter-sqlbc</module>
   </modules>
 
 </project>

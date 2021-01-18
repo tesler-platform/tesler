@@ -18,10 +18,9 @@
  * #L%
  */
 
-package io.tesler.core.crudma.bc.impl;
+package io.tesler.sqlbc.export.base.model;
 
-import io.tesler.core.crudma.Crudma;
-import io.tesler.core.crudma.bc.BcIdentifier;
+import io.tesler.sqlbc.dao.SqlFieldType;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
@@ -29,25 +28,10 @@ import lombok.ToString;
 @Getter
 @ToString
 @RequiredArgsConstructor
-public abstract class BcDescription implements BcIdentifier {
+public class ColumnMeta {
 
 	private final String name;
 
-	private final String parentName;
+	private final SqlFieldType type;
 
-	private final Class<? extends Crudma> crudmaService;
-
-	/**
-	 * Prohibition of caching BC by the front
-	 */
-	private final boolean refresh;
-
-	//TODO used only for SqlBC. Delete after refactoring
-	protected Long id;
-
-	//TODO used only for SqlBC. Delete after refactoring
-	protected String bindsString;
-
-	//TODO used only for SqlBC. Delete after refactoring
-	protected Long pageLimit;
 }
