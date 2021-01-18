@@ -18,36 +18,31 @@
  * #L%
  */
 
-package io.tesler.core.crudma.bc.impl;
+package io.tesler.sqlbc.export.sql.transform;
 
-import io.tesler.core.crudma.Crudma;
-import io.tesler.core.crudma.bc.BcIdentifier;
-import lombok.Getter;
+import java.math.BigDecimal;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.function.Supplier;
 import lombok.RequiredArgsConstructor;
-import lombok.ToString;
 
-@Getter
-@ToString
 @RequiredArgsConstructor
-public abstract class BcDescription implements BcIdentifier {
+public class NewId implements Transformation {
 
-	private final String name;
+	private final Supplier<BigDecimal> idSupplier;
 
-	private final String parentName;
+	private final Map<BigDecimal, BigDecimal> values = new HashMap<>();
 
-	private final Class<? extends Crudma> crudmaService;
+	@Override
+	public Object transform(Object value) {
+		if (value instanceof BigDecimal) {
+			final BigDecimal bigDecimal = (BigDecimal) value;
+			if (!values.containsKey(bigDecimal)) {
+				values.put(bigDecimal, idSupplier.get());
+			}
+			return values.get(value);
+		}
+		return value;
+	}
 
-	/**
-	 * Prohibition of caching BC by the front
-	 */
-	private final boolean refresh;
-
-	//TODO used only for SqlBC. Delete after refactoring
-	protected Long id;
-
-	//TODO used only for SqlBC. Delete after refactoring
-	protected String bindsString;
-
-	//TODO used only for SqlBC. Delete after refactoring
-	protected Long pageLimit;
 }

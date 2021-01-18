@@ -24,7 +24,6 @@ import io.tesler.api.data.dictionary.DictionaryCache;
 import io.tesler.api.data.dictionary.SimpleDictionary;
 import io.tesler.api.exception.ServerException;
 import io.tesler.core.crudma.bc.impl.InnerBcDescription;
-import io.tesler.core.crudma.impl.sql.SqlCrudmaService;
 import io.tesler.core.dto.LovUtils;
 import io.tesler.core.dto.rowmeta.FieldsMeta;
 import io.tesler.core.dto.rowmeta.RowDependentFieldsMeta;
@@ -72,7 +71,7 @@ public class DictionaryLnkRuleFieldMetaBuilder extends FieldMetaBuilder<Dictiona
 				DictionaryLnkRuleDto_.defaultRuleFlg
 		);
 		final CustomizableResponseService responseService = jpaDao.findById(CustomizableResponseService.class, parentId);
-		boolean isSqlService = SqlCrudmaService.class.getSimpleName().equals(responseService.getServiceName());
+		boolean isSqlService = "SqlCrudmaService".equals(responseService.getServiceName());
 		final List<SimpleDictionary> fieldValues = getFieldValues(responseService.getDtoClass(), isSqlService);
 		if (!fieldValues.isEmpty()) {
 			fields.setConcreteValues(DictionaryLnkRuleDto_.field, fieldValues);

@@ -26,7 +26,6 @@ import io.tesler.api.data.dictionary.DictionaryCache;
 import io.tesler.api.data.dictionary.DictionaryType;
 import io.tesler.core.crudma.bc.BusinessComponent;
 import io.tesler.core.crudma.impl.VersionAwareResponseService;
-import io.tesler.core.crudma.impl.sql.SqlCrudmaService;
 import io.tesler.core.dto.DTOUtils;
 import io.tesler.core.dto.rowmeta.ActionResultDTO;
 import io.tesler.core.dto.rowmeta.CreateResult;
@@ -65,7 +64,7 @@ public abstract class BaseDictionaryLnkRuleCondServiceImpl<D extends DictionaryL
 
 	@Override
 	protected final ActionResultDTO<D> doUpdateEntity(E entity, D data, BusinessComponent bc) {
-		boolean isSqlService = SqlCrudmaService.class.getSimpleName()
+		boolean isSqlService = "SqlCrudmaService"
 				.equals(entity.getDictionaryLnkRule().getService().getServiceName());
 		if (data.hasChangedFields()) {
 			if (data.isFieldChanged(DictionaryLnkRuleCondDto_.type)) {
