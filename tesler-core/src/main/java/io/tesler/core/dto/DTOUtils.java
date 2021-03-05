@@ -27,6 +27,8 @@ import java.lang.reflect.Field;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
+
+import io.tesler.core.util.InstrumentationAwareReflectionUtils;
 import lombok.SneakyThrows;
 import lombok.experimental.UtilityClass;
 import org.apache.commons.lang3.reflect.FieldUtils;
@@ -49,7 +51,7 @@ public class DTOUtils {
 	@SuppressWarnings("unchecked")
 	public static <D extends DataResponseDTO> Set<DtoField<D, ?>> getAllFields(Class<D> cls) {
 		final Set<DtoField<D, ?>> fields = new HashSet<>();
-		for (final Field field : FieldUtils.getAllFieldsList(Class.forName(cls.getName() + "_"))) {
+		for (final Field field : InstrumentationAwareReflectionUtils.getAllNonSyntheticFieldsList(Class.forName(cls.getName() + "_"))) {
 			fields.add((DtoField<D, ?>) field.get(null));
 		}
 		return fields;

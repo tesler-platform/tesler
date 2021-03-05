@@ -38,6 +38,7 @@ import io.tesler.core.service.HistoricityKey;
 import io.tesler.core.service.HistoricityKey.KeyAttribute;
 import io.tesler.core.service.action.Actions;
 import io.tesler.core.service.rowmeta.HistoricityFieldMetaBuilder;
+import io.tesler.core.util.InstrumentationAwareReflectionUtils;
 import io.tesler.model.core.entity.HistoricityEntity;
 import io.tesler.model.core.entity.HistoricityEntity_;
 import java.lang.reflect.Field;
@@ -48,7 +49,6 @@ import java.util.Optional;
 import javax.persistence.criteria.Predicate;
 import lombok.SneakyThrows;
 import org.apache.commons.beanutils.PropertyUtils;
-import org.apache.commons.lang3.reflect.FieldUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.jpa.domain.Specification;
 
@@ -167,7 +167,10 @@ public abstract class HistoricityResponseService<T extends HistoricityDto, E ext
 		BeanUtils.copyProperties(
 				entity,
 				copy,
-				FieldUtils.getAllFieldsList(HistoricityEntity.class).stream().map(Field::getName).toArray(String[]::new)
+				InstrumentationAwareReflectionUtils.getAllNonSyntheticFieldsList(HistoricityEntity.class)
+						.stream()
+						.map(Field::getName)
+						.toArray(String[]::new)
 		);
 		baseDAO.save(copy);
 		return copy;

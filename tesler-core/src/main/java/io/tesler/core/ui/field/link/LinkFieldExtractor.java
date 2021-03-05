@@ -23,12 +23,12 @@ package io.tesler.core.ui.field.link;
 import io.tesler.core.ui.field.CustomFieldExtractor;
 import io.tesler.core.ui.model.BcField;
 import io.tesler.core.ui.model.BcField.Attribute;
+import io.tesler.core.util.InstrumentationAwareReflectionUtils;
 import io.tesler.model.ui.entity.Widget;
 import java.lang.reflect.Field;
 import java.util.HashSet;
 import java.util.Set;
 import lombok.SneakyThrows;
-import org.apache.commons.lang3.reflect.FieldUtils;
 
 
 public final class LinkFieldExtractor {
@@ -41,7 +41,7 @@ public final class LinkFieldExtractor {
 	@SneakyThrows
 	public static Set<BcField> extract(final Long widgetId, final String bc, final Object object) {
 		final Set<BcField> fields = new HashSet<>();
-		for (final Field field : FieldUtils.getAllFieldsList(object.getClass())) {
+		for (final Field field : InstrumentationAwareReflectionUtils.getAllNonSyntheticFieldsList(object.getClass())) {
 			field.setAccessible(true);
 			if (field.isAnnotationPresent(LinkToField.class) && field.get(object) != null) {
 				fields.add(new BcField(bc, (String) field.get(object))

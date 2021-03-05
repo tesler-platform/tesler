@@ -80,7 +80,7 @@ public class BcUtils {
 			.newBuilder()
 			.build(new ViewFieldCacheLoader());
 
-	private LoadingCache<Class<? extends DataResponseDTO>, Set<DtoField<DataResponseDTO, ?>>> dtoFieldsCache = CacheBuilder
+	private final LoadingCache<Class<? extends DataResponseDTO>, Set<DtoField<DataResponseDTO, ?>>> dtoFieldsCache = CacheBuilder
 			.newBuilder()
 			.build(new DtoFieldCacheLoader());
 
