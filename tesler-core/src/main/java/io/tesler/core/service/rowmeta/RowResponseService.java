@@ -43,6 +43,8 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
+
+import io.tesler.core.util.InstrumentationAwareReflectionUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.reflect.FieldUtils;
 import org.springframework.context.ApplicationContext;
@@ -148,7 +150,7 @@ public class RowResponseService {
 		if (visibleOnly) {
 			return bcUtils.getBcFieldsForCurrentScreen(bc);
 		}
-		return FieldUtils.getAllFieldsList(dataDTO.getClass()).stream()
+		return InstrumentationAwareReflectionUtils.getAllNonSyntheticFieldsList(dataDTO.getClass()).stream()
 				.map(Field::getName).collect(Collectors.toSet());
 	}
 

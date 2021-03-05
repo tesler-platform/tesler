@@ -27,6 +27,7 @@ import static org.hibernate.envers.RevisionType.MOD;
 
 import io.tesler.api.data.dto.DataResponseDTO;
 import io.tesler.api.exception.ServerException;
+import io.tesler.core.util.InstrumentationAwareReflectionUtils;
 import io.tesler.model.core.entity.ExtRevisionEntity;
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -67,7 +68,7 @@ public class AuditDto extends DataResponseDTO {
 		this.revisionType = Optional.ofNullable(REVISION_TYPES.get(revisionType)).map(Supplier::get).orElse(null);
 		this.revisionAuthor = revisionEntity.getUser() == null ? null : revisionEntity.getUser().getUserNameInitials();
 		this.revisionAuthorId = revisionEntity.getUser() == null ? null : revisionEntity.getUser().getId();
-		for (final Field field : FieldUtils.getAllFieldsList(dto.getClass())) {
+		for (final Field field : InstrumentationAwareReflectionUtils.getAllNonSyntheticFieldsList(dto.getClass())) {
 			if (!"id".equals(field.getName()) && !field.isAnnotationPresent(JsonIgnore.class)) {
 				try {
 					fields.put(field.getName(), FieldUtils.readField(field, dto, true));
