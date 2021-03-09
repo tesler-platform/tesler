@@ -1,0 +1,70 @@
+name: Run doc tests
+
+on:
+  issue_comment:
+    types: [ created ]
+
+jobs:
+  check-commentator:
+    name: Check if commentator is a member of tesler-team
+    runs-on: ubuntu-latest
+    env:
+      TOKEN: ${{ secrets.READ_MEMBERS_TOKEN }}
+      USER: ${{ secrets.READ_MEMBERS_USER}}
+    outputs:
+      output1: ${{ steps.step1.outputs.member_check }}
+    steps:
+      - name: Grep commentator
+        id: step1
+        run: |
+          result=`curl -u $USER:$TOKEN https://api.github.com/orgs/tesler-platform/teams/tesler-team/members | grep -Eo "(\"login\": \"${{ github.event.comment.user.login }}\")" | wc -l`;
+          echo "number of entries: $result";
+          echo "##[set-output name=member_check;]$result"
+
+  send-message:
+    name: Send message
+    environment: doc
+    needs: check-commentator
+    env:
+      token: ${{ secrets.EVENT_DISPATCH_TOKEN }}
+      user: ${{ secrets.EVENT_DISPATCH_USER }}
+    if: github.event.issue.pull_request != '' && (contains(github.event.comment.body, '/testDoc') || contains(github.event.comment.body, '/withUiTestDoc')) && needs.check-commentator.outputs.output1 > 0
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get PR
+        id: get_pr
+        run: |
+          echo "github.event.issue.pull_request.url=${{ github.event.issue.pull_request.url }}"
+          pr=`curl -u $user:$token ${{ github.event.issue.pull_request.url }} | tr '\n' ' '`
+          echo "##[set-output name=pr_data;]$pr"
+          echo "##[set-output name=repository;]${{ github.repository }}"
+      - name: Get branch
+        id: get_branch
+        run: |
+          echo "branch_name=${{ fromJson(steps.get_pr.outputs.pr_data).head.ref }}"
+          echo "repository name = ${{ steps.get_pr.outputs.repository }}"
+          echo "##[set-output name=branch_name;]${{ fromJson(steps.get_pr.outputs.pr_data).head.ref }}"
+      - name: Parse info about UI
+        if: contains(github.event.comment.body, '/withUiTestDoc')
+        id: parse_ui_info
+        run: |
+          repos=`echo "${{ github.event.comment.body }}" | cut -d" " -f2`
+          sha=`echo "${{ github.event.comment.body }}" | cut -d" " -f3`
+          echo "##[set-output name=ui_repos;]$repos"
+          echo "##[set-output name=ui_sha;]$sha"
+      - name: Repository Dispatch with UI
+        if: contains(github.event.comment.body, '/withUiTestDoc')
+        uses: peter-evans/repository-dispatch@v1
+        with:
+          token: ${{ secrets.EVENT_DISPATCH_TOKEN }}
+          repository: ${{ secrets.TARGET_REPOSITORY }}
+          event-type: test_doc
+          client-payload: '{"back": {"repository": "${{ steps.get_pr.outputs.repository }}", "branch": "${{ steps.get_branch.outputs.branch_name }}"}, "front": {"repository": "${{ steps.parse_ui_info.outputs.ui_repos }}", "branch": "${{ steps.parse_ui_info.outputs.ui_sha }}"}}'
+      - name: Repository Dispatch
+        uses: peter-evans/repository-dispatch@v1
+        if: contains(github.event.comment.body, '/testDoc')
+        with:
+          token: ${{ secrets.EVENT_DISPATCH_TOKEN }}
+          repository: ${{ secrets.TARGET_REPOSITORY }}
+          event-type: test_doc
+          client-payload: '{"back": {"repository": "${{ steps.get_pr.outputs.repository }}", "branch": "${{ steps.get_branch.outputs.branch_name }}"}}'
