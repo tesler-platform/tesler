@@ -27,12 +27,14 @@ import javax.persistence.Table;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.experimental.Accessors;
 
 @Entity
 @Getter
 @Setter
 @EqualsAndHashCode(callSuper = true)
 @Table(name = "BC_PROPERTIES")
+@Accessors(chain = true)
 public class BcProperties extends BaseEntity {
 
 	String bc;

@@ -27,11 +27,13 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.experimental.Accessors;
 
 @Getter
 @Setter
 @Entity
 @Table(name = "sql_bc_edit_field")
+@Accessors(chain = true)
 public class SqlBcEditField extends BaseEntity {
 
 	@Column(name = "bc_name", nullable = false)

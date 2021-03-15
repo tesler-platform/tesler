@@ -22,11 +22,17 @@ package io.tesler.model.ui.entity;
 
 import io.tesler.model.core.entity.BaseEntity;
 import javax.persistence.Entity;
+
+import io.tesler.model.core.hbn.ExtSequenceGenerator;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.experimental.Accessors;
+import org.hibernate.annotations.Parameter;
+import org.hibernate.id.enhanced.OptimizerFactory;
+import org.hibernate.id.enhanced.SequenceStyleGenerator;
 
 @Entity
 @Getter
@@ -34,6 +40,15 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
+@ExtSequenceGenerator(
+		parameters = {
+				@Parameter(name = SequenceStyleGenerator.SEQUENCE_PARAM, value = "META_SEQ"),
+				@Parameter(name = SequenceStyleGenerator.INITIAL_PARAM, value = "1"),
+				@Parameter(name = SequenceStyleGenerator.INCREMENT_PARAM, value = "100"),
+				@Parameter(name = SequenceStyleGenerator.OPT_PARAM, value = OptimizerFactory.POOL_LO)
+		}
+)
+@Accessors(chain = true)
 public class Widget extends BaseEntity {
 
 	private String name;

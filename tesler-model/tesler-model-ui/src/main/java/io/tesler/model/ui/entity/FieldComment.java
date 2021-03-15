@@ -30,6 +30,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.experimental.Accessors;
 import org.hibernate.annotations.Type;
 
 @Entity
@@ -39,6 +40,7 @@ import org.hibernate.annotations.Type;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@Accessors(chain = true)
 public class FieldComment extends BaseEntity {
 
 	private Long parentId;
