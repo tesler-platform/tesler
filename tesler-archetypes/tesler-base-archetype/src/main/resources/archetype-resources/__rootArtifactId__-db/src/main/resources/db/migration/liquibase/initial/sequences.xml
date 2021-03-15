@@ -6,6 +6,9 @@
     <changeSet author="initial" id="APP_SEQ SEQUENCE">
         <createSequence maxValue="9223372036854775807" sequenceName="APP_SEQ" startValue="1000000"/>
     </changeSet>
+    <changeSet author="initial" id="META_SEQ SEQUENCE">
+        <createSequence maxValue="9223372036854775807" sequenceName="META_SEQ" startValue="1000000" incrementBy="100"/>
+    </changeSet>
     <changeSet author="initial" id="HIBERNATE_SEQUENCE SEQUENCE">
         <createSequence maxValue="9223372036854775807" sequenceName="HIBERNATE_SEQUENCE" startValue="2"/>
     </changeSet>

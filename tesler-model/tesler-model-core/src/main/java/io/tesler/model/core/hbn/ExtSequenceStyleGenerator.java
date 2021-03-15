@@ -26,6 +26,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.hibernate.HibernateException;
 import org.hibernate.MappingException;
 import org.hibernate.Session;
+import org.hibernate.annotations.Parameter;
 import org.hibernate.engine.spi.SharedSessionContractImplementor;
 import org.hibernate.id.enhanced.SequenceStyleGenerator;
 import org.hibernate.service.ServiceRegistry;
@@ -44,9 +45,18 @@ public class ExtSequenceStyleGenerator extends SequenceStyleGenerator {
 				if (sequenceNameAnnotation != null) {
 					params.setProperty(SEQUENCE_PARAM, sequenceNameAnnotation.value());
 				}
+
+				ExtSequenceGenerator extSequenceGeneratorAnnotation
+						= entityClass.getAnnotation(ExtSequenceGenerator.class);
+				if (extSequenceGeneratorAnnotation != null) {
+					for (Parameter param : extSequenceGeneratorAnnotation.parameters()) {
+						params.setProperty(param.name(), param.value());
+					}
+				}
 			}
 		}
 		super.configure(type, params, serviceRegistry);
+
 	}
 
 	@Override

@@ -1,6 +1,6 @@
 /*-
  * #%L
- * IO Tesler - Model UI
+ * IO Tesler - Model Core
  * %%
  * Copyright (C) 2018 - 2019 Tesler Contributors
  * %%
@@ -8,7 +8,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -18,28 +18,20 @@
  * #L%
  */
 
-package io.tesler.model.ui.entity;
+package io.tesler.model.core.hbn;
 
-import io.tesler.model.core.entity.BaseEntity;
-import javax.persistence.Entity;
-import javax.persistence.Table;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.experimental.Accessors;
+import org.hibernate.annotations.Parameter;
 
-@Entity
-@Getter
-@Setter
-@EqualsAndHashCode(callSuper = true)
-@Table(name = "BC_FILTER_GROUPS")
-@Accessors(chain = true)
-public class FilterGroup extends BaseEntity {
+import java.lang.annotation.Inherited;
+import java.lang.annotation.Retention;
+import java.lang.annotation.Target;
 
-	private String name;
+import static java.lang.annotation.ElementType.TYPE;
+import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
-	private String filters;
-
-	private String bc;
-
+@Target(TYPE)
+@Retention(RUNTIME)
+@Inherited
+public @interface ExtSequenceGenerator {
+Parameter[] parameters() default {};
 }

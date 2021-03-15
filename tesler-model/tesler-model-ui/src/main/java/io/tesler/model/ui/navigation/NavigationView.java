@@ -28,6 +28,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.experimental.Accessors;
+import org.hibernate.annotations.Type;
 
 /**
  * Entity that represent views in navigation tree.
@@ -36,6 +38,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity(name = "NAVIGATION_VIEW")
+@Accessors(chain = true)
 public class NavigationView {
 
 	/**
@@ -86,6 +89,7 @@ public class NavigationView {
 	 * is view hidden on navigation bars
 	 */
 	@Column(name = "HIDDEN")
+	@Type(type = "org.hibernate.type.NumericBooleanType")
 	private Boolean hidden;
 
 }

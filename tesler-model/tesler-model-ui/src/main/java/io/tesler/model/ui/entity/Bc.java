@@ -27,6 +27,7 @@ import javax.persistence.Lob;
 import javax.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.experimental.Accessors;
 import org.hibernate.annotations.Type;
 
 
@@ -34,6 +35,7 @@ import org.hibernate.annotations.Type;
 @Setter
 @Entity
 @Table(name = "bc")
+@Accessors(chain = true)
 public class Bc extends BaseEntity {
 
 	@Column(name = "name")

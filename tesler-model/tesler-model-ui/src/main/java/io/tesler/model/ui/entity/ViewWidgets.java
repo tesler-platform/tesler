@@ -22,17 +22,18 @@ package io.tesler.model.ui.entity;
 
 import io.tesler.model.core.api.EmbeddedKeyable;
 import java.io.Serializable;
-import javax.persistence.Column;
-import javax.persistence.EmbeddedId;
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
+
+import io.tesler.model.core.hbn.ExtSequenceGenerator;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
+import lombok.experimental.Accessors;
+import org.hibernate.annotations.Parameter;
+import org.hibernate.annotations.Type;
+import org.hibernate.id.enhanced.OptimizerFactory;
+import org.hibernate.id.enhanced.SequenceStyleGenerator;
 
 /**
  * View widgets with position and limit
@@ -42,6 +43,15 @@ import org.hibernate.annotations.FetchMode;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Accessors(chain = true)
+@ExtSequenceGenerator(
+		parameters = {
+				@Parameter(name = SequenceStyleGenerator.SEQUENCE_PARAM, value = "META_SEQ"),
+				@Parameter(name = SequenceStyleGenerator.INITIAL_PARAM, value = "1"),
+				@Parameter(name = SequenceStyleGenerator.INCREMENT_PARAM, value = "100"),
+				@Parameter(name = SequenceStyleGenerator.OPT_PARAM, value = OptimizerFactory.POOL_LO)
+		}
+)
 public class ViewWidgets implements EmbeddedKeyable, Serializable {
 
 	@EmbeddedId
@@ -66,17 +76,18 @@ public class ViewWidgets implements EmbeddedKeyable, Serializable {
 	private Long gridBreak;
 
 	@Column(name = "HIDE_BY_DEFAULT")
+	@Type(type = "org.hibernate.type.NumericBooleanType")
 	private Boolean hide;
 
 	@Column(name = "SHOW_EXPORT_STAMP")
+	@Type(type = "org.hibernate.type.NumericBooleanType")
 	private Boolean showExportStamp;
 
 	@Column(name = "view_name", nullable = false, updatable = false, insertable = false)
 	private String viewName;
 
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "widget_id", nullable = false, updatable = false, insertable = false)
-	@Fetch(value = FetchMode.JOIN)
 	private Widget widget;
 
 	public ViewWidgets(ViewWidgetsPK pk) {

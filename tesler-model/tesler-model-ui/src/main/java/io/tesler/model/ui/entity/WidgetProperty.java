@@ -24,11 +24,18 @@ import io.tesler.model.core.entity.BaseEntity;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
+
+import io.tesler.model.core.hbn.ExtSequenceGenerator;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.experimental.Accessors;
+import org.hibernate.annotations.Parameter;
+import org.hibernate.annotations.Type;
+import org.hibernate.id.enhanced.OptimizerFactory;
+import org.hibernate.id.enhanced.SequenceStyleGenerator;
 
 @Entity
 @Getter
@@ -36,12 +43,22 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
+@Accessors(chain = true)
+@ExtSequenceGenerator(
+		parameters = {
+				@Parameter(name = SequenceStyleGenerator.SEQUENCE_PARAM, value = "META_SEQ"),
+				@Parameter(name = SequenceStyleGenerator.INITIAL_PARAM, value = "1"),
+				@Parameter(name = SequenceStyleGenerator.INCREMENT_PARAM, value = "100"),
+				@Parameter(name = SequenceStyleGenerator.OPT_PARAM, value = OptimizerFactory.POOL_LO)
+		}
+)
 public class WidgetProperty extends BaseEntity {
 
 	@OneToOne
 	@JoinColumn(name = "WIDGET_ID")
 	private Widget widget;
 
+	@Type(type = "org.hibernate.type.NumericBooleanType")
 	private Boolean isConclusionType;
 
 }
