@@ -21,10 +21,13 @@
 package io.tesler.core.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.tesler.core.crudma.bc.BcRegistry;
 import io.tesler.core.dto.ResponseBuilder;
 import io.tesler.core.dto.ResponseDTO;
 import io.tesler.core.exception.ClientException;
+import io.tesler.core.service.UIService;
 import io.tesler.core.service.ViewService;
+import io.tesler.core.ui.BcUtils;
 import io.tesler.model.ui.entity.WidgetLayout;
 import java.util.List;
 import java.util.Map;
@@ -48,6 +51,12 @@ public class ViewController {
 
 	private final ResponseBuilder resp;
 
+	private final BcUtils bcUtils;
+
+	private final BcRegistry bcRegistry;
+
+	private final UIService uiService;
+
 	@RequestMapping(method = RequestMethod.GET, value = {"/screen/{name}/**", "/screen/{name}"})
 	public ResponseDTO screen(@PathVariable String name) {
 		return resp.build(views.getScreen(name));
@@ -62,13 +71,21 @@ public class ViewController {
 		List widgetsData = (List) data.get("widgets");
 		List<WidgetLayout> widgets = convertWidgets(widgetsData);
 		views.saveLayout(name, widgets);
+		invalidateCache();
 		return resp.build();
 	}
 
 	@RequestMapping(method = RequestMethod.DELETE, value = "/meta/view/{name}/layout")
 	public ResponseDTO clearLayout(@PathVariable String name) {
 		views.clearLayout(name);
+		invalidateCache();
 		return resp.build();
+	}
+
+	private void invalidateCache() {
+		bcRegistry.refresh();
+		bcUtils.invalidateFieldCache();
+		uiService.invalidateCache();
 	}
 
 	private List<WidgetLayout> convertWidgets(List<?> data) {
