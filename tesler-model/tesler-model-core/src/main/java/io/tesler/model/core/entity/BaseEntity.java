@@ -53,9 +53,6 @@ import org.springframework.data.annotation.CreatedDate;
 @PropagateAnnotations({DiscriminatorOptions.class})
 public abstract class BaseEntity extends AbstractEntity implements Serializable {
 
-	/* TODO>>IBORISENKO>>Refactor.This is a legacy strategy without pooling.
-	   Can cause performance problems in batch operations.
-	   See https://vladmihalcea.com/hibernate-hidden-gem-the-pooled-lo-optimizer/ */
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "extSequenceGenerator")
 	@GenericGenerator(

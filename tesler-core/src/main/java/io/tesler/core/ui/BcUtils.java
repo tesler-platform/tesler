@@ -90,10 +90,18 @@ public class BcUtils {
 		viewFields.invalidateAll();
 	}
 
+	/**
+	 * @deprecated use {@link #invalidateFieldCache()} instead.
+	 */
+	@Deprecated
 	public void invalidateFieldCacheByView(final String viewName) {
 		viewFields.invalidate(viewName);
 	}
 
+	/**
+	 * @deprecated use {@link #invalidateFieldCache()} instead.
+	 */
+	@Deprecated
 	public void invalidateFieldCacheByWidget(final Long widgetId) {
 		widgetFields.invalidate(widgetId);
 		jpaDao.getList(
@@ -107,6 +115,10 @@ public class BcUtils {
 		).forEach(this::invalidateFieldCacheByView);
 	}
 
+	/**
+	 * @deprecated use {@link #invalidateFieldCache()} instead.
+	 */
+	@Deprecated
 	public void invalidateFieldCacheByBc(final String bc) {
 		bcFields.invalidate(bc);
 		jpaDao.getList(
@@ -184,6 +196,10 @@ public class BcUtils {
 				.collect(Collectors.toSet());
 	}
 
+	/**
+	 * @deprecated use {@link #invalidateFieldCache()} instead.
+	 */
+	@Deprecated
 	public Set<String> getBcByDto(final Class<? extends DataResponseDTO> dtoClass) {
 		return bcRegistry.select(InnerBcDescription.class)
 				.filter(bcDescription -> Objects.equals(

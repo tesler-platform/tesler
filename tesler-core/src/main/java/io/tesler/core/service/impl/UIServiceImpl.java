@@ -98,6 +98,7 @@ public class UIServiceImpl implements UIService {
 
 	private List<ScreenResponsibility> commonScreens;
 
+	//TODO>>iborisenko>>refactor to constructor. Make commonScreens, defaultUserSettings final to obviously indicate their thread safety
 	@SneakyThrows
 	@PostConstruct
 	protected void init() {
