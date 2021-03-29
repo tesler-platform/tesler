@@ -21,11 +21,14 @@
 package io.tesler.model.core.entity.security;
 
 import io.tesler.model.core.entity.security.types.GroupRelationType;
+import org.hibernate.annotations.DiscriminatorOptions;
+
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 
 
 @Entity
+@DiscriminatorOptions(insert = false)
 @DiscriminatorValue(GroupRelationType.Values.SUPER_GROUP)
 public class GroupSuperGroupRelation extends GroupAccessorRelation {
 

@@ -28,7 +28,6 @@ import javax.persistence.criteria.Expression;
 import javax.persistence.criteria.Path;
 import lombok.experimental.UtilityClass;
 import org.springframework.data.jpa.domain.Specification;
-import org.springframework.data.jpa.domain.Specifications;
 
 
 @UtilityClass
@@ -40,7 +39,7 @@ public class NotificationSpecifications {
 
 
 	public static Specification<Notification> notDelivered(int serviceId) {
-		return Specifications.where(forService(serviceId))
+		return Specification.where(forService(serviceId))
 				.and((root, cq, cb) -> cb.equal(bitAnd(cb, root.get(Notification_.deliveryStatus), serviceId), 0));
 	}
 

@@ -20,7 +20,6 @@
 
 package io.tesler.model.core.entity;
 
-import io.tesler.model.core.hbn.PropagateAnnotations;
 import io.tesler.model.core.listeners.jpa.DelegatingBaseEntityListener;
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -50,7 +49,6 @@ import org.springframework.data.annotation.CreatedDate;
 @EqualsAndHashCode(of = {"id"}, callSuper = false)
 @EntityListeners(DelegatingBaseEntityListener.class)
 @DiscriminatorOptions(insert = false)
-@PropagateAnnotations({DiscriminatorOptions.class})
 public abstract class BaseEntity extends AbstractEntity implements Serializable {
 
 	@Id

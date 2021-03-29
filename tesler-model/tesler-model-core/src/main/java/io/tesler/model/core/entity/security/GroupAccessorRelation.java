@@ -33,6 +33,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.DiscriminatorOptions;
 
 /**
  * Relationship between group and other entities
@@ -42,6 +43,7 @@ import lombok.Setter;
 @Entity
 @Table(name = "group_relations")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorOptions(insert = false)
 @DiscriminatorColumn(name = "relation_type",
 		discriminatorType = DiscriminatorType.INTEGER
 )

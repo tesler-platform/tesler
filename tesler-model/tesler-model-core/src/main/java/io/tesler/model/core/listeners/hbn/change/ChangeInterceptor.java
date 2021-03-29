@@ -46,6 +46,7 @@ import org.hibernate.event.spi.EventSource;
 import org.hibernate.event.spi.PostDeleteEvent;
 import org.hibernate.event.spi.PostInsertEvent;
 import org.hibernate.event.spi.PostUpdateEvent;
+import org.hibernate.internal.SessionImpl;
 import org.springframework.context.ApplicationListener;
 import org.springframework.stereotype.Component;
 
@@ -89,7 +90,7 @@ public class ChangeInterceptor implements ApplicationListener<EntitySerializatio
 		}
 
 		BaseEntity entity = serializationEvent.getEntity();
-		Session session = getSupportedEntityManager(entity.getClass().getName()).unwrap(Session.class);
+		SessionImpl session = getSupportedEntityManager(entity.getClass().getName()).unwrap(SessionImpl.class);
 		session.flush();
 		if (needRefresh(session, entity)) {
 			session.refresh(entity);

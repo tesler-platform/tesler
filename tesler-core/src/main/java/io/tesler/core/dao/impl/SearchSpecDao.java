@@ -33,7 +33,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.jpa.domain.Specification;
-import org.springframework.data.jpa.domain.Specifications;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -87,7 +86,7 @@ public class SearchSpecDao {
 		}
 		return jpaDao.getList(
 				SearchSpec.class,
-				Specifications
+				Specification
 						.where(securitySpecification.toSpecification(
 								bcDescription.getServiceClass().getSimpleName()
 						))

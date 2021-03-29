@@ -28,7 +28,6 @@ import io.tesler.model.core.entity.security.SecurableEntity;
 import io.tesler.model.core.entity.security.types.Permission;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.jpa.domain.Specification;
-import org.springframework.data.jpa.domain.Specifications;
 import org.springframework.stereotype.Component;
 
 
@@ -49,7 +48,7 @@ public class SpecificationEnforcement implements IPolicyEnforcementPoint<CrudmaA
 		return (root, query, cb) -> {
 			Class<?> cls = root.getModel().getBindableJavaType();
 			if (SecurableEntity.class.isAssignableFrom(cls)) {
-				return Specifications.where(result).and(
+				return Specification.where(result).and(
 						accessService.getSecuritySpecification(Permission.READ)
 				).toPredicate(root, query, cb);
 			}
