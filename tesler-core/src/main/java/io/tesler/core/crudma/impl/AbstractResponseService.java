@@ -64,6 +64,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityGraph;
+import javax.persistence.criteria.Predicate;
 import javax.persistence.metamodel.SingularAttribute;
 import java.lang.reflect.Modifier;
 import java.util.*;
@@ -323,7 +324,11 @@ public abstract class AbstractResponseService<T extends DataResponseDTO, E exten
 		return dao.getCount(
 				typeOfEntity,
 				typeOfDTO,
-				specificationBuilder.buildBcSpecification(bc),
+				(root, cq, cb) -> {
+					Predicate pr = specificationBuilder.buildBcSpecification(bc).toPredicate(root, cq, cb);
+					cq.orderBy();
+					return pr;
+				},
 				bc.getParameters()
 		);
 	}
