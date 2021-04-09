@@ -40,28 +40,12 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.BooleanUtils;
 import org.springframework.util.ReflectionUtils;
 
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Expression;
-import javax.persistence.criteria.FetchParent;
-import javax.persistence.criteria.From;
-import javax.persistence.criteria.Join;
-import javax.persistence.criteria.JoinType;
-import javax.persistence.criteria.Order;
-import javax.persistence.criteria.Path;
-import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
+import javax.persistence.criteria.*;
 import javax.persistence.metamodel.Bindable;
 import javax.persistence.metamodel.Bindable.BindableType;
 import javax.persistence.metamodel.ManagedType;
 import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static io.tesler.api.data.dictionary.DictionaryCache.dictionary;
@@ -74,7 +58,8 @@ import static io.tesler.core.controller.param.SortType.DESC;
 @UtilityClass
 public class MetadataUtils {
 
-	public List<ClassifyDataParameter> mapSearchParamsToPOJO(Class dtoClazz, FilterParameters filterParameters, List<ClassifyDataProvider> providers) {
+	public List<ClassifyDataParameter> mapSearchParamsToPOJO(Class dtoClazz, FilterParameters filterParameters,
+			List<ClassifyDataProvider> providers) {
 
 		List<ClassifyDataParameter> result = new ArrayList<>();
 
@@ -338,14 +323,30 @@ public class MetadataUtils {
 		return null;
 	}
 
-	public static Predicate getPredicateFromSearchParams(CriteriaBuilder cb, Root<?> root, Class dtoClazz,
+	public static <T> Predicate getPredicateFromSearchParams(Root<T> root, CriteriaQuery<?> cq, CriteriaBuilder cb,
+			Class dtoClazz,
 			FilterParameters searchParams, List<ClassifyDataProvider> providers) {
 
 		if (searchParams == null) {
 			return cb.and();
 		}
 		List<ClassifyDataParameter> criteriaStrings = mapSearchParamsToPOJO(dtoClazz, searchParams, providers);
-		return getAllSpecifications(cb, root, criteriaStrings);
+		boolean joinRequired = criteriaStrings.stream()
+				.anyMatch(param -> param.getField().contains("."));
+
+		Predicate filterPredicate;
+		if (joinRequired) {
+			Subquery<Long> filterSubquery = cq.subquery(Long.class);
+			Class<T> rootClass = root.getModel().getJavaType();
+			Root<T> subRoot = filterSubquery.from(rootClass);
+			Predicate searchParamsRestriction = getAllSpecifications(cb, subRoot, criteriaStrings);
+			filterSubquery.select(subRoot.get("id"))
+					.where(searchParamsRestriction);
+			filterPredicate = cb.in(root.get("id")).value(filterSubquery);
+		} else {
+			filterPredicate = getAllSpecifications(cb, root, criteriaStrings);
+		}
+		return filterPredicate;
 	}
 
 	public static Predicate getAllSpecifications(CriteriaBuilder cb, Root<?> root,
