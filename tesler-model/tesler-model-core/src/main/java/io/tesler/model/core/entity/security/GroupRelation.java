@@ -21,14 +21,15 @@
 package io.tesler.model.core.entity.security;
 
 import io.tesler.model.core.entity.security.types.GroupRelationType;
-import java.io.Serializable;
+import io.tesler.model.core.hbn.ExtSequenceGenerator;
+import lombok.*;
+import org.hibernate.annotations.Parameter;
+import org.hibernate.id.enhanced.OptimizerFactory;
+import org.hibernate.id.enhanced.SequenceStyleGenerator;
+
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
-import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import java.io.Serializable;
 
 
 @Embeddable
@@ -37,6 +38,14 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode
+@ExtSequenceGenerator(
+		parameters = {
+				@Parameter(name = SequenceStyleGenerator.SEQUENCE_PARAM, value = "APP_BATCH_SEQ"),
+				@Parameter(name = SequenceStyleGenerator.INITIAL_PARAM, value = "2000000000"),
+				@Parameter(name = SequenceStyleGenerator.INCREMENT_PARAM, value = "100"),
+				@Parameter(name = SequenceStyleGenerator.OPT_PARAM, value = OptimizerFactory.POOL_LO)
+		}
+)
 public class GroupRelation implements Serializable {
 
 	@Column(name = "relation_type")
