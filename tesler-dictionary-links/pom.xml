@@ -4,13 +4,13 @@
   <modelVersion>4.0.0</modelVersion>
   <artifactId>tesler-dictionary-links</artifactId>
   <packaging>pom</packaging>
-  <version>3.0.0.M7</version>
+  <version>3.0.0.M7.1-SNAPSHOT</version>
   <name>IO Tesler - Plugins</name>
 
   <parent>
     <groupId>io.tesler</groupId>
     <artifactId>tesler-base</artifactId>
-    <version>3.0.0.M7</version>
+    <version>3.0.0.M7.1-SNAPSHOT</version>
     <relativePath>../tesler-base/pom.xml</relativePath>
   </parent>
 
