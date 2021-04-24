@@ -4,13 +4,13 @@
   <modelVersion>4.0.0</modelVersion>
   <artifactId>tesler-dictionary-model</artifactId>
   <packaging>jar</packaging>
-  <version>3.0.0.M7</version>
+  <version>3.0.0.M7.3-SNAPSHOT</version>
   <name>IO Tesler - Dictionary Model</name>
 
   <parent>
     <artifactId>tesler-dictionary</artifactId>
     <groupId>io.tesler</groupId>
-    <version>3.0.0.M7</version>
+    <version>3.0.0.M7.3-SNAPSHOT</version>
     <relativePath>../pom.xml</relativePath>
   </parent>
 
@@ -20,5 +20,26 @@
       <artifactId>tesler-model-core</artifactId>
     </dependency>
   </dependencies>
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.hibernate.orm.tooling</groupId>
+        <artifactId>hibernate-enhance-maven-plugin</artifactId>
+        <version>${hibernate.version}</version>
+        <executions>
+          <execution>
+            <configuration>
+              <failOnError>true</failOnError>
+              <enableDirtyTracking>true</enableDirtyTracking>
+              <enableLazyInitialization>true</enableLazyInitialization>
+            </configuration>
+            <goals>
+              <goal>enhance</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
 
 </project>

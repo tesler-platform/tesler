@@ -77,10 +77,10 @@ public class NotificationDAOImpl implements NotificationDAO {
 		return (root, cq, cb) -> {
 			List<Predicate> predicates = new ArrayList<>();
 			predicates.add(cb.equal(root.get(Notification_.recipientId), recipientId));
-			predicates.add(cb.equal(root.get(Notification_.push), 1));
+			predicates.add(cb.equal(root.get(Notification_.pushBit), 1));
 			if (unread) {
 				predicates.add(
-						cb.equal(root.get(Notification_.read), 0)
+						cb.equal(root.get(Notification_.readBit), 0)
 				);
 			}
 			if (offset != null) {
@@ -101,7 +101,7 @@ public class NotificationDAOImpl implements NotificationDAO {
 		for (List<NotificationDeferredResult> chunk : Lists.partition(recipients, 500)) {
 			notifications.addAll(jpaDao.getList(
 					Notification.class, (root, cq, cb) -> cb.and(
-							cb.equal(root.get(Notification_.push), 1),
+							cb.equal(root.get(Notification_.pushBit), 1),
 							cb.or(chunk.stream().map(e -> {
 										List<Predicate> predicates = new ArrayList<>();
 										predicates.add(cb.equal(root.get(Notification_.recipientId), e.getRecipientId()));
