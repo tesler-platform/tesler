@@ -21,12 +21,25 @@
 package io.tesler.model.core.entity.security;
 
 import io.tesler.model.core.entity.security.types.GroupRelationType;
+import io.tesler.model.core.hbn.ExtSequenceGenerator;
+import org.hibernate.annotations.Parameter;
+import org.hibernate.id.enhanced.OptimizerFactory;
+import org.hibernate.id.enhanced.SequenceStyleGenerator;
+
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 
 
 @Entity
 @DiscriminatorValue(GroupRelationType.Values.MEMBER_GROUP)
+@ExtSequenceGenerator(
+		parameters = {
+				@Parameter(name = SequenceStyleGenerator.SEQUENCE_PARAM, value = "APP_BATCH_SEQ"),
+				@Parameter(name = SequenceStyleGenerator.INITIAL_PARAM, value = "2000000000"),
+				@Parameter(name = SequenceStyleGenerator.INCREMENT_PARAM, value = "100"),
+				@Parameter(name = SequenceStyleGenerator.OPT_PARAM, value = OptimizerFactory.POOL_LO)
+		}
+)
 public class GroupDirectGroupRelation extends GroupAccessorRelation {
 
 }

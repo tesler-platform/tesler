@@ -23,11 +23,16 @@ package io.tesler.model.core.entity.security;
 import io.tesler.model.core.api.security.IAccessorSupplier;
 import io.tesler.model.core.entity.BaseEntity;
 import io.tesler.model.core.entity.security.types.AccessorType;
+import io.tesler.model.core.hbn.ExtSequenceGenerator;
+import lombok.Getter;
+import lombok.Setter;
+import org.hibernate.annotations.Parameter;
+import org.hibernate.id.enhanced.OptimizerFactory;
+import org.hibernate.id.enhanced.SequenceStyleGenerator;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
-import lombok.Getter;
-import lombok.Setter;
 
 /**
  * Group
@@ -36,6 +41,14 @@ import lombok.Setter;
 @Getter
 @Entity
 @Table(name = "groups")
+@ExtSequenceGenerator(
+		parameters = {
+				@Parameter(name = SequenceStyleGenerator.SEQUENCE_PARAM, value = "APP_BATCH_SEQ"),
+				@Parameter(name = SequenceStyleGenerator.INITIAL_PARAM, value = "2000000000"),
+				@Parameter(name = SequenceStyleGenerator.INCREMENT_PARAM, value = "100"),
+				@Parameter(name = SequenceStyleGenerator.OPT_PARAM, value = OptimizerFactory.POOL_LO)
+		}
+)
 public class Group extends BaseEntity implements IAccessorSupplier {
 
 	/**
