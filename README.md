@@ -1,7 +1,7 @@
 Tesler  [![Build Status](https://travis-ci.org/tesler-platform/tesler.svg?branch=master)](https://travis-ci.org/tesler-platform/tesler) [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=tesler-platform_tesler&metric=alert_status)](https://sonarcloud.io/dashboard?id=tesler-platform_tesler) 
 =========
 
-Tesler is a framework that allows you to quickly develop applications using the full power of existing enterprise Java solutions.
+Tesler is a framework that allows you to quickly develop applications using the full power of existing enterprise Java solutions. 
 
 ## Core features
 
@@ -35,7 +35,7 @@ The following databases are currently supported:
 
 Tesler follows [semver](https://semver.org/), e.g. MAJOR.MINOR.PATCH
 All significant changes are documented in our [changelog file](./CHANGELOG.md).  
-Backwards incompatible changes are denoted with `[BREAKING CHANGE]` mark.
+Backwards incompatible changes are denoted with `[BREAKING CHANGE]` mark
 
 ## Contributing
 
