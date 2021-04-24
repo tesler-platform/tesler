@@ -3,13 +3,13 @@
     <modelVersion>4.0.0</modelVersion>
     <artifactId>tesler-plugin</artifactId>
     <packaging>jar</packaging>
-    <version>3.0.0.M7-SNAPSHOT</version>
+    <version>3.0.0.M7</version>
     <name>IO Tesler - Plugin</name>
 
     <parent>
         <groupId>io.tesler</groupId>
         <artifactId>tesler-base</artifactId>
-        <version>3.0.0.M7-SNAPSHOT</version>
+        <version>3.0.0.M7</version>
         <relativePath>../tesler-base/pom.xml</relativePath>
     </parent>
 
