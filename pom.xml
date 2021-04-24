@@ -4,7 +4,7 @@
   <groupId>io.tesler</groupId>
   <artifactId>tesler</artifactId>
   <packaging>pom</packaging>
-  <version>3.0.0.M7.1-SNAPSHOT</version>
+  <version>3.0.0.M7.4-SNAPSHOT</version>
   <name>IO Tesler</name>
   <description>Java framework designed for creating Enterprise Rich Web Applications</description>
   <inceptionYear>2018</inceptionYear>
@@ -50,7 +50,14 @@
     </repository>
   </distributionManagement>
 
+  <parent>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-parent</artifactId>
+    <version>2.1.7.RELEASE</version>
+  </parent>
+
   <properties>
+    <hibernate.version>5.4.13.Final</hibernate.version>
     <checktyle.config>/tesler-base/src/main/resources/checkstyle-checker.xml</checktyle.config>
     <flatten.mode>oss</flatten.mode>
     <skip.license>false</skip.license>
