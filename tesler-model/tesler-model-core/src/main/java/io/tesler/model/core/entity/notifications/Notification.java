@@ -23,12 +23,9 @@ package io.tesler.model.core.entity.notifications;
 
 import io.tesler.api.data.dictionary.LOV;
 import io.tesler.model.core.entity.BaseEntity;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Lob;
-import javax.persistence.PrePersist;
-import javax.persistence.PreUpdate;
-import javax.persistence.Table;
+
+import javax.persistence.*;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -64,10 +61,10 @@ public class Notification extends BaseEntity {
 	private String uiMessage;
 
 	@Formula("BITAND(DELIVERY_STATUS, 1)")
-	private Integer read;
+	private Integer readBit;
 
 	@Formula("BITAND(DELIVERY_TYPE, 1)")
-	private Integer push;
+	private Integer pushBit;
 
 	@Column(name = "URL")
 	private String url;
@@ -94,12 +91,14 @@ public class Notification extends BaseEntity {
 		this.uiSubject = StringUtils.truncate(this.uiSubject, 1500);
 	}
 
+	@Transient
 	public boolean isRead() {
-		return read == 1;
+		return readBit == 1;
 	}
 
+	@Transient
 	public boolean isPush() {
-		return push == 1;
+		return pushBit == 1;
 	}
 
 }
