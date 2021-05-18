@@ -66,6 +66,7 @@ import javax.persistence.metamodel.ManagedType;
 import javax.persistence.metamodel.SingularAttribute;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.hibernate.Hibernate;
 import org.hibernate.ScrollMode;
 import org.hibernate.ScrollableResults;
 import org.hibernate.Session;
@@ -217,7 +218,7 @@ public class JpaDaoImpl implements JpaDao {
 
 	@Override
 	public void refresh(AbstractEntity o) {
-		EntityManager supportedEntityManager = getSupportedEntityManager(o.getClass().getName());
+		EntityManager supportedEntityManager = getSupportedEntityManager(Hibernate.getClass(o).getName());
 		if (supportedEntityManager.contains(o)) {
 			supportedEntityManager.unwrap(Session.class).refresh(o);
 		}
@@ -225,18 +226,18 @@ public class JpaDaoImpl implements JpaDao {
 
 	@Override
 	public <T> T save(Object entity) {
-		return (T) getSupportedEntityManager(entity.getClass().getName()).unwrap(Session.class).save(entity);
+		return (T) getSupportedEntityManager(Hibernate.getClass(entity).getName()).unwrap(Session.class).save(entity);
 	}
 
 	@Override
 	public <T extends BaseEntity> T evict(T o) {
-		getSupportedEntityManager(o.getClass().getName()).unwrap(Session.class).evict(o);
+		getSupportedEntityManager(Hibernate.getClass(o).getName()).unwrap(Session.class).evict(o);
 		return o;
 	}
 
 	@Override
 	public void delete(AbstractEntity o) {
-		EntityManager supportedEntityManager = getSupportedEntityManager(o.getClass().getName());
+		EntityManager supportedEntityManager = getSupportedEntityManager(Hibernate.getClass(o).getName());
 		supportedEntityManager.unwrap(Session.class).delete(supportedEntityManager.merge(o));
 	}
 
@@ -281,12 +282,12 @@ public class JpaDaoImpl implements JpaDao {
 
 	@Override
 	public void saveWithCompositeKey(EmbeddedKeyable o) {
-		getSupportedEntityManager(o.getClass().getName()).unwrap(Session.class).save(o);
+		getSupportedEntityManager(Hibernate.getClass(o).getName()).unwrap(Session.class).save(o);
 	}
 
 	@Override
 	public void deleteWithCompositeKey(EmbeddedKeyable o) {
-		getSupportedEntityManager(o.getClass().getName()).unwrap(Session.class).delete(o);
+		getSupportedEntityManager(Hibernate.getClass(o).getName()).unwrap(Session.class).delete(o);
 	}
 
 	@Override
@@ -304,7 +305,7 @@ public class JpaDaoImpl implements JpaDao {
 		}
 		Map<String, Object> options = new HashMap<>();
 		options.put(AvailableSettings.LOCK_TIMEOUT, timeout);
-		getSupportedEntityManager(entity.getClass().getName()).lock(entity, lockMode, options);
+		getSupportedEntityManager(Hibernate.getClass(entity).getName()).lock(entity, lockMode, options);
 	}
 
 	@Override
@@ -314,8 +315,8 @@ public class JpaDaoImpl implements JpaDao {
 		}
 		Map<String, Object> options = new HashMap<>();
 		options.put(AvailableSettings.LOCK_TIMEOUT, timeout);
-		getSupportedEntityManager(entity.getClass().getName()).lock(entity, LockModeType.PESSIMISTIC_READ, options);
-		getSupportedEntityManager(entity.getClass().getName()).refresh(entity);
+		getSupportedEntityManager(Hibernate.getClass(entity).getName()).lock(entity, LockModeType.PESSIMISTIC_READ, options);
+		getSupportedEntityManager(Hibernate.getClass(entity).getName()).refresh(entity);
 	}
 
 	@Override
