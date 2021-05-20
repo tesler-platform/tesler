@@ -45,6 +45,7 @@ import java.util.UUID;
 import javax.persistence.metamodel.Attribute;
 import lombok.Getter;
 import lombok.SneakyThrows;
+import org.hibernate.Hibernate;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.support.ResourceBundleMessageSource;
@@ -136,7 +137,7 @@ public class TemplateProcessingServiceImpl implements TemplateProcessingServiceE
 		if (version <= lastModified) {
 			return getConfiguration().getTemplate(key);
 		}
-		PropertyDescriptor propertyDescriptor = BeanUtils.getPropertyDescriptor(entity.getClass(), attributeName);
+		PropertyDescriptor propertyDescriptor = BeanUtils.getPropertyDescriptor(Hibernate.getClass(entity), attributeName);
 		String template = (String) propertyDescriptor.getReadMethod().invoke(entity);
 		if (template == null) {
 			template = "";

@@ -24,6 +24,7 @@ import io.tesler.core.dto.BusinessError.Entity;
 import io.tesler.model.core.entity.BaseEntity;
 import java.lang.reflect.Field;
 import lombok.extern.slf4j.Slf4j;
+import org.hibernate.Hibernate;
 
 @Slf4j
 public class InnerBcException extends BusinessException {
@@ -33,7 +34,7 @@ public class InnerBcException extends BusinessException {
 		Entity errorEntity;
 		if (entity != null) {
 			errorEntity = new Entity("InnerBusinessComponent", entity.getId().toString());
-			for (Field field : entity.getClass().getFields()) {
+			for (Field field : Hibernate.getClass(entity).getFields()) {
 				errorEntity.addField(field.getName(), field.getType().getSimpleName());
 			}
 		} else {
