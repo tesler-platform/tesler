@@ -1,5 +1,6 @@
 import java.nio.file.Files
 import java.nio.file.Path
+import java.nio.file.Paths
 
 // Detect node npx runner
 def launcher = System.properties['os.name'].toLowerCase().contains('windows') ? "npx.cmd" : "npx"
@@ -12,10 +13,10 @@ proc.waitFor()
 
 // Move UI pom from archetype to CRA-generated folder
 String pomLocation = "${request.outputDirectory}/${request.artifactId}/${request.artifactId}-ui-template"
-Path pom = Path.of("${pomLocation}/pom.xml")
-Path ui = Path.of("${request.outputDirectory}/${request.artifactId}/${request.artifactId}-ui/pom.xml")
+Path pom = Paths.get("${pomLocation}/pom.xml")
+Path ui = Paths.get("${request.outputDirectory}/${request.artifactId}/${request.artifactId}-ui/pom.xml")
 Files.copy(pom, ui)
 Files.delete(pom)
-Files.delete(Path.of(pomLocation))
+Files.delete(Paths.get(pomLocation))
 
 println "\nDone. Exit value: ${proc.exitValue()}"

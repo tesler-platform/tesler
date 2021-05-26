@@ -20,8 +20,6 @@
 
 package io.tesler.core.util.session.impl;
 
-import static io.tesler.api.service.session.InternalAuthorizationService.VANILLA;
-
 import io.tesler.api.data.dictionary.LOV;
 import io.tesler.api.service.session.CoreSessionService;
 import io.tesler.api.service.session.TeslerUserDetails;
@@ -30,7 +28,6 @@ import io.tesler.core.controller.BcHierarchyAware;
 import io.tesler.core.service.UIService;
 import io.tesler.core.service.impl.UserRoleService;
 import io.tesler.core.util.session.SessionService;
-import io.tesler.core.util.session.SessionUser;
 import io.tesler.core.util.session.UserExternalService;
 import io.tesler.core.util.session.UserService;
 import io.tesler.core.util.session.WebHelper;
@@ -91,39 +88,6 @@ public class SessionServiceImpl implements SessionService {
 		User user = getUserFromDetails(coreSessionService.getSessionUserDetails(true));
 		if (user == null) {
 			throw new SessionAuthenticationException("Not authorized");
-		}
-		return user;
-	}
-
-	/**
-	 * get current User entity from CoreSessionService, if not found try to found User in
-	 * UserExternalService's (that defined by client applications).
-	 * @param fallbackToSystem - if enabled, empty authenticated user replaced with system VANILLA user
-	 * @return User entity
-	 */
-	private User getSessionUserInternal(boolean fallbackToSystem) {
-		TeslerUserDetails details = coreSessionService.getSessionUserDetails(false);
-		if (details != null) {
-			return getUserFromDetails(details);
-		}
-		SessionUser sessionUser = null;
-		if (userExternalServices.isPresent()) {
-			for (UserExternalService userExternalService : userExternalServices.get()) {
-				sessionUser = userExternalService.getSessionUser();
-				if (sessionUser != null) {
-					break;
-				}
-			}
-		}
-		if (sessionUser == null) {
-			throw new SessionAuthenticationException("Not authorized");
-		}
-		User user = userService.getUserByLogin(sessionUser.getId());
-		if (user == null && fallbackToSystem) {
-			// here the user has already authenticated
-			// therefore it seems normal to replace it with a system user
-			user = new User();
-			user.setId(VANILLA.getId());
 		}
 		return user;
 	}
@@ -193,11 +157,6 @@ public class SessionServiceImpl implements SessionService {
 		}
 		userDetails.setUserRole(matchedRole);
 		userRoleService.updateMainUserRole(user, matchedRole);
-	}
-
-	@Override
-	public User getEffectiveSessionUser() {
-		return getSessionUserInternal(true);
 	}
 
 	@Override

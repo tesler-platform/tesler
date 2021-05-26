@@ -1,0 +1,52 @@
+/*-
+ * #%L
+ * IO Tesler - Core
+ * %%
+ * Copyright (C) 2018 - 2019 Tesler Contributors
+ * %%
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ * #L%
+ */
+
+package io.tesler.core.metahotreload.service;
+
+import static java.util.Optional.ofNullable;
+
+import io.tesler.core.metahotreload.dto.WidgetSourceDTO;
+import io.tesler.model.ui.entity.Widget;
+import io.tesler.model.ui.entity.WidgetProperty;
+import java.util.List;
+import java.util.Map;
+import javax.persistence.EntityManager;
+import lombok.NonNull;
+import lombok.experimental.UtilityClass;
+
+@UtilityClass
+public class WidgetPropertyUtil {
+
+	static void process(
+			@NonNull List<WidgetSourceDTO> widgetDtos,
+			@NonNull Map<String, Widget> nameToWidget,
+			@NonNull EntityManager entityManager) {
+		widgetDtos.stream()
+				.map(widgetDto -> mapToWidgetProperty(widgetDto, nameToWidget.get(widgetDto.getName())))
+				.forEach(entityManager::persist);
+	}
+
+	@NonNull
+	private static WidgetProperty mapToWidgetProperty(@NonNull WidgetSourceDTO dto, @NonNull Widget widget) {
+		return new WidgetProperty()
+				.setWidget(widget)
+				.setIsConclusionType(ofNullable(dto.getIsConclusionWidget()).orElse(false));
+	}
+}

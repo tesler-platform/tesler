@@ -20,6 +20,7 @@
 
 package io.tesler.core.config;
 
+import io.tesler.core.metahotreload.service.MetaHotReloadService;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -38,6 +39,7 @@ import org.springframework.cache.support.SimpleCacheManager;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 import org.springframework.web.context.annotation.RequestScope;
 import org.springframework.web.context.request.RequestContextHolder;
 
@@ -75,8 +77,9 @@ public class CacheConfig extends CachingConfigurerSupport {
 	}
 
 	@Bean
-	@Override
-	public CacheManager cacheManager() {
+	@Primary
+	public CacheManager cacheManager(MetaHotReloadService metaHotReloadService) {
+		metaHotReloadService.loadMeta();
 		CompositeCacheManager compositeCacheManager = new CompositeCacheManager();
 		compositeCacheManager.setCacheManagers(buildCacheManagers());
 		compositeCacheManager.setFallbackToNoOpCache(true);
