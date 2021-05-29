@@ -21,7 +21,6 @@
 package io.tesler.core.util.session;
 
 import io.tesler.api.data.dictionary.LOV;
-import io.tesler.model.core.api.EffectiveUserAware;
 import io.tesler.model.core.entity.Department;
 import io.tesler.model.core.entity.Division;
 import io.tesler.model.core.entity.User;
@@ -32,7 +31,7 @@ import java.util.Map;
 import java.util.Set;
 
 
-public interface SessionService extends EffectiveUserAware<User> {
+public interface SessionService {
 
 	User getSessionUser();
 

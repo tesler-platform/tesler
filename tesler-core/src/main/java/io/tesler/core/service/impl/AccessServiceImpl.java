@@ -22,6 +22,7 @@ package io.tesler.core.service.impl;
 
 import io.tesler.core.config.CacheConfig;
 import io.tesler.core.util.session.SessionService;
+import io.tesler.model.core.api.EffectiveUserAware;
 import io.tesler.model.core.api.GroupService;
 import io.tesler.model.core.api.security.AccessService;
 import io.tesler.model.core.dao.JpaDao;
@@ -39,9 +40,13 @@ public class AccessServiceImpl extends BaseAccessService {
 
 	private final SessionService sessionService;
 
-	public AccessServiceImpl(GroupService groupService, JpaDao jpaDao, SessionService sessionService) {
-		super(groupService, jpaDao, sessionService);
+	private final EffectiveUserAware effectiveUserAware;
+
+	public AccessServiceImpl(GroupService groupService, JpaDao jpaDao, SessionService sessionService,
+			EffectiveUserAware effectiveUserAware) {
+		super(groupService, jpaDao, effectiveUserAware);
 		this.sessionService = sessionService;
+		this.effectiveUserAware = effectiveUserAware;
 	}
 
 	@Override
