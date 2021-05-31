@@ -1,0 +1,11 @@
+{
+  "name" : "preferences",
+  "title" : "Настройки",
+  "primaryViewName" : "notificationusersettings",
+  "primaryViews" : [ "notificationusersettings" ],
+  "navigation" : {
+    "menu" : [ {
+      "viewName" : "notificationusersettings"
+    } ]
+  }
+}
