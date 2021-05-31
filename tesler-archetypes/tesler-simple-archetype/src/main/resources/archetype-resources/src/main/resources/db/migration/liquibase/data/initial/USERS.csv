@@ -1,0 +1,2 @@
+﻿ID;FIRST_NAME;LAST_NAME;PATRONYMIC;LOGIN;PASSWORD;INTERNAL_ROLE_CD;USER_PRINCIPAL_NAME;PHONE;EMAIL;FULL_USER_NAME;TITLE;DEPT_ID;DEFAULT_PRJ_ID;ORIG_DEPT_CODE;TIMEZONE
+1;"Виктор";"Сухоруков";"Иванович";"vanilla";"{noop}vanilla";"ADMIN";"vanilla@sbl.local";"999 999 9999";"vanilla@vanilla.com";"Сухоруков Виктор Иванович";null;0;1;"DIT";null

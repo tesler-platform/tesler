@@ -15,6 +15,7 @@
 
   <modules>
     <module>tesler-base-archetype</module>
+    <module>tesler-simple-archetype</module>
   </modules>
 
   <properties>
