@@ -30,12 +30,16 @@ import io.tesler.core.service.action.ActionIconSpecifier;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import lombok.Getter;
 
 
 public class ActionsDTO implements Iterable<ActionDTO> {
 
-	@Getter(onMethod_ = {@JsonValue, @JsonSerialize(using = ActionDTOListSerializer.class)})
+	@JsonValue
+	@JsonSerialize(using = ActionDTOListSerializer.class)
+	public List<ActionDTO> getActions() {
+		return actions;
+	}
+
 	private List<ActionDTO> actions = new ArrayList<>();
 
 	public ActionsDTO addMethod(ActionDescription actionDescription, BusinessComponent bc) {

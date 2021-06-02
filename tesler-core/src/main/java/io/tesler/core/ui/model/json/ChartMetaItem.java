@@ -54,7 +54,11 @@ public final class ChartMetaItem {
 
 		private static final Map<String, Engine> VALUES = MapUtils.of(Engine.class, Engine::getValue);
 
-		@Getter(onMethod = @__(@JsonValue))
+		@JsonValue
+		public String getValue() {
+			return value;
+		}
+
 		private final String value;
 
 		@JsonCreator
