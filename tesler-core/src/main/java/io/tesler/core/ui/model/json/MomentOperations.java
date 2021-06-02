@@ -24,7 +24,6 @@ import io.tesler.api.util.MapUtils;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import java.util.Map;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
@@ -39,7 +38,11 @@ public enum MomentOperations {
 			MomentOperations.class, MomentOperations::getValue
 	);
 
-	@Getter(onMethod = @__(@JsonValue))
+	@JsonValue
+	public String getValue() {
+		return value;
+	}
+
 	private final String value;
 
 	@JsonCreator

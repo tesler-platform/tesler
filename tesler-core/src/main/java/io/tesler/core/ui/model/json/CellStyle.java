@@ -51,7 +51,11 @@ public class CellStyle {
 
 		private static final Map<String, Align> VALUES = MapUtils.of(Align.class, Align::getValue);
 
-		@Getter(onMethod = @__(@JsonValue))
+		@JsonValue
+		public String getValue() {
+			return value;
+		}
+
 		private final String value;
 
 		@JsonCreator
