@@ -27,6 +27,7 @@ import lombok.experimental.UtilityClass;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.domain.Specifications;
 
+
 @UtilityClass
 public class SpecificationUtils {
 

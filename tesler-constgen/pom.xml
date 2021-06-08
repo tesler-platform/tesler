@@ -3,13 +3,13 @@
   <modelVersion>4.0.0</modelVersion>
   <artifactId>tesler-constgen</artifactId>
   <packaging>jar</packaging>
-  <version>3.0.0.M10.1-SNAPSHOT</version>
+  <version>3.0.0.M10.2-SNAPSHOT</version>
   <name>IO Tesler - DTO Constant Generator</name>
 
   <parent>
     <groupId>io.tesler</groupId>
     <artifactId>tesler-base</artifactId>
-    <version>3.0.0.M10.1-SNAPSHOT</version>
+    <version>3.0.0.M10.2-SNAPSHOT</version>
     <relativePath>../tesler-base/pom.xml</relativePath>
   </parent>
 
@@ -22,6 +22,8 @@
     <dependency>
       <groupId>com.google.auto.service</groupId>
       <artifactId>auto-service</artifactId>
+      <scope>provided</scope>
+      <optional>true</optional>
     </dependency>
 
     <dependency>
@@ -32,6 +34,7 @@
     <dependency>
       <groupId>com.google.testing.compile</groupId>
       <artifactId>compile-testing</artifactId>
+      <scope>test</scope>
     </dependency>
   </dependencies>
 

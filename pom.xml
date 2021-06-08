@@ -4,7 +4,7 @@
   <groupId>io.tesler</groupId>
   <artifactId>tesler</artifactId>
   <packaging>pom</packaging>
-  <version>3.0.0.M10.1-SNAPSHOT</version>
+  <version>3.0.0.M10.2-SNAPSHOT</version>
   <name>IO Tesler</name>
   <description>Java framework designed for creating Enterprise Rich Web Applications</description>
   <inceptionYear>2018</inceptionYear>
@@ -53,10 +53,11 @@
   <parent>
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-starter-parent</artifactId>
-    <version>2.1.7.RELEASE</version>
+    <version>2.1.18.RELEASE</version>
   </parent>
 
   <properties>
+    <spring-boot.version>2.1.18.RELEASE</spring-boot.version>
     <hibernate.version>5.4.13.Final</hibernate.version>
     <checktyle.config>/tesler-base/src/main/resources/checkstyle-checker.xml</checktyle.config>
     <flatten.mode>oss</flatten.mode>
@@ -287,10 +288,10 @@
     <module>tesler-testing</module>
     <module>tesler-liquibase</module>
     <module>tesler-plugin</module>
-    <module>tesler-archetypes</module>
     <module>tesler-all</module>
     <module>tesler-dictionary</module>
     <module>tesler-dictionary-links</module>
+    <module>tesler-starter-parent</module>
   </modules>
 
 </project>
