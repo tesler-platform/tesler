@@ -30,8 +30,10 @@ import io.tesler.model.ui.entity.Widget;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-import javax.validation.constraints.NotNull;
+
+import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -42,19 +44,19 @@ public class WidgetUtil {
 
 	private final ObjectMapper objMapper;
 
-	@NotNull
+	@NonNull
 	public Map<String, Widget> process(
-			@NotNull List<WidgetSourceDTO> widgetDtos) {
+			@NonNull List<WidgetSourceDTO> widgetDtos) {
 		Map<String, Widget> nameToWidget = widgetDtos.stream()
-				.map(widgetDto -> mapToWidget(objMapper, widgetDto))
-				.collect(Collectors.toMap(Widget::getName, widget -> widget));
+				.map(widgetDto -> Pair.of(widgetDto.getWidgetNaturalKey(), mapToWidget(objMapper, widgetDto)))
+				.collect(Collectors.toMap(Pair::getLeft, Pair::getRight));
 
 		nameToWidget.forEach((name, widget) -> jpaDao.save(widget));
 		return nameToWidget;
 	}
 
-	@NotNull
-	private static Widget mapToWidget(@NotNull ObjectMapper objectMapper, @NotNull WidgetSourceDTO dto) {
+	@NonNull
+	private static Widget mapToWidget(@NonNull ObjectMapper objectMapper, @NonNull WidgetSourceDTO dto) {
 		return new Widget()
 				.setName(dto.getName())
 				.setType(dto.getType())

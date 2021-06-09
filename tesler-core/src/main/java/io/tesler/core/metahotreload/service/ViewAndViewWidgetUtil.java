@@ -32,7 +32,8 @@ import io.tesler.model.ui.entity.ViewWidgetsPK;
 import io.tesler.model.ui.entity.Widget;
 import java.util.List;
 import java.util.Map;
-import javax.validation.constraints.NotNull;
+
+import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -45,13 +46,13 @@ public class ViewAndViewWidgetUtil {
 	private final ObjectMapper objMapper;
 
 	public void process(
-			@NotNull List<ViewSourceDTO> viewDtos,
-			@NotNull Map<String, Widget> nameToWidget) {
+			@NonNull List<ViewSourceDTO> viewDtos,
+			@NonNull Map<String, Widget> nameToWidget) {
 		viewDtos.forEach(viewDto -> {
 			jpaDao.save(mapToView(objMapper, viewDto));
 			if (viewDto.getWidgets() != null) {
 				viewDto.getWidgets().forEach(viewWidgetDto -> {
-					Widget widget = nameToWidget.get(viewWidgetDto.getWidgetName());
+					Widget widget = nameToWidget.get(viewWidgetDto.getWidgetNaturalKey());
 					String viewName = viewDto.getName();
 					jpaDao.save(mapToViewWidget(viewName, widget, viewWidgetDto));
 				});
@@ -59,8 +60,8 @@ public class ViewAndViewWidgetUtil {
 		});
 	}
 
-	@NotNull
-	private static View mapToView(@NotNull ObjectMapper objectMapper, @NotNull ViewSourceDTO dto) {
+	@NonNull
+	private static View mapToView(@NonNull ObjectMapper objectMapper, @NonNull ViewSourceDTO dto) {
 		return new View()
 				.setName(dto.getName())
 				.setTemplate(dto.getTemplate())
@@ -72,11 +73,11 @@ public class ViewAndViewWidgetUtil {
 				.setOptions(serializeOrElseEmptyArr(objectMapper, dto.getOptions()));
 	}
 
-	@NotNull
+	@NonNull
 	private static ViewWidgets mapToViewWidget(
-			@NotNull String viewName,
-			@NotNull Widget widget,
-			@NotNull ViewSourceDTO.ViewWidgetSourceDTO dto) {
+			@NonNull String viewName,
+			@NonNull Widget widget,
+			@NonNull ViewSourceDTO.ViewWidgetSourceDTO dto) {
 		return new ViewWidgets()
 				.setPk(new ViewWidgetsPK()
 						.setViewName(viewName)

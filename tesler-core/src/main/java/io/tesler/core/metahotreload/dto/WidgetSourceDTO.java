@@ -24,9 +24,15 @@ import com.fasterxml.jackson.databind.JsonNode;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.Optional;
+
 @Setter
 @Getter
 public class WidgetSourceDTO {
+
+	//specify only "name" instead
+	@Deprecated
+	String id;
 
 	private String name;
 
@@ -54,4 +60,7 @@ public class WidgetSourceDTO {
 
 	private Boolean isConclusionWidget;
 
+	public String getWidgetNaturalKey() {
+		return Optional.ofNullable(this.id).orElse(this.name);
+	}
 }
