@@ -71,6 +71,7 @@
     <cron-utils.version>7.0.1</cron-utils.version>
     <reflections.version>0.9.11</reflections.version>
     <auto-service.version>1.0-rc4</auto-service.version>
+    <liquibase.version>3.6.3</liquibase.version>
 
 <!--    Test-->
 

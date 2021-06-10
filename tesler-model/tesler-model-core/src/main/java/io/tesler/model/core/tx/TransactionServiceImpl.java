@@ -29,6 +29,7 @@ import java.util.stream.Collectors;
 import javax.persistence.EntityManager;
 import org.hibernate.FlushMode;
 import org.hibernate.Session;
+import org.hibernate.internal.SessionImpl;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -100,7 +101,7 @@ public class TransactionServiceImpl implements TransactionService {
 						TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
 						// напрямую нельзы вызывать EntityManager.getTransaction, см.
 						// SharedEntityManagerCreator.SharedEntityManagerInvocationHandler.invoke
-						Session session = entityManager.unwrap(Session.class);
+						SessionImpl session = entityManager.unwrap(SessionImpl.class);
 						session.getTransaction().setRollbackOnly();
 					}
 			);
