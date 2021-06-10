@@ -3,13 +3,13 @@
     <modelVersion>4.0.0</modelVersion>
     <artifactId>tesler-model</artifactId>
     <packaging>pom</packaging>
-    <version>3.0.0.M11</version>
+    <version>3.0.0.M12</version>
     <name>IO Tesler - Models</name>
 
     <parent>
         <groupId>io.tesler</groupId>
         <artifactId>tesler</artifactId>
-        <version>3.0.0.M11</version>
+        <version>3.0.0.M12</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 

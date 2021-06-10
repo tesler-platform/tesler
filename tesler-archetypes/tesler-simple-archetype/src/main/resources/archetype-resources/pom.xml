@@ -24,7 +24,7 @@
     <spring-boot.version>2.1.7.RELEASE</spring-boot.version>
     <liquibase.version>3.6.3</liquibase.version>
     <slf4j.version>1.7.25</slf4j.version>
-    <tesler.version>3.0.0.M9.1-SNAPSHOT</tesler.version>
+    <tesler.version>3.0.0.M12</tesler.version>
     <junit.jupiter.version>5.7.1</junit.jupiter.version>
     <junit.platform.version>1.7.0</junit.platform.version>
     <surefire.version>2.22.2</surefire.version>

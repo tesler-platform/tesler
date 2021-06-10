@@ -22,6 +22,7 @@ package io.tesler.plugin;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Collections;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import lombok.Getter;
@@ -65,8 +66,8 @@ public class SpringPluginManager extends DefaultPluginManager implements Applica
 	}
 
 	@Override
-	protected Path createPluginsRoot() {
-		return Paths.get(".");
+	protected List<Path> createPluginsRoot() {
+		return Collections.singletonList(Paths.get("."));
 	}
 
 	@Override

@@ -23,15 +23,14 @@ package io.tesler.plugin;
 import java.nio.file.Path;
 import org.pf4j.DefaultPluginLoader;
 import org.pf4j.PluginClassLoader;
-import org.pf4j.PluginClasspath;
 import org.pf4j.PluginDescriptor;
 import org.pf4j.PluginManager;
 
 
 public class SpringPluginLoader extends DefaultPluginLoader {
 
-	public SpringPluginLoader(PluginManager pluginManager, PluginClasspath pluginClasspath) {
-		super(pluginManager, pluginClasspath);
+	public SpringPluginLoader(PluginManager pluginManager) {
+		super(pluginManager);
 	}
 
 	@Override

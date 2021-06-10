@@ -3,13 +3,13 @@
   <modelVersion>4.0.0</modelVersion>
   <artifactId>tesler-model-base</artifactId>
   <packaging>pom</packaging>
-  <version>3.0.0.M11</version>
+  <version>3.0.0.M12</version>
   <name>IO Tesler - Model Base</name>
 
   <parent>
     <groupId>io.tesler</groupId>
     <artifactId>tesler-base</artifactId>
-    <version>3.0.0.M11</version>
+    <version>3.0.0.M12</version>
     <relativePath>../../tesler-base/pom.xml</relativePath>
   </parent>
 
@@ -51,18 +51,8 @@
       <artifactId>javax.annotation-api</artifactId>
     </dependency>
     <dependency>
-      <groupId>org.junit.jupiter</groupId>
-      <artifactId>junit-jupiter-api</artifactId>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.junit.jupiter</groupId>
-      <artifactId>junit-jupiter-engine</artifactId>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.junit.platform</groupId>
-      <artifactId>junit-platform-launcher</artifactId>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-test</artifactId>
       <scope>test</scope>
     </dependency>
     <dependency>

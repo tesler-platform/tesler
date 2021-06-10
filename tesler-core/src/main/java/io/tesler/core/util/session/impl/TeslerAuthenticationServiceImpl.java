@@ -66,7 +66,7 @@ public class TeslerAuthenticationServiceImpl implements TeslerAuthenticationServ
 				.password(user.getPassword())
 				.userRole(userRole)
 				.timezone(user.getTimezone())
-				.locale(user.getLocale())
+				.localeCd(user.getLocale())
 				.authorities(Collections.emptySet())
 				.build();
 	}

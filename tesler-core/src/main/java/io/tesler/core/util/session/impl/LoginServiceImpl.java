@@ -35,8 +35,11 @@ import io.tesler.model.core.entity.User;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -46,6 +49,9 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @Transactional
 @RequiredArgsConstructor
+@Setter
+@Getter
+@ConfigurationProperties(prefix = "tesler.dev.panel")
 public class LoginServiceImpl implements LoginService {
 
 	private final SessionService sessionService;
@@ -57,6 +63,8 @@ public class LoginServiceImpl implements LoginService {
 	private final UIService uiService;
 
 	private final ScreenResponsibilityService screenResponsibilityService;
+
+	private boolean enabled;
 
 	/**
 	 * Build info for active session user for specific role
@@ -84,6 +92,7 @@ public class LoginServiceImpl implements LoginService {
 				.systemUrl(systemSettings.getValue(SystemPref.SYSTEM_URL))
 				.language(LocaleContextHolder.getLocale().getLanguage())
 				.timezone(LocaleContextHolder.getTimeZone().getID())
+				.isDevPanelEnabled(enabled)
 				.build();
 	}
 

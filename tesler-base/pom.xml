@@ -3,13 +3,13 @@
   <modelVersion>4.0.0</modelVersion>
   <artifactId>tesler-base</artifactId>
   <packaging>pom</packaging>
-  <version>3.0.0.M11</version>
+  <version>3.0.0.M12</version>
   <name>IO Tesler - Base</name>
 
   <parent>
     <groupId>io.tesler</groupId>
     <artifactId>tesler-bom</artifactId>
-    <version>3.0.0.M11</version>
+    <version>3.0.0.M12</version>
     <relativePath>../tesler-bom/pom.xml</relativePath>
   </parent>
 
@@ -62,7 +62,7 @@
     <commons-fileupload.version>1.3.3</commons-fileupload.version>
     <commons-lang.version>2.3</commons-lang.version>
     <p6spy.version>3.8.1</p6spy.version>
-    <pf4j.version>2.6.0</pf4j.version>
+    <pf4j.version>3.6.0</pf4j.version>
     <juel.version>2.2.7</juel.version>
     <surefire.version>2.22.2</surefire.version>
     <javapoet.version>1.10.0</javapoet.version>

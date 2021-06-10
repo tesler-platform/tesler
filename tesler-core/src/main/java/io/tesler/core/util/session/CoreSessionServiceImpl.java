@@ -99,7 +99,7 @@ public class CoreSessionServiceImpl implements CoreSessionService {
 	@Override
 	public Locale getLocale(Locale defaultValue) {
 		return Optional.ofNullable(getSessionUserDetails(false))
-				.map(TeslerUserDetails::getLocale)
+				.map(TeslerUserDetails::getLocaleCd)
 				.map(LOV::getKey)
 				.map(StringUtils::parseLocaleString)
 				.orElse(defaultValue);
