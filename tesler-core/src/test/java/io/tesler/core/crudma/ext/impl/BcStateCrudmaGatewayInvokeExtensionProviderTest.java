@@ -25,6 +25,7 @@ import static org.mockito.Mockito.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import io.tesler.api.data.dto.DataResponseDTO;
 import io.tesler.api.data.dto.DataResponseDTO_;
 import io.tesler.api.data.dto.rowmeta.FieldDTO;
 import io.tesler.api.data.dto.rowmeta.FieldsDTO;
@@ -93,8 +94,12 @@ class BcStateCrudmaGatewayInvokeExtensionProviderTest {
 		when(respFactory.getService(any())).thenReturn(responseService);
 		when(bcRegistry.getBcDescription(anyString())).thenReturn(bcDescription);
 		when(bcFactory.getBusinessComponent(any(), any())).thenReturn(bc);
-		when(bcStateAware.getState(any())).thenReturn(new BcState(null, true, null));
+		when(bcStateAware.getState(any())).thenReturn(new BcState(new TestDto(), true, null));
 		when(bcStateAware.isPersisted(any())).thenReturn(true);
+	}
+
+	private static class TestDto extends DataResponseDTO {
+
 	}
 
 	@Test
@@ -171,7 +176,9 @@ class BcStateCrudmaGatewayInvokeExtensionProviderTest {
 		when(bcStateAware.isPersisted(any())).thenReturn(false);
 		crudmaAction.setBc(bc);
 		FieldsDTO fields = new FieldsDTO();
-		fields.add(FieldDTO.disabledField(DataResponseDTO_.vstamp.getName()));
+		FieldDTO fieldDTO = FieldDTO.disabledField(DataResponseDTO_.vstamp.getName());
+		fieldDTO.setCurrentValue("1");
+		fields.add(fieldDTO);
 		MetaDTO metaDTO = new MetaDTO(
 				new RowMetaDTO(
 						new ActionsDTO(),
