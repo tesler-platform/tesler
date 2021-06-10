@@ -24,7 +24,6 @@ import io.tesler.core.metahotreload.service.MetaHotReloadService;
 import io.tesler.api.service.tx.TransactionService;
 import io.tesler.api.util.Invoker;
 import lombok.RequiredArgsConstructor;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.cache.CacheManager;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -34,7 +33,6 @@ import io.tesler.core.config.CacheConfig;
 @RestController
 @RequestMapping("bc-registry")
 @RequiredArgsConstructor
-@ConditionalOnProperty(value = "tesler.meta.enabled")
 public class MetaHotReloadController {
 
 	final MetaHotReloadService metaHotReloadService;

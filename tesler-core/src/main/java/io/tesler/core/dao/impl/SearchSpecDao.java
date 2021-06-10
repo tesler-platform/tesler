@@ -33,13 +33,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.jpa.domain.Specification;
-import org.springframework.data.jpa.domain.Specifications;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
 @Repository
 public class SearchSpecDao {
+
+	@Autowired
+	private JpaDao jpaDao;
+
+	@Autowired
+	private SessionService sessionService;
 
 	private final ParametrizedSSSpecification securitySpecification =
 			serviceName -> (root, cq, cb) -> cb.and(
@@ -58,12 +63,6 @@ public class SearchSpecDao {
 					cb.equal(root.get(SearchSpec_.type), CoreDictionaries.SearchSpecType.LINK),
 					cb.equal(root.get(SearchSpec_.serviceName), serviceName)
 			);
-
-	@Autowired
-	private JpaDao jpaDao;
-
-	@Autowired
-	private SessionService sessionService;
 
 	public Specification<SearchSpec> securitySpecification(String serviceName) {
 		return securitySpecification.toSpecification(serviceName);
@@ -87,7 +86,7 @@ public class SearchSpecDao {
 		}
 		return jpaDao.getList(
 				SearchSpec.class,
-				Specifications
+				Specification
 						.where(securitySpecification.toSpecification(
 								bcDescription.getServiceClass().getSimpleName()
 						))

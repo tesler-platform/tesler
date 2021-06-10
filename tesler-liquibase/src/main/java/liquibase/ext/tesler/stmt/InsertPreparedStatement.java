@@ -44,7 +44,7 @@ public class InsertPreparedStatement extends InsertExecutablePreparedStatement {
 			String catalogName,
 			String schemaName,
 			String tableName,
-			List<ColumnConfig> columns,
+			List<? extends ColumnConfig> columns,
 			ChangeSet changeSet,
 			ResourceAccessor resourceAccessor
 	) {

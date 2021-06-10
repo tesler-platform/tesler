@@ -141,7 +141,7 @@ public class SessionServiceImpl implements SessionService {
 		if (locale == null || userDetails == null) {
 			return;
 		}
-		userDetails.setLocale(locale);
+		userDetails.setLocaleCd(locale);
 	}
 
 	@Override

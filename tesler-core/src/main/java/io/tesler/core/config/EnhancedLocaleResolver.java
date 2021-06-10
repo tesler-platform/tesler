@@ -26,11 +26,10 @@ import java.util.Locale;
 import java.util.TimeZone;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Component;
-import org.springframework.web.servlet.DispatcherServlet;
 import org.springframework.web.servlet.i18n.CookieLocaleResolver;
 
 
-@Component(DispatcherServlet.LOCALE_RESOLVER_BEAN_NAME)
+@Component
 public class EnhancedLocaleResolver extends CookieLocaleResolver {
 
 	private final CoreSessionService coreSessionService;

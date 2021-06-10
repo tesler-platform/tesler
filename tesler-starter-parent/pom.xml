@@ -7,7 +7,7 @@
   <groupId>io.tesler</groupId>
   <artifactId>tesler-starter-parent</artifactId>
   <packaging>pom</packaging>
-  <version>3.0.0.M11</version>
+  <version>3.0.0.M10.6-SNAPSHOT</version>
   <name>IO Tesler - Starter Parent</name>
 
   <url>http://tesler.io</url>
@@ -54,12 +54,12 @@
   <parent>
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-starter-parent</artifactId>
-    <version>2.1.7.RELEASE</version>
+    <version>2.5.1</version>
   </parent>
 
   <properties>
-    <tesler.version>${version}</tesler.version>
-    <spring-boot.version>2.1.7.RELEASE</spring-boot.version>
+    <tesler.version>3.0.0.M10.6-SNAPSHOT</tesler.version>
+    <spring-boot.version>2.5.1</spring-boot.version>
     <hibernate.version>5.4.13.Final</hibernate.version>
     <jaxb.version>2.3.0</jaxb.version>
   </properties>
@@ -71,7 +71,7 @@
         <artifactId>tesler-bom</artifactId>
         <type>pom</type>
         <scope>import</scope>
-        <version>3.0.0.M11</version>
+        <version>${tesler.version}</version>
       </dependency>
       <dependency>
         <groupId>com.sun.xml.bind</groupId>

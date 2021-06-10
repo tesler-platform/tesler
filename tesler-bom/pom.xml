@@ -3,13 +3,13 @@
   <modelVersion>4.0.0</modelVersion>
   <artifactId>tesler-bom</artifactId>
   <packaging>pom</packaging>
-  <version>3.0.0.M11</version>
+  <version>3.0.0.M10.6-SNAPSHOT</version>
   <name>IO Tesler - Bill of Materials</name>
 
   <parent>
     <groupId>io.tesler</groupId>
     <artifactId>tesler</artifactId>
-    <version>3.0.0.M11</version>
+    <version>3.0.0.M10.6-SNAPSHOT</version>
     <relativePath>../pom.xml</relativePath>
   </parent>
 
@@ -19,100 +19,100 @@
         <groupId>io.tesler</groupId>
         <artifactId>tesler-bom</artifactId>
         <type>pom</type>
-        <version>3.0.0.M11</version>
+        <version>3.0.0.M10.6-SNAPSHOT</version>
       </dependency>
       <dependency>
         <groupId>io.tesler</groupId>
         <artifactId>tesler-constgen</artifactId>
-        <version>3.0.0.M11</version>
+        <version>3.0.0.M10.6-SNAPSHOT</version>
       </dependency>
       <dependency>
         <groupId>io.tesler</groupId>
         <artifactId>tesler-api</artifactId>
-        <version>3.0.0.M11</version>
+        <version>3.0.0.M10.6-SNAPSHOT</version>
       </dependency>
       <dependency>
         <groupId>io.tesler</groupId>
         <artifactId>tesler-model-core</artifactId>
-        <version>3.0.0.M11</version>
+        <version>3.0.0.M10.6-SNAPSHOT</version>
       </dependency>
       <dependency>
         <groupId>io.tesler</groupId>
         <artifactId>tesler-model-ui</artifactId>
-        <version>3.0.0.M11</version>
+        <version>3.0.0.M10.6-SNAPSHOT</version>
       </dependency>
       <dependency>
         <groupId>io.tesler</groupId>
         <artifactId>tesler-core</artifactId>
-        <version>3.0.0.M11</version>
+        <version>3.0.0.M10.6-SNAPSHOT</version>
       </dependency>
       <dependency>
         <groupId>io.tesler</groupId>
         <artifactId>tesler-crudma</artifactId>
-        <version>3.0.0.M11</version>
+        <version>3.0.0.M10.6-SNAPSHOT</version>
       </dependency>
       <dependency>
         <groupId>io.tesler</groupId>
         <artifactId>tesler-testing</artifactId>
-        <version>3.0.0.M11</version>
+        <version>3.0.0.M10.6-SNAPSHOT</version>
         <classifier>tests</classifier>
         <scope>test</scope>
       </dependency>
       <dependency>
         <groupId>io.tesler</groupId>
         <artifactId>tesler-dictionary-all</artifactId>
-        <version>3.0.0.M11</version>
+        <version>3.0.0.M10.6-SNAPSHOT</version>
       </dependency>
       <dependency>
         <groupId>io.tesler</groupId>
         <artifactId>tesler-dictionary-crudma</artifactId>
-        <version>3.0.0.M11</version>
+        <version>3.0.0.M10.6-SNAPSHOT</version>
       </dependency>
       <dependency>
         <groupId>io.tesler</groupId>
         <artifactId>tesler-dictionary-cache</artifactId>
-        <version>3.0.0.M11</version>
+        <version>3.0.0.M10.6-SNAPSHOT</version>
       </dependency>
       <dependency>
         <groupId>io.tesler</groupId>
         <artifactId>tesler-dictionary-model</artifactId>
-        <version>3.0.0.M11</version>
+        <version>3.0.0.M10.6-SNAPSHOT</version>
       </dependency>
       <dependency>
         <groupId>io.tesler</groupId>
         <artifactId>tesler-dictionary-links-engine</artifactId>
-        <version>3.0.0.M11</version>
+        <version>3.0.0.M10.6-SNAPSHOT</version>
       </dependency>
       <dependency>
         <groupId>io.tesler</groupId>
         <artifactId>tesler-dictionary-links-all</artifactId>
-        <version>3.0.0.M11</version>
+        <version>3.0.0.M10.6-SNAPSHOT</version>
       </dependency>
       <dependency>
         <groupId>io.tesler</groupId>
         <artifactId>tesler-dictionary-links-crudma</artifactId>
-        <version>3.0.0.M11</version>
+        <version>3.0.0.M10.6-SNAPSHOT</version>
       </dependency>
       <dependency>
         <groupId>io.tesler</groupId>
         <artifactId>tesler-dictionary-links-model</artifactId>
-        <version>3.0.0.M11</version>
+        <version>3.0.0.M10.6-SNAPSHOT</version>
       </dependency>
       <dependency>
         <groupId>io.tesler</groupId>
         <artifactId>tesler-liquibase</artifactId>
-        <version>3.0.0.M11</version>
+        <version>3.0.0.M10.6-SNAPSHOT</version>
       </dependency>
       <dependency>
         <groupId>io.tesler</groupId>
         <artifactId>tesler-plugin</artifactId>
-        <version>3.0.0.M11</version>
+        <version>3.0.0.M10.6-SNAPSHOT</version>
       </dependency>
       <dependency>
         <groupId>io.tesler</groupId>
         <artifactId>tesler-all</artifactId>
         <type>pom</type>
-        <version>3.0.0.M11</version>
+        <version>3.0.0.M10.6-SNAPSHOT</version>
       </dependency>
     </dependencies>
   </dependencyManagement>

@@ -23,9 +23,9 @@ package liquibase.ext.tesler.core;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import liquibase.change.ColumnConfig;
 import liquibase.change.DatabaseChange;
 import liquibase.change.core.LoadDataChange;
+import liquibase.change.core.LoadDataColumnConfig;
 import liquibase.changelog.ChangeSet;
 import liquibase.database.Database;
 import liquibase.ext.tesler.stmt.InsertPreparedStatement;
@@ -73,8 +73,8 @@ public class LoadDataChangeCustom extends LoadDataChange {
 
 	@Override
 	protected ExecutablePreparedStatementBase createPreparedStatement(Database database, String catalogName,
-			String schemaName, String tableName, List<ColumnConfig> columns, ChangeSet changeSet,
-			ResourceAccessor resourceAccessor) {
+																																		String schemaName, String tableName, List<LoadDataColumnConfig> columns, ChangeSet changeSet,
+																																		ResourceAccessor resourceAccessor) {
 		return new InsertPreparedStatement(database, catalogName, schemaName, tableName, columns,
 				changeSet, resourceAccessor
 		);

@@ -34,9 +34,15 @@ import liquibase.statement.UpdateExecutablePreparedStatement;
 
 public class UpdatePreparedStatement extends UpdateExecutablePreparedStatement {
 
-	public UpdatePreparedStatement(Database database, String catalogName, String schemaName,
-			String tableName, List<ColumnConfig> columns, ChangeSet changeSet,
-			ResourceAccessor resourceAccessor) {
+	public UpdatePreparedStatement(
+			Database database,
+			String catalogName,
+			String schemaName,
+			String tableName,
+			List<ColumnConfig> columns,
+			ChangeSet changeSet,
+			ResourceAccessor resourceAccessor
+	) {
 		super(
 				database,
 				catalogName,

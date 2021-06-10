@@ -37,13 +37,11 @@ public class SpringPluginStatusProvider implements PluginStatusProvider {
 	}
 
 	@Override
-	public boolean disablePlugin(String pluginId) {
-		return false;
+	public void disablePlugin(String pluginId) {
 	}
 
 	@Override
-	public boolean enablePlugin(String pluginId) {
-		return false;
+	public void enablePlugin(String pluginId) {
 	}
 
 }

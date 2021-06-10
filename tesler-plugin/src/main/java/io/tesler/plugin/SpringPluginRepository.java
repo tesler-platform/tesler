@@ -45,7 +45,7 @@ public class SpringPluginRepository extends BasePluginRepository {
 	private final SpringPluginManager pluginManager;
 
 	public SpringPluginRepository(SpringPluginManager pluginManager) {
-		super(null);
+		super();
 		this.pluginManager = pluginManager;
 	}
 

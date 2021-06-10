@@ -24,6 +24,7 @@ import io.tesler.api.data.dictionary.LOV;
 import io.tesler.api.data.dictionary.SimpleDictionary;
 import io.tesler.api.system.SystemSettings;
 import io.tesler.core.dto.LoggedUser;
+import io.tesler.core.metahotreload.conf.properties.MetaConfigurationProperties;
 import io.tesler.core.service.ScreenResponsibilityService;
 import io.tesler.core.service.UIService;
 import io.tesler.core.service.impl.UserRoleService;
@@ -60,6 +61,9 @@ public class LoginServiceImplTest {
 
 	@MockBean
 	private ScreenResponsibilityService screenResponsibilityService;
+
+	@MockBean
+	private MetaConfigurationProperties metaConfigurationProperties;
 
 	@InjectMocks
 	@Autowired

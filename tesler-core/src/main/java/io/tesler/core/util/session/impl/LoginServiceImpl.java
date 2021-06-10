@@ -26,6 +26,7 @@ import io.tesler.api.data.dictionary.SimpleDictionary;
 import io.tesler.api.system.SystemSettings;
 import io.tesler.core.dto.LoggedUser;
 import io.tesler.core.dto.data.view.ScreenResponsibility;
+import io.tesler.core.metahotreload.conf.properties.MetaConfigurationProperties;
 import io.tesler.core.service.ScreenResponsibilityService;
 import io.tesler.core.service.UIService;
 import io.tesler.core.service.impl.UserRoleService;
@@ -58,6 +59,8 @@ public class LoginServiceImpl implements LoginService {
 
 	private final ScreenResponsibilityService screenResponsibilityService;
 
+	private final MetaConfigurationProperties metaConfigurationProperties;
+
 	/**
 	 * Build info for active session user for specific role
 	 *
@@ -84,6 +87,7 @@ public class LoginServiceImpl implements LoginService {
 				.systemUrl(systemSettings.getValue(SystemPref.SYSTEM_URL))
 				.language(LocaleContextHolder.getLocale().getLanguage())
 				.timezone(LocaleContextHolder.getTimeZone().getID())
+				.isDevPanelEnabled(metaConfigurationProperties.isDevPanelEnabled())
 				.build();
 	}
 

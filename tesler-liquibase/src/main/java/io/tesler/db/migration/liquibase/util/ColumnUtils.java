@@ -38,7 +38,7 @@ public final class ColumnUtils {
 	}
 
 
-	public static boolean hasBlobs(List<ColumnConfig> columns) {
+	public static boolean hasBlobs(List<? extends ColumnConfig> columns) {
 		for (ColumnConfig columnConfig : columns) {
 			if (hasBlobs(columnConfig)) {
 				return true;
@@ -51,9 +51,8 @@ public final class ColumnUtils {
 		return column.getValueBlobFile() != null || column.getValueClobFile() != null;
 	}
 
-
-	public static List<ColumnConfig> normalizeLobs(
-			List<ColumnConfig> columnConfigs,
+	public static <T extends ColumnConfig> List<T> normalizeLobs(
+			List<T> columnConfigs,
 			ChangeSet changeSet,
 			ResourceAccessor resourceAccessor
 	) {

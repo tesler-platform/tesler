@@ -21,7 +21,6 @@
 package io.tesler.core.util.session;
 
 import java.io.IOException;
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.security.core.AuthenticationException;
@@ -36,7 +35,7 @@ public class CustomBasicAuthenticationEntryPoint extends BasicAuthenticationEntr
 
 	@Override
 	public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException)
-			throws IOException, ServletException {
+			throws IOException {
 		HttpServletResponse httpResponse = response;
 		httpResponse.sendError(HttpServletResponse.SC_UNAUTHORIZED, authException.getMessage());
 	}
