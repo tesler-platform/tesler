@@ -122,6 +122,17 @@ public class BcStateCrudmaGatewayInvokeExtensionProvider implements CrudmaGatewa
 				addActionCancel(bc, result.getMeta().getRow().getActions());
 			}
 		}
+
+		if (CrudmaActionType.META.equals(crudmaAction.getActionType()) && bcStateAware.getState(bc) != null) {
+			MetaDTO meta = (MetaDTO) invokeResult;
+			if (bcStateAware.getState(bc).getDto().getVstamp() < Long.parseLong(
+					meta.getRow().getFields().get(DataResponseDTO_.vstamp.getName()).getCurrentValue().toString())) {
+
+				meta.getRow().getFields().get(DataResponseDTO_.vstamp.getName())
+						.setCurrentValue(bcStateAware.getState(bc).getDto().getVstamp());
+			}
+		}
+
 		if (!bcStateAware.isPersisted(bc)) {
 			if (CrudmaActionType.META.equals(crudmaAction.getActionType())) {
 				MetaDTO meta = (MetaDTO) invokeResult;
