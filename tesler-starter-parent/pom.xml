@@ -7,7 +7,7 @@
   <groupId>io.tesler</groupId>
   <artifactId>tesler-starter-parent</artifactId>
   <packaging>pom</packaging>
-  <version>3.0.0.M10.2-SNAPSHOT</version>
+  <version>3.0.0.M10.4-SNAPSHOT</version>
   <name>IO Tesler - Starter Parent</name>
 
   <parent>
@@ -17,7 +17,7 @@
   </parent>
 
   <properties>
-    <tesler.version>3.0.0.M10.2-SNAPSHOT</tesler.version>
+    <tesler.version>3.0.0.M10.4-SNAPSHOT</tesler.version>
     <spring-boot.version>2.5.1</spring-boot.version>
     <hibernate.version>5.4.13.Final</hibernate.version>
     <jaxb.version>2.3.0</jaxb.version>
