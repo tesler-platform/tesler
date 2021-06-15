@@ -29,15 +29,18 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import lombok.experimental.Accessors;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 @Getter
+@Setter
 @ToString
 @EqualsAndHashCode
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@Accessors(chain = true)
 public class TeslerUserDetails implements UserDetails {
 
 	private static final long serialVersionUID = 4714671346784362939L;
@@ -48,14 +51,11 @@ public class TeslerUserDetails implements UserDetails {
 
 	private String password;
 
-	@Setter
 	private LOV userRole;
 
-	@Setter
 	private LOV timezone;
 
-	@Setter
-	private LOV locale;
+	private LOV localeCd;
 
 	private Set<GrantedAuthority> authorities;
 
