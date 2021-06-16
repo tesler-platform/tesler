@@ -1,7 +1,0 @@
-{
-  "name" : "notificationusersettings",
-  "title" : "Настройка доставки уведомлений",
-  "template" : "DashboardView",
-  "url" : "/screen/preferences/view/notificationusersettings",
-  "widgets" : [ ]
-}

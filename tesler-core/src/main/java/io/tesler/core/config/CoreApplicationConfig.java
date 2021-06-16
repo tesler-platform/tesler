@@ -21,6 +21,7 @@
 package io.tesler.core.config;
 
 import io.tesler.api.service.PluginAware;
+import io.tesler.core.metahotreload.conf.MetaHotReloadConfiguration;
 import io.tesler.core.service.ResponsibilitiesService;
 import io.tesler.core.service.impl.ResponsibilitiesServiceImpl;
 import io.tesler.model.core.api.CurrentUserAware;
@@ -28,17 +29,20 @@ import io.tesler.model.core.dao.JpaDao;
 import io.tesler.model.core.service.BaseEntityListenerDelegate;
 import io.tesler.model.core.service.TeslerBaseEntityListenerDelegate;
 import io.tesler.plugin.SpringPluginManager;
+import org.springframework.boot.autoconfigure.ImportAutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.annotation.aspectj.EnableSpringConfigured;
 
 
 @EnableAspectJAutoProxy
 @BeanScan({"io.tesler"})
-@PropertySource("classpath:application.properties")
+/*TODO>>iborisenko>>do we need this? Why we restrict to use only application.properties and not application.yml? @PropertySource("classpath:application.properties")*/
 @EnableSpringConfigured
+@ImportAutoConfiguration({
+		MetaHotReloadConfiguration.class
+})
 public class CoreApplicationConfig {
 
 	@Bean(name = PluginAware.PLUGIN_MANAGER, destroyMethod = "stopPlugins")

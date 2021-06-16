@@ -4,7 +4,7 @@
   <groupId>io.tesler</groupId>
   <artifactId>tesler</artifactId>
   <packaging>pom</packaging>
-  <version>3.0.0.M12</version>
+  <version>3.0.0.M10.5-SNAPSHOT</version>
   <name>IO Tesler</name>
   <description>Java framework designed for creating Enterprise Rich Web Applications</description>
   <inceptionYear>2018</inceptionYear>
@@ -244,7 +244,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-deploy-plugin</artifactId>
-          <version>2.8.2</version>
+          <version>${maven-deploy-plugin.version}</version>
           <configuration>
             <skip>${skip.deploy}</skip>
             <deployAtEnd>true</deployAtEnd>

@@ -29,11 +29,8 @@ import com.fasterxml.jackson.databind.JsonSerializable;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.node.TextNode;
-import java.io.BufferedReader;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.Reader;
+
+import java.io.*;
 import java.lang.reflect.Array;
 import java.lang.reflect.Field;
 import java.nio.charset.StandardCharsets;
@@ -62,15 +59,15 @@ import liquibase.ext.tesler.stmt.InsertPreparedStatement;
 import liquibase.parser.core.ParsedNode;
 import liquibase.parser.core.ParsedNodeException;
 import liquibase.resource.ResourceAccessor;
-import liquibase.resource.UtfBomAwareReader;
 import liquibase.statement.DatabaseFunction;
 import liquibase.statement.SequenceNextValueFunction;
 import liquibase.statement.SqlStatement;
 import liquibase.statement.core.InsertOrUpdateStatement;
 import liquibase.statement.core.InsertStatement;
 import liquibase.util.StreamUtil;
-import liquibase.util.StringUtils;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 
 @Slf4j
 public abstract class AbstractEntityChange<T extends LqbAbstractEntity> extends AbstractChange {
@@ -91,11 +88,12 @@ public abstract class AbstractEntityChange<T extends LqbAbstractEntity> extends 
 
 	private List<T> elements = new ArrayList<>();
 
+	@SneakyThrows
 	private static Reader createReader(InputStream in, String encoding) {
 		if (StringUtils.trimToNull(encoding) == null) {
-			return new BufferedReader(new UtfBomAwareReader(in));
+			return new BufferedReader(new InputStreamReader(in));
 		} else {
-			return new BufferedReader(new UtfBomAwareReader(in, encoding));
+			return new BufferedReader(new InputStreamReader(in, encoding));
 		}
 	}
 

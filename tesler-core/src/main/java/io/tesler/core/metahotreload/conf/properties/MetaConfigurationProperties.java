@@ -33,7 +33,7 @@ import org.springframework.validation.annotation.Validated;
 @ConfigurationProperties(prefix = "tesler.meta")
 public class MetaConfigurationProperties {
 
-	private boolean enabled = false;
+	private boolean isDevPanelEnabled = false;
 
 	@NotNull(message = "Path to meta files directory. Supports file: or classpath: prefix. "
 			+ "Example of usage is: applicationContext.getResources(directory + widgetPath)")
