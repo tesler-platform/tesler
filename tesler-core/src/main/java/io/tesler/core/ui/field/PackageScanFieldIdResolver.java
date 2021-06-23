@@ -35,21 +35,20 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.annotation.ClassPathScanningCandidateComponentProvider;
 import org.springframework.core.type.filter.AnnotationTypeFilter;
 import org.springframework.util.ClassUtils;
 import org.springframework.util.StringUtils;
 
+@RequiredArgsConstructor
 public class PackageScanFieldIdResolver implements TypeIdResolver {
 
 	private final Map<String, JavaType> typeMap = new HashMap<>();
 
 	private final WidgetFieldsIdResolverProperties widgetFieldsIdResolverProperties;
-
-	public PackageScanFieldIdResolver(WidgetFieldsIdResolverProperties widgetFieldsIdResolverProperties) {
-		this.widgetFieldsIdResolverProperties = widgetFieldsIdResolverProperties;
-	}
 
 	@Override
 	public void init(JavaType javaType) {

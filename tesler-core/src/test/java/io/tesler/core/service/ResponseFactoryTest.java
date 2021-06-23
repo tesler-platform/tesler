@@ -30,6 +30,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 import io.tesler.core.dto.BusinessError.Entity;
 import java.util.LinkedHashMap;
@@ -39,6 +40,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 
+@DirtiesContext
 @SpringJUnitConfig({
 		ResponseFactory.class,
 		ValidatorsProviderImpl.class,

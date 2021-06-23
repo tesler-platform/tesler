@@ -81,11 +81,7 @@ public class SQLController {
 						query,
 						Math.min(page.getPageSize(), MAX_PAGE_SIZE)
 				);
-		if (readOnly) {
-			return txService.invokeInNewROTx(callable);
-		} else {
-			return txService.invokeInNewTx(callable);
-		}
+		return txService.invokeInNewROTx(callable);
 	}
 
 	private String getQuery(Map<String, Object> requestBody, PageSpecification page, boolean readOnly) {
