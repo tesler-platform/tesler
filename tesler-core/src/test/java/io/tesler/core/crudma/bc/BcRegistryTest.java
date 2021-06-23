@@ -33,8 +33,10 @@ import io.tesler.core.crudma.bc.impl.InnerBcDescription;
 import io.tesler.core.crudma.impl.inner.InnerCrudmaService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
+@DirtiesContext
 @SpringJUnitConfig({
 		BcRegistryImpl.class,
 		TestBcSupplier.class,

@@ -39,8 +39,10 @@ import io.tesler.core.util.SpringBeanUtils;
 import java.nio.charset.Charset;
 import org.apache.commons.io.IOUtils;
 import org.junit.jupiter.api.Test;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
+@DirtiesContext
 @SpringJUnitConfig({
 		JacksonConfig.class,
 		SpringBeanUtils.class

@@ -35,6 +35,8 @@ import io.tesler.api.util.jackson.ser.contextual.TZAwareLDTContextualSerializer;
 import io.tesler.core.config.properties.WidgetFieldsIdResolverProperties;
 import java.time.LocalDateTime;
 import java.util.Date;
+
+import io.tesler.core.ui.field.PackageScanFieldIdResolver;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
@@ -68,6 +70,11 @@ public class JacksonConfig {
 	@Bean
 	public HandlerInstantiator handlerInstantiator(ApplicationContext context) {
 		return new SpringHandlerInstantiator(context.getAutowireCapableBeanFactory());
+	}
+
+	@Bean
+	public PackageScanFieldIdResolver packageScanFieldIdResolver(WidgetFieldsIdResolverProperties properties) {
+		return new PackageScanFieldIdResolver(properties);
 	}
 
 	private JavaTimeModule buildJavaTimeModule() {
