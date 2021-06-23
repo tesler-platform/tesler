@@ -73,7 +73,7 @@ public class LoggedUser {
 
 	private String language;
 
-	private boolean isDevPanelEnabled;
+	private boolean devPanelEnabled;
 
 	public static Builder builder() {
 		return new LoggedUser().new Builder();
@@ -144,8 +144,8 @@ public class LoggedUser {
 			return this;
 		}
 
-		public Builder isDevPanelEnabled(boolean isDevPanelEnabled) {
-			LoggedUser.this.isDevPanelEnabled = isDevPanelEnabled;
+		public Builder devPanelEnabled(boolean devPanelEnabled) {
+			LoggedUser.this.devPanelEnabled = devPanelEnabled;
 			return this;
 		}
 

@@ -87,7 +87,7 @@ public class LoginServiceImpl implements LoginService {
 				.systemUrl(systemSettings.getValue(SystemPref.SYSTEM_URL))
 				.language(LocaleContextHolder.getLocale().getLanguage())
 				.timezone(LocaleContextHolder.getTimeZone().getID())
-				.isDevPanelEnabled(metaConfigurationProperties.isDevPanelEnabled())
+				.devPanelEnabled(metaConfigurationProperties.isDevPanelEnabled())
 				.build();
 	}
 
