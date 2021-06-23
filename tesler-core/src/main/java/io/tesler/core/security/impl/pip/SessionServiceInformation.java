@@ -24,7 +24,7 @@ import io.tesler.api.data.dictionary.LOV;
 import io.tesler.api.security.IPolicyInformationPoint;
 import io.tesler.api.security.attributes.IAttributeSet;
 import io.tesler.api.service.session.CoreSessionService;
-import io.tesler.api.service.session.TeslerUserDetails;
+import io.tesler.api.service.session.TeslerUserDetailsInterface;
 import io.tesler.core.security.impl.AttributeTypes;
 import io.tesler.core.security.impl.attributes.Attribute;
 import io.tesler.core.security.impl.attributes.AttributeSet;
@@ -50,7 +50,7 @@ public class SessionServiceInformation implements IPolicyInformationPoint<Object
 	@Override
 	public IAttributeSet getAttributes(Object context) {
 		AttributeSet attributeSet = new AttributeSet();
-		TeslerUserDetails userDetails = coreSessionService.getSessionUserDetails(false);
+		TeslerUserDetailsInterface userDetails = coreSessionService.getSessionUserDetails(false);
 		if (userDetails == null) {
 			return attributeSet;
 		}

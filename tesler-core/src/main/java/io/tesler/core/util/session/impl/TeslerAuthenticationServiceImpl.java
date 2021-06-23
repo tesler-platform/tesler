@@ -23,6 +23,7 @@ package io.tesler.core.util.session.impl;
 import io.tesler.api.data.dictionary.LOV;
 import io.tesler.api.service.session.TeslerAuthenticationService;
 import io.tesler.api.service.session.TeslerUserDetails;
+import io.tesler.api.service.session.TeslerUserDetailsInterface;
 import io.tesler.core.service.impl.UserRoleService;
 import io.tesler.core.util.session.UserService;
 import io.tesler.model.core.entity.User;
@@ -59,7 +60,7 @@ public class TeslerAuthenticationServiceImpl implements TeslerAuthenticationServ
 		);
 	}
 
-	private TeslerUserDetails createUserDetails(final User user, final LOV userRole) {
+	private TeslerUserDetailsInterface createUserDetails(final User user, final LOV userRole) {
 		return TeslerUserDetails.builder()
 				.id(user.getId())
 				.username(user.getLogin())

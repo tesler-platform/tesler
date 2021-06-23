@@ -31,7 +31,6 @@ import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.Accessors;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
 
 @Getter
 @Setter
@@ -41,7 +40,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 @NoArgsConstructor
 @AllArgsConstructor
 @Accessors(chain = true)
-public class TeslerUserDetails implements UserDetails {
+public class TeslerUserDetails implements TeslerUserDetailsInterface {
 
 	private static final long serialVersionUID = 4714671346784362939L;
 
