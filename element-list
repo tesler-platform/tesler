@@ -120,10 +120,6 @@ io.tesler.crudma.impl
 io.tesler.crudma.impl.notifications
 io.tesler.crudma.meta
 io.tesler.crudma.meta.notifications
-io.tesler.db.migration.liquibase.annotations
-io.tesler.db.migration.liquibase.data
-io.tesler.db.migration.liquibase.spring
-io.tesler.db.migration.liquibase.util
 io.tesler.model.core.api
 io.tesler.model.core.api.notifications
 io.tesler.model.core.api.security
@@ -170,9 +166,3 @@ io.tesler.source.services.cache
 io.tesler.source.services.data
 io.tesler.source.services.data.impl
 io.tesler.source.services.meta
-liquibase.ext.tesler.core
-liquibase.ext.tesler.generator
-liquibase.ext.tesler.stmt
-liquibase.ext.tesler.ui.load
-liquibase.ext.tesler.ui.unload
-org.springframework.boot.autoconfigure.tesler.liquibase
