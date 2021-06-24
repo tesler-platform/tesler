@@ -1,0 +1,9 @@
+{
+  "name": "ThirdLevelMenu",
+  "title": "DeepNavigation",
+  "type": "ThirdLevelMenu",
+  "showCondition": [],
+  "fields": [],
+  "axisFields": [],
+  "chart": []
+}

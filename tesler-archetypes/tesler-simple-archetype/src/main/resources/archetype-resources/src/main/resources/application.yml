@@ -1,0 +1,50 @@
+app:
+  ui-path: /ui
+
+tesler:
+  meta:
+    dev-panel-enabled: ${DEV_PANEL_ENABLED:true}
+    directory: ${META_DIRECTORY:file:./src/main/resources/db/migration/liquibase/data/latest}
+
+server:
+  forward-headers-strategy: framework
+  servlet:
+    session:
+      cookie:
+        http-only: true
+
+spring:
+  application:
+    name: ${APPLICATION_NAME:example}
+  aop:
+    proxy-target-class: false
+  datasource:
+    name: primaryDS
+    driver-class-name: ${DATABASE_DRIVER:org.postgresql.Driver}
+    url: ${DATABASE_URL:jdbc:postgresql://localhost:5432/postgres}
+    username: ${DATABASE_USER:postgres}
+    password: ${DATABASE_PASSWORD:postgres}
+  liquibase:
+    change-log: classpath:/db/migration/liquibase/master.xml
+    enabled: true
+  cache:
+    type: None
+  jpa:
+    properties:
+      hibernate:
+        default_batch_fetch_size: 100
+        order_updates: true
+        order_inserts: true
+        batch_versioned_data: true
+        jdbc:
+          batch_size: 100
+  main:
+    allow-bean-definition-overriding: true
+
+keycloak:
+  auth-server-url: ${AUTH_SERVER_URL:http://localhost:9080/auth}
+  realm: jhipster
+  resource: web_app
+  bearer-only: true
+  public-client: true
+  use-resource-role-mappings: false

@@ -1,0 +1,1 @@
+insert into responsibilities (id, dept_id, internal_role_cd) values (0, 0, 'ADMIN');
