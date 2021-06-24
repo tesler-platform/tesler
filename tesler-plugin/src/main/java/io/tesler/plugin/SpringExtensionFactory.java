@@ -37,7 +37,7 @@ public class SpringExtensionFactory implements ExtensionFactory {
 	private final PluginManager pluginManager;
 
 	@Override
-	public Object create(final Class<?> extensionClass) {
+	public <T> T create(Class<T> extensionClass) {
 		final PluginWrapper pluginWrapper = pluginManager.whichPlugin(extensionClass);
 		if (pluginWrapper != null) {
 			final Plugin plugin = pluginWrapper.getPlugin();
@@ -50,11 +50,11 @@ public class SpringExtensionFactory implements ExtensionFactory {
 					if (extension != null) {
 						pluginContext.getAutowireCapableBeanFactory().autowireBean(extension);
 					}
-					return extension;
+					return (T) extension;
 				}
 			}
 		}
-		return createWithoutSpring(extensionClass);
+		return (T) createWithoutSpring(extensionClass);
 	}
 
 	private Object createWithoutSpring(final Class<?> extensionClass) {

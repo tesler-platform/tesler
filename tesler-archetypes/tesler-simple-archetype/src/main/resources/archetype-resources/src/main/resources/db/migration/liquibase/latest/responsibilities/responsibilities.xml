@@ -7,7 +7,7 @@
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd"
                    logicalFilePath="db/migration/liquibase/latest/responsibilities/responsibilities.xml">
     <changeSet author="initial" id="allresponsibilities" runOnChange="true">
-        <delete tableName="responsibilities" />
-        <sqlFile path="db/migration/oracle/meta/main/RESPONSIBILITIES.sql" stripComments="true" />
+        <delete tableName="responsibilities"/>
+        <sqlFile path="db/migration/oracle/meta/main/RESPONSIBILITIES.sql" stripComments="true"/>
     </changeSet>
 </databaseChangeLog>

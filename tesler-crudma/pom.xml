@@ -3,13 +3,13 @@
   <modelVersion>4.0.0</modelVersion>
   <artifactId>tesler-crudma</artifactId>
   <packaging>jar</packaging>
-  <version>3.0.0.M10.1-SNAPSHOT</version>
+  <version>3.0.0.M10.8-SNAPSHOT</version>
   <name>IO Tesler - Source</name>
 
   <parent>
     <groupId>io.tesler</groupId>
     <artifactId>tesler-base</artifactId>
-    <version>3.0.0.M10.1-SNAPSHOT</version>
+    <version>3.0.0.M10.8-SNAPSHOT</version>
     <relativePath>../tesler-base/pom.xml</relativePath>
   </parent>
 
@@ -38,7 +38,7 @@
           <dependency>
             <groupId>org.apache.maven.surefire</groupId>
             <artifactId>surefire-junit-platform</artifactId>
-            <version>${surefire.version}</version>
+            <version>${maven-surefire-plugin.version}</version>
           </dependency>
         </dependencies>
       </plugin>

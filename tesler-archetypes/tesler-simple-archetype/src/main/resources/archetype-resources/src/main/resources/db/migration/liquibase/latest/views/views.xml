@@ -7,8 +7,8 @@
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd"
                    logicalFilePath="db/migration/liquibase/latest/views/views.xml">
 
-  <changeSet author="latest" id="USER_DIVISIONS" dbms="oracle" runOnChange="true">
-    <sqlFile path="oracle/USER_DIVISIONS.sql" relativeToChangelogFile="true"/>
-  </changeSet>
+    <changeSet author="latest" id="USER_DIVISIONS" dbms="oracle" runOnChange="true">
+        <sqlFile path="oracle/USER_DIVISIONS.sql" relativeToChangelogFile="true"/>
+    </changeSet>
 
 </databaseChangeLog>

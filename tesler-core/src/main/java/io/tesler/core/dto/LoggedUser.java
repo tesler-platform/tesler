@@ -73,6 +73,8 @@ public class LoggedUser {
 
 	private String language;
 
+	private boolean devPanelEnabled;
+
 	public static Builder builder() {
 		return new LoggedUser().new Builder();
 	}
@@ -139,6 +141,11 @@ public class LoggedUser {
 
 		public Builder featureSettings(Collection<SimpleDictionary> featureList) {
 			LoggedUser.this.featureSettings = featureList;
+			return this;
+		}
+
+		public Builder devPanelEnabled(boolean devPanelEnabled) {
+			LoggedUser.this.devPanelEnabled = devPanelEnabled;
 			return this;
 		}
 

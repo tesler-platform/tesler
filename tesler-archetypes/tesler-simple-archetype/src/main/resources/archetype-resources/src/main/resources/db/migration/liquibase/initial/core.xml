@@ -27,10 +27,12 @@
             </column>
             <column defaultValue="[]" name="BINDS" type="CLOB"/>
             <column defaultValueNumeric="0" name="EDITABLE" remarks="Редактируемые поля" type="NUMBER(1, 0)"/>
-            <column defaultValueComputed="current_timestamp" name="CREATED_DATE" remarks="Дата создания" type="TIMESTAMP(6)">
+            <column defaultValueComputed="current_timestamp" name="CREATED_DATE" remarks="Дата создания"
+                    type="TIMESTAMP(6)">
                 <constraints nullable="false"/>
             </column>
-            <column defaultValueComputed="current_timestamp" name="UPDATED_DATE" remarks="Дата обновления" type="TIMESTAMP(6)">
+            <column defaultValueComputed="current_timestamp" name="UPDATED_DATE" remarks="Дата обновления"
+                    type="TIMESTAMP(6)">
                 <constraints nullable="false"/>
             </column>
             <column defaultValueNumeric="1" name="CREATED_BY_USER_ID" type="NUMBER(19, 0)">
@@ -57,10 +59,12 @@
                 <constraints nullable="false"/>
             </column>
             <column name="FILTERS" remarks="Фильтры" type="VARCHAR2(4000 BYTE)"/>
-            <column defaultValueComputed="current_timestamp" name="CREATED_DATE" remarks="Дата создания" type="TIMESTAMP(6)">
+            <column defaultValueComputed="current_timestamp" name="CREATED_DATE" remarks="Дата создания"
+                    type="TIMESTAMP(6)">
                 <constraints nullable="false"/>
             </column>
-            <column defaultValueComputed="current_timestamp" name="UPDATED_DATE" remarks="Дата изменения" type="TIMESTAMP(6)">
+            <column defaultValueComputed="current_timestamp" name="UPDATED_DATE" remarks="Дата изменения"
+                    type="TIMESTAMP(6)">
                 <constraints nullable="false"/>
             </column>
             <column defaultValueNumeric="1" name="CREATED_BY_USER_ID" type="NUMBER(19, 0)">
@@ -79,10 +83,12 @@
             <column name="ID" remarks="Идентификатор" type="NUMBER(19, 0)">
                 <constraints primaryKey="true"/>
             </column>
-            <column defaultValueComputed="current_timestamp" name="CREATED_DATE" remarks="Дата создания" type="TIMESTAMP(6)">
+            <column defaultValueComputed="current_timestamp" name="CREATED_DATE" remarks="Дата создания"
+                    type="TIMESTAMP(6)">
                 <constraints nullable="false"/>
             </column>
-            <column defaultValueComputed="current_timestamp" name="UPDATED_DATE" remarks="Дата изменения" type="TIMESTAMP(6)">
+            <column defaultValueComputed="current_timestamp" name="UPDATED_DATE" remarks="Дата изменения"
+                    type="TIMESTAMP(6)">
                 <constraints nullable="false"/>
             </column>
             <column defaultValueNumeric="1" name="CREATED_BY_USER_ID" type="NUMBER(19, 0)">
@@ -104,7 +110,8 @@
             <column defaultValueNumeric="0" name="VSTAMP" type="NUMBER(19, 0)">
                 <constraints nullable="false"/>
             </column>
-            <column name="BC_READ_ONLY_FLG_FIELD" remarks="Поле с ДТО, при значении поля true блокирует запись" type="VARCHAR2(255)"/>
+            <column name="BC_READ_ONLY_FLG_FIELD" remarks="Поле с ДТО, при значении поля true блокирует запись"
+                    type="VARCHAR2(255)"/>
         </createTable>
     </changeSet>
     <changeSet author="initial" id="CUSTOMIZABLE_RESPONSE_SERVICE TABLE">
@@ -112,10 +119,12 @@
             <column name="ID" remarks="Индентификатор" type="NUMBER(19, 0)">
                 <constraints primaryKey="true" primaryKeyName="PK_CUSTOMIZABLE_RESPONSE_SERVI"/>
             </column>
-            <column defaultValueComputed="current_timestamp" name="CREATED_DATE" remarks="Дата создания" type="TIMESTAMP(6)">
+            <column defaultValueComputed="current_timestamp" name="CREATED_DATE" remarks="Дата создания"
+                    type="TIMESTAMP(6)">
                 <constraints nullable="false"/>
             </column>
-            <column defaultValueComputed="current_timestamp" name="UPDATED_DATE" remarks="Дата изменения" type="TIMESTAMP(6)">
+            <column defaultValueComputed="current_timestamp" name="UPDATED_DATE" remarks="Дата изменения"
+                    type="TIMESTAMP(6)">
                 <constraints nullable="false"/>
             </column>
             <column defaultValueNumeric="1" name="CREATED_BY_USER_ID" remarks="Кто создал" type="NUMBER(19, 0)">
@@ -238,7 +247,7 @@
     </changeSet>
     <changeSet author="initial" id="DICTIONARY_ITEM_TR TABLE">
         <createTable remarks="Переводы простых справочников" tableName="DICTIONARY_ITEM_TR">
-            <column name="ID" remarks="Идентификатор" type="NUMBER(19, 0)" />
+            <column name="ID" remarks="Идентификатор" type="NUMBER(19, 0)"/>
             <column name="LANGUAGE" remarks="Язык" type="VARCHAR2(255)"/>
             <column name="VALUE" remarks="Значение" type="VARCHAR2(1500)"/>
         </createTable>
@@ -273,10 +282,12 @@
             <column name="ID" remarks="Индентификатор" type="NUMBER(19, 0)">
                 <constraints primaryKey="true" primaryKeyName="PK_DICTIONARY_LNK_RULE"/>
             </column>
-            <column defaultValueComputed="current_timestamp" name="CREATED_DATE" remarks="Дата создания" type="TIMESTAMP(6)">
+            <column defaultValueComputed="current_timestamp" name="CREATED_DATE" remarks="Дата создания"
+                    type="TIMESTAMP(6)">
                 <constraints nullable="false"/>
             </column>
-            <column defaultValueComputed="current_timestamp" name="UPDATED_DATE" remarks="Дата изменения" type="TIMESTAMP(6)">
+            <column defaultValueComputed="current_timestamp" name="UPDATED_DATE" remarks="Дата изменения"
+                    type="TIMESTAMP(6)">
                 <constraints nullable="false"/>
             </column>
             <column defaultValueNumeric="1" name="CREATED_BY_USER_ID" remarks="Кто создал" type="NUMBER(19, 0)">
@@ -310,10 +321,12 @@
             <column name="ID" remarks="Индентификатор" type="NUMBER(19, 0)">
                 <constraints primaryKey="true" primaryKeyName="PK_DICTIONARY_LNK_RULE_COND"/>
             </column>
-            <column defaultValueComputed="current_timestamp" name="CREATED_DATE" remarks="Дата создания" type="TIMESTAMP(6)">
+            <column defaultValueComputed="current_timestamp" name="CREATED_DATE" remarks="Дата создания"
+                    type="TIMESTAMP(6)">
                 <constraints nullable="false"/>
             </column>
-            <column defaultValueComputed="current_timestamp" name="UPDATED_DATE" remarks="Дата изменения" type="TIMESTAMP(6)">
+            <column defaultValueComputed="current_timestamp" name="UPDATED_DATE" remarks="Дата изменения"
+                    type="TIMESTAMP(6)">
                 <constraints nullable="false"/>
             </column>
             <column defaultValueNumeric="1" name="CREATED_BY_USER_ID" remarks="Кто создал" type="NUMBER(19, 0)">
@@ -333,7 +346,8 @@
             <column name="BC_NAME" remarks="Имя БК" type="VARCHAR2(255)"/>
             <column name="FIELD_TYPE" remarks="Тип справочника связанного поля" type="VARCHAR2(255)"/>
             <column name="FIELD_BOOLEAN_VALUE" type="NUMBER(1, 0)"/>
-            <column defaultValueNumeric="0" name="RULE_INVERSION_FLG" remarks="Инверсия результата выполнения условия" type="NUMBER(1)">
+            <column defaultValueNumeric="0" name="RULE_INVERSION_FLG" remarks="Инверсия результата выполнения условия"
+                    type="NUMBER(1)">
                 <constraints nullable="false"/>
             </column>
             <column defaultValueNumeric="0" name="VSTAMP" type="NUMBER(19, 0)">
@@ -346,10 +360,12 @@
             <column name="ID" remarks="Индентификатор" type="NUMBER(19, 0)">
                 <constraints primaryKey="true" primaryKeyName="PK_DICTIONARY_LNK_RULE_VALUE"/>
             </column>
-            <column defaultValueComputed="current_timestamp" name="CREATED_DATE" remarks="Дата создания" type="TIMESTAMP(6)">
+            <column defaultValueComputed="current_timestamp" name="CREATED_DATE" remarks="Дата создания"
+                    type="TIMESTAMP(6)">
                 <constraints nullable="false"/>
             </column>
-            <column defaultValueComputed="current_timestamp" name="UPDATED_DATE" remarks="Дата изменения" type="TIMESTAMP(6)">
+            <column defaultValueComputed="current_timestamp" name="UPDATED_DATE" remarks="Дата изменения"
+                    type="TIMESTAMP(6)">
                 <constraints nullable="false"/>
             </column>
             <column defaultValueNumeric="1" name="CREATED_BY_USER_ID" remarks="Кто создал" type="NUMBER(19, 0)">
@@ -396,10 +412,12 @@
             <column name="ID" remarks="Индентификатор" type="NUMBER(19, 0)">
                 <constraints primaryKey="true" primaryKeyName="PK_DIVISION"/>
             </column>
-            <column defaultValueComputed="current_timestamp" name="CREATED_DATE" remarks="Дата создания" type="TIMESTAMP(6)">
+            <column defaultValueComputed="current_timestamp" name="CREATED_DATE" remarks="Дата создания"
+                    type="TIMESTAMP(6)">
                 <constraints nullable="false"/>
             </column>
-            <column defaultValueComputed="current_timestamp" name="UPDATED_DATE" remarks="Дата изменения" type="TIMESTAMP(6)">
+            <column defaultValueComputed="current_timestamp" name="UPDATED_DATE" remarks="Дата изменения"
+                    type="TIMESTAMP(6)">
                 <constraints nullable="false"/>
             </column>
             <column defaultValueNumeric="1" name="CREATED_BY_USER_ID" remarks="Кто создал" type="NUMBER(19, 0)">
@@ -463,13 +481,15 @@
             <column name="ID" remarks="Идентификатор" type="NUMBER(19, 0)">
                 <constraints primaryKey="true" primaryKeyName="PK_FILE_DATASOURCE"/>
             </column>
-            <column defaultValueComputed="current_timestamp" name="CREATED_DATE" remarks="Дата создания" type="TIMESTAMP(6)">
+            <column defaultValueComputed="current_timestamp" name="CREATED_DATE" remarks="Дата создания"
+                    type="TIMESTAMP(6)">
                 <constraints nullable="false"/>
             </column>
             <column defaultValueNumeric="1" name="CREATED_BY_USER_ID" remarks="Кто создал" type="NUMBER(19, 0)">
                 <constraints nullable="false"/>
             </column>
-            <column defaultValueComputed="current_timestamp" name="UPDATED_DATE" remarks="Дата изменения" type="TIMESTAMP(6)">
+            <column defaultValueComputed="current_timestamp" name="UPDATED_DATE" remarks="Дата изменения"
+                    type="TIMESTAMP(6)">
                 <constraints nullable="false"/>
             </column>
             <column defaultValueNumeric="1" name="LAST_UPD_BY_USER_ID" remarks="Кто изменил" type="NUMBER(19, 0)">
@@ -510,10 +530,12 @@
             <column name="IS_TEMPORARY" remarks="Признак временного файла" type="NUMBER(1, 0)"/>
             <column name="FILE_URL" remarks="Ссылка на файл" type="VARCHAR2(255 BYTE)"/>
             <column defaultValueNumeric="0" name="RESTRICTED_FLG" type="NUMBER(1, 0)"/>
-            <column defaultValueComputed="current_timestamp" name="CREATED_DATE" remarks="Дата создания" type="TIMESTAMP(6)">
+            <column defaultValueComputed="current_timestamp" name="CREATED_DATE" remarks="Дата создания"
+                    type="TIMESTAMP(6)">
                 <constraints nullable="false"/>
             </column>
-            <column defaultValueComputed="current_timestamp" name="UPDATED_DATE" remarks="Дата изменения" type="TIMESTAMP(6)">
+            <column defaultValueComputed="current_timestamp" name="UPDATED_DATE" remarks="Дата изменения"
+                    type="TIMESTAMP(6)">
                 <constraints nullable="false"/>
             </column>
             <column defaultValueNumeric="1" name="CREATED_BY_USER_ID" type="NUMBER(19, 0)">
@@ -595,19 +617,24 @@
             <column name="PRJ_GRP_ID" remarks="Идентификатор группы пользователей" type="NUMBER(19, 0)">
                 <constraints nullable="false"/>
             </column>
-            <column name="INTERNAL_ROLE_CD" remarks="TYPE = INTERNAL_ROLE Внутренняя роль пользователя" type="VARCHAR2(255)">
+            <column name="INTERNAL_ROLE_CD" remarks="TYPE = INTERNAL_ROLE Внутренняя роль пользователя"
+                    type="VARCHAR2(255)">
                 <constraints nullable="false"/>
             </column>
-            <column defaultValueComputed="current_timestamp" name="CREATED_DATE" remarks="Дата создания" type="TIMESTAMP(6)">
+            <column defaultValueComputed="current_timestamp" name="CREATED_DATE" remarks="Дата создания"
+                    type="TIMESTAMP(6)">
                 <constraints nullable="false"/>
             </column>
-            <column defaultValueComputed="current_timestamp" name="UPDATED_DATE" remarks="Дата последнего обновления" type="TIMESTAMP(6)">
+            <column defaultValueComputed="current_timestamp" name="UPDATED_DATE" remarks="Дата последнего обновления"
+                    type="TIMESTAMP(6)">
                 <constraints nullable="false"/>
             </column>
-            <column defaultValueNumeric="1" name="CREATED_BY_USER_ID" remarks="Идентификатор пользователя-создателя" type="NUMBER(19, 0)">
+            <column defaultValueNumeric="1" name="CREATED_BY_USER_ID" remarks="Идентификатор пользователя-создателя"
+                    type="NUMBER(19, 0)">
                 <constraints nullable="false"/>
             </column>
-            <column defaultValueNumeric="1" name="LAST_UPD_BY_USER_ID" remarks="Идентификатор последнего пользователя, обновившего запись" type="NUMBER(19, 0)">
+            <column defaultValueNumeric="1" name="LAST_UPD_BY_USER_ID"
+                    remarks="Идентификатор последнего пользователя, обновившего запись" type="NUMBER(19, 0)">
                 <constraints nullable="false"/>
             </column>
             <column name="DEPT_ID" type="NUMBER(19, 0)"/>
@@ -872,10 +899,12 @@
             <column defaultValueNumeric="0" name="READ_ONLY" type="NUMBER(1, 0)">
                 <constraints nullable="false"/>
             </column>
-            <column defaultValueComputed="current_timestamp" name="CREATED_DATE" remarks="Дата создания" type="TIMESTAMP(6)">
+            <column defaultValueComputed="current_timestamp" name="CREATED_DATE" remarks="Дата создания"
+                    type="TIMESTAMP(6)">
                 <constraints nullable="false"/>
             </column>
-            <column defaultValueComputed="current_timestamp" name="UPDATED_DATE" remarks="Дата изменения" type="TIMESTAMP(6)">
+            <column defaultValueComputed="current_timestamp" name="UPDATED_DATE" remarks="Дата изменения"
+                    type="TIMESTAMP(6)">
                 <constraints nullable="false"/>
             </column>
             <column defaultValueNumeric="1" name="CREATED_BY_USER_ID" type="NUMBER(19, 0)">
@@ -913,7 +942,8 @@
             <column defaultValueNumeric="0" name="SYSTEM_FLAG" remarks="Признак системного задания" type="BOOLEAN">
                 <constraints nullable="false"/>
             </column>
-            <column defaultValueNumeric="0" name="LAUNCH_ON_CREATE" remarks="Запускать сразу после создания" type="BOOLEAN">
+            <column defaultValueNumeric="0" name="LAUNCH_ON_CREATE" remarks="Запускать сразу после создания"
+                    type="BOOLEAN">
                 <constraints nullable="false"/>
             </column>
             <column name="LAST_LAUNCH_STATUS_CD" remarks="Статус последнего запуска" type="VARCHAR2(255)"/>
@@ -922,13 +952,16 @@
             <column defaultValueNumeric="0" name="LAUNCH_CNT" remarks="Кол-во запусков" type="NUMBER(19, 0)">
                 <constraints nullable="false"/>
             </column>
-            <column defaultValueNumeric="0" name="LAUNCH_FAILED_CNT" remarks="Кол-во запусков с ошибкой" type="NUMBER(19, 0)">
+            <column defaultValueNumeric="0" name="LAUNCH_FAILED_CNT" remarks="Кол-во запусков с ошибкой"
+                    type="NUMBER(19, 0)">
                 <constraints nullable="false"/>
             </column>
-            <column defaultValueNumeric="0" name="LAUNCH_FAILED_LAST_CNT" remarks="Кол-во запусков с ошибкой с момента последнего успешного" type="NUMBER(19, 0)">
+            <column defaultValueNumeric="0" name="LAUNCH_FAILED_LAST_CNT"
+                    remarks="Кол-во запусков с ошибкой с момента последнего успешного" type="NUMBER(19, 0)">
                 <constraints nullable="false"/>
             </column>
-            <column name="LAST_SUCCESS_LAUNCH_DURATION" remarks="Длительность последнего успешного запуска" type="NUMBER(19, 0)"/>
+            <column name="LAST_SUCCESS_LAUNCH_DURATION" remarks="Длительность последнего успешного запуска"
+                    type="NUMBER(19, 0)"/>
             <column defaultValueComputed="current_timestamp" name="CREATED_DATE" type="TIMESTAMP(6)">
                 <constraints nullable="false"/>
             </column>
@@ -957,10 +990,12 @@
             </column>
             <column name="PARAM_NAME" remarks="Название параметра" type="VARCHAR2(255)"/>
             <column name="PARAM_VALUE" remarks="Значение параметра" type="VARCHAR2(255)"/>
-            <column defaultValueComputed="current_timestamp" name="CREATED_DATE" remarks="Дата создания" type="TIMESTAMP(6)">
+            <column defaultValueComputed="current_timestamp" name="CREATED_DATE" remarks="Дата создания"
+                    type="TIMESTAMP(6)">
                 <constraints nullable="false"/>
             </column>
-            <column defaultValueComputed="current_timestamp" name="UPDATED_DATE" remarks="Дата изменения" type="TIMESTAMP(6)">
+            <column defaultValueComputed="current_timestamp" name="UPDATED_DATE" remarks="Дата изменения"
+                    type="TIMESTAMP(6)">
                 <constraints nullable="false"/>
             </column>
             <column defaultValueNumeric="1" name="CREATED_BY_USER_ID" remarks="Кто создал" type="NUMBER(19, 0)">
@@ -1001,10 +1036,12 @@
             <column name="ID" remarks="Идентификатор" type="VARCHAR2(255)">
                 <constraints primaryKey="true" primaryKeyName="PK_NAVIGATION_GROUP"/>
             </column>
-            <column defaultValueComputed="current_timestamp" name="CREATED_DATE" remarks="Дата создания" type="TIMESTAMP(6)">
+            <column defaultValueComputed="current_timestamp" name="CREATED_DATE" remarks="Дата создания"
+                    type="TIMESTAMP(6)">
                 <constraints nullable="false"/>
             </column>
-            <column defaultValueComputed="current_timestamp" name="UPDATED_DATE" remarks="Дата изменения" type="TIMESTAMP(6)">
+            <column defaultValueComputed="current_timestamp" name="UPDATED_DATE" remarks="Дата изменения"
+                    type="TIMESTAMP(6)">
                 <constraints nullable="false"/>
             </column>
             <column name="TYPE_CD" remarks="Тип группы" type="VARCHAR2(255)"/>
@@ -1022,10 +1059,12 @@
             <column name="ID" remarks="Идентификатор" type="VARCHAR2(255)">
                 <constraints primaryKey="true" primaryKeyName="PK_NAVIGATION_VIEW"/>
             </column>
-            <column defaultValueComputed="current_timestamp" name="CREATED_DATE" remarks="Дата создания" type="TIMESTAMP(6)">
+            <column defaultValueComputed="current_timestamp" name="CREATED_DATE" remarks="Дата создания"
+                    type="TIMESTAMP(6)">
                 <constraints nullable="false"/>
             </column>
-            <column defaultValueComputed="current_timestamp" name="UPDATED_DATE" remarks="Дата изменения" type="TIMESTAMP(6)">
+            <column defaultValueComputed="current_timestamp" name="UPDATED_DATE" remarks="Дата изменения"
+                    type="TIMESTAMP(6)">
                 <constraints nullable="false"/>
             </column>
             <column name="TYPE_CD" remarks="Тип группы" type="VARCHAR2(255)"/>
@@ -1095,10 +1134,12 @@
             <column name="EDIT_DATE3" remarks="Дата для ввода" type="TIMESTAMP(6)"/>
             <column name="EDIT_DATE4" remarks="Дата для ввода" type="TIMESTAMP(6)"/>
             <column name="EDIT_DATE5" remarks="Дата для ввода" type="TIMESTAMP(6)"/>
-            <column defaultValueComputed="current_timestamp" name="CREATED_DATE" remarks="Дата создания" type="TIMESTAMP(6)">
+            <column defaultValueComputed="current_timestamp" name="CREATED_DATE" remarks="Дата создания"
+                    type="TIMESTAMP(6)">
                 <constraints nullable="false"/>
             </column>
-            <column defaultValueComputed="current_timestamp" name="UPDATED_DATE" remarks="Дата обновления" type="TIMESTAMP(6)">
+            <column defaultValueComputed="current_timestamp" name="UPDATED_DATE" remarks="Дата обновления"
+                    type="TIMESTAMP(6)">
                 <constraints nullable="false"/>
             </column>
             <column defaultValueNumeric="1" name="CREATED_BY_USER_ID" type="NUMBER(19, 0)">
@@ -1168,7 +1209,7 @@
             <column defaultValueNumeric="0" name="VSTAMP" type="NUMBER(19, 0)">
                 <constraints nullable="false"/>
             </column>
-            <column defaultValueNumeric="1" name="ACTIVE" remarks="Признак активности" type="NUMBER(1, 0)"/>
+            <column defaultValueNumeric="1" name="ACTIVE" remarks="Признак активности" type="BOOLEAN"/>
         </createTable>
     </changeSet>
     <changeSet author="initial" id="USERS_AUD TABLE">
@@ -1210,7 +1251,7 @@
             <column defaultValueNumeric="0" name="VSTAMP" type="NUMBER(19, 0)">
                 <constraints nullable="false"/>
             </column>
-            <column name="ACTIVE" type="NUMBER(1, 0)"/>
+            <column name="ACTIVE" type="BOOLEAN"/>
         </createTable>
     </changeSet>
     <changeSet author="initial" id="USER_ACTIVITY TABLE">
@@ -1240,19 +1281,25 @@
             <column name="USER_ID" remarks="Идентификатор пользователя" type="NUMBER(19, 0)">
                 <constraints nullable="false"/>
             </column>
-            <column name="INTERNAL_ROLE_CD" remarks="TYPE = INTERNAL_ROLE Внутренняя роль в Системе" type="VARCHAR2(255)"/>
+            <column name="INTERNAL_ROLE_CD" remarks="TYPE = INTERNAL_ROLE Внутренняя роль в Системе"
+                    type="VARCHAR2(255)"/>
             <column defaultValueNumeric="false" name="ACTIVE" remarks="Признак активности роли" type="BOOLEAN"/>
-            <column defaultValueNumeric="false" name="MAIN" remarks="Признак основная роль (последняя выбранная роль)" type="BOOLEAN"/>
-            <column defaultValueComputed="current_timestamp" name="CREATED_DATE" remarks="Дата создания" type="TIMESTAMP(6)">
+            <column defaultValueNumeric="false" name="MAIN" remarks="Признак основная роль (последняя выбранная роль)"
+                    type="BOOLEAN"/>
+            <column defaultValueComputed="current_timestamp" name="CREATED_DATE" remarks="Дата создания"
+                    type="TIMESTAMP(6)">
                 <constraints nullable="false"/>
             </column>
-            <column defaultValueComputed="current_timestamp" name="UPDATED_DATE" remarks="Дата последнего обновления" type="TIMESTAMP(6)">
+            <column defaultValueComputed="current_timestamp" name="UPDATED_DATE" remarks="Дата последнего обновления"
+                    type="TIMESTAMP(6)">
                 <constraints nullable="false"/>
             </column>
-            <column defaultValueNumeric="1" name="CREATED_BY_USER_ID" remarks="Идентификатор пользователя-создателя" type="NUMBER(19, 0)">
+            <column defaultValueNumeric="1" name="CREATED_BY_USER_ID" remarks="Идентификатор пользователя-создателя"
+                    type="NUMBER(19, 0)">
                 <constraints nullable="false"/>
             </column>
-            <column defaultValueNumeric="1" name="LAST_UPD_BY_USER_ID" remarks="Идентификатор последнего пользователя, обновившего запись" type="NUMBER(19, 0)">
+            <column defaultValueNumeric="1" name="LAST_UPD_BY_USER_ID"
+                    remarks="Идентификатор последнего пользователя, обновившего запись" type="NUMBER(19, 0)">
                 <constraints nullable="false"/>
             </column>
             <column name="DIVISION_ID" remarks="Подразделение" type="NUMBER(19, 0)"/>
@@ -1270,8 +1317,10 @@
             <column name="TEMPLATE" remarks="Шаблон" type="VARCHAR2(255)"/>
             <column name="TITLE" remarks="Заголовок" type="VARCHAR2(255)"/>
             <column name="URL" remarks="Ссылка на запрос данных" type="VARCHAR2(1000)"/>
-            <column defaultValueNumeric="0" name="CUSTOMIZABLE" remarks="Признак &quot;Настраиваемый пользователем&quot;" type="NUMBER(1, 0)"/>
-            <column defaultValueNumeric="0" name="EDITABLE" remarks="Признак &quot;Настраеваемая сетка&quot;" type="NUMBER(1, 0)"/>
+            <column defaultValueNumeric="0" name="CUSTOMIZABLE"
+                    remarks="Признак &quot;Настраиваемый пользователем&quot;" type="NUMBER(1, 0)"/>
+            <column defaultValueNumeric="0" name="EDITABLE" remarks="Признак &quot;Настраеваемая сетка&quot;"
+                    type="NUMBER(1, 0)"/>
             <column defaultValueNumeric="0" name="IGNORE_HISTORY" remarks="Признак &quot;Скрывать в Breadcrumbs&quot;"
                     type="NUMBER(1, 0)"/>
             <column name="OPTIONS" remarks="Общие настройки view" type="CLOB"/>
@@ -1324,7 +1373,8 @@
             <column defaultValueNumeric="1" name="LAST_UPD_BY_USER_ID" type="NUMBER(19, 0)">
                 <constraints nullable="false"/>
             </column>
-            <column defaultValueNumeric="0" name="SHOW_EXPORT_STAMP" remarks="Выводить отметку о ДСП при выгрузке" type="NUMBER(1, 0)"/>
+            <column defaultValueNumeric="0" name="SHOW_EXPORT_STAMP" remarks="Выводить отметку о ДСП при выгрузке"
+                    type="NUMBER(1, 0)"/>
         </createTable>
     </changeSet>
     <changeSet author="initial" id="WIDGET TABLE">
@@ -1333,7 +1383,8 @@
                 <constraints primaryKey="true"/>
             </column>
             <column name="NAME" type="VARCHAR2(255)"/>
-            <column defaultValue="[]" name="SHOW_CONDITION" remarks="Условие отображения виджета (Toggle Widget)" type="CLOB"/>
+            <column defaultValue="[]" name="SHOW_CONDITION" remarks="Условие отображения виджета (Toggle Widget)"
+                    type="CLOB"/>
             <column defaultValue="[]" name="FIELDS" remarks="Поля" type="CLOB"/>
             <column defaultValue="[]" name="AXIS_FIELDS" remarks="Поля-оси двумерного фильтра" type="CLOB"/>
             <column defaultValue="[]" name="CHART" remarks="Графики и диаграммы" type="CLOB"/>
@@ -1369,7 +1420,8 @@
             <column name="WIDGET_ID" remarks="Виджет" type="NUMBER(19, 0)">
                 <constraints nullable="false"/>
             </column>
-            <column defaultValueNumeric="0" name="IS_CONCLUSION_TYPE" remarks="Является ли виджет виджетом ручного ввода" type="NUMBER(1, 0)">
+            <column defaultValueNumeric="0" name="IS_CONCLUSION_TYPE"
+                    remarks="Является ли виджет виджетом ручного ввода" type="NUMBER(1, 0)">
                 <constraints nullable="false"/>
             </column>
             <column defaultValueComputed="current_timestamp" name="CREATED_DATE" type="TIMESTAMP(6)"/>
@@ -1396,13 +1448,15 @@
             <column name="NAME" type="VARCHAR2(255)" remarks="Название">
                 <constraints nullable="false"/>
             </column>
-            <column name="CREATED_DATE" type="TIMESTAMP(6)" remarks="Дата создания" defaultValueComputed="current_timestamp">
+            <column name="CREATED_DATE" type="TIMESTAMP(6)" remarks="Дата создания"
+                    defaultValueComputed="current_timestamp">
                 <constraints nullable="false"/>
             </column>
             <column name="CREATED_BY_USER_ID" type="NUMBER(19)" remarks="Кто создал" defaultValueNumeric="1">
                 <constraints nullable="false" foreignKeyName="FK_ACCESS_LIST_CREATED_BY" references="USERS"/>
             </column>
-            <column name="UPDATED_DATE" type="TIMESTAMP(6)" remarks="Дата изменения" defaultValueComputed="current_timestamp">
+            <column name="UPDATED_DATE" type="TIMESTAMP(6)" remarks="Дата изменения"
+                    defaultValueComputed="current_timestamp">
                 <constraints nullable="false"/>
             </column>
             <column name="LAST_UPD_BY_USER_ID" type="NUMBER(19)" remarks="Кто изменил" defaultValueNumeric="1">
@@ -1433,13 +1487,15 @@
             <column name="MANDATORY" type="NUMBER(1)" remarks="Обязательность" defaultValueNumeric="0">
                 <constraints nullable="false"/>
             </column>
-            <column name="CREATED_DATE" type="TIMESTAMP(6)" remarks="Дата создания" defaultValueComputed="current_timestamp">
+            <column name="CREATED_DATE" type="TIMESTAMP(6)" remarks="Дата создания"
+                    defaultValueComputed="current_timestamp">
                 <constraints nullable="false"/>
             </column>
             <column name="CREATED_BY_USER_ID" type="NUMBER(19)" remarks="Кто создал" defaultValueNumeric="1">
                 <constraints nullable="false" foreignKeyName="FK_ACCESS_RECORD_CREATED_BY" references="USERS"/>
             </column>
-            <column name="UPDATED_DATE" type="TIMESTAMP(6)" remarks="Дата изменения" defaultValueComputed="current_timestamp">
+            <column name="UPDATED_DATE" type="TIMESTAMP(6)" remarks="Дата изменения"
+                    defaultValueComputed="current_timestamp">
                 <constraints nullable="false"/>
             </column>
             <column name="LAST_UPD_BY_USER_ID" type="NUMBER(19)" remarks="Кто изменил" defaultValueNumeric="1">
@@ -1458,13 +1514,15 @@
             <column name="NAME" type="VARCHAR2(255)" remarks="Имя группы">
                 <constraints nullable="false"/>
             </column>
-            <column name="CREATED_DATE" type="TIMESTAMP(6)" remarks="Дата создания" defaultValueComputed="current_timestamp">
+            <column name="CREATED_DATE" type="TIMESTAMP(6)" remarks="Дата создания"
+                    defaultValueComputed="current_timestamp">
                 <constraints nullable="false"/>
             </column>
             <column name="CREATED_BY_USER_ID" type="NUMBER(19)" remarks="Кто создал" defaultValueNumeric="1">
                 <constraints nullable="false" foreignKeyName="FK_GROUPS_CREATED_BY" references="USERS"/>
             </column>
-            <column name="UPDATED_DATE" type="TIMESTAMP(6)" remarks="Дата изменения" defaultValueComputed="current_timestamp">
+            <column name="UPDATED_DATE" type="TIMESTAMP(6)" remarks="Дата изменения"
+                    defaultValueComputed="current_timestamp">
                 <constraints nullable="false"/>
             </column>
             <column name="LAST_UPD_BY_USER_ID" type="NUMBER(19)" remarks="Кто изменил" defaultValueNumeric="1">
@@ -1489,13 +1547,15 @@
             <column name="RELATED_ID" type="NUMBER(19)">
                 <constraints nullable="false"/>
             </column>
-            <column name="CREATED_DATE" type="TIMESTAMP(6)" remarks="Дата создания" defaultValueComputed="current_timestamp">
+            <column name="CREATED_DATE" type="TIMESTAMP(6)" remarks="Дата создания"
+                    defaultValueComputed="current_timestamp">
                 <constraints nullable="false"/>
             </column>
             <column name="CREATED_BY_USER_ID" type="NUMBER(19)" remarks="Кто создал" defaultValueNumeric="1">
                 <constraints nullable="false" foreignKeyName="FK_GROUP_RELATION_CREATED_BY" references="USERS"/>
             </column>
-            <column name="UPDATED_DATE" type="TIMESTAMP(6)" remarks="Дата изменения" defaultValueComputed="current_timestamp">
+            <column name="UPDATED_DATE" type="TIMESTAMP(6)" remarks="Дата изменения"
+                    defaultValueComputed="current_timestamp">
                 <constraints nullable="false"/>
             </column>
             <column name="LAST_UPD_BY_USER_ID" type="NUMBER(19)" remarks="Кто изменил" defaultValueNumeric="1">
@@ -1508,7 +1568,8 @@
     </changeSet>
 
     <changeSet author="initial" id="BC_FILTER_GROUPS INDEXES">
-        <addUniqueConstraint columnNames="NAME, BC" constraintName="BC_FILTER_GROUPS_UNIQUE" tableName="BC_FILTER_GROUPS"/>
+        <addUniqueConstraint columnNames="NAME, BC" constraintName="BC_FILTER_GROUPS_UNIQUE"
+                             tableName="BC_FILTER_GROUPS"/>
         <createIndex indexName="BC_FILTER_GROUPS_UNIQUE_INDEX" tableName="BC_FILTER_GROUPS" unique="true">
             <column name="NAME"/>
             <column name="BC"/>
@@ -1545,12 +1606,14 @@
         </createIndex>
     </changeSet>
     <changeSet author="initial" id="DICTIONARY_ITEM INDEXES">
-        <addUniqueConstraint columnNames="TYPE, KEY" constraintName="DIC_SELECT_UNIQUE_TYPE_KEY" tableName="DICTIONARY_ITEM"/>
+        <addUniqueConstraint columnNames="TYPE, KEY" constraintName="DIC_SELECT_UNIQUE_TYPE_KEY"
+                             tableName="DICTIONARY_ITEM"/>
         <createIndex indexName="DIC_SELECT_UNIQUE_TYPE_KEY_INDEX" tableName="DICTIONARY_ITEM" unique="true">
             <column name="TYPE"/>
             <column name="KEY"/>
         </createIndex>
-        <addUniqueConstraint columnNames="TYPE, DISPLAY_ORDER" constraintName="DIC_SELECT_UNIQUE_TYPE_ORDER" tableName="DICTIONARY_ITEM"/>
+        <addUniqueConstraint columnNames="TYPE, DISPLAY_ORDER" constraintName="DIC_SELECT_UNIQUE_TYPE_ORDER"
+                             tableName="DICTIONARY_ITEM"/>
         <createIndex indexName="DIC_SELECT_UNIQUE_TYPE_ORDER_INDEX" tableName="DICTIONARY_ITEM" unique="true">
             <column name="TYPE"/>
             <column name="DISPLAY_ORDER"/>
@@ -1567,14 +1630,16 @@
             <column name="ID"/>
             <column name="LANGUAGE"/>
         </createIndex>
-        <addPrimaryKey columnNames="ID, LANGUAGE" constraintName="DICTIONARY_ITEM_TR_PK" forIndexName="DICTIONARY_ITEM_TR_PK" tableName="DICTIONARY_ITEM_TR"/>
+        <addPrimaryKey columnNames="ID, LANGUAGE" constraintName="DICTIONARY_ITEM_TR_PK"
+                       forIndexName="DICTIONARY_ITEM_TR_PK" tableName="DICTIONARY_ITEM_TR"/>
     </changeSet>
     <changeSet author="initial" id="DICTIONARY_ITEM_TR INDEXES" dbms="postgresql">
         <createIndex indexName="DICTIONARY_ITEM_IND3" tableName="DICTIONARY_ITEM_TR" unique="true">
             <column name="ID"/>
             <column name="LANGUAGE"/>
         </createIndex>
-        <addPrimaryKey columnNames="ID, LANGUAGE" constraintName="DICTIONARY_ITEM_TR_PK" tableName="DICTIONARY_ITEM_TR"/>
+        <addPrimaryKey columnNames="ID, LANGUAGE" constraintName="DICTIONARY_ITEM_TR_PK"
+                       tableName="DICTIONARY_ITEM_TR"/>
     </changeSet>
     <changeSet author="initial" id="SYSTEM_SETTINGS INDEXES">
         <addUniqueConstraint columnNames="KEY" constraintName="SYS_SETTINGS_UNIQUE_KEY" tableName="SYSTEM_SETTINGS"/>
@@ -1646,7 +1711,8 @@
         </createIndex>
     </changeSet>
     <changeSet author="initial" id="USER_ROLE INDEXES">
-        <addUniqueConstraint columnNames="USER_ID, INTERNAL_ROLE_CD" constraintName="USER_ROLE_UNIQUE" tableName="USER_ROLE"/>
+        <addUniqueConstraint columnNames="USER_ID, INTERNAL_ROLE_CD" constraintName="USER_ROLE_UNIQUE"
+                             tableName="USER_ROLE"/>
         <createIndex indexName="USER_ROLE_UNIQUE_INDEX" tableName="USER_ROLE" unique="true">
             <column name="USER_ID"/>
             <column name="INTERNAL_ROLE_CD"/>
@@ -1728,7 +1794,7 @@
             <column name="USER_ID"/>
         </createIndex>
     </changeSet>
-    <changeSet author="initial"  dbms="postgresql" id="NOTIFICATION INDEXES">
+    <changeSet author="initial" dbms="postgresql" id="NOTIFICATION INDEXES">
         <createIndex indexName="IDX_NTIFIC_USER_ID" tableName="NOTIFICATION">
             <column name="USER_ID"/>
         </createIndex>
@@ -1822,12 +1888,14 @@
     </changeSet>
     <changeSet author="initial" dbms="oracle" id="SEARCH_SPEC INDEXES">
         <createIndex indexName="SEARCH_SPEC_SVC_NAME_FK" tableName="SEARCH_SPEC" unique="true">
-            <column computed="true" name="CASE &quot;TYPE&quot; WHEN 'BC' THEN &quot;BC_NAME&quot;||&quot;NAME&quot;||&quot;SERVICE_NAME&quot; WHEN 'LINK' THEN &quot;BC_NAME&quot;||&quot;NAME&quot;||&quot;SERVICE_NAME&quot; WHEN 'SECURITY' THEN &quot;ROLE_CD&quot;||&quot;NAME&quot;||&quot;SERVICE_NAME&quot; ELSE NULL END"/>
+            <column computed="true"
+                    name="CASE &quot;TYPE&quot; WHEN 'BC' THEN &quot;BC_NAME&quot;||&quot;NAME&quot;||&quot;SERVICE_NAME&quot; WHEN 'LINK' THEN &quot;BC_NAME&quot;||&quot;NAME&quot;||&quot;SERVICE_NAME&quot; WHEN 'SECURITY' THEN &quot;ROLE_CD&quot;||&quot;NAME&quot;||&quot;SERVICE_NAME&quot; ELSE NULL END"/>
         </createIndex>
     </changeSet>
     <changeSet author="initial" dbms="postgresql" id="SEARCH_SPEC INDEXES">
         <createIndex indexName="SEARCH_SPEC_SVC_NAME_FK" tableName="SEARCH_SPEC" unique="true">
-            <column computed="true" name="(CASE 'TYPE' WHEN 'BC' THEN 'BC_NAME' || 'NAME' || 'SERVICE_NAME' WHEN 'LINK' THEN 'BC_NAME' || 'NAME' || 'SERVICE_NAME' WHEN 'SECURITY' THEN 'ROLE_CD' || 'NAME' || 'SERVICE_NAME' ELSE NULL END)"/>
+            <column computed="true"
+                    name="(CASE 'TYPE' WHEN 'BC' THEN 'BC_NAME' || 'NAME' || 'SERVICE_NAME' WHEN 'LINK' THEN 'BC_NAME' || 'NAME' || 'SERVICE_NAME' WHEN 'SECURITY' THEN 'ROLE_CD' || 'NAME' || 'SERVICE_NAME' ELSE NULL END)"/>
         </createIndex>
     </changeSet>
     <changeSet author="initial" id="SQL_BC_EDIT_FIELD INDEXES">
@@ -1860,288 +1928,614 @@
     </changeSet>
 
     <changeSet author="initial" id="SYSTEM_SETTINGS CONSTRAINTS">
-        <addForeignKeyConstraint baseColumnNames="CREATED_BY_USER_ID" baseTableName="SYSTEM_SETTINGS" constraintName="FK_SYS_SETTINGS_CREATED_BY" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID" referencedTableName="USERS" validate="true"/>
-        <addForeignKeyConstraint baseColumnNames="LAST_UPD_BY_USER_ID" baseTableName="SYSTEM_SETTINGS" constraintName="FK_SYS_SETTINGS_UPDATED_BY" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID" referencedTableName="USERS" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="CREATED_BY_USER_ID" baseTableName="SYSTEM_SETTINGS"
+                                 constraintName="FK_SYS_SETTINGS_CREATED_BY" deferrable="false"
+                                 initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT"
+                                 referencedColumnNames="ID" referencedTableName="USERS" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="LAST_UPD_BY_USER_ID" baseTableName="SYSTEM_SETTINGS"
+                                 constraintName="FK_SYS_SETTINGS_UPDATED_BY" deferrable="false"
+                                 initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT"
+                                 referencedColumnNames="ID" referencedTableName="USERS" validate="true"/>
     </changeSet>
     <changeSet author="initial" id="DICTIONARY_ITEM CONSTRAINTS">
-        <addForeignKeyConstraint baseColumnNames="DICTIONARY_TYPE_ID" baseTableName="DICTIONARY_ITEM" constraintName="CONS_DICTIONARY_TYPE_ID" deferrable="true" initiallyDeferred="true" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID" referencedTableName="DICTIONARY_TYPE" validate="true"/>
-        <addForeignKeyConstraint baseColumnNames="CREATED_BY_USER_ID" baseTableName="DICTIONARY_ITEM" constraintName="FK_DICTIONARY_ITEM_CREATED_BY" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID" referencedTableName="USERS" validate="true"/>
-        <addForeignKeyConstraint baseColumnNames="LAST_UPD_BY_USER_ID" baseTableName="DICTIONARY_ITEM" constraintName="FK_DICTIONARY_ITEM_UPDATED_BY" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID" referencedTableName="USERS" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="DICTIONARY_TYPE_ID" baseTableName="DICTIONARY_ITEM"
+                                 constraintName="CONS_DICTIONARY_TYPE_ID" deferrable="true" initiallyDeferred="true"
+                                 onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID"
+                                 referencedTableName="DICTIONARY_TYPE" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="CREATED_BY_USER_ID" baseTableName="DICTIONARY_ITEM"
+                                 constraintName="FK_DICTIONARY_ITEM_CREATED_BY" deferrable="false"
+                                 initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT"
+                                 referencedColumnNames="ID" referencedTableName="USERS" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="LAST_UPD_BY_USER_ID" baseTableName="DICTIONARY_ITEM"
+                                 constraintName="FK_DICTIONARY_ITEM_UPDATED_BY" deferrable="false"
+                                 initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT"
+                                 referencedColumnNames="ID" referencedTableName="USERS" validate="true"/>
     </changeSet>
     <changeSet author="initial" id="DICTIONARY_ITEM_TR CONSTRAINTS">
-        <addForeignKeyConstraint baseColumnNames="ID" baseTableName="DICTIONARY_ITEM_TR" constraintName="DICTIONARY_ITEM_TR_FK" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="CASCADE" referencedColumnNames="ID" referencedTableName="DICTIONARY_ITEM" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="ID" baseTableName="DICTIONARY_ITEM_TR"
+                                 constraintName="DICTIONARY_ITEM_TR_FK" deferrable="false" initiallyDeferred="false"
+                                 onDelete="CASCADE" onUpdate="CASCADE" referencedColumnNames="ID"
+                                 referencedTableName="DICTIONARY_ITEM" validate="true"/>
     </changeSet>
     <changeSet author="initial" id="DEPT_AUD CONSTRAINTS">
-        <addForeignKeyConstraint baseColumnNames="REV" baseTableName="DEPT_AUD" constraintName="DEPT_AUD_REV_FK" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID" referencedTableName="REVINFO" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="REV" baseTableName="DEPT_AUD" constraintName="DEPT_AUD_REV_FK"
+                                 deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT"
+                                 referencedColumnNames="ID" referencedTableName="REVINFO" validate="true"/>
     </changeSet>
     <changeSet author="initial" id="USER_ACTIVITY CONSTRAINTS">
-        <addForeignKeyConstraint baseColumnNames="USER_ID" baseTableName="USER_ACTIVITY" constraintName="FK_AUTH_LOG_USER" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID" referencedTableName="USERS" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="USER_ID" baseTableName="USER_ACTIVITY"
+                                 constraintName="FK_AUTH_LOG_USER" deferrable="false" initiallyDeferred="false"
+                                 onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID"
+                                 referencedTableName="USERS" validate="true"/>
     </changeSet>
     <changeSet author="initial" id="VIEW_WIDGETS CONSTRAINTS">
-        <addForeignKeyConstraint baseColumnNames="WIDGET_ID" baseTableName="VIEW_WIDGETS" constraintName="FK_B8EXT2811OBUYOMW5CKRCFWFQ" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID" referencedTableName="WIDGET" validate="true"/>
-        <addForeignKeyConstraint baseColumnNames="CREATED_BY_USER_ID" baseTableName="VIEW_WIDGETS" constraintName="FK_VIEW_WIDGETS_CREATED_BY" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID" referencedTableName="USERS" validate="true"/>
-        <addForeignKeyConstraint baseColumnNames="LAST_UPD_BY_USER_ID" baseTableName="VIEW_WIDGETS" constraintName="FK_VIEW_WIDGETS_UPDATED_BY" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID" referencedTableName="USERS" validate="true"/>
-        <addForeignKeyConstraint baseColumnNames="VIEW_NAME" baseTableName="VIEW_WIDGETS" constraintName="FK_HDRAA16PLT7QLFTN6I2XGDN2K" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="NAME" referencedTableName="VIEWS" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="WIDGET_ID" baseTableName="VIEW_WIDGETS"
+                                 constraintName="FK_B8EXT2811OBUYOMW5CKRCFWFQ" deferrable="false"
+                                 initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT"
+                                 referencedColumnNames="ID" referencedTableName="WIDGET" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="CREATED_BY_USER_ID" baseTableName="VIEW_WIDGETS"
+                                 constraintName="FK_VIEW_WIDGETS_CREATED_BY" deferrable="false"
+                                 initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT"
+                                 referencedColumnNames="ID" referencedTableName="USERS" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="LAST_UPD_BY_USER_ID" baseTableName="VIEW_WIDGETS"
+                                 constraintName="FK_VIEW_WIDGETS_UPDATED_BY" deferrable="false"
+                                 initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT"
+                                 referencedColumnNames="ID" referencedTableName="USERS" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="VIEW_NAME" baseTableName="VIEW_WIDGETS"
+                                 constraintName="FK_HDRAA16PLT7QLFTN6I2XGDN2K" deferrable="false"
+                                 initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT"
+                                 referencedColumnNames="NAME" referencedTableName="VIEWS" validate="true"/>
     </changeSet>
     <changeSet author="initial" id="BC CONSTRAINTS">
-        <addForeignKeyConstraint baseColumnNames="CREATED_BY_USER_ID" baseTableName="BC" constraintName="FK_BC_CREATED_BY" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID" referencedTableName="USERS" validate="true"/>
-        <addForeignKeyConstraint baseColumnNames="LAST_UPD_BY_USER_ID" baseTableName="BC" constraintName="FK_BC_UPDATED_BY" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID" referencedTableName="USERS" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="CREATED_BY_USER_ID" baseTableName="BC"
+                                 constraintName="FK_BC_CREATED_BY" deferrable="false" initiallyDeferred="false"
+                                 onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID"
+                                 referencedTableName="USERS" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="LAST_UPD_BY_USER_ID" baseTableName="BC"
+                                 constraintName="FK_BC_UPDATED_BY" deferrable="false" initiallyDeferred="false"
+                                 onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID"
+                                 referencedTableName="USERS" validate="true"/>
     </changeSet>
     <changeSet author="initial" id="BC_FILTER_GROUPS CONSTRAINTS">
-        <addForeignKeyConstraint baseColumnNames="CREATED_BY_USER_ID" baseTableName="BC_FILTER_GROUPS" constraintName="FK_BC_FILTER_GROUPS_CREATED_BY" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID" referencedTableName="USERS" validate="true"/>
-        <addForeignKeyConstraint baseColumnNames="LAST_UPD_BY_USER_ID" baseTableName="BC_FILTER_GROUPS" constraintName="FK_BC_FILTER_GROUPS_UPDATED_BY" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID" referencedTableName="USERS" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="CREATED_BY_USER_ID" baseTableName="BC_FILTER_GROUPS"
+                                 constraintName="FK_BC_FILTER_GROUPS_CREATED_BY" deferrable="false"
+                                 initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT"
+                                 referencedColumnNames="ID" referencedTableName="USERS" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="LAST_UPD_BY_USER_ID" baseTableName="BC_FILTER_GROUPS"
+                                 constraintName="FK_BC_FILTER_GROUPS_UPDATED_BY" deferrable="false"
+                                 initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT"
+                                 referencedColumnNames="ID" referencedTableName="USERS" validate="true"/>
     </changeSet>
     <changeSet author="initial" id="CUSTOMIZABLE_RESPONSE_SERVICE CONSTRAINTS">
-        <addForeignKeyConstraint baseColumnNames="CREATED_BY_USER_ID" baseTableName="CUSTOMIZABLE_RESPONSE_SERVICE" constraintName="FK_CRSRVS_CB" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID" referencedTableName="USERS" validate="true"/>
-        <addForeignKeyConstraint baseColumnNames="LAST_UPD_BY_USER_ID" baseTableName="CUSTOMIZABLE_RESPONSE_SERVICE" constraintName="FK_CRSRVS_UB" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID" referencedTableName="USERS" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="CREATED_BY_USER_ID" baseTableName="CUSTOMIZABLE_RESPONSE_SERVICE"
+                                 constraintName="FK_CRSRVS_CB" deferrable="false" initiallyDeferred="false"
+                                 onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID"
+                                 referencedTableName="USERS" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="LAST_UPD_BY_USER_ID" baseTableName="CUSTOMIZABLE_RESPONSE_SERVICE"
+                                 constraintName="FK_CRSRVS_UB" deferrable="false" initiallyDeferred="false"
+                                 onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID"
+                                 referencedTableName="USERS" validate="true"/>
     </changeSet>
     <changeSet author="initial" id="BC_PROPERTIES CONSTRAINTS">
-        <addForeignKeyConstraint baseColumnNames="CREATED_BY_USER_ID" baseTableName="BC_PROPERTIES" constraintName="FK_DEFBCPROPS_CREATED_BY" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID" referencedTableName="USERS" validate="true"/>
-        <addForeignKeyConstraint baseColumnNames="LAST_UPD_BY_USER_ID" baseTableName="BC_PROPERTIES" constraintName="FK_DEFBCPROPS_UPDATED_BY" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID" referencedTableName="USERS" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="CREATED_BY_USER_ID" baseTableName="BC_PROPERTIES"
+                                 constraintName="FK_DEFBCPROPS_CREATED_BY" deferrable="false" initiallyDeferred="false"
+                                 onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID"
+                                 referencedTableName="USERS" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="LAST_UPD_BY_USER_ID" baseTableName="BC_PROPERTIES"
+                                 constraintName="FK_DEFBCPROPS_UPDATED_BY" deferrable="false" initiallyDeferred="false"
+                                 onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID"
+                                 referencedTableName="USERS" validate="true"/>
     </changeSet>
     <changeSet author="initial" id="DEPT CONSTRAINTS">
-        <addForeignKeyConstraint baseColumnNames="CREATED_BY_USER_ID" baseTableName="DEPT" constraintName="FK_DEPT_CREATED_BY" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID" referencedTableName="USERS" validate="true"/>
-        <addForeignKeyConstraint baseColumnNames="LAST_UPD_BY_USER_ID" baseTableName="DEPT" constraintName="FK_DEPT_UPDATED_BY" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID" referencedTableName="USERS" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="CREATED_BY_USER_ID" baseTableName="DEPT"
+                                 constraintName="FK_DEPT_CREATED_BY" deferrable="false" initiallyDeferred="false"
+                                 onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID"
+                                 referencedTableName="USERS" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="LAST_UPD_BY_USER_ID" baseTableName="DEPT"
+                                 constraintName="FK_DEPT_UPDATED_BY" deferrable="false" initiallyDeferred="false"
+                                 onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID"
+                                 referencedTableName="USERS" validate="true"/>
     </changeSet>
     <changeSet author="initial" id="DICTIONARY_TYPE CONSTRAINTS">
-        <addForeignKeyConstraint baseColumnNames="CREATED_BY_USER_ID" baseTableName="DICTIONARY_TYPE" constraintName="FK_DICTIONARY_TYPE_CREATED_BY" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID" referencedTableName="USERS" validate="true"/>
-        <addForeignKeyConstraint baseColumnNames="LAST_UPD_BY_USER_ID" baseTableName="DICTIONARY_TYPE" constraintName="FK_DICTIONARY_TYPE_UPDATED_BY" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID" referencedTableName="USERS" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="CREATED_BY_USER_ID" baseTableName="DICTIONARY_TYPE"
+                                 constraintName="FK_DICTIONARY_TYPE_CREATED_BY" deferrable="false"
+                                 initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT"
+                                 referencedColumnNames="ID" referencedTableName="USERS" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="LAST_UPD_BY_USER_ID" baseTableName="DICTIONARY_TYPE"
+                                 constraintName="FK_DICTIONARY_TYPE_UPDATED_BY" deferrable="false"
+                                 initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT"
+                                 referencedColumnNames="ID" referencedTableName="USERS" validate="true"/>
     </changeSet>
     <changeSet author="initial" id="DIVISION CONSTRAINTS">
-        <addForeignKeyConstraint baseColumnNames="CREATED_BY_USER_ID" baseTableName="DIVISION" constraintName="FK_DIVISION_CB" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID" referencedTableName="USERS" validate="true"/>
-        <addForeignKeyConstraint baseColumnNames="LAST_UPD_BY_USER_ID" baseTableName="DIVISION" constraintName="FK_DIVISION_UB" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID" referencedTableName="USERS" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="CREATED_BY_USER_ID" baseTableName="DIVISION"
+                                 constraintName="FK_DIVISION_CB" deferrable="false" initiallyDeferred="false"
+                                 onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID"
+                                 referencedTableName="USERS" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="LAST_UPD_BY_USER_ID" baseTableName="DIVISION"
+                                 constraintName="FK_DIVISION_UB" deferrable="false" initiallyDeferred="false"
+                                 onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID"
+                                 referencedTableName="USERS" validate="true"/>
     </changeSet>
     <changeSet author="initial" id="DICTIONARY_LNK_RULE_COND CONSTRAINTS">
-        <addForeignKeyConstraint baseColumnNames="CREATED_BY_USER_ID" baseTableName="DICTIONARY_LNK_RULE_COND" constraintName="FK_DLNKRULECOND_CB" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID" referencedTableName="USERS" validate="true"/>
-        <addForeignKeyConstraint baseColumnNames="RULE_ID" baseTableName="DICTIONARY_LNK_RULE_COND" constraintName="FK_DLNKRULECOND_RULE" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID" referencedTableName="DICTIONARY_LNK_RULE" validate="true"/>
-        <addForeignKeyConstraint baseColumnNames="LAST_UPD_BY_USER_ID" baseTableName="DICTIONARY_LNK_RULE_COND" constraintName="FK_DLNKRULECOND_UB" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID" referencedTableName="USERS" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="CREATED_BY_USER_ID" baseTableName="DICTIONARY_LNK_RULE_COND"
+                                 constraintName="FK_DLNKRULECOND_CB" deferrable="false" initiallyDeferred="false"
+                                 onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID"
+                                 referencedTableName="USERS" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="RULE_ID" baseTableName="DICTIONARY_LNK_RULE_COND"
+                                 constraintName="FK_DLNKRULECOND_RULE" deferrable="false" initiallyDeferred="false"
+                                 onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID"
+                                 referencedTableName="DICTIONARY_LNK_RULE" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="LAST_UPD_BY_USER_ID" baseTableName="DICTIONARY_LNK_RULE_COND"
+                                 constraintName="FK_DLNKRULECOND_UB" deferrable="false" initiallyDeferred="false"
+                                 onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID"
+                                 referencedTableName="USERS" validate="true"/>
     </changeSet>
     <changeSet author="initial" id="DICTIONARY_LNK_RULE_VALUE CONSTRAINTS">
-        <addForeignKeyConstraint baseColumnNames="CREATED_BY_USER_ID" baseTableName="DICTIONARY_LNK_RULE_VALUE" constraintName="FK_DLNKRULEVAL_CB" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID" referencedTableName="USERS" validate="true"/>
-        <addForeignKeyConstraint baseColumnNames="RULE_ID" baseTableName="DICTIONARY_LNK_RULE_VALUE" constraintName="FK_DLNKRULEVAL_RULE" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID" referencedTableName="DICTIONARY_LNK_RULE" validate="true"/>
-        <addForeignKeyConstraint baseColumnNames="LAST_UPD_BY_USER_ID" baseTableName="DICTIONARY_LNK_RULE_VALUE" constraintName="FK_DLNKRULEVAL_UB" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID" referencedTableName="USERS" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="CREATED_BY_USER_ID" baseTableName="DICTIONARY_LNK_RULE_VALUE"
+                                 constraintName="FK_DLNKRULEVAL_CB" deferrable="false" initiallyDeferred="false"
+                                 onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID"
+                                 referencedTableName="USERS" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="RULE_ID" baseTableName="DICTIONARY_LNK_RULE_VALUE"
+                                 constraintName="FK_DLNKRULEVAL_RULE" deferrable="false" initiallyDeferred="false"
+                                 onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID"
+                                 referencedTableName="DICTIONARY_LNK_RULE" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="LAST_UPD_BY_USER_ID" baseTableName="DICTIONARY_LNK_RULE_VALUE"
+                                 constraintName="FK_DLNKRULEVAL_UB" deferrable="false" initiallyDeferred="false"
+                                 onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID"
+                                 referencedTableName="USERS" validate="true"/>
     </changeSet>
     <changeSet author="initial" id="DICTIONARY_LNK_RULE CONSTRAINTS">
-        <addForeignKeyConstraint baseColumnNames="CREATED_BY_USER_ID" baseTableName="DICTIONARY_LNK_RULE" constraintName="FK_DLNKRULE_CB" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID" referencedTableName="USERS" validate="true"/>
-        <addForeignKeyConstraint baseColumnNames="SERVICE_ID" baseTableName="DICTIONARY_LNK_RULE" constraintName="FK_DLNKRULE_SRVS" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID" referencedTableName="CUSTOMIZABLE_RESPONSE_SERVICE" validate="true"/>
-        <addForeignKeyConstraint baseColumnNames="LAST_UPD_BY_USER_ID" baseTableName="DICTIONARY_LNK_RULE" constraintName="FK_DLNKRULE_UB" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID" referencedTableName="USERS" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="CREATED_BY_USER_ID" baseTableName="DICTIONARY_LNK_RULE"
+                                 constraintName="FK_DLNKRULE_CB" deferrable="false" initiallyDeferred="false"
+                                 onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID"
+                                 referencedTableName="USERS" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="SERVICE_ID" baseTableName="DICTIONARY_LNK_RULE"
+                                 constraintName="FK_DLNKRULE_SRVS" deferrable="false" initiallyDeferred="false"
+                                 onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID"
+                                 referencedTableName="CUSTOMIZABLE_RESPONSE_SERVICE" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="LAST_UPD_BY_USER_ID" baseTableName="DICTIONARY_LNK_RULE"
+                                 constraintName="FK_DLNKRULE_UB" deferrable="false" initiallyDeferred="false"
+                                 onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID"
+                                 referencedTableName="USERS" validate="true"/>
     </changeSet>
     <changeSet author="initial" id="FIELD_COMMENTS CONSTRAINTS">
-        <addForeignKeyConstraint baseColumnNames="CREATED_BY_USER_ID" baseTableName="FIELD_COMMENTS" constraintName="FK_FIELD_COMMENTS_CREATED_BY" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID" referencedTableName="USERS" validate="true"/>
-        <addForeignKeyConstraint baseColumnNames="PARENT_ID" baseTableName="FIELD_COMMENTS" constraintName="FK_FIELD_COMMENTS_PARENT_ID" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID" referencedTableName="FIELD_COMMENTS" validate="true"/>
-        <addForeignKeyConstraint baseColumnNames="LAST_UPD_BY_USER_ID" baseTableName="FIELD_COMMENTS" constraintName="FK_FIELD_COMMENTS_UPDATED_BY" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID" referencedTableName="USERS" validate="true"/>
-        <addForeignKeyConstraint baseColumnNames="USER_ID" baseTableName="FIELD_COMMENTS" constraintName="FK_FIELD_COMMENTS_USER_ID" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID" referencedTableName="USERS" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="CREATED_BY_USER_ID" baseTableName="FIELD_COMMENTS"
+                                 constraintName="FK_FIELD_COMMENTS_CREATED_BY" deferrable="false"
+                                 initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT"
+                                 referencedColumnNames="ID" referencedTableName="USERS" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="PARENT_ID" baseTableName="FIELD_COMMENTS"
+                                 constraintName="FK_FIELD_COMMENTS_PARENT_ID" deferrable="false"
+                                 initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT"
+                                 referencedColumnNames="ID" referencedTableName="FIELD_COMMENTS" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="LAST_UPD_BY_USER_ID" baseTableName="FIELD_COMMENTS"
+                                 constraintName="FK_FIELD_COMMENTS_UPDATED_BY" deferrable="false"
+                                 initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT"
+                                 referencedColumnNames="ID" referencedTableName="USERS" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="USER_ID" baseTableName="FIELD_COMMENTS"
+                                 constraintName="FK_FIELD_COMMENTS_USER_ID" deferrable="false" initiallyDeferred="false"
+                                 onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID"
+                                 referencedTableName="USERS" validate="true"/>
     </changeSet>
     <changeSet author="initial" id="FILE_DATASOURCE CONSTRAINTS">
-        <addForeignKeyConstraint baseColumnNames="CREATED_BY_USER_ID" baseTableName="FILE_DATASOURCE" constraintName="FK_FILE_DATASOURCE_CB" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID" referencedTableName="USERS" validate="true"/>
-        <addForeignKeyConstraint baseColumnNames="LAST_UPD_BY_USER_ID" baseTableName="FILE_DATASOURCE" constraintName="FK_FILE_DATASOURCE_UB" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID" referencedTableName="USERS" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="CREATED_BY_USER_ID" baseTableName="FILE_DATASOURCE"
+                                 constraintName="FK_FILE_DATASOURCE_CB" deferrable="false" initiallyDeferred="false"
+                                 onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID"
+                                 referencedTableName="USERS" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="LAST_UPD_BY_USER_ID" baseTableName="FILE_DATASOURCE"
+                                 constraintName="FK_FILE_DATASOURCE_UB" deferrable="false" initiallyDeferred="false"
+                                 onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID"
+                                 referencedTableName="USERS" validate="true"/>
     </changeSet>
     <changeSet author="initial" id="FILE_ENTITY CONSTRAINTS">
-        <addForeignKeyConstraint baseColumnNames="CREATED_BY_USER_ID" baseTableName="FILE_ENTITY" constraintName="FK_FILE_ENTITY_CREATED_BY" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID" referencedTableName="USERS" validate="true"/>
-        <addForeignKeyConstraint baseColumnNames="LAST_UPD_BY_USER_ID" baseTableName="FILE_ENTITY" constraintName="FK_FILE_ENTITY_UPDATED_BY" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID" referencedTableName="USERS" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="CREATED_BY_USER_ID" baseTableName="FILE_ENTITY"
+                                 constraintName="FK_FILE_ENTITY_CREATED_BY" deferrable="false" initiallyDeferred="false"
+                                 onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID"
+                                 referencedTableName="USERS" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="LAST_UPD_BY_USER_ID" baseTableName="FILE_ENTITY"
+                                 constraintName="FK_FILE_ENTITY_UPDATED_BY" deferrable="false" initiallyDeferred="false"
+                                 onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID"
+                                 referencedTableName="USERS" validate="true"/>
     </changeSet>
     <changeSet author="initial" id="SCHEDULED_JOB_PARAM CONSTRAINTS">
-        <addForeignKeyConstraint baseColumnNames="CREATED_BY_USER_ID" baseTableName="SCHEDULED_JOB_PARAM" constraintName="FK_JOB_PARAM_CREATED_BY" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID" referencedTableName="USERS" validate="true"/>
-        <addForeignKeyConstraint baseColumnNames="LAST_UPD_BY_USER_ID" baseTableName="SCHEDULED_JOB_PARAM" constraintName="FK_JOB_PARAM_UPDATED_BY" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID" referencedTableName="USERS" validate="true"/>
-        <addForeignKeyConstraint baseColumnNames="SCHEDULED_JOB_ID" baseTableName="SCHEDULED_JOB_PARAM" constraintName="FK_SCHEDULED_JOB_ARG" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID" referencedTableName="SCHEDULED_JOB" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="CREATED_BY_USER_ID" baseTableName="SCHEDULED_JOB_PARAM"
+                                 constraintName="FK_JOB_PARAM_CREATED_BY" deferrable="false" initiallyDeferred="false"
+                                 onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID"
+                                 referencedTableName="USERS" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="LAST_UPD_BY_USER_ID" baseTableName="SCHEDULED_JOB_PARAM"
+                                 constraintName="FK_JOB_PARAM_UPDATED_BY" deferrable="false" initiallyDeferred="false"
+                                 onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID"
+                                 referencedTableName="USERS" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="SCHEDULED_JOB_ID" baseTableName="SCHEDULED_JOB_PARAM"
+                                 constraintName="FK_SCHEDULED_JOB_ARG" deferrable="false" initiallyDeferred="false"
+                                 onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID"
+                                 referencedTableName="SCHEDULED_JOB" validate="true"/>
     </changeSet>
     <changeSet author="initial" id="LAYOUTS_VIEWS CONSTRAINTS">
-        <addForeignKeyConstraint baseColumnNames="CREATED_BY_USER_ID" baseTableName="LAYOUTS_VIEWS" constraintName="FK_LAYOUTSVIEWS_CREATED_BY" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID" referencedTableName="USERS" validate="true"/>
-        <addForeignKeyConstraint baseColumnNames="LAST_UPD_BY_USER_ID" baseTableName="LAYOUTS_VIEWS" constraintName="FK_LAYOUTSVIEWS_UPDATED_BY" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID" referencedTableName="USERS" validate="true"/>
-        <addForeignKeyConstraint baseColumnNames="USER_ID" baseTableName="LAYOUTS_VIEWS" constraintName="FK_USERS" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID" referencedTableName="USERS" validate="true"/>
-        <addForeignKeyConstraint baseColumnNames="VIEW_NAME" baseTableName="LAYOUTS_VIEWS" constraintName="FK_VIEWS" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="NAME" referencedTableName="VIEWS" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="CREATED_BY_USER_ID" baseTableName="LAYOUTS_VIEWS"
+                                 constraintName="FK_LAYOUTSVIEWS_CREATED_BY" deferrable="false"
+                                 initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT"
+                                 referencedColumnNames="ID" referencedTableName="USERS" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="LAST_UPD_BY_USER_ID" baseTableName="LAYOUTS_VIEWS"
+                                 constraintName="FK_LAYOUTSVIEWS_UPDATED_BY" deferrable="false"
+                                 initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT"
+                                 referencedColumnNames="ID" referencedTableName="USERS" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="USER_ID" baseTableName="LAYOUTS_VIEWS" constraintName="FK_USERS"
+                                 deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT"
+                                 referencedColumnNames="ID" referencedTableName="USERS" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="VIEW_NAME" baseTableName="LAYOUTS_VIEWS" constraintName="FK_VIEWS"
+                                 deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT"
+                                 referencedColumnNames="NAME" referencedTableName="VIEWS" validate="true"/>
     </changeSet>
     <changeSet author="initial" id="LOGIN_ROLE CONSTRAINTS">
-        <addForeignKeyConstraint baseColumnNames="CREATED_BY_USER_ID" baseTableName="LOGIN_ROLE" constraintName="FK_LOGIN_ROLE_CREATED_BY" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID" referencedTableName="USERS" validate="true"/>
-        <addForeignKeyConstraint baseColumnNames="PRJ_GRP_ID" baseTableName="LOGIN_ROLE" constraintName="FK_LOGIN_ROLE_PRG_GRP" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID" referencedTableName="PRJ_GRP" validate="true"/>
-        <addForeignKeyConstraint baseColumnNames="DEPT_ID" baseTableName="LOGIN_ROLE" constraintName="FK_LOGIN_ROLE_TO_DEPT" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID" referencedTableName="DEPT" validate="true"/>
-        <addForeignKeyConstraint baseColumnNames="LAST_UPD_BY_USER_ID" baseTableName="LOGIN_ROLE" constraintName="FK_LOGIN_ROLE_UPDATED_BY" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID" referencedTableName="USERS" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="CREATED_BY_USER_ID" baseTableName="LOGIN_ROLE"
+                                 constraintName="FK_LOGIN_ROLE_CREATED_BY" deferrable="false" initiallyDeferred="false"
+                                 onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID"
+                                 referencedTableName="USERS" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="PRJ_GRP_ID" baseTableName="LOGIN_ROLE"
+                                 constraintName="FK_LOGIN_ROLE_PRG_GRP" deferrable="false" initiallyDeferred="false"
+                                 onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID"
+                                 referencedTableName="PRJ_GRP" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="DEPT_ID" baseTableName="LOGIN_ROLE"
+                                 constraintName="FK_LOGIN_ROLE_TO_DEPT" deferrable="false" initiallyDeferred="false"
+                                 onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID"
+                                 referencedTableName="DEPT" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="LAST_UPD_BY_USER_ID" baseTableName="LOGIN_ROLE"
+                                 constraintName="FK_LOGIN_ROLE_UPDATED_BY" deferrable="false" initiallyDeferred="false"
+                                 onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID"
+                                 referencedTableName="USERS" validate="true"/>
     </changeSet>
     <changeSet author="initial" id="NOTIFICATION CONSTRAINTS">
-        <addForeignKeyConstraint baseColumnNames="CREATED_BY_USER_ID" baseTableName="NOTIFICATION" constraintName="FK_NOTIFICATION_CREATED_BY" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID" referencedTableName="USERS" validate="true"/>
-        <addForeignKeyConstraint baseColumnNames="LAST_UPD_BY_USER_ID" baseTableName="NOTIFICATION" constraintName="FK_NOTIFICATION_UPDATED_BY" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID" referencedTableName="USERS" validate="true"/>
-        <addForeignKeyConstraint baseColumnNames="USER_ID" baseTableName="NOTIFICATION" constraintName="NOTIFICATION_USER_ID_FK" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID" referencedTableName="USERS" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="CREATED_BY_USER_ID" baseTableName="NOTIFICATION"
+                                 constraintName="FK_NOTIFICATION_CREATED_BY" deferrable="false"
+                                 initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT"
+                                 referencedColumnNames="ID" referencedTableName="USERS" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="LAST_UPD_BY_USER_ID" baseTableName="NOTIFICATION"
+                                 constraintName="FK_NOTIFICATION_UPDATED_BY" deferrable="false"
+                                 initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT"
+                                 referencedColumnNames="ID" referencedTableName="USERS" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="USER_ID" baseTableName="NOTIFICATION"
+                                 constraintName="NOTIFICATION_USER_ID_FK" deferrable="false" initiallyDeferred="false"
+                                 onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID"
+                                 referencedTableName="USERS" validate="true"/>
     </changeSet>
     <changeSet author="initial" id="NOTIFICATION_RECIPIENT CONSTRAINTS">
-        <addForeignKeyConstraint baseColumnNames="CREATED_BY_USER_ID" baseTableName="NOTIFICATION_RECIPIENT" constraintName="FK_NOTIF_RECIPIENT_CREATED_BY" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID" referencedTableName="USERS" validate="true"/>
-        <addForeignKeyConstraint baseColumnNames="SETTINGS_ID" baseTableName="NOTIFICATION_RECIPIENT" constraintName="FK_NOTIF_RECIPIENT_SETTINGS" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID" referencedTableName="NOTIFICATION_SETTINGS" validate="true"/>
-        <addForeignKeyConstraint baseColumnNames="LAST_UPD_BY_USER_ID" baseTableName="NOTIFICATION_RECIPIENT" constraintName="FK_NOTIF_RECIPIENT_UPDATED_BY" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID" referencedTableName="USERS" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="CREATED_BY_USER_ID" baseTableName="NOTIFICATION_RECIPIENT"
+                                 constraintName="FK_NOTIF_RECIPIENT_CREATED_BY" deferrable="false"
+                                 initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT"
+                                 referencedColumnNames="ID" referencedTableName="USERS" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="SETTINGS_ID" baseTableName="NOTIFICATION_RECIPIENT"
+                                 constraintName="FK_NOTIF_RECIPIENT_SETTINGS" deferrable="false"
+                                 initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT"
+                                 referencedColumnNames="ID" referencedTableName="NOTIFICATION_SETTINGS"
+                                 validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="LAST_UPD_BY_USER_ID" baseTableName="NOTIFICATION_RECIPIENT"
+                                 constraintName="FK_NOTIF_RECIPIENT_UPDATED_BY" deferrable="false"
+                                 initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT"
+                                 referencedColumnNames="ID" referencedTableName="USERS" validate="true"/>
     </changeSet>
     <changeSet author="initial" id="NOTIFICATION_SETTINGS CONSTRAINTS">
-        <addForeignKeyConstraint baseColumnNames="CREATED_BY_USER_ID" baseTableName="NOTIFICATION_SETTINGS" constraintName="FK_NOTIF_SETTINGS_CREATED_BY" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID" referencedTableName="USERS" validate="true"/>
-        <addForeignKeyConstraint baseColumnNames="LAST_UPD_BY_USER_ID" baseTableName="NOTIFICATION_SETTINGS" constraintName="FK_NOTIF_SETTINGS_UPDATED_BY" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID" referencedTableName="USERS" validate="true"/>
-        <addForeignKeyConstraint baseColumnNames="USER_ID" baseTableName="NOTIFICATION_SETTINGS" constraintName="FK_NOTIF_SETTINGS_USER" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID" referencedTableName="USERS" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="CREATED_BY_USER_ID" baseTableName="NOTIFICATION_SETTINGS"
+                                 constraintName="FK_NOTIF_SETTINGS_CREATED_BY" deferrable="false"
+                                 initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT"
+                                 referencedColumnNames="ID" referencedTableName="USERS" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="LAST_UPD_BY_USER_ID" baseTableName="NOTIFICATION_SETTINGS"
+                                 constraintName="FK_NOTIF_SETTINGS_UPDATED_BY" deferrable="false"
+                                 initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT"
+                                 referencedColumnNames="ID" referencedTableName="USERS" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="USER_ID" baseTableName="NOTIFICATION_SETTINGS"
+                                 constraintName="FK_NOTIF_SETTINGS_USER" deferrable="false" initiallyDeferred="false"
+                                 onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID"
+                                 referencedTableName="USERS" validate="true"/>
     </changeSet>
     <changeSet author="initial" id="NOTIFICATION_TEMPLATE CONSTRAINTS">
-        <addForeignKeyConstraint baseColumnNames="CREATED_BY_USER_ID" baseTableName="NOTIFICATION_TEMPLATE" constraintName="FK_NOTIF_TEMPLATE_CREATED_BY" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID" referencedTableName="USERS" validate="true"/>
-        <addForeignKeyConstraint baseColumnNames="LAST_UPD_BY_USER_ID" baseTableName="NOTIFICATION_TEMPLATE" constraintName="FK_NOTIF_TEMPLATE_UPDATED_BY" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID" referencedTableName="USERS" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="CREATED_BY_USER_ID" baseTableName="NOTIFICATION_TEMPLATE"
+                                 constraintName="FK_NOTIF_TEMPLATE_CREATED_BY" deferrable="false"
+                                 initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT"
+                                 referencedColumnNames="ID" referencedTableName="USERS" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="LAST_UPD_BY_USER_ID" baseTableName="NOTIFICATION_TEMPLATE"
+                                 constraintName="FK_NOTIF_TEMPLATE_UPDATED_BY" deferrable="false"
+                                 initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT"
+                                 referencedColumnNames="ID" referencedTableName="USERS" validate="true"/>
     </changeSet>
     <changeSet author="initial" id="PRJ CONSTRAINTS">
-        <addForeignKeyConstraint baseColumnNames="CREATED_BY_USER_ID" baseTableName="PRJ" constraintName="FK_PRJ_CREATED_BY" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID" referencedTableName="USERS" validate="true"/>
-        <addForeignKeyConstraint baseColumnNames="LAST_UPD_BY_USER_ID" baseTableName="PRJ" constraintName="FK_PRJ_UPDATED_BY" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID" referencedTableName="USERS" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="CREATED_BY_USER_ID" baseTableName="PRJ"
+                                 constraintName="FK_PRJ_CREATED_BY" deferrable="false" initiallyDeferred="false"
+                                 onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID"
+                                 referencedTableName="USERS" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="LAST_UPD_BY_USER_ID" baseTableName="PRJ"
+                                 constraintName="FK_PRJ_UPDATED_BY" deferrable="false" initiallyDeferred="false"
+                                 onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID"
+                                 referencedTableName="USERS" validate="true"/>
     </changeSet>
     <changeSet author="initial" id="PRJ_GRP CONSTRAINTS">
-        <addForeignKeyConstraint baseColumnNames="CREATED_BY_USER_ID" baseTableName="PRJ_GRP" constraintName="FK_PRJ_GRP_CREATED_BY" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID" referencedTableName="USERS" validate="true"/>
-        <addForeignKeyConstraint baseColumnNames="LAST_UPD_BY_USER_ID" baseTableName="PRJ_GRP" constraintName="FK_PRJ_GRP_UPDATED_BY" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID" referencedTableName="USERS" validate="true"/>
-        <addForeignKeyConstraint baseColumnNames="PROJECT_ID" baseTableName="PRJ_GRP" constraintName="PRJ_GRP_PRJ_FK" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID" referencedTableName="PRJ" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="CREATED_BY_USER_ID" baseTableName="PRJ_GRP"
+                                 constraintName="FK_PRJ_GRP_CREATED_BY" deferrable="false" initiallyDeferred="false"
+                                 onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID"
+                                 referencedTableName="USERS" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="LAST_UPD_BY_USER_ID" baseTableName="PRJ_GRP"
+                                 constraintName="FK_PRJ_GRP_UPDATED_BY" deferrable="false" initiallyDeferred="false"
+                                 onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID"
+                                 referencedTableName="USERS" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="PROJECT_ID" baseTableName="PRJ_GRP" constraintName="PRJ_GRP_PRJ_FK"
+                                 deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT"
+                                 referencedColumnNames="ID" referencedTableName="PRJ" validate="true"/>
     </changeSet>
     <changeSet author="initial" id="PRJ_GRP_USER CONSTRAINTS">
-        <addForeignKeyConstraint baseColumnNames="CREATED_BY_USER_ID" baseTableName="PRJ_GRP_USER" constraintName="FK_PRJ_GRP_USER_CREATED_BY" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID" referencedTableName="USERS" validate="true"/>
-        <addForeignKeyConstraint baseColumnNames="LAST_UPD_BY_USER_ID" baseTableName="PRJ_GRP_USER" constraintName="FK_PRJ_GRP_USER_UPDATED_BY" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID" referencedTableName="USERS" validate="true"/>
-        <addForeignKeyConstraint baseColumnNames="PRJ_GRP_ID" baseTableName="PRJ_GRP_USER" constraintName="PRJ_GRP_USER_PRJ_GRP_FK" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID" referencedTableName="PRJ_GRP" validate="true"/>
-        <addForeignKeyConstraint baseColumnNames="USER_ID" baseTableName="PRJ_GRP_USER" constraintName="PRJ_GRP_USER_USERS_FK" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID" referencedTableName="USERS" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="CREATED_BY_USER_ID" baseTableName="PRJ_GRP_USER"
+                                 constraintName="FK_PRJ_GRP_USER_CREATED_BY" deferrable="false"
+                                 initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT"
+                                 referencedColumnNames="ID" referencedTableName="USERS" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="LAST_UPD_BY_USER_ID" baseTableName="PRJ_GRP_USER"
+                                 constraintName="FK_PRJ_GRP_USER_UPDATED_BY" deferrable="false"
+                                 initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT"
+                                 referencedColumnNames="ID" referencedTableName="USERS" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="PRJ_GRP_ID" baseTableName="PRJ_GRP_USER"
+                                 constraintName="PRJ_GRP_USER_PRJ_GRP_FK" deferrable="false" initiallyDeferred="false"
+                                 onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID"
+                                 referencedTableName="PRJ_GRP" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="USER_ID" baseTableName="PRJ_GRP_USER"
+                                 constraintName="PRJ_GRP_USER_USERS_FK" deferrable="false" initiallyDeferred="false"
+                                 onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID"
+                                 referencedTableName="USERS" validate="true"/>
     </changeSet>
     <changeSet author="initial" id="RESPONSIBILITIES CONSTRAINTS">
-        <addForeignKeyConstraint baseColumnNames="CREATED_BY_USER_ID" baseTableName="RESPONSIBILITIES" constraintName="FK_RESPONSIBILITIES_CREATED_BY" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID" referencedTableName="USERS" validate="true"/>
-        <addForeignKeyConstraint baseColumnNames="LAST_UPD_BY_USER_ID" baseTableName="RESPONSIBILITIES" constraintName="FK_RESPONSIBILITIES_UPDATED_BY" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID" referencedTableName="USERS" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="CREATED_BY_USER_ID" baseTableName="RESPONSIBILITIES"
+                                 constraintName="FK_RESPONSIBILITIES_CREATED_BY" deferrable="false"
+                                 initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT"
+                                 referencedColumnNames="ID" referencedTableName="USERS" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="LAST_UPD_BY_USER_ID" baseTableName="RESPONSIBILITIES"
+                                 constraintName="FK_RESPONSIBILITIES_UPDATED_BY" deferrable="false"
+                                 initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT"
+                                 referencedColumnNames="ID" referencedTableName="USERS" validate="true"/>
     </changeSet>
     <changeSet author="initial" id="SCHEDULED_JOB CONSTRAINTS">
-        <addForeignKeyConstraint baseColumnNames="CREATED_BY_USER_ID" baseTableName="SCHEDULED_JOB" constraintName="FK_SCHEDULED_JOB_CREATED_BY" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID" referencedTableName="USERS" validate="true"/>
-        <addForeignKeyConstraint baseColumnNames="LAST_UPD_BY_USER_ID" baseTableName="SCHEDULED_JOB" constraintName="FK_SCHEDULED_JOB_UPDATED_BY" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID" referencedTableName="USERS" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="CREATED_BY_USER_ID" baseTableName="SCHEDULED_JOB"
+                                 constraintName="FK_SCHEDULED_JOB_CREATED_BY" deferrable="false"
+                                 initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT"
+                                 referencedColumnNames="ID" referencedTableName="USERS" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="LAST_UPD_BY_USER_ID" baseTableName="SCHEDULED_JOB"
+                                 constraintName="FK_SCHEDULED_JOB_UPDATED_BY" deferrable="false"
+                                 initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT"
+                                 referencedColumnNames="ID" referencedTableName="USERS" validate="true"/>
     </changeSet>
     <changeSet author="initial" id="SCREEN CONSTRAINTS">
-        <addForeignKeyConstraint baseColumnNames="CREATED_BY_USER_ID" baseTableName="SCREEN" constraintName="FK_SCREEN_CREATED_BY" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID" referencedTableName="USERS" validate="true"/>
-        <addForeignKeyConstraint baseColumnNames="LAST_UPD_BY_USER_ID" baseTableName="SCREEN" constraintName="FK__SCREEN_UPDATED_BY" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID" referencedTableName="USERS" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="CREATED_BY_USER_ID" baseTableName="SCREEN"
+                                 constraintName="FK_SCREEN_CREATED_BY" deferrable="false" initiallyDeferred="false"
+                                 onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID"
+                                 referencedTableName="USERS" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="LAST_UPD_BY_USER_ID" baseTableName="SCREEN"
+                                 constraintName="FK__SCREEN_UPDATED_BY" deferrable="false" initiallyDeferred="false"
+                                 onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID"
+                                 referencedTableName="USERS" validate="true"/>
     </changeSet>
     <changeSet author="initial" id="SQL_BC_EDIT_FIELD CONSTRAINTS">
-        <addForeignKeyConstraint baseColumnNames="CREATED_BY_USER_ID" baseTableName="SQL_BC_EDIT_FIELD" constraintName="FK_SQL_BC_EDITFIELD_CREATED_BY" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID" referencedTableName="USERS" validate="true"/>
-        <addForeignKeyConstraint baseColumnNames="LAST_UPD_BY_USER_ID" baseTableName="SQL_BC_EDIT_FIELD" constraintName="FK_SQL_BC_EDITFIELD_UPDATED_BY" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID" referencedTableName="USERS" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="CREATED_BY_USER_ID" baseTableName="SQL_BC_EDIT_FIELD"
+                                 constraintName="FK_SQL_BC_EDITFIELD_CREATED_BY" deferrable="false"
+                                 initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT"
+                                 referencedColumnNames="ID" referencedTableName="USERS" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="LAST_UPD_BY_USER_ID" baseTableName="SQL_BC_EDIT_FIELD"
+                                 constraintName="FK_SQL_BC_EDITFIELD_UPDATED_BY" deferrable="false"
+                                 initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT"
+                                 referencedColumnNames="ID" referencedTableName="USERS" validate="true"/>
     </changeSet>
     <changeSet author="initial" id="USERS CONSTRAINTS">
-        <addForeignKeyConstraint baseColumnNames="CREATED_BY_USER_ID" baseTableName="USERS" constraintName="FK_USER_CREATED_BY" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID" referencedTableName="USERS" validate="true"/>
-        <addForeignKeyConstraint baseColumnNames="LAST_UPD_BY_USER_ID" baseTableName="USERS" constraintName="FK__USER_UPDATED_BY" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID" referencedTableName="USERS" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="CREATED_BY_USER_ID" baseTableName="USERS"
+                                 constraintName="FK_USER_CREATED_BY" deferrable="false" initiallyDeferred="false"
+                                 onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID"
+                                 referencedTableName="USERS" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="LAST_UPD_BY_USER_ID" baseTableName="USERS"
+                                 constraintName="FK__USER_UPDATED_BY" deferrable="false" initiallyDeferred="false"
+                                 onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID"
+                                 referencedTableName="USERS" validate="true"/>
     </changeSet>
     <changeSet author="initial" id="USER_ROLE CONSTRAINTS">
-        <addForeignKeyConstraint baseColumnNames="CREATED_BY_USER_ID" baseTableName="USER_ROLE" constraintName="FK_USER_ROLE_CREATED_BY" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID" referencedTableName="USERS" validate="true"/>
-        <addForeignKeyConstraint baseColumnNames="DIVISION_ID" baseTableName="USER_ROLE" constraintName="FK_USER_ROLE_DIVISION" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID" referencedTableName="DIVISION" validate="true"/>
-        <addForeignKeyConstraint baseColumnNames="LAST_UPD_BY_USER_ID" baseTableName="USER_ROLE" constraintName="FK_USER_ROLE_UPDATED_BY" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID" referencedTableName="USERS" validate="true"/>
-        <addForeignKeyConstraint baseColumnNames="USER_ID" baseTableName="USER_ROLE" constraintName="FK_USER_USER_ROLE" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID" referencedTableName="USERS" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="CREATED_BY_USER_ID" baseTableName="USER_ROLE"
+                                 constraintName="FK_USER_ROLE_CREATED_BY" deferrable="false" initiallyDeferred="false"
+                                 onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID"
+                                 referencedTableName="USERS" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="DIVISION_ID" baseTableName="USER_ROLE"
+                                 constraintName="FK_USER_ROLE_DIVISION" deferrable="false" initiallyDeferred="false"
+                                 onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID"
+                                 referencedTableName="DIVISION" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="LAST_UPD_BY_USER_ID" baseTableName="USER_ROLE"
+                                 constraintName="FK_USER_ROLE_UPDATED_BY" deferrable="false" initiallyDeferred="false"
+                                 onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID"
+                                 referencedTableName="USERS" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="USER_ID" baseTableName="USER_ROLE" constraintName="FK_USER_USER_ROLE"
+                                 deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT"
+                                 referencedColumnNames="ID" referencedTableName="USERS" validate="true"/>
     </changeSet>
     <changeSet author="initial" id="VIEWS CONSTRAINTS">
-        <addForeignKeyConstraint baseColumnNames="CREATED_BY_USER_ID" baseTableName="VIEWS" constraintName="FK_VIEW_CREATED_BY" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID" referencedTableName="USERS" validate="true"/>
-        <addForeignKeyConstraint baseColumnNames="LAST_UPD_BY_USER_ID" baseTableName="VIEWS" constraintName="FK_VIEW_UPDATED_BY" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID" referencedTableName="USERS" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="CREATED_BY_USER_ID" baseTableName="VIEWS"
+                                 constraintName="FK_VIEW_CREATED_BY" deferrable="false" initiallyDeferred="false"
+                                 onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID"
+                                 referencedTableName="USERS" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="LAST_UPD_BY_USER_ID" baseTableName="VIEWS"
+                                 constraintName="FK_VIEW_UPDATED_BY" deferrable="false" initiallyDeferred="false"
+                                 onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID"
+                                 referencedTableName="USERS" validate="true"/>
     </changeSet>
     <changeSet author="initial" id="NAVIGATION_VIEW CONSTRAINTS">
-        <addForeignKeyConstraint baseColumnNames="PARENT_GROUP_ID" baseTableName="NAVIGATION_VIEW" constraintName="FK_VIEW_GROUP_DATA_VIEW_GROUP" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID" referencedTableName="NAVIGATION_GROUP" validate="true"/>
-        <addForeignKeyConstraint baseColumnNames="VIEW_NAME" baseTableName="NAVIGATION_VIEW" constraintName="FK_VIEW_GROUP_DATA_VIEW_NAME" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="NAME" referencedTableName="VIEWS" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="PARENT_GROUP_ID" baseTableName="NAVIGATION_VIEW"
+                                 constraintName="FK_VIEW_GROUP_DATA_VIEW_GROUP" deferrable="false"
+                                 initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT"
+                                 referencedColumnNames="ID" referencedTableName="NAVIGATION_GROUP" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="VIEW_NAME" baseTableName="NAVIGATION_VIEW"
+                                 constraintName="FK_VIEW_GROUP_DATA_VIEW_NAME" deferrable="false"
+                                 initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT"
+                                 referencedColumnNames="NAME" referencedTableName="VIEWS" validate="true"/>
     </changeSet>
     <changeSet author="initial" id="NAVIGATION_GROUP CONSTRAINTS">
-        <addForeignKeyConstraint baseColumnNames="SCREEN_NAME" baseTableName="NAVIGATION_GROUP" constraintName="FK_VIEW_GROUP_SCREEN_NAME" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="NAME" referencedTableName="SCREEN" validate="true"/>
-        <addForeignKeyConstraint baseColumnNames="PARENT_ID" baseTableName="NAVIGATION_GROUP" constraintName="FK_VIEW_GROUP_VIEW_GROUP" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID" referencedTableName="NAVIGATION_GROUP" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="SCREEN_NAME" baseTableName="NAVIGATION_GROUP"
+                                 constraintName="FK_VIEW_GROUP_SCREEN_NAME" deferrable="false" initiallyDeferred="false"
+                                 onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="NAME"
+                                 referencedTableName="SCREEN" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="PARENT_ID" baseTableName="NAVIGATION_GROUP"
+                                 constraintName="FK_VIEW_GROUP_VIEW_GROUP" deferrable="false" initiallyDeferred="false"
+                                 onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID"
+                                 referencedTableName="NAVIGATION_GROUP" validate="true"/>
     </changeSet>
     <changeSet author="initial" id="LAYOUTS_WIDGETS CONSTRAINTS">
-        <addForeignKeyConstraint baseColumnNames="WIDGET_ID" baseTableName="LAYOUTS_WIDGETS" constraintName="FK_WIDGETS" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID" referencedTableName="WIDGET" validate="true"/>
-        <addForeignKeyConstraint baseColumnNames="CREATED_BY_USER_ID" baseTableName="LAYOUTS_WIDGETS" constraintName="FK_LAYOUTSWIDGETS_CREATED_BY" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID" referencedTableName="USERS" validate="true"/>
-        <addForeignKeyConstraint baseColumnNames="LAST_UPD_BY_USER_ID" baseTableName="LAYOUTS_WIDGETS" constraintName="FK_LAYOUTSWIDGETS_UPDATED_BY" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID" referencedTableName="USERS" validate="true"/>
-        <addForeignKeyConstraint baseColumnNames="LAYOUT_ID" baseTableName="LAYOUTS_WIDGETS" constraintName="FK_LAYOUTS" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID" referencedTableName="LAYOUTS_VIEWS" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="WIDGET_ID" baseTableName="LAYOUTS_WIDGETS" constraintName="FK_WIDGETS"
+                                 deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT"
+                                 referencedColumnNames="ID" referencedTableName="WIDGET" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="CREATED_BY_USER_ID" baseTableName="LAYOUTS_WIDGETS"
+                                 constraintName="FK_LAYOUTSWIDGETS_CREATED_BY" deferrable="false"
+                                 initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT"
+                                 referencedColumnNames="ID" referencedTableName="USERS" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="LAST_UPD_BY_USER_ID" baseTableName="LAYOUTS_WIDGETS"
+                                 constraintName="FK_LAYOUTSWIDGETS_UPDATED_BY" deferrable="false"
+                                 initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT"
+                                 referencedColumnNames="ID" referencedTableName="USERS" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="LAYOUT_ID" baseTableName="LAYOUTS_WIDGETS" constraintName="FK_LAYOUTS"
+                                 deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT"
+                                 referencedColumnNames="ID" referencedTableName="LAYOUTS_VIEWS" validate="true"/>
     </changeSet>
     <changeSet author="initial" id="WIDGET CONSTRAINTS">
-        <addForeignKeyConstraint baseColumnNames="CREATED_BY_USER_ID" baseTableName="WIDGET" constraintName="FK_WIDGET_CREATED_BY" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID" referencedTableName="USERS" validate="true"/>
-        <addForeignKeyConstraint baseColumnNames="LAST_UPD_BY_USER_ID" baseTableName="WIDGET" constraintName="FK_WIDGET_UPDATED_BY" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID" referencedTableName="USERS" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="CREATED_BY_USER_ID" baseTableName="WIDGET"
+                                 constraintName="FK_WIDGET_CREATED_BY" deferrable="false" initiallyDeferred="false"
+                                 onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID"
+                                 referencedTableName="USERS" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="LAST_UPD_BY_USER_ID" baseTableName="WIDGET"
+                                 constraintName="FK_WIDGET_UPDATED_BY" deferrable="false" initiallyDeferred="false"
+                                 onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID"
+                                 referencedTableName="USERS" validate="true"/>
     </changeSet>
     <changeSet author="initial" id="PRJ_AUD CONSTRAINTS">
-        <addForeignKeyConstraint baseColumnNames="REV" baseTableName="PRJ_AUD" constraintName="PRJ_AUD_REV_FK" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID" referencedTableName="REVINFO" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="REV" baseTableName="PRJ_AUD" constraintName="PRJ_AUD_REV_FK"
+                                 deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT"
+                                 referencedColumnNames="ID" referencedTableName="REVINFO" validate="true"/>
     </changeSet>
     <changeSet author="initial" id="PRJ_GRP_AUD CONSTRAINTS">
-        <addForeignKeyConstraint baseColumnNames="REV" baseTableName="PRJ_GRP_AUD" constraintName="PRJ_GRP_AUD_REV_FK" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID" referencedTableName="REVINFO" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="REV" baseTableName="PRJ_GRP_AUD" constraintName="PRJ_GRP_AUD_REV_FK"
+                                 deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT"
+                                 referencedColumnNames="ID" referencedTableName="REVINFO" validate="true"/>
     </changeSet>
     <changeSet author="initial" id="WIDGET_PROPERTY CONSTRAINTS">
-        <addForeignKeyConstraint baseColumnNames="WIDGET_ID" baseTableName="WIDGET_PROPERTY" constraintName="PROPERTY_WIDGET_ID" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID" referencedTableName="WIDGET" validate="true"/>
-        <addForeignKeyConstraint baseColumnNames="CREATED_BY_USER_ID" baseTableName="WIDGET_PROPERTY" constraintName="WIDGET_PTY_USER_ID_CREATED" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID" referencedTableName="USERS" validate="true"/>
-        <addForeignKeyConstraint baseColumnNames="LAST_UPD_BY_USER_ID" baseTableName="WIDGET_PROPERTY" constraintName="WIDGET_PTY_USER_ID_UPDATED" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID" referencedTableName="USERS" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="WIDGET_ID" baseTableName="WIDGET_PROPERTY"
+                                 constraintName="PROPERTY_WIDGET_ID" deferrable="false" initiallyDeferred="false"
+                                 onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID"
+                                 referencedTableName="WIDGET" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="CREATED_BY_USER_ID" baseTableName="WIDGET_PROPERTY"
+                                 constraintName="WIDGET_PTY_USER_ID_CREATED" deferrable="false"
+                                 initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT"
+                                 referencedColumnNames="ID" referencedTableName="USERS" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="LAST_UPD_BY_USER_ID" baseTableName="WIDGET_PROPERTY"
+                                 constraintName="WIDGET_PTY_USER_ID_UPDATED" deferrable="false"
+                                 initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT"
+                                 referencedColumnNames="ID" referencedTableName="USERS" validate="true"/>
     </changeSet>
     <changeSet author="initial" id="REVINFO CONSTRAINTS">
-        <addForeignKeyConstraint baseColumnNames="USER_ID" baseTableName="REVINFO" constraintName="REVINFO_USERS_FK" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID" referencedTableName="USERS" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="USER_ID" baseTableName="REVINFO" constraintName="REVINFO_USERS_FK"
+                                 deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT"
+                                 referencedColumnNames="ID" referencedTableName="USERS" validate="true"/>
     </changeSet>
     <changeSet author="initial" id="SEARCH_SPEC CONSTRAINTS">
-        <addForeignKeyConstraint baseColumnNames="CREATED_BY_USER_ID" baseTableName="SEARCH_SPEC" constraintName="SEARCH_SPEC_CREATED_USER_FK" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID" referencedTableName="USERS" validate="true"/>
-        <addForeignKeyConstraint baseColumnNames="LAST_UPD_BY_USER_ID" baseTableName="SEARCH_SPEC" constraintName="SEARCH_SPEC_UPDATED_USER_FK" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID" referencedTableName="USERS" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="CREATED_BY_USER_ID" baseTableName="SEARCH_SPEC"
+                                 constraintName="SEARCH_SPEC_CREATED_USER_FK" deferrable="false"
+                                 initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT"
+                                 referencedColumnNames="ID" referencedTableName="USERS" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="LAST_UPD_BY_USER_ID" baseTableName="SEARCH_SPEC"
+                                 constraintName="SEARCH_SPEC_UPDATED_USER_FK" deferrable="false"
+                                 initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT"
+                                 referencedColumnNames="ID" referencedTableName="USERS" validate="true"/>
     </changeSet>
     <changeSet author="initial" id="USERS_AUD CONSTRAINTS">
-        <addForeignKeyConstraint baseColumnNames="REV" baseTableName="USERS_AUD" constraintName="USERS_AUD_REV_FK" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID" referencedTableName="REVINFO" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="REV" baseTableName="USERS_AUD" constraintName="USERS_AUD_REV_FK"
+                                 deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT"
+                                 referencedColumnNames="ID" referencedTableName="REVINFO" validate="true"/>
     </changeSet>
 
     <changeSet author="initial" id="INITIAL DATA">
-        <loadData tableName="USERS" encoding="UTF-8" separator=";" quotchar="&quot;" file="db/migration/liquibase/data/initial/USERS.csv">
-            <column header="ID" name="ID" type="NUMERIC" />
-            <column header="FIRST_NAME" name="FIRST_NAME" type="STRING" />
-            <column header="LAST_NAME" name="LAST_NAME" type="STRING" />
-            <column header="PATRONYMIC" name="PATRONYMIC" type="STRING" />
-            <column header="LOGIN" name="LOGIN" type="STRING" />
-            <column header="PASSWORD" name="PASSWORD" type="STRING" />
-            <column header="INTERNAL_ROLE_CD" name="INTERNAL_ROLE_CD" type="STRING" />
-            <column header="USER_PRINCIPAL_NAME" name="USER_PRINCIPAL_NAME" type="STRING" />
-            <column header="PHONE" name="PHONE" type="STRING" />
-            <column header="EMAIL" name="EMAIL" type="STRING" />
-            <column header="FULL_USER_NAME" name="FULL_USER_NAME" type="STRING" />
-            <column header="TITLE" name="TITLE" type="STRING" />
-            <column header="DEPT_ID" name="DEPT_ID" type="NUMERIC" />
-            <column header="DEFAULT_PRJ_ID" name="DEFAULT_PRJ_ID" type="NUMERIC" />
-            <column header="ORIG_DEPT_CODE" name="ORIG_DEPT_CODE" type="STRING" />
-            <column header="TIMEZONE" name="TIMEZONE" type="STRING" />
+        <loadData tableName="USERS" encoding="UTF-8" separator=";" quotchar="&quot;"
+                  file="db/migration/liquibase/data/initial/USERS.csv">
+            <column header="ID" name="ID" type="NUMERIC"/>
+            <column header="FIRST_NAME" name="FIRST_NAME" type="STRING"/>
+            <column header="LAST_NAME" name="LAST_NAME" type="STRING"/>
+            <column header="PATRONYMIC" name="PATRONYMIC" type="STRING"/>
+            <column header="LOGIN" name="LOGIN" type="STRING"/>
+            <column header="PASSWORD" name="PASSWORD" type="STRING"/>
+            <column header="INTERNAL_ROLE_CD" name="INTERNAL_ROLE_CD" type="STRING"/>
+            <column header="USER_PRINCIPAL_NAME" name="USER_PRINCIPAL_NAME" type="STRING"/>
+            <column header="PHONE" name="PHONE" type="STRING"/>
+            <column header="EMAIL" name="EMAIL" type="STRING"/>
+            <column header="FULL_USER_NAME" name="FULL_USER_NAME" type="STRING"/>
+            <column header="TITLE" name="TITLE" type="STRING"/>
+            <column header="DEPT_ID" name="DEPT_ID" type="NUMERIC"/>
+            <column header="DEFAULT_PRJ_ID" name="DEFAULT_PRJ_ID" type="NUMERIC"/>
+            <column header="ORIG_DEPT_CODE" name="ORIG_DEPT_CODE" type="STRING"/>
+            <column header="TIMEZONE" name="TIMEZONE" type="STRING"/>
         </loadData>
-        <loadData tableName="DEPT" encoding="UTF-8" separator=";" quotchar="&quot;" file="db/migration/liquibase/data/initial/DEPT.csv">
-            <column name="ID" header="ID" type="NUMERIC" />
-            <column name="CODE" header="CODE" type="STRING" />
-            <column name="SHORT_NAME" header="SHORT_NAME" type="STRING" />
-            <column name="FULL_NAME" header="FULL_NAME" type="STRING" />
+        <loadData tableName="DEPT" encoding="UTF-8" separator=";" quotchar="&quot;"
+                  file="db/migration/liquibase/data/initial/DEPT.csv">
+            <column name="ID" header="ID" type="NUMERIC"/>
+            <column name="CODE" header="CODE" type="STRING"/>
+            <column name="SHORT_NAME" header="SHORT_NAME" type="STRING"/>
+            <column name="FULL_NAME" header="FULL_NAME" type="STRING"/>
         </loadData>
     </changeSet>
 
     <changeSet author="initial" id="USERS CONSTRAINTS(2)">
-        <addForeignKeyConstraint baseColumnNames="DEPT_ID" baseTableName="USERS" constraintName="USERS_FK_1" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID" referencedTableName="DEPT" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="DEPT_ID" baseTableName="USERS" constraintName="USERS_FK_1"
+                                 deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT"
+                                 referencedColumnNames="ID" referencedTableName="DEPT" validate="true"/>
     </changeSet>
 
     <changeSet author="initial" id="INITIAL DATA(2)">
-        <loadData tableName="USER_ROLE" encoding="UTF-8" separator=";" quotchar="&quot;" file="db/migration/liquibase/data/initial/USER_ROLE.csv">
-            <column header="ID" name="ID" type="NUMERIC" />
-            <column header="USER_ID" name="USER_ID" type="NUMERIC" />
-            <column header="INTERNAL_ROLE_CD" name="INTERNAL_ROLE_CD" type="STRING" />
-            <column header="ACTIVE" name="ACTIVE" type="NUMERIC" />
-            <column header="MAIN" name="MAIN" type="NUMERIC" />
+        <loadData tableName="USER_ROLE" encoding="UTF-8" separator=";" quotchar="&quot;"
+                  file="db/migration/liquibase/data/initial/USER_ROLE.csv">
+            <column header="ID" name="ID" type="NUMERIC"/>
+            <column header="USER_ID" name="USER_ID" type="NUMERIC"/>
+            <column header="INTERNAL_ROLE_CD" name="INTERNAL_ROLE_CD" type="STRING"/>
+            <column header="ACTIVE" name="ACTIVE" type="NUMERIC"/>
+            <column header="MAIN" name="MAIN" type="NUMERIC"/>
         </loadData>
     </changeSet>
 
     <changeSet id="SYSTEM SETTINGS" author="initial" runOnChange="true">
-        <loadUpdateData tableName="SYSTEM_SETTINGS" primaryKey="KEY" encoding="UTF-8" separator=";" quotchar="&quot;" file="db/migration/liquibase/data/initial/SYSTEM_SETTINGS.csv">
-            <column header="ID" name="ID" type="SEQUENCE" />
-            <column header="KEY" name="KEY" type="STRING" />
-            <column header="VALUE" name="VALUE" type="STRING" />
+        <loadUpdateData tableName="SYSTEM_SETTINGS" primaryKey="KEY" encoding="UTF-8" separator=";" quotchar="&quot;"
+                        file="db/migration/liquibase/data/initial/SYSTEM_SETTINGS.csv">
+            <column header="ID" name="ID" type="SEQUENCE"/>
+            <column header="KEY" name="KEY" type="STRING"/>
+            <column header="VALUE" name="VALUE" type="STRING"/>
         </loadUpdateData>
     </changeSet>
 
     <changeSet author="initial" id="DICTIONARIES" runOnChange="true">
-        <delete tableName="DICTIONARY_ITEM_TR" />
+        <delete tableName="DICTIONARY_ITEM_TR"/>
 
-        <loadUpdateData tableName="DICTIONARY_TYPE" primaryKey="ID" encoding="UTF-8" separator=";" quotchar="&quot;" file="db/migration/liquibase/data/initial/DICTIONARY_TYPE.csv">
-            <column header="ID" name="ID" type="NUMERIC" />
-            <column header="TYPE" name="TYPE" type="STRING" />
-            <column header="TYPE_DESC" name="TYPE_DESC" type="STRING" />
+        <loadUpdateData tableName="DICTIONARY_TYPE" primaryKey="ID" encoding="UTF-8" separator=";" quotchar="&quot;"
+                        file="db/migration/liquibase/data/initial/DICTIONARY_TYPE.csv">
+            <column header="ID" name="ID" type="NUMERIC"/>
+            <column header="TYPE" name="TYPE" type="STRING"/>
+            <column header="TYPE_DESC" name="TYPE_DESC" type="STRING"/>
         </loadUpdateData>
 
-        <loadUpdateData tableName="DICTIONARY_ITEM" primaryKey="TYPE,KEY" encoding="UTF-8" separator=";" quotchar="&quot;" file="db/migration/liquibase/data/initial/DICTIONARY_ITEM.csv">
-            <column header="ID" name="ID" type="SEQUENCE" />
-            <column header="DICTIONARY_TYPE_ID" name="DICTIONARY_TYPE_ID" type="NUMERIC" />
-            <column header="TYPE" name="TYPE" type="STRING" />
-            <column header="KEY" name="KEY" type="STRING" />
-            <column header="VALUE" name="VALUE" type="STRING" />
-            <column header="ACTIVE" name="ACTIVE" type="NUMERIC" />
-            <column header="DISPLAY_ORDER" name="DISPLAY_ORDER" type="NUMERIC" />
-            <column header="DESCRIPTION" name="DESCRIPTION" type="STRING" />
+        <loadUpdateData tableName="DICTIONARY_ITEM" primaryKey="TYPE,KEY" encoding="UTF-8" separator=";"
+                        quotchar="&quot;" file="db/migration/liquibase/data/initial/DICTIONARY_ITEM.csv">
+            <column header="ID" name="ID" type="NUMERIC"/>
+            <column header="DICTIONARY_TYPE_ID" name="DICTIONARY_TYPE_ID" type="NUMERIC"/>
+            <column header="TYPE" name="TYPE" type="STRING"/>
+            <column header="KEY" name="KEY" type="STRING"/>
+            <column header="VALUE" name="VALUE" type="STRING"/>
+            <column header="ACTIVE" name="ACTIVE" type="NUMERIC"/>
+            <column header="DISPLAY_ORDER" name="DISPLAY_ORDER" type="NUMERIC"/>
+            <column header="DESCRIPTION" name="DESCRIPTION" type="STRING"/>
         </loadUpdateData>
 
-        <tesler:loadTranslationData tableName="DICTIONARY_ITEM_TR" mainTableName="DICTIONARY_ITEM" languageKey="LANGUAGE" surrogateKey="ID" naturalKey="TYPE,KEY" encoding="UTF-8" separator=";" quotchar="&quot;" file="db/migration/liquibase/data/initial/DICTIONARY_ITEM_TR.csv">
-            <tesler:column header="LANGUAGE" name="LANGUAGE" type="STRING" />
-            <tesler:column header="TYPE" name="TYPE" type="STRING" />
-            <tesler:column header="KEY" name="KEY" type="STRING" />
-            <tesler:column header="VALUE" name="VALUE" type="STRING" />
-        </tesler:loadTranslationData>
+        <loadUpdateData tableName="DICTIONARY_ITEM_TR" primaryKey="ID,LANGUAGE" encoding="UTF-8" separator=";"
+                        quotchar="&quot;" file="db/migration/liquibase/data/initial/DICTIONARY_ITEM_TR.csv">
+            <column header="ID" name="ID" type="NUMERIC"/>
+            <column header="LANGUAGE" name="LANGUAGE" type="STRING"/>
+            <column header="VALUE" name="VALUE" type="STRING"/>
+        </loadUpdateData>
     </changeSet>
 
     <changeSet author="initial" id="PROJECTS">
-        <loadData tableName="PRJ" encoding="UTF-8" separator=";" quotchar="&quot;" file="db/migration/liquibase/data/initial/PRJ.csv">
-            <column header="ID" name="ID" type="NUMERIC" />
-            <column header="NAME" name="NAME" type="STRING" />
+        <loadData tableName="PRJ" encoding="UTF-8" separator=";" quotchar="&quot;"
+                  file="db/migration/liquibase/data/initial/PRJ.csv">
+            <column header="ID" name="ID" type="NUMERIC"/>
+            <column header="NAME" name="NAME" type="STRING"/>
         </loadData>
     </changeSet>
 

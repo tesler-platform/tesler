@@ -3,9 +3,9 @@
 #set( $symbol_escape = '\' )
 <?xml version="1.1" encoding="UTF-8" standalone="no"?>
 <databaseChangeLog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
-  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd"
-  logicalFilePath="db/migration/liquibase/initial/quartz.xml">
+                   xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd"
+                   logicalFilePath="db/migration/liquibase/initial/quartz.xml">
 
     <changeSet author="initial" id="QRTZ_BLOB_TRIGGERS TABLE">
         <createTable tableName="QRTZ_BLOB_TRIGGERS">
@@ -337,19 +337,39 @@
     </changeSet>
 
     <changeSet author="initial" id="QRTZ_BLOB_TRIGGERS CONSTRAINTS">
-        <addForeignKeyConstraint baseColumnNames="SCHED_NAME,TRIGGER_NAME,TRIGGER_GROUP" baseTableName="QRTZ_BLOB_TRIGGERS" constraintName="QRTZ_BLOB_TRIG_TO_TRIG_FK" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="SCHED_NAME,TRIGGER_NAME,TRIGGER_GROUP" referencedTableName="QRTZ_TRIGGERS" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="SCHED_NAME,TRIGGER_NAME,TRIGGER_GROUP"
+                                 baseTableName="QRTZ_BLOB_TRIGGERS" constraintName="QRTZ_BLOB_TRIG_TO_TRIG_FK"
+                                 deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT"
+                                 referencedColumnNames="SCHED_NAME,TRIGGER_NAME,TRIGGER_GROUP"
+                                 referencedTableName="QRTZ_TRIGGERS" validate="true"/>
     </changeSet>
     <changeSet author="initial" id="QRTZ_CRON_TRIGGERS CONSTRAINTS">
-        <addForeignKeyConstraint baseColumnNames="SCHED_NAME,TRIGGER_NAME,TRIGGER_GROUP" baseTableName="QRTZ_CRON_TRIGGERS" constraintName="QRTZ_CRON_TRIG_TO_TRIG_FK" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="SCHED_NAME,TRIGGER_NAME,TRIGGER_GROUP" referencedTableName="QRTZ_TRIGGERS" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="SCHED_NAME,TRIGGER_NAME,TRIGGER_GROUP"
+                                 baseTableName="QRTZ_CRON_TRIGGERS" constraintName="QRTZ_CRON_TRIG_TO_TRIG_FK"
+                                 deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT"
+                                 referencedColumnNames="SCHED_NAME,TRIGGER_NAME,TRIGGER_GROUP"
+                                 referencedTableName="QRTZ_TRIGGERS" validate="true"/>
     </changeSet>
     <changeSet author="initial" id="QRTZ_SIMPLE_TRIGGERS CONSTRAINTS">
-        <addForeignKeyConstraint baseColumnNames="SCHED_NAME,TRIGGER_NAME,TRIGGER_GROUP" baseTableName="QRTZ_SIMPLE_TRIGGERS" constraintName="QRTZ_SIMPLE_TRIG_TO_TRIG_FK" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="SCHED_NAME,TRIGGER_NAME,TRIGGER_GROUP" referencedTableName="QRTZ_TRIGGERS" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="SCHED_NAME,TRIGGER_NAME,TRIGGER_GROUP"
+                                 baseTableName="QRTZ_SIMPLE_TRIGGERS" constraintName="QRTZ_SIMPLE_TRIG_TO_TRIG_FK"
+                                 deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT"
+                                 referencedColumnNames="SCHED_NAME,TRIGGER_NAME,TRIGGER_GROUP"
+                                 referencedTableName="QRTZ_TRIGGERS" validate="true"/>
     </changeSet>
     <changeSet author="initial" id="QRTZ_SIMPROP_TRIGGERS CONSTRAINTS">
-        <addForeignKeyConstraint baseColumnNames="SCHED_NAME,TRIGGER_NAME,TRIGGER_GROUP" baseTableName="QRTZ_SIMPROP_TRIGGERS" constraintName="QRTZ_SIMPROP_TRIG_TO_TRIG_FK" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="SCHED_NAME,TRIGGER_NAME,TRIGGER_GROUP" referencedTableName="QRTZ_TRIGGERS" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="SCHED_NAME,TRIGGER_NAME,TRIGGER_GROUP"
+                                 baseTableName="QRTZ_SIMPROP_TRIGGERS" constraintName="QRTZ_SIMPROP_TRIG_TO_TRIG_FK"
+                                 deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT"
+                                 referencedColumnNames="SCHED_NAME,TRIGGER_NAME,TRIGGER_GROUP"
+                                 referencedTableName="QRTZ_TRIGGERS" validate="true"/>
     </changeSet>
     <changeSet author="initial" id="QRTZ_TRIGGERS CONSTRAINTS">
-        <addForeignKeyConstraint baseColumnNames="SCHED_NAME,JOB_NAME,JOB_GROUP" baseTableName="QRTZ_TRIGGERS" constraintName="QRTZ_TRIGGER_TO_JOBS_FK" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="SCHED_NAME,JOB_NAME,JOB_GROUP" referencedTableName="QRTZ_JOB_DETAILS" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="SCHED_NAME,JOB_NAME,JOB_GROUP" baseTableName="QRTZ_TRIGGERS"
+                                 constraintName="QRTZ_TRIGGER_TO_JOBS_FK" deferrable="false" initiallyDeferred="false"
+                                 onDelete="RESTRICT" onUpdate="RESTRICT"
+                                 referencedColumnNames="SCHED_NAME,JOB_NAME,JOB_GROUP"
+                                 referencedTableName="QRTZ_JOB_DETAILS" validate="true"/>
     </changeSet>
 
 </databaseChangeLog>

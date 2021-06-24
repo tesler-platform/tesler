@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>io.tesler</groupId>
+  <artifactId>tesler-starter-parent</artifactId>
+  <packaging>pom</packaging>
+  <version>3.0.0.M10.8-SNAPSHOT</version>
+  <name>IO Tesler - Starter Parent</name>
+
+  <url>http://tesler.io</url>
+
+  <organization>
+    <name>Tesler</name>
+  </organization>
+
+  <developers>
+    <developer>
+      <name>Tesler team</name>
+      <email>info@tesler.io</email>
+      <organization>Tesler</organization>
+      <organizationUrl>http://tesler.io</organizationUrl>
+    </developer>
+  </developers>
+
+  <licenses>
+    <license>
+      <name>The Apache Software License, Version 2.0</name>
+      <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
+
+  <scm>
+    <connection>scm:git:git@github.com:tesler-platformtesler.git</connection>
+    <developerConnection>scm:git:git@github.com:tesler-platform/tesler.git</developerConnection>
+    <url>https://github.com/tesler-platform/tesler</url>
+    <tag>HEAD</tag>
+  </scm>
+
+  <distributionManagement>
+    <snapshotRepository>
+      <id>ossrh</id>
+      <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+    </snapshotRepository>
+    <repository>
+      <id>ossrh</id>
+      <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+    </repository>
+  </distributionManagement>
+
+  <parent>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-parent</artifactId>
+    <version>2.5.1</version>
+  </parent>
+
+  <properties>
+    <tesler.version>3.0.0.M10.8-SNAPSHOT</tesler.version>
+    <spring-boot.version>2.5.1</spring-boot.version>
+    <hibernate.version>5.4.13.Final</hibernate.version>
+    <jaxb.version>2.3.0</jaxb.version>
+  </properties>
+
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>io.tesler</groupId>
+        <artifactId>tesler-bom</artifactId>
+        <type>pom</type>
+        <scope>import</scope>
+        <version>${tesler.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.sun.xml.bind</groupId>
+        <artifactId>jaxb-impl</artifactId>
+        <version>${jaxb.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.sun.xml.bind</groupId>
+        <artifactId>jaxb-core</artifactId>
+        <version>${jaxb.version}</version>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
+
+</project>

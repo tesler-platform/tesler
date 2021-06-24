@@ -1,9 +1,9 @@
 {
-  "name" : "FourthLevelMenu",
-  "title" : "DeepNavigation",
-  "type" : "FourthLevelMenu",
-  "showCondition" : [ ],
-  "fields" : [ ],
-  "axisFields" : [ ],
-  "chart" : [ ]
+  "name": "FourthLevelMenu",
+  "title": "DeepNavigation",
+  "type": "FourthLevelMenu",
+  "showCondition": [],
+  "fields": [],
+  "axisFields": [],
+  "chart": []
 }

@@ -32,9 +32,9 @@ public interface CoreSessionService {
 
 	String getSessionId();
 
-	TeslerUserDetails getSessionUserDetails(boolean raiseError);
+	TeslerUserDetailsInterface getSessionUserDetails(boolean raiseError);
 
-	TeslerUserDetails getAuthenticationDetails(Authentication authentication);
+	TeslerUserDetailsInterface getAuthenticationDetails(Authentication authentication);
 
 	Long getSessionUserId();
 

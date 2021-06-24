@@ -23,7 +23,7 @@ package io.tesler.core.util.session.impl;
 import static io.tesler.api.service.session.InternalAuthorizationService.VANILLA;
 
 import io.tesler.api.service.session.CoreSessionService;
-import io.tesler.api.service.session.TeslerUserDetails;
+import io.tesler.api.service.session.TeslerUserDetailsInterface;
 import io.tesler.core.util.session.SessionUser;
 import io.tesler.core.util.session.UserExternalService;
 import io.tesler.core.util.session.UserService;
@@ -56,7 +56,7 @@ public class EffectiveUserAwareImpl implements EffectiveUserAware<User>  {
 	 * @return User entity
 	 */
 	private User getSessionUserInternal(boolean fallbackToSystem) {
-		TeslerUserDetails details = coreSessionService.getSessionUserDetails(false);
+		TeslerUserDetailsInterface details = coreSessionService.getSessionUserDetails(false);
 		if (details != null) {
 			return getUserFromDetails(details);
 		}
@@ -87,7 +87,7 @@ public class EffectiveUserAwareImpl implements EffectiveUserAware<User>  {
 		return getSessionUserInternal(true);
 	}
 
-	private User getUserFromDetails(final TeslerUserDetails userDetails) {
+	private User getUserFromDetails(final TeslerUserDetailsInterface userDetails) {
 		return jpaDao.findById(User.class, userDetails.getId());
 	}
 

@@ -3,13 +3,13 @@
   <modelVersion>4.0.0</modelVersion>
   <artifactId>tesler-base</artifactId>
   <packaging>pom</packaging>
-  <version>3.0.0.M10.1-SNAPSHOT</version>
+  <version>3.0.0.M10.8-SNAPSHOT</version>
   <name>IO Tesler - Base</name>
 
   <parent>
     <groupId>io.tesler</groupId>
     <artifactId>tesler-bom</artifactId>
-    <version>3.0.0.M10.1-SNAPSHOT</version>
+    <version>3.0.0.M10.8-SNAPSHOT</version>
     <relativePath>../tesler-bom/pom.xml</relativePath>
   </parent>
 
@@ -43,239 +43,125 @@
   </profiles>
 
   <properties>
-
     <!-- miscellaneous settings -->
-
     <dollar.sign>$</dollar.sign>
 
     <!-- compiler settings -->
-
     <maven.compiler.source>1.8</maven.compiler.source>
     <maven.compiler.target>1.8</maven.compiler.target>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
     <!-- dependencies versions -->
-
-    <slf4j.version>1.7.25</slf4j.version>
-    <spring.version>5.1.9.RELEASE</spring.version>
-    <spring-security.version>5.1.6.RELEASE</spring-security.version>
-    <spring-boot.version>2.1.7.RELEASE</spring-boot.version>
-    <spring-data.version>2.1.10.RELEASE</spring-data.version>
+    <commons-io.version>2.6</commons-io.version>
+    <commons-collections4.version>4.1</commons-collections4.version>
+    <commons-beanutils.version>1.9.3</commons-beanutils.version>
+    <commons-fileupload.version>1.3.3</commons-fileupload.version>
+    <commons-lang.version>2.3</commons-lang.version>
     <p6spy.version>3.8.1</p6spy.version>
-    <pf4j.version>2.6.0</pf4j.version>
+    <pf4j.version>3.6.0</pf4j.version>
     <juel.version>2.2.7</juel.version>
-    <assertj-core.version>3.12.2</assertj-core.version>
-    <mockito.version>2.23.4</mockito.version>
-    <surefire.version>2.22.2</surefire.version>
+    <javapoet.version>1.10.0</javapoet.version>
+    <guava.version>23.5-jre</guava.version>
+    <cron-utils.version>7.0.1</cron-utils.version>
+    <reflections.version>0.9.11</reflections.version>
+    <auto-service.version>1.0-rc4</auto-service.version>
 
+    <!--Test-->
+    <compile-testing.version>0.15</compile-testing.version>
+    <javax.el.version>3.0.0</javax.el.version>
   </properties>
 
   <dependencyManagement>
     <dependencies>
-
       <dependency>
-        <groupId>io.tesler</groupId>
-        <artifactId>tesler-bom</artifactId>
-        <version>3.0.0.M10.1-SNAPSHOT</version>
-        <type>pom</type>
-        <scope>import</scope>
+        <groupId>org.springframework.security</groupId>
+        <artifactId>spring-security-test</artifactId>
+        <version>${spring-security.version}</version>
       </dependency>
-
       <dependency>
         <groupId>org.pf4j</groupId>
         <artifactId>pf4j</artifactId>
         <version>${pf4j.version}</version>
       </dependency>
-
-      <dependency>
-        <groupId>org.slf4j</groupId>
-        <artifactId>slf4j-api</artifactId>
-        <version>${slf4j.version}</version>
-      </dependency>
-
-      <dependency>
-        <groupId>org.slf4j</groupId>
-        <artifactId>jcl-over-slf4j</artifactId>
-        <version>${slf4j.version}</version>
-      </dependency>
-
-      <dependency>
-        <groupId>org.slf4j</groupId>
-        <artifactId>slf4j-log4j12</artifactId>
-        <version>${slf4j.version}</version>
-      </dependency>
-
       <dependency>
         <groupId>p6spy</groupId>
         <artifactId>p6spy</artifactId>
         <version>${p6spy.version}</version>
       </dependency>
-
-      <dependency>
-        <groupId>org.springframework</groupId>
-        <artifactId>spring-core</artifactId>
-        <version>${spring.version}</version>
-        <exclusions>
-          <exclusion>
-            <groupId>commons-logging</groupId>
-            <artifactId>commons-logging</artifactId>
-          </exclusion>
-        </exclusions>
-      </dependency>
-
-      <dependency>
-        <groupId>org.springframework.data</groupId>
-        <artifactId>spring-data-jpa</artifactId>
-        <version>${spring-data.version}</version>
-      </dependency>
-
-      <dependency>
-        <groupId>javax.servlet</groupId>
-        <artifactId>jstl</artifactId>
-        <version>1.2</version>
-        <scope>runtime</scope>
-      </dependency>
-
-      <dependency>
-        <groupId>javax.servlet</groupId>
-        <artifactId>javax.servlet-api</artifactId>
-        <version>3.1.0</version>
-        <scope>provided</scope>
-      </dependency>
-
-      <dependency>
-        <groupId>javax.el</groupId>
-        <artifactId>el-api</artifactId>
-        <version>2.2</version>
-      </dependency>
-
       <dependency>
         <groupId>de.odysseus.juel</groupId>
         <artifactId>juel-api</artifactId>
         <version>${juel.version}</version>
       </dependency>
-
       <dependency>
         <groupId>de.odysseus.juel</groupId>
         <artifactId>juel-spi</artifactId>
         <version>${juel.version}</version>
       </dependency>
-
       <dependency>
         <groupId>de.odysseus.juel</groupId>
         <artifactId>juel-impl</artifactId>
         <version>${juel.version}</version>
       </dependency>
-
-      <!-- Utils -->
-      <dependency>
-        <groupId>org.apache.commons</groupId>
-        <artifactId>commons-lang3</artifactId>
-        <version>3.9</version>
-      </dependency>
       <dependency>
         <groupId>commons-io</groupId>
         <artifactId>commons-io</artifactId>
-        <version>2.6</version>
+        <version>${commons-io.version}</version>
       </dependency>
       <dependency>
         <groupId>org.apache.commons</groupId>
         <artifactId>commons-collections4</artifactId>
-        <version>4.1</version>
+        <version>${commons-collections4.version}</version>
       </dependency>
       <dependency>
         <groupId>commons-beanutils</groupId>
         <artifactId>commons-beanutils</artifactId>
-        <version>1.9.3</version>
-      </dependency>
-      <dependency>
-        <groupId>com.google.guava</groupId>
-        <artifactId>guava</artifactId>
-        <version>23.5-jre</version>
+        <version>${commons-beanutils.version}</version>
       </dependency>
       <dependency>
         <groupId>commons-fileupload</groupId>
         <artifactId>commons-fileupload</artifactId>
-        <version>1.3.3</version>
+        <version>${commons-fileupload.version}</version>
       </dependency>
-
-      <dependency>
-        <groupId>javax.xml.bind</groupId>
-        <artifactId>jaxb-api</artifactId>
-        <version>2.3.0</version>
-      </dependency>
-      <dependency>
-        <groupId>com.sun.xml.bind</groupId>
-        <artifactId>jaxb-impl</artifactId>
-        <version>2.3.0</version>
-      </dependency>
-      <dependency>
-        <groupId>com.sun.xml.bind</groupId>
-        <artifactId>jaxb-core</artifactId>
-        <version>2.3.0</version>
-      </dependency>
-
-      <dependency>
-        <groupId>javax.annotation</groupId>
-        <artifactId>javax.annotation-api</artifactId>
-        <version>1.3.2</version>
-      </dependency>
-
       <dependency>
         <groupId>com.squareup</groupId>
         <artifactId>javapoet</artifactId>
-        <version>1.10.0</version>
+        <version>${javapoet.version}</version>
       </dependency>
-
       <dependency>
-        <groupId>log4j</groupId>
-        <artifactId>log4j</artifactId>
-        <version>1.2.17</version>
+        <groupId>com.google.guava</groupId>
+        <artifactId>guava</artifactId>
+        <version>${guava.version}</version>
       </dependency>
-
       <dependency>
         <groupId>commons-lang</groupId>
         <artifactId>commons-lang</artifactId>
-        <version>2.3</version>
+        <version>${commons-lang.version}</version>
       </dependency>
-
       <dependency>
         <groupId>com.cronutils</groupId>
         <artifactId>cron-utils</artifactId>
-        <version>7.0.1</version>
+        <version>${cron-utils.version}</version>
       </dependency>
-
       <dependency>
         <groupId>org.reflections</groupId>
         <artifactId>reflections</artifactId>
-        <version>0.9.11</version>
+        <version>${reflections.version}</version>
       </dependency>
-
       <dependency>
         <groupId>com.google.auto.service</groupId>
         <artifactId>auto-service</artifactId>
-        <version>1.0-rc4</version>
-        <scope>provided</scope>
-        <optional>true</optional>
+        <version>${auto-service.version}</version>
       </dependency>
-
       <dependency>
         <groupId>com.google.testing.compile</groupId>
         <artifactId>compile-testing</artifactId>
-        <version>0.15</version>
-        <scope>test</scope>
-      </dependency>
-
-      <dependency>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-test</artifactId>
-        <version>2.2.6.RELEASE</version>
-        <scope>test</scope>
+        <version>${compile-testing.version}</version>
       </dependency>
       <dependency>
-        <groupId>org.springframework.security</groupId>
-        <artifactId>spring-security-test</artifactId>
-        <version>5.3.1.RELEASE</version>
+        <groupId>org.glassfish</groupId>
+        <artifactId>javax.el</artifactId>
+        <version>${javax.el.version}</version>
         <scope>test</scope>
       </dependency>
     </dependencies>
@@ -288,7 +174,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-javadoc-plugin</artifactId>
-          <version>3.1.1</version>
+          <version>${maven-javadoc-plugin.version}</version>
         </plugin>
 
         <plugin>
@@ -307,13 +193,13 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-compiler-plugin</artifactId>
-          <version>3.8.0</version>
+          <version>${maven-compiler-plugin.version}</version>
         </plugin>
 
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-jar-plugin</artifactId>
-          <version>3.1.0</version>
+          <version>${maven-jar-plugin.version}</version>
           <configuration>
             <skipIfEmpty>false</skipIfEmpty>
           </configuration>
@@ -322,13 +208,13 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-resources-plugin</artifactId>
-          <version>3.1.0</version>
+          <version>${maven-resources-plugin.version}</version>
         </plugin>
 
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-source-plugin</artifactId>
-          <version>3.1.0</version>
+          <version>${maven-source-plugin.version}</version>
           <executions>
             <execution>
               <id>attach-sources</id>
@@ -342,7 +228,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-war-plugin</artifactId>
-          <version>3.2.2</version>
+          <version>${maven-war-plugin.version}</version>
           <configuration>
             <attachClasses>true</attachClasses>
             <archive>
@@ -357,13 +243,13 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-failsafe-plugin</artifactId>
-          <version>${surefire.version}</version>
+          <version>${maven-failsafe-plugin.version}</version>
         </plugin>
 
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-surefire-plugin</artifactId>
-          <version>${surefire.version}</version>
+          <version>${maven-surefire-plugin.version}</version>
         </plugin>
 
         <plugin>

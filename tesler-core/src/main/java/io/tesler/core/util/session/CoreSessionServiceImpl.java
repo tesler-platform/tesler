@@ -22,12 +22,13 @@ package io.tesler.core.util.session;
 
 import io.tesler.api.data.dictionary.LOV;
 import io.tesler.api.service.session.CoreSessionService;
-import io.tesler.api.service.session.TeslerUserDetails;
 import java.time.ZoneId;
 import java.util.Locale;
 import java.util.Optional;
 import java.util.TimeZone;
 import java.util.stream.Stream;
+
+import io.tesler.api.service.session.TeslerUserDetailsInterface;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.session.SessionAuthenticationException;
@@ -44,7 +45,7 @@ public class CoreSessionServiceImpl implements CoreSessionService {
 	}
 
 	@Override
-	public TeslerUserDetails getSessionUserDetails(boolean raiseError) {
+	public TeslerUserDetailsInterface getSessionUserDetails(boolean raiseError) {
 
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
@@ -55,7 +56,7 @@ public class CoreSessionServiceImpl implements CoreSessionService {
 			return null;
 		}
 
-		TeslerUserDetails userDetails = getAuthenticationDetails(auth);
+		TeslerUserDetailsInterface userDetails = getAuthenticationDetails(auth);
 
 		if (userDetails == null) {
 			if (raiseError) {
@@ -67,20 +68,20 @@ public class CoreSessionServiceImpl implements CoreSessionService {
 	}
 
 	@Override
-	public TeslerUserDetails getAuthenticationDetails(Authentication auth) {
+	public TeslerUserDetailsInterface getAuthenticationDetails(Authentication auth) {
 		if (auth == null) {
 			return null;
 		}
 		return Stream.of(auth.getDetails(), auth.getPrincipal())
-				.filter(TeslerUserDetails.class::isInstance)
-				.map(TeslerUserDetails.class::cast)
+				.filter(TeslerUserDetailsInterface.class::isInstance)
+				.map(TeslerUserDetailsInterface.class::cast)
 				.findFirst().orElse(null);
 	}
 
 	@Override
 	public TimeZone getTimeZone(TimeZone defaultValue) {
 		return Optional.ofNullable(getSessionUserDetails(false))
-				.map(TeslerUserDetails::getTimezone)
+				.map(TeslerUserDetailsInterface::getTimezone)
 				.map(LOV::getKey)
 				.map(StringUtils::parseTimeZoneString)
 				.orElse(defaultValue);
@@ -89,7 +90,7 @@ public class CoreSessionServiceImpl implements CoreSessionService {
 	@Override
 	public ZoneId getZoneId(ZoneId defaultValue) {
 		return Optional.ofNullable(getSessionUserDetails(false))
-				.map(TeslerUserDetails::getTimezone)
+				.map(TeslerUserDetailsInterface::getTimezone)
 				.map(LOV::getKey)
 				.map(StringUtils::parseTimeZoneString)
 				.map(TimeZone::toZoneId)
@@ -99,7 +100,7 @@ public class CoreSessionServiceImpl implements CoreSessionService {
 	@Override
 	public Locale getLocale(Locale defaultValue) {
 		return Optional.ofNullable(getSessionUserDetails(false))
-				.map(TeslerUserDetails::getLocale)
+				.map(TeslerUserDetailsInterface::getLocaleCd)
 				.map(LOV::getKey)
 				.map(StringUtils::parseLocaleString)
 				.orElse(defaultValue);
@@ -107,7 +108,7 @@ public class CoreSessionServiceImpl implements CoreSessionService {
 
 	@Override
 	public Long getSessionUserId() {
-		TeslerUserDetails sessionUser = getSessionUserDetails(false);
+		TeslerUserDetailsInterface sessionUser = getSessionUserDetails(false);
 		if (sessionUser == null) {
 			return -1L;
 		}
@@ -116,7 +117,7 @@ public class CoreSessionServiceImpl implements CoreSessionService {
 
 	@Override
 	public String getSessionUserName() {
-		TeslerUserDetails sessionUser = getSessionUserDetails(false);
+		TeslerUserDetailsInterface sessionUser = getSessionUserDetails(false);
 		if (sessionUser == null) {
 			return "<unknown>";
 		}

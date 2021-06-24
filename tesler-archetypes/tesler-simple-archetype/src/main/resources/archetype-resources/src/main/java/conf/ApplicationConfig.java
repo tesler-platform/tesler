@@ -8,16 +8,14 @@ import io.tesler.core.config.CoreApplicationConfig;
 import io.tesler.core.config.UIConfig;
 import java.util.concurrent.Executors;
 import javax.sql.DataSource;
+
 import lombok.RequiredArgsConstructor;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.boot.autoconfigure.ImportAutoConfiguration;
-import org.springframework.boot.autoconfigure.data.elasticsearch.ElasticsearchAutoConfiguration;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceProperties;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.Primary;
-import org.springframework.instrument.classloading.InstrumentationLoadTimeWeaver;
 import org.springframework.orm.jpa.JpaVendorAdapter;
 import org.springframework.orm.jpa.vendor.Database;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
@@ -31,46 +29,49 @@ import org.springframework.web.context.request.RequestContextListener;
 import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
 import org.springframework.web.servlet.DispatcherServlet;
 import org.hibernate.dialect.PostgreSQL95Dialect;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver;
 
+@Configuration
 @RequiredArgsConstructor
 @Import({
-		CoreApplicationConfig.class,
-		PersistenceConfig.class
+		CoreApplicationConfig.class
 })
-@ImportAutoConfiguration({
-		org.springframework.boot.autoconfigure.tesler.liquibase.LiquibaseAutoConfiguration.class
-})
-@EnableAutoConfiguration(
-		exclude = {
-				org.springframework.boot.autoconfigure.liquibase.LiquibaseAutoConfiguration.class,
-				ElasticsearchAutoConfiguration.class
-		}
-)
 @BeanScan(value = {"${package}"})
 public class ApplicationConfig implements SchedulingConfigurer {
 
 	private static final Database primaryDatabase = Database.POSTGRESQL;
 
-	private final Configuration configuration;
+	private final ApplicationConfigProperties appProps;
 
 	@Bean
-	public InstrumentationLoadTimeWeaver loadTimeWeaver() {
-		return new InstrumentationLoadTimeWeaver();
+	WebMvcConfigurer corsConfigurer() {
+		return new WebMvcConfigurer() {
+			@Override
+			public void addCorsMappings(CorsRegistry registry) {
+				registry
+						.addMapping("/**")
+						.allowedMethods("*")
+						.allowedOrigins("*")
+						.allowedHeaders("*");
+			}
+		};
 	}
 
 	@Primary
 	@Bean(name = "primaryDS")
-	public DataSource primaryDataSource(DataSourceProperties dataSourceProperties) {
+	DataSource primaryDataSource(DataSourceProperties dataSourceProperties) {
 		return dataSourceProperties.initializeDataSourceBuilder().build();
 	}
 
 	@Bean(name = "primaryDatabase")
-	public Database primaryDatabase() {
+	Database primaryDatabase() {
 		return primaryDatabase;
 	}
 
 	@Bean(name = "vendorAdapter")
-	public JpaVendorAdapter vendorAdapter() {
+	JpaVendorAdapter vendorAdapter() {
 		HibernateJpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
 		vendorAdapter.setDatabasePlatform(PostgreSQL95Dialect.class.getName());
 		vendorAdapter.setDatabase(primaryDatabase);
@@ -78,32 +79,27 @@ public class ApplicationConfig implements SchedulingConfigurer {
 	}
 
 	@Bean
-	public SchedulingTaskExecutor taskExecutor() {
+	SchedulingTaskExecutor taskExecutor() {
 		return new ConcurrentTaskExecutor(Executors.newFixedThreadPool(10));
 	}
 
 	@Bean
-	public TaskScheduler taskScheduler() {
+	TaskScheduler taskScheduler() {
 		return new ConcurrentTaskScheduler(Executors.newScheduledThreadPool(10));
 	}
 
 	@Bean
-	public RequestContextListener requestContextListener() {
+	RequestContextListener requestContextListener() {
 		return new RequestContextListener();
 	}
 
 	@Bean
-	public ServletRegistrationBean ui() {
-		return createRegistration(
-				"ui",
-				UIConfig.class,
-				configuration.getUiPath(),
-				String.format("%s/*", configuration.getUiPath())
-		);
+	ServletRegistrationBean ui() {
+		return createRegistration("ui", UIConfig.class, appProps.getUiPath(), appProps.getUiPath() + "/*");
 	}
 
 	@Bean
-	public ServletRegistrationBean api() {
+	ServletRegistrationBean api() {
 		return createRegistration("api", ApplicationAPIConfig.class, "/api/v1/*");
 	}
 
@@ -122,4 +118,15 @@ public class ApplicationConfig implements SchedulingConfigurer {
 
 	}
 
+	@Bean
+	FreeMarkerViewResolver freemarkerViewResolver() {
+		FreeMarkerViewResolver resolver = new FreeMarkerViewResolver();
+		resolver.setExposeSpringMacroHelpers(true);
+		resolver.setExposeRequestAttributes(true);
+		resolver.setCache(true);
+		resolver.setCacheUnresolved(false);
+		resolver.setSuffix(".ftl");
+		resolver.setContentType("text/html;charset=UTF-8");
+		return resolver;
+	}
 }

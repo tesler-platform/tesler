@@ -22,7 +22,7 @@ package io.tesler.core.util.session.impl;
 
 import io.tesler.api.data.dictionary.LOV;
 import io.tesler.api.service.session.CoreSessionService;
-import io.tesler.api.service.session.TeslerUserDetails;
+import io.tesler.api.service.session.TeslerUserDetailsInterface;
 import io.tesler.core.config.CacheConfig;
 import io.tesler.core.controller.BcHierarchyAware;
 import io.tesler.core.service.UIService;
@@ -100,7 +100,7 @@ public class SessionServiceImpl implements SessionService {
 	@Override
 	@Cacheable(cacheNames = {CacheConfig.REQUEST_CACHE}, key = "#root.methodName")
 	public LOV getSessionUserRole() {
-		TeslerUserDetails userDetails = coreSessionService.getSessionUserDetails(true);
+		TeslerUserDetailsInterface userDetails = coreSessionService.getSessionUserDetails(true);
 		HttpServletRequest request = WebHelper.getCurrentRequest().orElse(null);
 		if (request == null) {
 			return userDetails.getUserRole();
@@ -108,7 +108,7 @@ public class SessionServiceImpl implements SessionService {
 		return calculateUserRole(request, userDetails);
 	}
 
-	private LOV calculateUserRole(HttpServletRequest request, TeslerUserDetails userDetails) {
+	private LOV calculateUserRole(HttpServletRequest request, TeslerUserDetailsInterface userDetails) {
 		LOV mainRole = userDetails.getUserRole();
 		String requestedRole = request.getHeader("RequestedUserRole");
 		// в заголовке ничего не указано - возвращаем main
@@ -128,7 +128,7 @@ public class SessionServiceImpl implements SessionService {
 
 	@Override
 	public void setSessionUserTimezone(LOV timezone) {
-		TeslerUserDetails userDetails = coreSessionService.getSessionUserDetails(true);
+		TeslerUserDetailsInterface userDetails = coreSessionService.getSessionUserDetails(true);
 		if (timezone == null || userDetails == null) {
 			return;
 		}
@@ -137,16 +137,16 @@ public class SessionServiceImpl implements SessionService {
 
 	@Override
 	public void setSessionUserLocale(LOV locale) {
-		TeslerUserDetails userDetails = coreSessionService.getSessionUserDetails(true);
+		TeslerUserDetailsInterface userDetails = coreSessionService.getSessionUserDetails(true);
 		if (locale == null || userDetails == null) {
 			return;
 		}
-		userDetails.setLocale(locale);
+		userDetails.setLocaleCd(locale);
 	}
 
 	@Override
 	public void setSessionUserInternalRole(String role) {
-		TeslerUserDetails userDetails = coreSessionService.getSessionUserDetails(true);
+		TeslerUserDetailsInterface userDetails = coreSessionService.getSessionUserDetails(true);
 		if (role == null || role.isEmpty() || userDetails == null) {
 			return;
 		}
@@ -186,7 +186,7 @@ public class SessionServiceImpl implements SessionService {
 		return uiService.getFirstViewFromResponsibilities(getSessionUser(), getSessionUserRole(), views);
 	}
 
-	private User getUserFromDetails(final TeslerUserDetails userDetails) {
+	private User getUserFromDetails(final TeslerUserDetailsInterface userDetails) {
 		return jpaDao.findById(User.class, userDetails.getId());
 	}
 

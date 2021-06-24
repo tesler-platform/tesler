@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<archetype-descriptor xsi:schemaLocation="https://maven.apache.org/plugins/maven-archetype-plugin/archetype-descriptor/1.1.0 http://maven.apache.org/xsd/archetype-descriptor-1.1.0.xsd" name="artifactid4"
+<archetype-descriptor xsi:schemaLocation="https://maven.apache.org/plugins/maven-archetype-plugin/archetype-descriptor/1.1.0 http://maven.apache.org/xsd/archetype-descriptor-1.1.0.xsd" name="untitled2"
     xmlns="https://maven.apache.org/plugins/maven-archetype-plugin/archetype-descriptor/1.1.0"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <fileSets>
@@ -20,6 +20,7 @@
       <directory>src/main/resources</directory>
       <includes>
         <include>**/*.csv</include>
+        <include>**/*.yml</include>
         <include>**/*.json</include>
         <include>**/*.sql</include>
       </includes>
@@ -37,11 +38,18 @@
       </includes>
     </fileSet>
     <fileSet encoding="UTF-8">
+      <directory>docker/keycloak-config</directory>
+      <includes>
+        <include>**/*.json</include>
+      </includes>
+    </fileSet>
+    <fileSet encoding="UTF-8">
       <directory></directory>
       <includes>
-        <include>README.md</include>
-        <include>docker-compose.yml</include>
         <include>.gitignore</include>
+        <include>docker-compose.yml</include>
+        <include>README.md</include>
+        <include>SSOREADME.MD</include>
       </includes>
     </fileSet>
   </fileSets>

@@ -10,5 +10,5 @@
     <include file="views/views.xml" relativeToChangelogFile="true"/>
 
     <!-- данные и метаданные -->
-    <include file="responsibilities/responsibilities.xml" relativeToChangelogFile="true" />
+    <include file="responsibilities/responsibilities.xml" relativeToChangelogFile="true"/>
 </databaseChangeLog>

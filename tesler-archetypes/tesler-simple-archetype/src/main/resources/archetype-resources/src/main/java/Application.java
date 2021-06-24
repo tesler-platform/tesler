@@ -3,21 +3,14 @@
 #set( $symbol_escape = '\' )
 package ${package};
 
-import ${package}.conf.ApplicationConfig;
-import ${package}.conf.RedirectConfig;
-import ${package}.conf.SecurityConfig;
-import org.springframework.boot.builder.SpringApplicationBuilder;
-import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-public class Application extends SpringBootServletInitializer {
+@SpringBootApplication
+public class Application {
 
 	public static void main(String[] args) {
-		new SpringApplicationBuilder()
-				.sources(
-						ApplicationConfig.class,
-						RedirectConfig.class,
-						SecurityConfig.class
-				).build().run(args);
+		SpringApplication.run(Application.class);
 	}
 
 }

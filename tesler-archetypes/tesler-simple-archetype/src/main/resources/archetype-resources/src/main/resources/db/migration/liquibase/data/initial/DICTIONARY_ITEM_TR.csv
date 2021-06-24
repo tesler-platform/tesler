@@ -1,3 +1,5 @@
-﻿TYPE;KEY;LANGUAGE;VALUE
-"INTERNAL_ROLE";"ADMIN";"ru";"Администратор"
-"INTERNAL_ROLE";"ADMIN";"en";"Administrator"
+﻿ID;LANGUAGE;VALUE
+"100";"ru";"Администратор"
+"100";"en";"Administrator"
+"200";"ru";"Администратор"
+"200";"en";"Administrator"

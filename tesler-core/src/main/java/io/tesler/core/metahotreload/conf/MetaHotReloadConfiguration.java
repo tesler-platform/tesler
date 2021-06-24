@@ -31,9 +31,7 @@ import io.tesler.core.metahotreload.service.ViewAndViewWidgetUtil;
 import io.tesler.core.metahotreload.service.WidgetPropertyUtil;
 import io.tesler.core.metahotreload.service.WidgetUtil;
 import io.tesler.model.core.dao.JpaDao;
-import javax.persistence.EntityManager;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
@@ -41,7 +39,6 @@ import org.springframework.context.annotation.Configuration;
 
 @EnableConfigurationProperties(MetaConfigurationProperties.class)
 @Configuration
-@ConditionalOnProperty(value = "tesler.meta.enabled")
 public class MetaHotReloadConfiguration {
 
 	@Bean
@@ -57,13 +54,11 @@ public class MetaHotReloadConfiguration {
 			MetaResourceReaderService metaResourceReaderService,
 			InternalAuthorizationService authzService,
 			TransactionService txService,
-			EntityManager entityManager,
 			JpaDao jpaDao,
 			WidgetUtil widgetUtil,
 			WidgetPropertyUtil widgetPropertyUtil,
 			ViewAndViewWidgetUtil viewAndViewWidgetUtil,
-			ScreenAndNavigationGroupAndNavigationViewUtil screenAndNavigationGroupAndNavigationViewUtil,
-			@Qualifier("teslerObjectMapper") ObjectMapper objMapper) {
+			ScreenAndNavigationGroupAndNavigationViewUtil screenAndNavigationGroupAndNavigationViewUtil) {
 		MetaHotReloadService bean = new MetaHotReloadService(
 				metaResourceReaderService,
 				authzService,

@@ -25,26 +25,24 @@ import java.util.Objects;
 import java.util.function.BinaryOperator;
 import lombok.experimental.UtilityClass;
 import org.springframework.data.jpa.domain.Specification;
-import org.springframework.data.jpa.domain.Specifications;
 
 @UtilityClass
 public class SpecificationUtils {
 
-
-	public static <T> Specifications<T> trueSpecification() {
-		return Specifications.where((root, cq, cb) -> cb.and());
+	public static <T> Specification<T> trueSpecification() {
+		return Specification.where((root, cq, cb) -> cb.and());
 	}
 
-	public static <T> Specifications<T> falseSpecification() {
-		return Specifications.where((root, cq, cb) -> cb.or());
+	public static <T> Specification<T> falseSpecification() {
+		return Specification.where((root, cq, cb) -> cb.or());
 	}
 
 	public static <T> BinaryOperator<Specification<T>> and() {
-		return (s1, s2) -> Specifications.where(s1).and(s2);
+		return (s1, s2) -> Specification.where(s1).and(s2);
 	}
 
 	public static <T> BinaryOperator<Specification<T>> or() {
-		return (s1, s2) -> Specifications.where(s1).or(s2);
+		return (s1, s2) -> Specification.where(s1).or(s2);
 	}
 
 	@SafeVarargs

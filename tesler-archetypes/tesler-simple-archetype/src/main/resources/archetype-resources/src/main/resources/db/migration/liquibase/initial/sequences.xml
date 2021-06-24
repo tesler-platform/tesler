@@ -13,7 +13,8 @@
         <createSequence maxValue="9223372036854775807" sequenceName="META_SEQ" startValue="1000000" incrementBy="100"/>
     </changeSet>
     <changeSet author="initial" id="APP_BATCH_SEQ SEQUENCE">
-        <createSequence maxValue="9223372036854775807" sequenceName="APP_BATCH_SEQ" startValue="2000000000" incrementBy="100"/>
+        <createSequence maxValue="9223372036854775807" sequenceName="APP_BATCH_SEQ" startValue="2000000000"
+                        incrementBy="100"/>
     </changeSet>
     <changeSet author="initial" id="HIBERNATE_SEQUENCE SEQUENCE">
         <createSequence maxValue="9223372036854775807" sequenceName="HIBERNATE_SEQUENCE" startValue="2"/>
