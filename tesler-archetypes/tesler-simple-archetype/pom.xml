@@ -3,13 +3,13 @@
   <modelVersion>4.0.0</modelVersion>
   <artifactId>tesler-simple-archetype</artifactId>
   <packaging>jar</packaging>
-  <version>3.0.0.M10.8-SNAPSHOT</version>
+  <version>3.0.0.M11</version>
   <name>IO Tesler - Simple Archetype</name>
 
   <parent>
     <groupId>io.tesler</groupId>
     <artifactId>tesler-archetypes</artifactId>
-    <version>3.0.0.M10.8-SNAPSHOT</version>
+    <version>3.0.0.M11</version>
     <relativePath>../pom.xml</relativePath>
   </parent>
 
