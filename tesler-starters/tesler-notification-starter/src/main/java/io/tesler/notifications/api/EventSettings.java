@@ -1,6 +1,6 @@
 /*-
  * #%L
- * IO Tesler - Core
+ * IO Tesler - API
  * %%
  * Copyright (C) 2018 - 2019 Tesler Contributors
  * %%
@@ -18,23 +18,28 @@
  * #L%
  */
 
-package io.tesler.core.service.impl;
+package io.tesler.notifications.api;
 
-import io.tesler.api.util.spring.AbstractComponentExcludeFilter;
-import io.tesler.model.core.service.BaseAccessService;
-import com.google.common.collect.ImmutableSet;
-import java.util.Set;
-import lombok.EqualsAndHashCode;
+import io.tesler.api.data.dictionary.LOV;
+import java.util.List;
+import java.util.function.Predicate;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
+@Getter
+@RequiredArgsConstructor
+public class EventSettings {
 
-@EqualsAndHashCode(of = "classes", callSuper = false)
-public class ComponentExcludeFilterImpl extends AbstractComponentExcludeFilter {
+	private final LOV event;
 
-	@Getter
-	private final Set<String> classes = ImmutableSet.<String>builder()
-			.add(BaseAccessService.class.getName())
-			//.add(BaseNotificationSettingsProvider.class.getName())
-			.build();
+	private final int deliveryType;
+
+	private final boolean notifyMyself;
+
+	private final List<Recipient> recipients;
+
+	public boolean hasRole(Predicate<Recipient> predicate) {
+		return recipients.stream().anyMatch(predicate);
+	}
 
 }

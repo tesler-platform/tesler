@@ -20,8 +20,6 @@
 
 package io.tesler.api.data.dictionary;
 
-import java.util.HashMap;
-import java.util.Map;
 import lombok.experimental.UtilityClass;
 
 
@@ -36,14 +34,6 @@ public class CoreDictionaries {
 
 	}
 
-	@UtilityClass
-	public static final class NotificationDeliveryType {
-
-		public static final LOV PUSH = new LOV("push");
-
-		public static final LOV SMTP = new LOV("smtp");
-
-	}
 
 	@UtilityClass
 	public static final class UserActivityType {
@@ -92,22 +82,6 @@ public class CoreDictionaries {
 
 	}
 
-	@UtilityClass
-	public static final class NotificationSettingsType {
-
-		public static final LOV GLOBAL = new LOV("GLOBAL");
-
-		public static final LOV PERSONAL = new LOV("PERSONAL");
-
-		public static final Map<LOV, Integer> ORDER = new HashMap<>();
-
-		static {
-			ORDER.put(PERSONAL, 1);
-			ORDER.put(GLOBAL, 2);
-		}
-
-	}
-
 
 	@UtilityClass
 	public static final class FileStorage {
@@ -152,8 +126,6 @@ public class CoreDictionaries {
 
 		public static final LOV PROFILING_TIME_TO_LOG = new LOV("PROFILING_TIME_TO_LOG");
 
-		public static final LOV FEATURE_NOTIFICATIONS = new LOV("FEATURE_NOTIFICATIONS");
-
 		public static final LOV FEATURE_COMMENTS = new LOV("FEATURE_COMMENTS");
 
 		public static final LOV FEATURE_SECURITY_LOGGING = new LOV("FEATURE_SECURITY_LOGGING");
@@ -164,16 +136,6 @@ public class CoreDictionaries {
 
 	}
 
-	@UtilityClass
-	public static final class NotificationRecipient {
-
-		public static final LOV MENTIONED_USER = new LOV("MENTIONED_USER");
-
-		public static final LOV COMMENT_AUTHOR = new LOV("COMMENT_AUTHOR");
-
-		public static final LOV CURRENT_USER = new LOV("CURRENT_USER");
-
-	}
 
 	@UtilityClass
 	public static final class RemoteSystemResponse {

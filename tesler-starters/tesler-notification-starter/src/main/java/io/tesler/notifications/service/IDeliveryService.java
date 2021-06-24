@@ -18,23 +18,27 @@
  * #L%
  */
 
-package io.tesler.core.service.impl;
+package io.tesler.notifications.service;
 
-import io.tesler.api.util.spring.AbstractComponentExcludeFilter;
-import io.tesler.model.core.service.BaseAccessService;
-import com.google.common.collect.ImmutableSet;
-import java.util.Set;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
+import io.tesler.notifications.model.entity.Notification;
+
+import java.util.List;
 
 
-@EqualsAndHashCode(of = "classes", callSuper = false)
-public class ComponentExcludeFilterImpl extends AbstractComponentExcludeFilter {
+public interface IDeliveryService {
 
-	@Getter
-	private final Set<String> classes = ImmutableSet.<String>builder()
-			.add(BaseAccessService.class.getName())
-			//.add(BaseNotificationSettingsProvider.class.getName())
-			.build();
+	int getServiceId();
+
+	String getDeliveryType();
+
+	boolean isActive();
+
+	boolean isDelayed();
+
+	List<Notification> queryNotifications();
+
+	void send(Notification notification);
+
+	void markDelivered(Notification notification);
 
 }

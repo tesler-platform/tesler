@@ -1,6 +1,6 @@
 /*-
  * #%L
- * IO Tesler - Core
+ * IO Tesler - Model Core
  * %%
  * Copyright (C) 2018 - 2019 Tesler Contributors
  * %%
@@ -18,23 +18,23 @@
  * #L%
  */
 
-package io.tesler.core.service.impl;
+package io.tesler.notifications.model.hbn.change;
 
-import io.tesler.api.util.spring.AbstractComponentExcludeFilter;
-import io.tesler.model.core.service.BaseAccessService;
-import com.google.common.collect.ImmutableSet;
-import java.util.Set;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
+import io.tesler.notifications.api.TemplateProcessingService;
+import freemarker.cache.StringTemplateLoader;
+import freemarker.ext.beans.BeansWrapper;
+import freemarker.template.Configuration;
+import org.springframework.context.support.ResourceBundleMessageSource;
 
 
-@EqualsAndHashCode(of = "classes", callSuper = false)
-public class ComponentExcludeFilterImpl extends AbstractComponentExcludeFilter {
+public interface TemplateProcessingServiceExt extends TemplateProcessingService {
 
-	@Getter
-	private final Set<String> classes = ImmutableSet.<String>builder()
-			.add(BaseAccessService.class.getName())
-			//.add(BaseNotificationSettingsProvider.class.getName())
-			.build();
+	BeansWrapper getBeansWrapper();
+
+	Configuration getConfiguration();
+
+	ResourceBundleMessageSource getBundles();
+
+	StringTemplateLoader getStringTemplateLoader();
 
 }

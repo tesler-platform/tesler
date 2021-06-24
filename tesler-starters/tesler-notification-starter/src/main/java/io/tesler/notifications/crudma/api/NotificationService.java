@@ -1,6 +1,6 @@
 /*-
  * #%L
- * IO Tesler - Core
+ * IO Tesler - Source
  * %%
  * Copyright (C) 2018 - 2019 Tesler Contributors
  * %%
@@ -18,23 +18,13 @@
  * #L%
  */
 
-package io.tesler.core.service.impl;
-
-import io.tesler.api.util.spring.AbstractComponentExcludeFilter;
-import io.tesler.model.core.service.BaseAccessService;
-import com.google.common.collect.ImmutableSet;
-import java.util.Set;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
+package io.tesler.notifications.crudma.api;
 
 
-@EqualsAndHashCode(of = "classes", callSuper = false)
-public class ComponentExcludeFilterImpl extends AbstractComponentExcludeFilter {
+import io.tesler.core.service.ResponseService;
+import io.tesler.notifications.dto.NotificationDTO;
+import io.tesler.notifications.model.entity.Notification;
 
-	@Getter
-	private final Set<String> classes = ImmutableSet.<String>builder()
-			.add(BaseAccessService.class.getName())
-			//.add(BaseNotificationSettingsProvider.class.getName())
-			.build();
+public interface NotificationService extends ResponseService<NotificationDTO, Notification> {
 
 }

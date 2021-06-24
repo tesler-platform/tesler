@@ -1,6 +1,6 @@
 /*-
  * #%L
- * IO Tesler - Core
+ * IO Tesler - API
  * %%
  * Copyright (C) 2018 - 2019 Tesler Contributors
  * %%
@@ -18,23 +18,16 @@
  * #L%
  */
 
-package io.tesler.core.service.impl;
+package io.tesler.notifications.api;
 
-import io.tesler.api.util.spring.AbstractComponentExcludeFilter;
-import io.tesler.model.core.service.BaseAccessService;
-import com.google.common.collect.ImmutableSet;
-import java.util.Set;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
+import io.tesler.api.data.dictionary.LOV;
+import lombok.Data;
 
+@Data
+public class Recipient {
 
-@EqualsAndHashCode(of = "classes", callSuper = false)
-public class ComponentExcludeFilterImpl extends AbstractComponentExcludeFilter {
+	private final LOV role;
 
-	@Getter
-	private final Set<String> classes = ImmutableSet.<String>builder()
-			.add(BaseAccessService.class.getName())
-			//.add(BaseNotificationSettingsProvider.class.getName())
-			.build();
+	private final boolean sameDeptOnly;
 
 }
