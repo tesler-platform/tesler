@@ -18,74 +18,66 @@
  * #L%
  */
 
-package io.tesler.crudma.config;
+package io.tesler.notifications.crudma.config;
 
 import io.tesler.core.crudma.bc.BcIdentifier;
 import io.tesler.core.crudma.bc.EnumBcIdentifier;
 import io.tesler.core.crudma.bc.impl.AbstractEnumBcSupplier;
 import io.tesler.core.crudma.bc.impl.BcDescription;
-import io.tesler.crudma.api.BcPropertiesService;
-import io.tesler.crudma.api.BcService;
-import io.tesler.crudma.api.DeptService;
-import io.tesler.crudma.api.FilterGroupService;
-import io.tesler.crudma.api.ScreenService;
-import io.tesler.crudma.api.WidgetService;
+import io.tesler.notifications.crudma.api.NotificationRecipientService;
+import io.tesler.notifications.crudma.api.NotificationSettingsService;
 import lombok.Getter;
 import org.springframework.stereotype.Component;
 
-
 @Getter
-public enum CoreServiceAssociation implements EnumBcIdentifier {
+public enum NotificationServiceAssociation implements EnumBcIdentifier {
 
 	// @formatter:off
 
-	department(DeptService.class),
 
-	filterGroup(FilterGroupService.class),
 
-	bcProperties(BcPropertiesService.class),
+	notificationGlobalSettings(NotificationSettingsService.class),
+		notificationRecipients(notificationGlobalSettings, NotificationRecipientService.class),
 
-	// ui
-	screen(ScreenService.class),
-	widget(WidgetService.class),
-	bc(BcService.class),
+	notificationUserSettings(NotificationSettingsService.class),
+		notificationExcludeRecipients(notificationUserSettings, NotificationRecipientService.class),
 
 	;
 	// @formatter:on
 
-	public static final Holder<CoreServiceAssociation> Holder = new Holder<>(CoreServiceAssociation.class);
+	public static final Holder<NotificationServiceAssociation> Holder = new Holder<>(NotificationServiceAssociation.class);
 
 	private final BcDescription bcDescription;
 
-	CoreServiceAssociation(String parentName, Class<?> serviceClass, boolean refresh) {
+	NotificationServiceAssociation(String parentName, Class<?> serviceClass, boolean refresh) {
 		this.bcDescription = buildDescription(parentName, serviceClass, refresh);
 	}
 
-	CoreServiceAssociation(String parentName, Class<?> serviceClass) {
+	NotificationServiceAssociation(String parentName, Class<?> serviceClass) {
 		this(parentName, serviceClass, false);
 	}
 
-	CoreServiceAssociation(BcIdentifier parent, Class<?> serviceClass, boolean refresh) {
+	NotificationServiceAssociation(BcIdentifier parent, Class<?> serviceClass, boolean refresh) {
 		this(parent == null ? null : parent.getName(), serviceClass, refresh);
 	}
 
-	CoreServiceAssociation(BcIdentifier parent, Class<?> serviceClass) {
+	NotificationServiceAssociation(BcIdentifier parent, Class<?> serviceClass) {
 		this(parent, serviceClass, false);
 	}
 
-	CoreServiceAssociation(Class<?> serviceClass, boolean refresh) {
+	NotificationServiceAssociation(Class<?> serviceClass, boolean refresh) {
 		this((String) null, serviceClass, refresh);
 	}
 
-	CoreServiceAssociation(Class<?> serviceClass) {
+	NotificationServiceAssociation(Class<?> serviceClass) {
 		this((String) null, serviceClass, false);
 	}
 
 	@Component
-	public static class CoreBcSupplier extends AbstractEnumBcSupplier<CoreServiceAssociation> {
+	public static class CoreBcSupplier extends AbstractEnumBcSupplier<NotificationServiceAssociation> {
 
 		public CoreBcSupplier() {
-			super(CoreServiceAssociation.Holder);
+			super(NotificationServiceAssociation.Holder);
 		}
 
 	}

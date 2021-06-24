@@ -1,6 +1,6 @@
 /*-
  * #%L
- * IO Tesler - Core
+ * IO Tesler - Source
  * %%
  * Copyright (C) 2018 - 2019 Tesler Contributors
  * %%
@@ -18,23 +18,22 @@
  * #L%
  */
 
-package io.tesler.core.service.impl;
+package io.tesler.notifications.crudma.api;
 
-import io.tesler.api.util.spring.AbstractComponentExcludeFilter;
-import io.tesler.model.core.service.BaseAccessService;
-import com.google.common.collect.ImmutableSet;
-import java.util.Set;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
+import io.tesler.api.data.dictionary.LOV;
+import io.tesler.core.service.ResponseService;
+import io.tesler.notifications.crudma.dto.NotificationSettingsDTO;
+import io.tesler.notifications.model.entity.NotificationSettings;
 
 
-@EqualsAndHashCode(of = "classes", callSuper = false)
-public class ComponentExcludeFilterImpl extends AbstractComponentExcludeFilter {
+public interface NotificationSettingsService extends ResponseService<NotificationSettingsDTO, NotificationSettings> {
 
-	@Getter
-	private final Set<String> classes = ImmutableSet.<String>builder()
-			.add(BaseAccessService.class.getName())
-			//.add(BaseNotificationSettingsProvider.class.getName())
-			.build();
+	void evictCache(NotificationSettings settings);
+
+	NotificationSettings getOrCreateUserCopy(NotificationSettings entity);
+
+	NotificationSettings getGlobalSettings(LOV event);
+
+	NotificationSettings getUserSettings(LOV event);
 
 }

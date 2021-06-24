@@ -1,6 +1,6 @@
 /*-
  * #%L
- * IO Tesler - Core
+ * IO Tesler - API
  * %%
  * Copyright (C) 2018 - 2019 Tesler Contributors
  * %%
@@ -18,23 +18,40 @@
  * #L%
  */
 
-package io.tesler.core.service.impl;
+package io.tesler.notifications.api;
 
-import io.tesler.api.util.spring.AbstractComponentExcludeFilter;
-import io.tesler.model.core.service.BaseAccessService;
-import com.google.common.collect.ImmutableSet;
-import java.util.Set;
-import lombok.EqualsAndHashCode;
+import io.tesler.api.data.dictionary.LOV;
 import lombok.Getter;
+import lombok.Setter;
+import lombok.experimental.Accessors;
+import org.springframework.context.ApplicationEvent;
 
+@Getter
+@Setter
+@Accessors(chain = true)
+public class NotificationEvent extends ApplicationEvent {
 
-@EqualsAndHashCode(of = "classes", callSuper = false)
-public class ComponentExcludeFilterImpl extends AbstractComponentExcludeFilter {
+	private LOV event;
 
-	@Getter
-	private final Set<String> classes = ImmutableSet.<String>builder()
-			.add(BaseAccessService.class.getName())
-			//.add(BaseNotificationSettingsProvider.class.getName())
-			.build();
+	private LOV mimeType;
+
+	private String subject;
+
+	private String message;
+
+	private String uiSubject;
+
+	private String uiMessage;
+
+	private String url;
+
+	private Long recipientId;
+
+	private int deliveryType;
+
+	public NotificationEvent(Object source) {
+		super(source);
+	}
+
 
 }
