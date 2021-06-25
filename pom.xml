@@ -36,7 +36,7 @@
     <connection>scm:git:git@github.com:tesler-platformtesler.git</connection>
     <developerConnection>scm:git:git@github.com:tesler-platform/tesler.git</developerConnection>
     <url>https://github.com/tesler-platform/tesler</url>
-    <tag>3.0.0.M10.10-SNAPSHOT</tag>
+    <tag>3.0.0.M12.1-SNAPSHOT</tag>
   </scm>
 
   <distributionManagement>

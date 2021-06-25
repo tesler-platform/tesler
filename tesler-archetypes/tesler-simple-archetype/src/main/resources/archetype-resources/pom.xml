@@ -10,7 +10,7 @@
     <parent>
         <groupId>io.tesler</groupId>
         <artifactId>tesler-starter-parent</artifactId>
-        <version>3.0.0.M10.8-SNAPSHOT</version>
+        <version>3.0.0.M12.1-SNAPSHOT</version>
     </parent>
 
     <properties>
