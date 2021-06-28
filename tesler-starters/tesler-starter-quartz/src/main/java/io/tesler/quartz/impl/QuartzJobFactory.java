@@ -18,7 +18,7 @@
  * #L%
  */
 
-package io.tesler.core.ext.quartz;
+package io.tesler.quartz.impl;
 
 import static io.tesler.api.service.session.InternalAuthorizationService.VANILLA;
 
@@ -26,13 +26,13 @@ import io.tesler.api.data.dictionary.CoreDictionaries;
 import io.tesler.api.service.session.InternalAuthorizationService;
 import io.tesler.api.service.tx.TransactionService;
 import io.tesler.api.util.privileges.PrivilegeUtil;
-import io.tesler.core.service.ScheduledService;
 import io.tesler.core.util.DateTimeUtil;
 import io.tesler.model.core.dao.JpaDao;
-import io.tesler.model.core.entity.ScheduledJob;
 import java.time.LocalDateTime;
 import java.util.Objects;
 import javax.annotation.PostConstruct;
+
+import io.tesler.quartz.model.ScheduledJob;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.math.NumberUtils;

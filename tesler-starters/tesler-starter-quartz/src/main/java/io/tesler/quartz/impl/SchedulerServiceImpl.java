@@ -18,12 +18,10 @@
  * #L%
  */
 
-package io.tesler.core.service.impl;
+package io.tesler.quartz.impl;
 
 import io.tesler.api.exception.ServerException;
-import io.tesler.core.ext.quartz.QuartzStatefulNoOpJob;
-import io.tesler.core.service.SchedulerService;
-import io.tesler.model.core.entity.ScheduledJob;
+import io.tesler.quartz.model.ScheduledJob;
 import com.cronutils.model.CronType;
 import com.cronutils.model.definition.CronDefinition;
 import com.cronutils.model.definition.CronDefinitionBuilder;

@@ -18,7 +18,7 @@
  * #L%
  */
 
-package io.tesler.crudma.impl;
+package io.tesler.quartz.crudma.service;
 
 import io.tesler.api.data.dictionary.LOV;
 import io.tesler.core.crudma.bc.BusinessComponent;
@@ -26,13 +26,12 @@ import io.tesler.core.crudma.impl.VersionAwareResponseService;
 import io.tesler.core.dto.rowmeta.ActionResultDTO;
 import io.tesler.core.dto.rowmeta.CreateResult;
 import io.tesler.core.service.action.Actions;
-import io.tesler.crudma.api.ScheduledJobParamService;
-import io.tesler.crudma.dto.ScheduledJobParamDTO;
-import io.tesler.crudma.dto.ScheduledJobParamDTO_;
-import io.tesler.crudma.meta.ScheduledJobParamFieldMetaBuilder;
-import io.tesler.model.core.entity.ScheduledJobParam;
-import io.tesler.model.core.entity.ScheduledJobParam_;
-import io.tesler.model.core.entity.ScheduledJob_;
+import io.tesler.quartz.crudma.dto.ScheduledJobParamDTO;
+import io.tesler.quartz.crudma.dto.ScheduledJobParamDTO_;
+import io.tesler.quartz.crudma.meta.ScheduledJobParamFieldMetaBuilder;
+import io.tesler.quartz.model.ScheduledJobParam;
+import io.tesler.quartz.model.ScheduledJobParam_;
+import io.tesler.quartz.model.ScheduledJob_;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 

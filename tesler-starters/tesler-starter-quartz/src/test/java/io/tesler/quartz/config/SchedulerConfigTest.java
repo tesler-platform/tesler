@@ -18,11 +18,11 @@
  * #L%
  */
 
-package io.tesler.core.config;
+package io.tesler.quartz.config;
 
 import io.tesler.core.config.properties.SchedulerProperties;
-import io.tesler.core.ext.quartz.QuartzJobFactory;
-import io.tesler.core.ext.quartz.QuartzSchedulerListener;
+import io.tesler.quartz.impl.QuartzJobFactory;
+import io.tesler.quartz.impl.QuartzSchedulerListener;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

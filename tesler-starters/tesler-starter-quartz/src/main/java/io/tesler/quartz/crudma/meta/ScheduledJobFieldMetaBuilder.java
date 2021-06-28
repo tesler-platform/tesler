@@ -18,13 +18,8 @@
  * #L%
  */
 
-package io.tesler.crudma.meta;
+package io.tesler.quartz.crudma.meta;
 
-import static io.tesler.crudma.dto.ScheduledJobDTO_.active;
-import static io.tesler.crudma.dto.ScheduledJobDTO_.cronExpression;
-import static io.tesler.crudma.dto.ScheduledJobDTO_.lastLaunchDate;
-import static io.tesler.crudma.dto.ScheduledJobDTO_.launchStatusCd;
-import static io.tesler.crudma.dto.ScheduledJobDTO_.serviceName;
 
 import io.tesler.api.data.dictionary.CoreDictionaries.LaunchStatus;
 import io.tesler.api.data.dictionary.DictionaryCache;
@@ -34,10 +29,12 @@ import io.tesler.core.crudma.bc.impl.InnerBcDescription;
 import io.tesler.core.dto.rowmeta.FieldsMeta;
 import io.tesler.core.dto.rowmeta.RowDependentFieldsMeta;
 import io.tesler.core.service.rowmeta.FieldMetaBuilder;
-import io.tesler.crudma.dto.ScheduledJobDTO;
 import io.tesler.model.core.dao.JpaDao;
 import java.util.ArrayList;
 import java.util.List;
+
+import io.tesler.quartz.crudma.dto.ScheduledJobDTO;
+import io.tesler.quartz.crudma.dto.ScheduledJobDTO_;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -60,17 +57,17 @@ public class ScheduledJobFieldMetaBuilder extends FieldMetaBuilder<ScheduledJobD
 
 	private void buildRowDependentCommonMeta(RowDependentFieldsMeta<ScheduledJobDTO> fields,
 			InnerBcDescription bcDescription, Long parRowId) {
-		fields.setEnabled(serviceName, cronExpression, active);
-		fields.setRequired(serviceName, cronExpression);
-		fields.setDictionaryTypeWithAllValues(serviceName, DictionaryType.SCHEDULED_SERVICES);
+		fields.setEnabled(ScheduledJobDTO_.serviceName, ScheduledJobDTO_.cronExpression, ScheduledJobDTO_.active);
+		fields.setRequired(ScheduledJobDTO_.serviceName, ScheduledJobDTO_.cronExpression);
+		fields.setDictionaryTypeWithAllValues(ScheduledJobDTO_.serviceName, DictionaryType.SCHEDULED_SERVICES);
 	}
 
 	@Override
 	public void buildIndependentMeta(FieldsMeta<ScheduledJobDTO> fields, InnerBcDescription bcDescription,
 			Long parRowId) {
-		fields.enableFilter(serviceName, active, lastLaunchDate, launchStatusCd);
-		fields.setAllFilterValuesByLovType(serviceName, DictionaryType.SCHEDULED_SERVICES);
-		fields.setConcreteFilterValues(launchStatusCd, getApplicableStatuses());
+		fields.enableFilter(ScheduledJobDTO_.serviceName, ScheduledJobDTO_.active, ScheduledJobDTO_.lastLaunchDate, ScheduledJobDTO_.launchStatusCd);
+		fields.setAllFilterValuesByLovType(ScheduledJobDTO_.serviceName, DictionaryType.SCHEDULED_SERVICES);
+		fields.setConcreteFilterValues(ScheduledJobDTO_.launchStatusCd, getApplicableStatuses());
 	}
 
 	private List<SimpleDictionary> getApplicableStatuses() {

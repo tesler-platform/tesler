@@ -1,6 +1,6 @@
 /*-
  * #%L
- * IO Tesler - Source
+ * IO Tesler - Core
  * %%
  * Copyright (C) 2018 - 2019 Tesler Contributors
  * %%
@@ -18,13 +18,21 @@
  * #L%
  */
 
-package io.tesler.crudma.api;
-
-import io.tesler.core.service.ResponseService;
-import io.tesler.crudma.dto.ScheduledJobDTO;
-import io.tesler.model.core.entity.ScheduledJob;
+package io.tesler.quartz.impl;
 
 
-public interface ScheduledJobService extends ResponseService<ScheduledJobDTO, ScheduledJob> {
+import io.tesler.quartz.model.ScheduledJob;
+
+public interface SchedulerService {
+
+	void scheduleJob(ScheduledJob job);
+
+	void onBoot(ScheduledJob job);
+
+	void removeJob(ScheduledJob job);
+
+	String validateCronExpression(String cronExpression);
+
+	void launchNow(ScheduledJob job);
 
 }

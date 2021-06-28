@@ -18,12 +18,11 @@
  * #L%
  */
 
-package io.tesler.core.ext.quartz;
+package io.tesler.quartz.impl;
 
 import io.tesler.api.service.tx.TransactionService;
-import io.tesler.core.service.SchedulerService;
 import io.tesler.model.core.dao.JpaDao;
-import io.tesler.model.core.entity.ScheduledJob;
+import io.tesler.quartz.model.ScheduledJob;
 import org.quartz.listeners.SchedulerListenerSupport;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;

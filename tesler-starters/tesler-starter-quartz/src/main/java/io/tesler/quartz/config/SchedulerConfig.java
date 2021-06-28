@@ -18,15 +18,16 @@
  * #L%
  */
 
-package io.tesler.core.config;
+package io.tesler.quartz.config;
 
 import com.google.common.base.Objects;
 import io.tesler.core.config.properties.SchedulerProperties;
-import io.tesler.core.ext.quartz.QuartzJobFactory;
-import io.tesler.core.ext.quartz.QuartzSchedulerListener;
 import io.tesler.core.util.db.ProxyAwarePrivilegedDataSource;
 import java.util.Properties;
 import javax.sql.DataSource;
+
+import io.tesler.quartz.impl.QuartzJobFactory;
+import io.tesler.quartz.impl.QuartzSchedulerListener;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;

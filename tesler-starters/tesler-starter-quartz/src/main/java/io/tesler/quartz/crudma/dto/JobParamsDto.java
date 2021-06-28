@@ -18,14 +18,14 @@
  * #L%
  */
 
-package io.tesler.crudma.dto;
+package io.tesler.quartz.crudma.dto;
 
 import static io.tesler.api.data.dictionary.DictionaryType.JOB_PARAM;
 
 import io.tesler.api.data.dto.DataResponseDTO;
 import io.tesler.core.dto.Lov;
-import io.tesler.model.core.entity.JobParams;
-import io.tesler.model.core.entity.ScheduledJob;
+import io.tesler.quartz.model.JobParams;
+import io.tesler.quartz.model.ScheduledJob;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

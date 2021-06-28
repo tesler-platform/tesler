@@ -18,7 +18,7 @@
  * #L%
  */
 
-package io.tesler.model.core.entity;
+package io.tesler.quartz.model;
 
 import io.tesler.api.data.dictionary.LOV;
 import javax.persistence.Column;
@@ -26,25 +26,31 @@ import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
+import io.tesler.model.core.entity.BaseEntity;
+import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Entity
 @Getter
 @Setter
 @EqualsAndHashCode(callSuper = true)
-@Table(name = "JOB_PARAMS")
-public class JobParams extends BaseEntity {
+@Entity
+@Table(name = "SCHEDULED_JOB_PARAM")
+@NoArgsConstructor
+@AllArgsConstructor
+public class ScheduledJobParam extends BaseEntity {
 
 	@ManyToOne
 	@JoinColumn(name = "SCHEDULED_JOB_ID")
-	private ScheduledJob scheduledJob;
+	private ScheduledJob job;
 
-	@Column(name = "JOB_PARAM_CD")
-	private LOV jobParamCd;
+	@Column(name = "PARAM_NAME")
+	private LOV paramName;
 
-	@Column(name = "PARAM_VALUE_NUMBER")
-	private Long paramValueNumber;
+	@Column(name = "PARAM_VALUE")
+	private String paramValue;
 
 }
