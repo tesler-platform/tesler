@@ -46,9 +46,6 @@ io.tesler.core.crudma.ext
 io.tesler.core.crudma.ext.impl
 io.tesler.core.crudma.impl
 io.tesler.core.crudma.impl.inner
-io.tesler.core.crudma.impl.sql
-io.tesler.core.crudma.impl.sql.utils
-io.tesler.core.crudma.impl.sql.utils.debug
 io.tesler.core.crudma.state
 io.tesler.core.crudma.state.impl
 io.tesler.core.dao
@@ -99,12 +96,6 @@ io.tesler.core.ui.model.json.field
 io.tesler.core.ui.model.json.field.subtypes
 io.tesler.core.util
 io.tesler.core.util.db
-io.tesler.core.util.export.base
-io.tesler.core.util.export.base.model
-io.tesler.core.util.export.sql
-io.tesler.core.util.export.sql.db
-io.tesler.core.util.export.sql.query
-io.tesler.core.util.export.sql.transform
 io.tesler.core.util.filter
 io.tesler.core.util.filter.provider
 io.tesler.core.util.filter.provider.impl
@@ -166,3 +157,14 @@ io.tesler.source.services.cache
 io.tesler.source.services.data
 io.tesler.source.services.data.impl
 io.tesler.source.services.meta
+io.tesler.sqlbc.controller
+io.tesler.sqlbc.crudma
+io.tesler.sqlbc.dao
+io.tesler.sqlbc.dao.binds
+io.tesler.sqlbc.exception
+io.tesler.sqlbc.export.base
+io.tesler.sqlbc.export.base.model
+io.tesler.sqlbc.export.sql
+io.tesler.sqlbc.export.sql.db
+io.tesler.sqlbc.export.sql.query
+io.tesler.sqlbc.export.sql.transform
