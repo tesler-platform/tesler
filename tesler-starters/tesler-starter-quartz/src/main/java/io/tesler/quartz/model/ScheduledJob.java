@@ -18,7 +18,7 @@
  * #L%
  */
 
-package io.tesler.model.core.entity;
+package io.tesler.quartz.model;
 
 import io.tesler.api.data.dictionary.LOV;
 import java.time.LocalDateTime;
@@ -27,6 +27,8 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import io.tesler.model.core.entity.BaseEntity;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;

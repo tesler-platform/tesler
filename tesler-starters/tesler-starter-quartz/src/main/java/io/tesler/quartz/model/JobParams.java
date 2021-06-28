@@ -1,6 +1,6 @@
 /*-
  * #%L
- * IO Tesler - Source
+ * IO Tesler - Model Core
  * %%
  * Copyright (C) 2018 - 2019 Tesler Contributors
  * %%
@@ -18,28 +18,35 @@
  * #L%
  */
 
-package io.tesler.crudma.dto;
+package io.tesler.quartz.model;
 
-import io.tesler.api.data.dictionary.DictionaryType;
-import io.tesler.api.data.dto.DataResponseDTO;
-import io.tesler.model.core.entity.ScheduledJobParam;
+import io.tesler.api.data.dictionary.LOV;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
+import io.tesler.model.core.entity.BaseEntity;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+@Entity
 @Getter
 @Setter
-@NoArgsConstructor
-public class ScheduledJobParamDTO extends DataResponseDTO {
+@EqualsAndHashCode(callSuper = true)
+@Table(name = "JOB_PARAMS")
+public class JobParams extends BaseEntity {
 
-	private String paramName;
+	@ManyToOne
+	@JoinColumn(name = "SCHEDULED_JOB_ID")
+	private ScheduledJob scheduledJob;
 
-	private String paramValue;
+	@Column(name = "JOB_PARAM_CD")
+	private LOV jobParamCd;
 
-	public ScheduledJobParamDTO(ScheduledJobParam entity) {
-		this.id = entity.getId().toString();
-		this.paramName = DictionaryType.SCHEDULED_SERVICES_PARAMS.lookupValue(entity.getParamName());
-		this.paramValue = entity.getParamValue();
-	}
+	@Column(name = "PARAM_VALUE_NUMBER")
+	private Long paramValueNumber;
 
 }

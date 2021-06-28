@@ -18,7 +18,7 @@
  * #L%
  */
 
-package io.tesler.crudma.impl;
+package io.tesler.quartz.crudma.service;
 
 import static io.tesler.api.util.i18n.ErrorMessageSource.errorMessage;
 import static io.tesler.api.util.i18n.LocalizationFormatter.uiMessage;
@@ -31,14 +31,13 @@ import io.tesler.core.dto.rowmeta.ActionResultDTO;
 import io.tesler.core.dto.rowmeta.CreateResult;
 import io.tesler.core.dto.rowmeta.PostAction;
 import io.tesler.core.exception.BusinessException;
-import io.tesler.core.service.SchedulerService;
 import io.tesler.core.service.action.Actions;
-import io.tesler.crudma.api.ScheduledJobService;
-import io.tesler.crudma.dto.ScheduledJobDTO;
-import io.tesler.crudma.dto.ScheduledJobDTO_;
-import io.tesler.crudma.meta.ScheduledJobFieldMetaBuilder;
-import io.tesler.model.core.entity.ScheduledJob;
-import io.tesler.model.core.entity.ScheduledJob_;
+import io.tesler.quartz.crudma.dto.ScheduledJobDTO;
+import io.tesler.quartz.crudma.dto.ScheduledJobDTO_;
+import io.tesler.quartz.crudma.meta.ScheduledJobFieldMetaBuilder;
+import io.tesler.quartz.impl.SchedulerService;
+import io.tesler.quartz.model.ScheduledJob;
+import io.tesler.quartz.model.ScheduledJob_;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;

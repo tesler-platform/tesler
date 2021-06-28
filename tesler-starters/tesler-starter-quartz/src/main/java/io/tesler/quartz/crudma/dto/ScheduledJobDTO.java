@@ -18,7 +18,7 @@
  * #L%
  */
 
-package io.tesler.crudma.dto;
+package io.tesler.quartz.crudma.dto;
 
 import io.tesler.api.data.dictionary.DictionaryType;
 import io.tesler.api.data.dictionary.LOV;
@@ -28,9 +28,10 @@ import io.tesler.core.util.filter.SearchParameter;
 import io.tesler.core.util.filter.provider.impl.BooleanValueProvider;
 import io.tesler.core.util.filter.provider.impl.DateValueProvider;
 import io.tesler.core.util.filter.provider.impl.LovValueProvider;
-import io.tesler.model.core.entity.ScheduledJob;
 import java.time.LocalDateTime;
 import java.util.Optional;
+
+import io.tesler.quartz.model.ScheduledJob;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

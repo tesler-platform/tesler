@@ -18,7 +18,7 @@
  * #L%
  */
 
-package io.tesler.core.ext.quartz;
+package io.tesler.quartz.impl;
 
 import org.quartz.DisallowConcurrentExecution;
 import org.quartz.PersistJobDataAfterExecution;
