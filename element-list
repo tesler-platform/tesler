@@ -65,7 +65,6 @@ io.tesler.core.dto.multivalue
 io.tesler.core.dto.rowmeta
 io.tesler.core.event
 io.tesler.core.exception
-io.tesler.core.ext.quartz
 io.tesler.core.metahotreload.conf
 io.tesler.core.metahotreload.conf.properties
 io.tesler.core.metahotreload.dto
@@ -144,6 +143,12 @@ io.tesler.model.ui.entity
 io.tesler.model.ui.listeners.hbn.change.notifications
 io.tesler.model.ui.navigation
 io.tesler.plugin
+io.tesler.quartz.config
+io.tesler.quartz.crudma.dto
+io.tesler.quartz.crudma.meta
+io.tesler.quartz.crudma.service
+io.tesler.quartz.impl
+io.tesler.quartz.model
 io.tesler.source
 io.tesler.source.dto
 io.tesler.source.engine
