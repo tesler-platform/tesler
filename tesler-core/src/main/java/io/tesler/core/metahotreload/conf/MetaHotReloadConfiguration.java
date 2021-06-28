@@ -20,16 +20,12 @@
 
 package io.tesler.core.metahotreload.conf;
 
-import io.tesler.core.metahotreload.conf.properties.MetaConfigurationProperties;
-import io.tesler.core.metahotreload.service.MetaHotReloadService;
-import io.tesler.core.metahotreload.service.MetaResourceReaderService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.tesler.api.service.session.InternalAuthorizationService;
 import io.tesler.api.service.tx.TransactionService;
-import io.tesler.core.metahotreload.service.ScreenAndNavigationGroupAndNavigationViewUtil;
-import io.tesler.core.metahotreload.service.ViewAndViewWidgetUtil;
-import io.tesler.core.metahotreload.service.WidgetPropertyUtil;
-import io.tesler.core.metahotreload.service.WidgetUtil;
+import io.tesler.core.metahotreload.MetaHotReloadService;
+import io.tesler.core.metahotreload.conf.properties.MetaConfigurationProperties;
+import io.tesler.core.metahotreload.service.*;
 import io.tesler.model.core.dao.JpaDao;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -59,7 +55,7 @@ public class MetaHotReloadConfiguration {
 			WidgetPropertyUtil widgetPropertyUtil,
 			ViewAndViewWidgetUtil viewAndViewWidgetUtil,
 			ScreenAndNavigationGroupAndNavigationViewUtil screenAndNavigationGroupAndNavigationViewUtil) {
-		MetaHotReloadService bean = new MetaHotReloadService(
+		return new MetaHotReloadServiceImpl(
 				metaResourceReaderService,
 				authzService,
 				txService,
@@ -68,6 +64,5 @@ public class MetaHotReloadConfiguration {
 				widgetPropertyUtil,
 				viewAndViewWidgetUtil,
 				screenAndNavigationGroupAndNavigationViewUtil);
-		return bean;
 	}
 }
