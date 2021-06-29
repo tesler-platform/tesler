@@ -96,7 +96,7 @@ public abstract class AbstractEntityChangedEventGenerator<E extends BaseEntity> 
 								)
 				)
 				.findFirst().map(EntityManager::getMetamodel).map(metamodel -> metamodel.entity(getType())).orElse(null);
-		return entityType.getAttributes().stream()
+		return Objects.requireNonNull(entityType).getAttributes().stream()
 				.map(a -> new DefaultKeyValue<>(a, getFieldTitle(entityType, a, event)))
 				.filter(kv -> kv.getValue() != null)
 				.collect(Collectors.toMap(DefaultKeyValue::getKey, DefaultKeyValue::getValue));
