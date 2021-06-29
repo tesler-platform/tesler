@@ -46,6 +46,21 @@ import io.tesler.notifications.model.entity.NotificationSettings_;
 import io.tesler.notifications.service.CacheableNotificationSettingsProvider;
 import io.tesler.notifications.service.IDeliveryService;
 import io.tesler.notifications.service.impl.DeliveryServiceRegistry;
+import io.tesler.crudma.api.notifications.NotificationSettingsService;
+import io.tesler.crudma.config.CoreServiceAssociation;
+import io.tesler.crudma.dto.notifications.NotificationSettingsDTO;
+import io.tesler.crudma.dto.notifications.NotificationTemplateDTO_;
+import io.tesler.crudma.meta.notifications.NotificationSettingsFieldMetaBuilder;
+import io.tesler.model.core.entity.notifications.NotificationRecipient;
+import io.tesler.model.core.entity.notifications.NotificationRecipient_;
+import io.tesler.model.core.entity.notifications.NotificationSettings;
+import io.tesler.model.core.entity.notifications.NotificationSettings_;
+import java.beans.PropertyDescriptor;
+import java.lang.reflect.Method;
+import java.util.Map;
+import java.util.Objects;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 import lombok.SneakyThrows;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -298,7 +313,7 @@ public class NotificationSettingsServiceImpl extends
 		if (descriptor == null) {
 			return null;
 		}
-		Method method = BeanUtils.getPropertyDescriptor(dto.getClass(), deliveryType).getReadMethod();
+		Method method = Objects.requireNonNull(BeanUtils.getPropertyDescriptor(dto.getClass(), deliveryType)).getReadMethod();
 		return (Boolean) method.invoke(dto);
 	}
 
@@ -306,7 +321,7 @@ public class NotificationSettingsServiceImpl extends
 	private void setDeliveryType(NotificationSettingsDTO dto, String deliveryType, boolean enabled) {
 		PropertyDescriptor descriptor = BeanUtils.getPropertyDescriptor(dto.getClass(), deliveryType);
 		if (descriptor != null) {
-			Method method = BeanUtils.getPropertyDescriptor(dto.getClass(), deliveryType).getWriteMethod();
+			Method method = Objects.requireNonNull(BeanUtils.getPropertyDescriptor(dto.getClass(), deliveryType)).getWriteMethod();
 			method.invoke(dto, enabled);
 		}
 	}

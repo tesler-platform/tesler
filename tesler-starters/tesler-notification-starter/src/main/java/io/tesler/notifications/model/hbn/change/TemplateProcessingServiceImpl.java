@@ -41,6 +41,7 @@ import java.io.StringWriter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.UUID;
 import javax.persistence.metamodel.Attribute;
 import lombok.Getter;
@@ -138,7 +139,7 @@ public class TemplateProcessingServiceImpl implements TemplateProcessingServiceE
 			return getConfiguration().getTemplate(key);
 		}
 		PropertyDescriptor propertyDescriptor = BeanUtils.getPropertyDescriptor(Hibernate.getClass(entity), attributeName);
-		String template = (String) propertyDescriptor.getReadMethod().invoke(entity);
+		String template = (String) Objects.requireNonNull(propertyDescriptor).getReadMethod().invoke(entity);
 		if (template == null) {
 			template = "";
 		}
