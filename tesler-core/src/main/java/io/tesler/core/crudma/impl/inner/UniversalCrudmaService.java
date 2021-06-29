@@ -20,6 +20,7 @@
 
 package io.tesler.core.crudma.impl.inner;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.tesler.api.data.ResultPage;
 import io.tesler.api.data.dto.DataResponseDTO;
 import io.tesler.api.data.dto.UniversalDTO;
@@ -73,6 +74,9 @@ public abstract class UniversalCrudmaService<D extends UniversalDTO, E> extends 
 	@Autowired
 	private BcUtils bcUtils;
 
+	@Autowired
+	private ObjectMapper objectMapper;
+
 	protected abstract Class<D> getDtoClass();
 
 	protected abstract Class<? extends E> getEntityClass(BusinessComponent bc);
@@ -121,7 +125,7 @@ public abstract class UniversalCrudmaService<D extends UniversalDTO, E> extends 
 	}
 
 	protected EngineFieldsMeta getMeta(BcIdentifier bc, RowMetaType type, D dataDto, boolean visibleOnly) {
-		final EngineFieldsMeta fieldsNode = new EngineFieldsMeta();
+		final EngineFieldsMeta fieldsNode = new EngineFieldsMeta(objectMapper);
 		Set<String> fields = getBCFields(bc, dataDto, visibleOnly);
 		Map<String, Object> values = getValues(dataDto, fields);
 		for (final String dtoField : fields) {

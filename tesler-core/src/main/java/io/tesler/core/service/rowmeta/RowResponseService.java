@@ -20,6 +20,7 @@
 
 package io.tesler.core.service.rowmeta;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.tesler.api.data.dto.DataResponseDTO;
 import io.tesler.api.data.dto.rowmeta.FieldDTO;
 import io.tesler.api.service.PluginAware;
@@ -65,14 +66,17 @@ public class RowResponseService {
 
 	private final Map<String, List<BcDisabler>> bcDisablers;
 
+	private final ObjectMapper objectMapper;
+
 	public RowResponseService(ApplicationContext ctx,
 			Optional<List<BcDisabler>> bcDisablers,
 			Optional<LinkedDictionaryService> linkedDictionaryService,
-			BcUtils bcUtils) {
+			BcUtils bcUtils, ObjectMapper objectMapper) {
 		this.ctx = ctx;
 		this.linkedDictionaryService = linkedDictionaryService.orElse(null);
 		this.bcUtils = bcUtils;
 		this.bcDisablers = new HashMap<>();
+		this.objectMapper = objectMapper;
 		bcDisablers.ifPresent(disablers -> {
 			for (final BcDisabler bcDisabler : disablers) {
 				for (final BcIdentifier bcIdentifier : bcDisabler.getSupportedBc()) {
@@ -132,7 +136,7 @@ public class RowResponseService {
 	}
 
 	public EngineFieldsMeta getMeta(BcIdentifier bc, RowMetaType type, DataResponseDTO dataDto, boolean visibleOnly) {
-		final EngineFieldsMeta fieldsNode = new EngineFieldsMeta();
+		final EngineFieldsMeta fieldsNode = new EngineFieldsMeta(objectMapper);
 		for (final String dtoField : getFields(bc, dataDto, visibleOnly)) {
 			final Field field = FieldUtils.getField(dataDto.getClass(), dtoField, true);
 			if (field == null) {

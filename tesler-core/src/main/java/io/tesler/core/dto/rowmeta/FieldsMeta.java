@@ -22,20 +22,30 @@ package io.tesler.core.dto.rowmeta;
 
 import static io.tesler.api.data.dictionary.DictionaryCache.dictionary;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.tesler.api.data.dictionary.IDictionaryType;
 import io.tesler.api.data.dictionary.LOV;
 import io.tesler.api.data.dictionary.SimpleDictionary;
 import io.tesler.api.data.dto.DataResponseDTO;
 import io.tesler.api.data.dto.rowmeta.IconCode;
 import io.tesler.constgen.DtoField;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
+import javax.annotation.Nullable;
+import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
+
 public class FieldsMeta<T extends DataResponseDTO> extends RowDependentFieldsMeta<T> {
+
+	public FieldsMeta(ObjectMapper objectMapper) {
+		super(objectMapper);
+	}
 
 	/**
 	 * Adds a value to the existing list of filterable values
@@ -71,6 +81,21 @@ public class FieldsMeta<T extends DataResponseDTO> extends RowDependentFieldsMet
 					fieldDTO.clearFilterValues();
 					fieldDTO.setFilterValues(dictDtoList);
 				});
+	}
+
+
+	public <T extends DataResponseDTO, E extends Enum> void setEnumFilterValues(
+			@NonNull FieldsMeta<T> fieldsMeta,
+			@Nullable DtoField<? super T, E> field,
+			@NonNull E... values
+	) {
+		if (field != null) {
+			fieldsMeta.setConcreteFilterValues(field, Arrays
+					.stream(values)
+					.map(en -> new SimpleDictionary(en.name(), serialize(en)))
+					.collect(Collectors.toList())
+			);
+		}
 	}
 
 	@SafeVarargs

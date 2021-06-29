@@ -20,6 +20,7 @@
 
 package io.tesler.core.dto.rowmeta;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.tesler.api.data.dictionary.SimpleDictionary;
 import io.tesler.api.data.dto.DataResponseDTO;
 import java.util.List;
@@ -29,6 +30,10 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class EngineFieldsMeta<T extends DataResponseDTO> extends FieldsMeta<T> {
 
+
+	public EngineFieldsMeta(ObjectMapper objectMapper) {
+		super(objectMapper);
+	}
 
 	public final void addEngineFilterValues(String field, List<SimpleDictionary> valuesList) {
 		Optional.ofNullable(field).map(dtoField -> fields.get(dtoField))
