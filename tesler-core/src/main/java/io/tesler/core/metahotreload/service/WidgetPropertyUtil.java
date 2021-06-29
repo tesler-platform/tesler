@@ -28,7 +28,8 @@ import io.tesler.model.ui.entity.Widget;
 import io.tesler.model.ui.entity.WidgetProperty;
 import java.util.List;
 import java.util.Map;
-import javax.validation.constraints.NotNull;
+
+import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -39,15 +40,15 @@ public class WidgetPropertyUtil {
 	private final JpaDao jpaDao;
 
 	public void process(
-			@NotNull List<WidgetSourceDTO> widgetDtos,
-			@NotNull Map<String, Widget> nameToWidget) {
+			@NonNull List<WidgetSourceDTO> widgetDtos,
+			@NonNull Map<String, Widget> nameToWidget) {
 		widgetDtos.stream()
-				.map(widgetDto -> mapToWidgetProperty(widgetDto, nameToWidget.get(widgetDto.getName())))
+				.map(widgetDto -> mapToWidgetProperty(widgetDto, nameToWidget.get(widgetDto.getWidgetNaturalKey())))
 				.forEach(jpaDao::save);
 	}
 
-	@NotNull
-	private static WidgetProperty mapToWidgetProperty(@NotNull WidgetSourceDTO dto, @NotNull Widget widget) {
+	@NonNull
+	private static WidgetProperty mapToWidgetProperty(@NonNull WidgetSourceDTO dto, @NonNull Widget widget) {
 		return new WidgetProperty()
 				.setWidget(widget)
 				.setIsConclusionType(ofNullable(dto.getIsConclusionWidget()).orElse(false));

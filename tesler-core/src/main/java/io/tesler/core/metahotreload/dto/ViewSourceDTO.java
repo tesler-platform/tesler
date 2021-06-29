@@ -22,6 +22,8 @@ package io.tesler.core.metahotreload.dto;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import java.util.List;
+import java.util.Optional;
+
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -53,6 +55,10 @@ public class ViewSourceDTO {
 	@EqualsAndHashCode(of = "widgetName")
 	public static class ViewWidgetSourceDTO {
 
+		//specify only "widgetName" instead
+		@Deprecated
+		String widgetId;
+
 		private String widgetName;
 
 		private Long position;
@@ -77,6 +83,9 @@ public class ViewSourceDTO {
 
 		private String snippetFile;
 
+		public String getWidgetNaturalKey() {
+			return Optional.ofNullable(this.widgetId).orElse(this.widgetName);
+		}
 	}
 
 }
