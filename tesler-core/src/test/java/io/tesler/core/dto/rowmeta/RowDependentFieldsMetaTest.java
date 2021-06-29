@@ -20,6 +20,7 @@
 
 package io.tesler.core.dto.rowmeta;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.ImmutableList;
 import io.tesler.api.data.dto.DataResponseDTO;
 import io.tesler.api.data.dto.rowmeta.FieldDTO;
@@ -27,11 +28,16 @@ import io.tesler.constgen.DtoField;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 class RowDependentFieldsMetaTest {
+
+	@Mock
+	ObjectMapper objectMapper;
+
 
 	@InjectMocks
 	RowDependentFieldsMeta<DataResponseDTO> rowDependentFieldsMeta;
@@ -43,7 +49,7 @@ class RowDependentFieldsMetaTest {
 
 	@Test
 	void testSetPlaceholder() {
-		rowDependentFieldsMeta = new RowDependentFieldsMeta<>();
+		rowDependentFieldsMeta = new RowDependentFieldsMeta<>(objectMapper);
 		DtoField<DataResponseDTO, FieldDTO> test = new DtoField<>("test");
 		FieldDTO field = ImmutableList.<FieldDTO>builder()
 				.add(FieldDTO.enabledField("test"))

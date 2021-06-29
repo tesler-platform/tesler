@@ -22,6 +22,7 @@ package io.tesler.core.dto.rowmeta;
 
 import static io.tesler.api.data.dictionary.DictionaryCache.dictionary;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.tesler.api.data.dictionary.IDictionaryType;
 import io.tesler.api.data.dictionary.LOV;
 import io.tesler.api.data.dictionary.SimpleDictionary;
@@ -41,10 +42,17 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+import javax.annotation.Nullable;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
+@RequiredArgsConstructor
 public class RowDependentFieldsMeta<T extends DataResponseDTO> extends FieldsDTO {
+
+	private final ObjectMapper objectMapper;
 
 	public FieldDTO get(final DtoField<? super T, ?> field) {
 		return fields.get(field.getName());
@@ -206,6 +214,26 @@ public class RowDependentFieldsMeta<T extends DataResponseDTO> extends FieldsDTO
 					fieldDTO.clearValues();
 					fieldDTO.setValues(dictDtoList);
 				});
+	}
+
+	public <T extends DataResponseDTO, E extends Enum> void setAllEnumValues(
+			@NonNull RowDependentFieldsMeta<T> fieldsMeta,
+			@Nullable DtoField<T, E> field,
+			@NonNull E... values
+	) {
+		if (field != null) {
+			fieldsMeta.setConcreteValues(field, Arrays
+					.stream(values)
+					.map(en -> new SimpleDictionary(en.name(), serialize(en)))
+					.collect(Collectors.toList())
+			);
+		}
+	}
+
+	@SneakyThrows
+	String serialize(@NonNull Enum<?> en) {
+		final String serialize = objectMapper.writeValueAsString(en);
+		return serialize.substring(1, serialize.length() - 1);
 	}
 
 	public final void setDrilldown(DtoField<? super T, ?> field, DrillDownTypeSpecifier drillDownType, String drillDown) {

@@ -20,6 +20,7 @@
 
 package io.tesler.sqlbc.crudma;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.tesler.api.data.ResultPage;
 import io.tesler.api.data.dto.rowmeta.FieldDTO;
 import io.tesler.api.data.dto.rowmeta.FieldsDTO;
@@ -90,6 +91,8 @@ public class SqlCrudmaService extends AbstractCrudmaService {
 	private final SessionService sessionService;
 
 	private final SqlNamedParameterQueryBinder sqlNamedParameterQueryBinder;
+
+	private final ObjectMapper objectMapper;
 
 	@Qualifier("primaryDatabase")
 	private final Database primaryDatabase;
@@ -271,7 +274,7 @@ public class SqlCrudmaService extends AbstractCrudmaService {
 						: FieldDTO.disabledFilterableField(field.getFieldName())
 				)
 				.collect(Collectors.toList());
-		EngineFieldsMeta meta = new EngineFieldsMeta();
+		EngineFieldsMeta meta = new EngineFieldsMeta(objectMapper);
 		fields.forEach(meta::add);
 		linkedDictionaryService.ifPresent(
 				linkedDictSrvc -> linkedDictSrvc.fillRowMetaWithLinkedDictionaries(meta, bc, false)
