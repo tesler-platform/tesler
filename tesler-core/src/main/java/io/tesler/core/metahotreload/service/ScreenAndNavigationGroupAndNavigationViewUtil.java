@@ -34,7 +34,8 @@ import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicInteger;
 import javax.annotation.Nullable;
-import javax.validation.constraints.NotNull;
+
+import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -47,7 +48,7 @@ public class ScreenAndNavigationGroupAndNavigationViewUtil {
 	private final ObjectMapper objMapper;
 
 	public void process(
-			@NotNull List<ScreenSourceDto> screenDtos) {
+			@NonNull List<ScreenSourceDto> screenDtos) {
 		screenDtos.forEach(scr -> {
 			jpaDao.save(mapToScreen(objMapper, scr));
 			if (scr.getNavigation() != null && scr.getNavigation().getMenu() != null) {
@@ -58,10 +59,10 @@ public class ScreenAndNavigationGroupAndNavigationViewUtil {
 		});
 	}
 
-	@NotNull
+	@NonNull
 	private static Screen mapToScreen(
-			@NotNull ObjectMapper objectMapper,
-			@NotNull ScreenSourceDto screenSourceDto) {
+			@NonNull ObjectMapper objectMapper,
+			@NonNull ScreenSourceDto screenSourceDto) {
 		return new Screen()
 				.setName(screenSourceDto.getName())
 				.setTitle(screenSourceDto.getTitle())
@@ -69,11 +70,11 @@ public class ScreenAndNavigationGroupAndNavigationViewUtil {
 				.setPrimaries(serializeOrElseNull(objectMapper, screenSourceDto.getPrimaryViews()));
 	}
 
-	private static void dfs(@NotNull String screenName,
-			@NotNull AtomicInteger seq,
+	private static void dfs(@NonNull String screenName,
+													@NonNull AtomicInteger seq,
 			@Nullable NavigationGroup parent,
-			@NotNull ScreenSourceDto.ScreenNavigationSourceDto.MenuItemSourceDto menuDto,
-			@NotNull JpaDao jpaDao) {
+													@NonNull ScreenSourceDto.ScreenNavigationSourceDto.MenuItemSourceDto menuDto,
+													@NonNull JpaDao jpaDao) {
 		if (menuDto.getChild() != null && !menuDto.getChild().isEmpty()) {
 			NavigationGroup navigationGroup = mapToNavigationGroup(screenName, seq.get(), parent, menuDto);
 			jpaDao.save(navigationGroup);
@@ -85,12 +86,12 @@ public class ScreenAndNavigationGroupAndNavigationViewUtil {
 		}
 	}
 
-	@NotNull
+	@NonNull
 	private static NavigationGroup mapToNavigationGroup(
-			@NotNull String screenName,
+			@NonNull String screenName,
 			int seq,
 			@Nullable NavigationGroup parentNavigationGroup,
-			@NotNull ScreenSourceDto.ScreenNavigationSourceDto.MenuItemSourceDto menu) {
+			@NonNull ScreenSourceDto.ScreenNavigationSourceDto.MenuItemSourceDto menu) {
 		return new NavigationGroup()
 				.setId(UUID.randomUUID().toString().replace("-", ""))
 				.setTypeCd(CoreDictionaries.ViewGroupType.NAVIGATION)
@@ -103,12 +104,12 @@ public class ScreenAndNavigationGroupAndNavigationViewUtil {
 				.setHidden(ofNullable(menu.getHidden()).orElse(false));
 	}
 
-	@NotNull
+	@NonNull
 	private static NavigationView mapToNavigationView(
-			@NotNull String screenName,
+			@NonNull String screenName,
 			int seq,
 			@Nullable NavigationGroup parentGroup,
-			@NotNull ScreenSourceDto.ScreenNavigationSourceDto.MenuItemSourceDto menuDto) {
+			@NonNull ScreenSourceDto.ScreenNavigationSourceDto.MenuItemSourceDto menuDto) {
 		return new NavigationView()
 				.setId(UUID.randomUUID().toString().replace("-", ""))
 				.setViewName(menuDto.getViewName())
