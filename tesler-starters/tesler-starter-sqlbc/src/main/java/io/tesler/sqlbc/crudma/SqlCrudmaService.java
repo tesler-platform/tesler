@@ -92,6 +92,7 @@ public class SqlCrudmaService extends AbstractCrudmaService {
 
 	private final SqlNamedParameterQueryBinder sqlNamedParameterQueryBinder;
 
+	@Qualifier("teslerObjectMapper")
 	private final ObjectMapper objectMapper;
 
 	@Qualifier("primaryDatabase")
