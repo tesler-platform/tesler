@@ -29,7 +29,6 @@ import io.tesler.notifications.model.entity.NotificationSettings;
 import io.tesler.notifications.model.entity.NotificationSettings_;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.jpa.domain.Specification;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -39,7 +38,6 @@ import static io.tesler.notifications.dictionary.NotificationDictionaries.Notifi
 
 
 @RequiredArgsConstructor
-@Service
 public class BaseNotificationSettingsProvider implements NotificationSettingsProvider {
 
 	private final JpaDao jpaDao;
