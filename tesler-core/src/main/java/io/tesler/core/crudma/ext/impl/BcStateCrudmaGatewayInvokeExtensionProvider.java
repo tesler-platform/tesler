@@ -23,6 +23,7 @@ package io.tesler.core.crudma.ext.impl;
 import io.tesler.api.data.dto.DataResponseDTO;
 import io.tesler.api.data.dto.DataResponseDTO_;
 import io.tesler.api.data.dto.rowmeta.ActionDTO;
+import io.tesler.api.data.dto.rowmeta.FieldDTO;
 import io.tesler.api.util.Invoker;
 import io.tesler.core.controller.BCFactory;
 import io.tesler.core.controller.param.QueryParameters;
@@ -123,16 +124,6 @@ public class BcStateCrudmaGatewayInvokeExtensionProvider implements CrudmaGatewa
 			}
 		}
 
-		if (CrudmaActionType.META.equals(crudmaAction.getActionType()) && bcStateAware.getState(bc) != null) {
-			MetaDTO meta = (MetaDTO) invokeResult;
-			if (bcStateAware.getState(bc).getDto().getVstamp() < Long.parseLong(
-					meta.getRow().getFields().get(DataResponseDTO_.vstamp.getName()).getCurrentValue().toString())) {
-
-				meta.getRow().getFields().get(DataResponseDTO_.vstamp.getName())
-						.setCurrentValue(bcStateAware.getState(bc).getDto().getVstamp());
-			}
-		}
-
 		if (!bcStateAware.isPersisted(bc)) {
 			if (CrudmaActionType.META.equals(crudmaAction.getActionType())) {
 				MetaDTO meta = (MetaDTO) invokeResult;
@@ -142,6 +133,15 @@ public class BcStateCrudmaGatewayInvokeExtensionProvider implements CrudmaGatewa
 				DataResponseDTO result = (DataResponseDTO) invokeResult;
 				if (result != null) {
 					result.setVstamp(-1L);
+				}
+			}
+		} else {
+			final CrudmaActionType actionType = crudmaAction.getActionType();
+			if (CrudmaActionType.META.equals(actionType) && bcStateAware.getState(bc) != null && bcStateAware.getState(bc).getDto() != null) {
+				MetaDTO meta = (MetaDTO) invokeResult;
+				final FieldDTO vstampField = meta.getRow().getFields().get(DataResponseDTO_.vstamp.getName());
+				if (vstampField != null && bcStateAware.getState(bc).getDto().getVstamp() < Long.parseLong(vstampField.getCurrentValue().toString())) {
+					vstampField.setCurrentValue(bcStateAware.getState(bc).getDto().getVstamp());
 				}
 			}
 		}
