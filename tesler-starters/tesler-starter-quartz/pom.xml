@@ -5,13 +5,13 @@
   <parent>
     <groupId>io.tesler</groupId>
     <artifactId>tesler-base</artifactId>
-    <version>3.0.0.M13.1-SNAPSHOT</version>
+    <version>3.0.0.M13.2-SNAPSHOT</version>
     <relativePath>../../tesler-base/pom.xml</relativePath>
   </parent>
   <modelVersion>4.0.0</modelVersion>
   <artifactId>tesler-starter-quartz</artifactId>
   <packaging>jar</packaging>
-  <version>3.0.0.M13.1-SNAPSHOT</version>
+  <version>3.0.0.M13.2-SNAPSHOT</version>
   <name>IO Tesler Starter - Quartz extension</name>
 
   <properties>

@@ -46,37 +46,23 @@ import io.tesler.notifications.model.entity.NotificationSettings_;
 import io.tesler.notifications.service.CacheableNotificationSettingsProvider;
 import io.tesler.notifications.service.IDeliveryService;
 import io.tesler.notifications.service.impl.DeliveryServiceRegistry;
-import io.tesler.crudma.api.notifications.NotificationSettingsService;
-import io.tesler.crudma.config.CoreServiceAssociation;
-import io.tesler.crudma.dto.notifications.NotificationSettingsDTO;
-import io.tesler.crudma.dto.notifications.NotificationTemplateDTO_;
-import io.tesler.crudma.meta.notifications.NotificationSettingsFieldMetaBuilder;
-import io.tesler.model.core.entity.notifications.NotificationRecipient;
-import io.tesler.model.core.entity.notifications.NotificationRecipient_;
-import io.tesler.model.core.entity.notifications.NotificationSettings;
-import io.tesler.model.core.entity.notifications.NotificationSettings_;
+
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.Method;
 import java.util.Map;
 import java.util.Objects;
 import java.util.function.Function;
 import java.util.stream.Collectors;
+
 import lombok.SneakyThrows;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
-import java.beans.PropertyDescriptor;
-import java.lang.reflect.Method;
-import java.util.Map;
-import java.util.function.Function;
-import java.util.stream.Collectors;
-
 import static io.tesler.api.util.i18n.ErrorMessageSource.errorMessage;
 import static io.tesler.notifications.dictionary.NotificationDictionaries.NotificationSettingsType.GLOBAL;
 import static io.tesler.notifications.dictionary.NotificationDictionaries.NotificationSettingsType.PERSONAL;
-
 
 @Service
 public class NotificationSettingsServiceImpl extends
