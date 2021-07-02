@@ -45,6 +45,7 @@ import java.util.stream.Collectors;
 import lombok.EqualsAndHashCode;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.UtilityClass;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -52,6 +53,7 @@ import org.springframework.stereotype.Component;
 @EqualsAndHashCode(callSuper = false)
 public class EnumValueProvider extends AbstractClassifyDataProvider implements ClassifyDataProvider {
 
+	@Qualifier("teslerObjectMapper")
 	private final ObjectMapper objectMapper;
 
 	@Override

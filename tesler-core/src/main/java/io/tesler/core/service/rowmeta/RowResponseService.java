@@ -48,6 +48,7 @@ import java.util.stream.Collectors;
 import io.tesler.core.util.InstrumentationAwareReflectionUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.reflect.FieldUtils;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -66,6 +67,7 @@ public class RowResponseService {
 
 	private final Map<String, List<BcDisabler>> bcDisablers;
 
+	@Qualifier("teslerObjectMapper")
 	private final ObjectMapper objectMapper;
 
 	public RowResponseService(ApplicationContext ctx,

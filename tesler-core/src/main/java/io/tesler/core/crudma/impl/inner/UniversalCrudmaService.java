@@ -59,6 +59,7 @@ import javax.persistence.metamodel.EntityType;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.cglib.beans.BeanGenerator;
 
 
@@ -75,6 +76,7 @@ public abstract class UniversalCrudmaService<D extends UniversalDTO, E> extends 
 	private BcUtils bcUtils;
 
 	@Autowired
+	@Qualifier("teslerObjectMapper")
 	private ObjectMapper objectMapper;
 
 	protected abstract Class<D> getDtoClass();
