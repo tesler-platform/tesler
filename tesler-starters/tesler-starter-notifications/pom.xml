@@ -5,13 +5,13 @@
     <parent>
         <groupId>io.tesler</groupId>
         <artifactId>tesler-base</artifactId>
-        <version>3.0.0.M13.3-SNAPSHOT</version>
+        <version>3.0.0.M13.5-SNAPSHOT</version>
         <relativePath>../../tesler-base/pom.xml</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <artifactId>tesler-starter-notifications</artifactId>
     <packaging>jar</packaging>
-    <version>3.0.0.M13.3-SNAPSHOT</version>
+    <version>3.0.0.M13.5-SNAPSHOT</version>
     <name>IO Tesler - Notifications extension</name>
 
     <properties>
