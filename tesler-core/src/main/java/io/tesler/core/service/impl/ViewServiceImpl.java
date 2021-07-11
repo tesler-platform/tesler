@@ -245,8 +245,8 @@ public class ViewServiceImpl implements ViewService {
 			BcDescription bcDescription = bcRegistry.getBcDescription(dto.getName());
 			dto.setParentName(bcDescription.getParentName());
 			dto.setRefresh(bcDescription.isRefresh());
-			dto.setBinds(bcDescription.getBindsString());
-			dto.setLimit(bcDescription.getPageLimit());
+			/*dto.setBinds(bcDescription.getBindsString());
+			dto.setLimit(bcDescription.getPageLimit());*/
 		});
 	}
 
