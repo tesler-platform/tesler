@@ -228,7 +228,10 @@ public class ViewServiceImpl implements ViewService {
 
 	private void setBcId(BusinessComponentDTO dto) {
 		BcDescription description = bcRegistry.getBcDescription(dto.getName());
-		dto.setId(description.getId());
+		if (description != null) {
+			//TODO>>used only for sql bc. Delete after refactoring
+			Optional.ofNullable(description.getId()).ifPresent(dto::setId);
+		}
 	}
 
 	private void setBcParameters(final BusinessObjectDTO boDto) {
@@ -243,10 +246,14 @@ public class ViewServiceImpl implements ViewService {
 				Optional.ofNullable(bcProperties.getDimFilterSpec()).ifPresent(dto::setDimFilterSpec);
 			}
 			BcDescription bcDescription = bcRegistry.getBcDescription(dto.getName());
-			dto.setParentName(bcDescription.getParentName());
-			dto.setRefresh(bcDescription.isRefresh());
-			/*dto.setBinds(bcDescription.getBindsString());
-			dto.setLimit(bcDescription.getPageLimit());*/
+			if (bcDescription != null) {
+				Optional.ofNullable(bcDescription.getParentName()).ifPresent(dto::setParentName);
+				Optional.ofNullable(bcDescription.isRefresh()).ifPresent(dto::setRefresh);
+
+				//TODO>>used only for sql bc. Delete after refactoring
+				Optional.ofNullable(bcDescription.getBindsString()).ifPresent(dto::setBinds);
+				Optional.ofNullable(bcDescription.getPageLimit()).ifPresent(dto::setLimit);
+			}
 		});
 	}
 
