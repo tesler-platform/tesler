@@ -25,6 +25,7 @@ import io.tesler.model.core.dao.JpaDao;
 import io.tesler.notifications.api.EventSettings;
 import io.tesler.notifications.api.NotificationSettingsProvider;
 import io.tesler.notifications.api.Recipient;
+import io.tesler.notifications.dictionary.NotificationDictionaries;
 import io.tesler.notifications.model.entity.NotificationSettings;
 import io.tesler.notifications.model.entity.NotificationSettings_;
 import lombok.RequiredArgsConstructor;
@@ -32,10 +33,6 @@ import org.springframework.data.jpa.domain.Specification;
 
 import java.util.List;
 import java.util.stream.Collectors;
-
-import static io.tesler.notifications.dictionary.NotificationDictionaries.NotificationSettingsType.GLOBAL;
-import static io.tesler.notifications.dictionary.NotificationDictionaries.NotificationSettingsType.PERSONAL;
-
 
 @RequiredArgsConstructor
 public class BaseNotificationSettingsProvider implements NotificationSettingsProvider {
@@ -46,7 +43,7 @@ public class BaseNotificationSettingsProvider implements NotificationSettingsPro
 	public EventSettings getGlobalSettings(LOV event) {
 		Specification<NotificationSettings> specification = (root, cq, cb) -> cb.and(
 				cb.equal(root.get(NotificationSettings_.eventName), event),
-				cb.equal(root.get(NotificationSettings_.settingsType), GLOBAL)
+				cb.equal(root.get(NotificationSettings_.settingsType), NotificationDictionaries.NotificationSettingsType.GLOBAL)
 		);
 		NotificationSettings settings = jpaDao.getFirstResultOrNull(NotificationSettings.class, specification);
 		if (settings == null) {
@@ -59,7 +56,7 @@ public class BaseNotificationSettingsProvider implements NotificationSettingsPro
 	public EventSettings getUserSettings(LOV event, Long userId) {
 		Specification<NotificationSettings> specification = (root, cq, cb) -> cb.and(
 				cb.equal(root.get(NotificationSettings_.eventName), event),
-				cb.equal(root.get(NotificationSettings_.settingsType), PERSONAL),
+				cb.equal(root.get(NotificationSettings_.settingsType), NotificationDictionaries.NotificationSettingsType.PERSONAL),
 				cb.equal(root.get(NotificationSettings_.userId), userId)
 		);
 		NotificationSettings settings = jpaDao.getFirstResultOrNull(NotificationSettings.class, specification);

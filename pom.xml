@@ -294,7 +294,8 @@
     <module>tesler-archetypes</module>
     <module>tesler-starters/tesler-starter-sqlbc</module>
     <module>tesler-starters/tesler-starter-quartz</module>
-    <module>tesler-starters/tesler-starter-notifications</module>
+    <module>tesler-starters/tesler-starter-notifications/tesler-starter-notifications</module>
+    <module>tesler-starters/tesler-starter-notifications/tesler-starter-notifications-model</module>
   </modules>
 
 </project>
