@@ -35,6 +35,7 @@ import java.util.Map;
 
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -43,6 +44,7 @@ public class ViewAndViewWidgetUtil {
 
 	private final JpaDao jpaDao;
 
+	@Qualifier("teslerObjectMapper")
 	private final ObjectMapper objMapper;
 
 	public void process(

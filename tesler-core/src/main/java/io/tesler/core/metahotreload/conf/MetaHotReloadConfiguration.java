@@ -54,7 +54,8 @@ public class MetaHotReloadConfiguration {
 			WidgetUtil widgetUtil,
 			WidgetPropertyUtil widgetPropertyUtil,
 			ViewAndViewWidgetUtil viewAndViewWidgetUtil,
-			ScreenAndNavigationGroupAndNavigationViewUtil screenAndNavigationGroupAndNavigationViewUtil) {
+			ScreenAndNavigationGroupAndNavigationViewUtil screenAndNavigationGroupAndNavigationViewUtil,
+			BcUtil bcUtil) {
 		return new MetaHotReloadServiceImpl(
 				metaResourceReaderService,
 				authzService,
@@ -63,6 +64,7 @@ public class MetaHotReloadConfiguration {
 				widgetUtil,
 				widgetPropertyUtil,
 				viewAndViewWidgetUtil,
-				screenAndNavigationGroupAndNavigationViewUtil);
+				screenAndNavigationGroupAndNavigationViewUtil,
+				bcUtil);
 	}
 }
