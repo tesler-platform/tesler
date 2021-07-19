@@ -22,10 +22,12 @@ package io.tesler.core.metahotreload.service;
 
 import io.tesler.core.metahotreload.conf.properties.MetaConfigurationProperties;
 import io.tesler.core.metahotreload.dto.ScreenSourceDto;
+import io.tesler.core.metahotreload.dto.BcSourceDTO;
 import io.tesler.core.metahotreload.dto.ViewSourceDTO;
 import io.tesler.core.metahotreload.dto.WidgetSourceDTO;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
@@ -34,6 +36,9 @@ import java.util.stream.Collectors;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
+import org.apache.commons.lang3.tuple.Pair;
+import org.jetbrains.annotations.NotNull;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationContext;
 import org.springframework.core.io.Resource;
 
@@ -44,26 +49,51 @@ public class MetaResourceReaderService {
 
 	final MetaConfigurationProperties config;
 
+	@Qualifier("teslerObjectMapper")
 	final ObjectMapper objMapper;
 
 	@NonNull
 	public List<ScreenSourceDto> getScreens() {
-		return readFilesToDto(ScreenSourceDto.class, config.getDirectory() + config.getScreenPath());
+		return readFilesToDto(ScreenSourceDto.class, config.getDirectory() + config.getScreenPath())
+				.stream()
+				.map(Pair::getLeft)
+				.collect(Collectors.toList());
 	}
 
 	@NonNull
 	public List<ViewSourceDTO> getViews() {
-		return readFilesToDto(ViewSourceDTO.class, config.getDirectory() + config.getViewPath());
+		return readFilesToDto(ViewSourceDTO.class, config.getDirectory() + config.getViewPath())
+				.stream()
+				.map(Pair::getLeft)
+				.collect(Collectors.toList());
 	}
 
 	@NonNull
 	public List<WidgetSourceDTO> getWidgets() {
-		return readFilesToDto(WidgetSourceDTO.class, config.getDirectory() + config.getWidgetPath());
+		return readFilesToDto(WidgetSourceDTO.class, config.getDirectory() + config.getWidgetPath())
+				.stream()
+				.map(Pair::getLeft)
+				.collect(Collectors.toList());
+	}
+
+	@NonNull
+	public List<BcSourceDTO> getBcs() {
+		final List<Pair<BcSourceDTO, Resource>> pairs = readFilesToDto(BcSourceDTO.class, config.getDirectory() + config.getBcPath());
+		pairs.forEach(pair -> {
+			final BcSourceDTO dto = pair.getLeft();
+			final Resource resource = pair.getRight();
+			final String query = readRelativeResource(resource, new File(dto.getQueryFile()).getName()).lines().collect(Collectors.joining("\n"));
+			dto.setQuery(query);
+		});
+		return pairs
+				.stream()
+				.map(Pair::getLeft)
+				.collect(Collectors.toList());
 	}
 
 	@NonNull
 	@SneakyThrows
-	private <T> List<T> readFilesToDto(@NonNull Class<T> clazz, @NonNull String locationPattern) {
+	private <T> List<Pair<T, Resource>> readFilesToDto(@NonNull Class<T> clazz, @NonNull String locationPattern) {
 		return Arrays.stream(applicationContext.getResources(locationPattern))
 				.map(resource -> readDto(resource, clazz))
 				.collect(Collectors.toList());
@@ -71,7 +101,22 @@ public class MetaResourceReaderService {
 
 	@NonNull
 	@SneakyThrows
-	private <T> T readDto(@NonNull Resource resource, @NonNull Class<T> valueType) {
-		return objMapper.readValue(new BufferedReader(new InputStreamReader(resource.getInputStream(), StandardCharsets.UTF_8)), valueType);
+	private <T> Pair<T, Resource> readDto(@NonNull Resource resource, @NonNull Class<T> valueType) {
+		return Pair.of(objMapper.readValue(readResource(resource), valueType), resource);
 	}
+
+	@NotNull
+	@SneakyThrows
+	private BufferedReader readRelativeResource(@NotNull Resource resource, @NonNull String relativeFileName) {
+		final Resource relative = resource.createRelative(relativeFileName);
+		return readResource(relative);
+	}
+
+	@NotNull
+	@SneakyThrows
+	private BufferedReader readResource(@NotNull Resource resource) {
+		return new BufferedReader(new InputStreamReader(resource.getInputStream(), StandardCharsets.UTF_8));
+	}
+
+
 }

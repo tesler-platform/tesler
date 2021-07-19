@@ -25,6 +25,7 @@ import io.tesler.api.service.tx.TransactionService;
 import io.tesler.api.util.privileges.PrivilegeUtil;
 import io.tesler.core.metahotreload.MetaHotReloadService;
 import io.tesler.core.metahotreload.dto.ScreenSourceDto;
+import io.tesler.core.metahotreload.dto.BcSourceDTO;
 import io.tesler.core.metahotreload.dto.ViewSourceDTO;
 import io.tesler.core.metahotreload.dto.WidgetSourceDTO;
 import io.tesler.model.core.dao.JpaDao;
@@ -58,6 +59,8 @@ public class MetaHotReloadServiceImpl implements MetaHotReloadService {
 
 	protected final ScreenAndNavigationGroupAndNavigationViewUtil screenAndNavigationGroupAndNavigationViewUtil;
 
+	protected final BcUtil bcUtil;
+
 	private static void deleteAllMeta(@NotNull JpaDao jpaDao) {
 		jpaDao.delete(NavigationView.class, (root, query, cb) -> cb.and());
 		jpaDao.delete(NavigationGroup.class, (root, query, cb) -> cb.and());
@@ -66,9 +69,11 @@ public class MetaHotReloadServiceImpl implements MetaHotReloadService {
 		jpaDao.delete(View.class, (root, query, cb) -> cb.and());
 		jpaDao.delete(WidgetProperty.class, (root, query, cb) -> cb.and());
 		jpaDao.delete(Widget.class, (root, query, cb) -> cb.and());
+		jpaDao.delete(Bc.class, (root, query, cb) -> cb.and());
 	}
 
 	public final void loadMeta() {
+		List<BcSourceDTO> bcDtos = metaResourceReaderService.getBcs();
 		List<ScreenSourceDto> screenDtos = metaResourceReaderService.getScreens();
 		List<WidgetSourceDTO> widgetDtos = metaResourceReaderService.getWidgets();
 		List<ViewSourceDTO> viewDtos = metaResourceReaderService.getViews();
@@ -79,6 +84,7 @@ public class MetaHotReloadServiceImpl implements MetaHotReloadService {
 			txService.invokeInTx(() -> {
 				loadMetaPreProcess(widgetDtos, viewDtos, screenDtos);
 				deleteAllMeta(jpaDao);
+				bcUtil.process(bcDtos);
 				Map<String, Widget> nameToWidget = widgetUtil.process(widgetDtos);
 				widgetPropertyUtil.process(widgetDtos, nameToWidget);
 				viewAndViewWidgetUtil.process(viewDtos, nameToWidget);

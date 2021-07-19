@@ -37,6 +37,7 @@ import javax.annotation.Nullable;
 
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -45,6 +46,7 @@ public class ScreenAndNavigationGroupAndNavigationViewUtil {
 
 	private final JpaDao jpaDao;
 
+	@Qualifier("teslerObjectMapper")
 	private final ObjectMapper objMapper;
 
 	public void process(
