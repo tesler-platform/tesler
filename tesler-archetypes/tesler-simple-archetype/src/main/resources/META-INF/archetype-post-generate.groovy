@@ -10,3 +10,8 @@ def cmd = ["${launcher}", "create-react-app", "${request.outputDirectory}/${requ
 def proc = cmd.execute(null, new File(request.outputDirectory))
 proc.consumeProcessOutput(System.out, System.err)
 proc.waitFor()
+
+def cmd2 = ["mvn install -f ${artifactId}/pom.xml -P UI"]
+def proc2 = cmd2.execute(null, new File(request.outputDirectory))
+proc2.consumeProcessOutput(System.out, System.err)
+proc2.waitFor()
