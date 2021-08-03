@@ -48,4 +48,7 @@ public class MetaConfigurationProperties {
 	@NotBlank(message = "Path to screen files from MetaConfigurationProperties.directory")
 	private String screenPath = "/**/*.screen.json";
 
+	@NotBlank(message = "Path to sqlbc files from MetaConfigurationProperties.directory")
+	private String bcPath = "/**/*.sqlbc.json";
+
 }
