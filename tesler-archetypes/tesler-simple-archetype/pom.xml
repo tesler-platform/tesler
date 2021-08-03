@@ -9,7 +9,7 @@
   <parent>
     <groupId>io.tesler</groupId>
     <artifactId>tesler-archetypes</artifactId>
-    <version>3.0.0.M14.1-SNAPSHOT</version>
+    <version>3.0.0.0</version>
     <relativePath>../pom.xml</relativePath>
   </parent>
 
