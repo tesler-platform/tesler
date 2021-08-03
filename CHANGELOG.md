@@ -14,24 +14,24 @@
 
 ## Non-breaking features
 
-* Created tesler-parent module for all project based on tesler [#156](https://github.com/tesler-platform/tesler/pull/156) 
+* Created tesler-parent module for all projects based on tesler [#156](https://github.com/tesler-platform/tesler/pull/156) 
 * Added ability to use enums instead of LOV's [#160](https://github.com/tesler-platform/tesler/pull/160)
 * Extend state with crudma action that invokes state saving [#118](https://github.com/tesler-platform/tesler/pull/118)
 * Custom Action now can be invoked without id [#119](https://github.com/tesler-platform/tesler/pull/119)
 * Drill down types now can be extended [#121](https://github.com/tesler-platform/tesler/pull/121)
-* Support `spring-session` library to work with shared state [#123](https://github.com/tesler-platform/tesler/pull/123) [#124](https://github.com/tesler-platform/tesler/pull/124)
+* Support `spring-session` library for clustered environments (e.g. having >1 app node) [#123](https://github.com/tesler-platform/tesler/pull/123) [#124](https://github.com/tesler-platform/tesler/pull/124)
 * Extend ExceptionHandler's with stacktrace [#127](https://github.com/tesler-platform/tesler/pull/127)
 * Added `option` field in `row-meta` API [#128](https://github.com/tesler-platform/tesler/pull/128)
 * Extend action groups with icons [#129](https://github.com/tesler-platform/tesler/pull/129)
 * Created tesler-starter module abstraction [#133](https://github.com/tesler-platform/tesler/pull/133)
-* Added hibernate dirty-checking [#144](https://github.com/tesler-platform/tesler/pull/144)
+* Added hibernate dirty-checking compile-time optimization [#144](https://github.com/tesler-platform/tesler/pull/144)
 
 ## Fixes
 
 * Fixed dates filtering [#122](https://github.com/tesler-platform/tesler/pull/122)
 * Fixed multivalue fields filtering [#125](https://github.com/tesler-platform/tesler/pull/125) [#126](https://github.com/tesler-platform/tesler/pull/126)
 * Disabled sort in count query [#138](https://github.com/tesler-platform/tesler/pull/138)
-* Improved SQL sequences management for BATCH inserts [#170](https://github.com/tesler-platform/tesler/pull/170)
+* Improved SQL sequences management for BATCH inserts [#170](https://github.com/tesler-platform/tesler/pull/141)
 * Fixed support of lazy fields in hibernate [#145](https://github.com/tesler-platform/tesler/pull/145)
 
 ## Other
