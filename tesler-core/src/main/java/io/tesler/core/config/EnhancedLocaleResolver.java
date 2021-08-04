@@ -25,11 +25,8 @@ import io.tesler.api.service.session.CoreSessionService;
 import java.util.Locale;
 import java.util.TimeZone;
 import javax.servlet.http.HttpServletRequest;
-import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.i18n.CookieLocaleResolver;
 
-
-@Component
 public class EnhancedLocaleResolver extends CookieLocaleResolver {
 
 	private final CoreSessionService coreSessionService;

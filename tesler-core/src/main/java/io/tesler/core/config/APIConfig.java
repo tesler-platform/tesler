@@ -21,6 +21,8 @@
 package io.tesler.core.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.tesler.api.service.LocaleService;
+import io.tesler.api.service.session.CoreSessionService;
 import io.tesler.core.controller.http.FillLogParametersInterceptor;
 import io.tesler.core.controller.param.resolvers.LocaleParameterArgumentResolver;
 import io.tesler.core.controller.param.resolvers.PageParameterArgumentResolver;
@@ -37,6 +39,8 @@ import org.springframework.http.converter.json.MappingJackson2HttpMessageConvert
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.multipart.MultipartResolver;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
+import org.springframework.web.servlet.DispatcherServlet;
+import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -76,6 +80,11 @@ public class APIConfig implements WebMvcConfigurer {
 		resolver.setMaxUploadSize(268435456L);
 		resolver.setDefaultEncoding(StandardCharsets.UTF_8.name());
 		return resolver;
+	}
+
+	@Bean(name = DispatcherServlet.LOCALE_RESOLVER_BEAN_NAME)
+	public LocaleResolver localeResolver(CoreSessionService coreSessionService, LocaleService localeService) {
+		return new EnhancedLocaleResolver(coreSessionService, localeService);
 	}
 
 }
