@@ -23,10 +23,12 @@ package io.tesler.model.core.listeners.hbn.change.security;
 import io.tesler.api.data.dao.databaselistener.IChangeVector;
 import io.tesler.api.data.dictionary.LOV;
 import io.tesler.model.core.entity.security.GroupDirectGroupRelation;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Service;
 
 
 @Service
+@ConditionalOnProperty(value = "tesler.security.group-direct-group-relation-change-listener.enabled", havingValue = "true", matchIfMissing = true)
 public class GroupDirectGroupRelationChangeListener extends AbstractGroupChangeListener<GroupDirectGroupRelation> {
 
 	@Override
