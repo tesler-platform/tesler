@@ -29,10 +29,12 @@ import io.tesler.model.core.entity.security.GroupDirectGroupRelation;
 import io.tesler.model.core.entity.security.GroupDirectGroupRelation_;
 import io.tesler.model.core.entity.security.GroupRelation;
 import io.tesler.model.core.entity.security.types.GroupRelationType;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Service;
 
 
 @Service
+@ConditionalOnProperty(value = "tesler.security.group-change-listener.enabled", havingValue = "true", matchIfMissing = true)
 public class GroupChangeListener extends AbstractGroupChangeListener<Group> {
 
 	@Override
