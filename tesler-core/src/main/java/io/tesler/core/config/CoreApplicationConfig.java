@@ -38,7 +38,6 @@ import org.springframework.context.annotation.aspectj.EnableSpringConfigured;
 
 @EnableAspectJAutoProxy
 @BeanScan({"io.tesler"})
-/*TODO>>iborisenko>>do we need this? Why we restrict to use only application.properties and not application.yml? @PropertySource("classpath:application.properties")*/
 @EnableSpringConfigured
 @ImportAutoConfiguration({
 		MetaHotReloadConfiguration.class
@@ -61,5 +60,4 @@ public class CoreApplicationConfig {
 	public BaseEntityListenerDelegate baseEntityListenerDelegate(CurrentUserAware currentUserAware) {
 		return new TeslerBaseEntityListenerDelegate(currentUserAware);
 	}
-
 }

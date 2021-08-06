@@ -48,6 +48,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.LocaleContextResolver;
+import org.springframework.web.servlet.LocaleResolver;
 
 @RequiredArgsConstructor
 @Slf4j
@@ -56,7 +57,7 @@ public class LoginController {
 
 	private final LocaleService localeService;
 
-	private final LocaleContextResolver localeContextResolver;
+	private final LocaleResolver localeResolver;
 
 	private final LoginService loginService;
 
@@ -101,15 +102,18 @@ public class LoginController {
 			TimeZoneSpecification timezone,
 			LocaleSpecification locale
 	) {
-		LocaleContext context = localeContextResolver.resolveLocaleContext(request);
-		localeContextResolver.setLocaleContext(
-				request,
-				response,
-				new SimpleTimeZoneAwareLocaleContext(
-						getLocale(context, locale),
-						getTimezone(context, timezone)
-				)
-		);
+		if (localeResolver instanceof LocaleContextResolver) {
+			LocaleContextResolver localeContextResolver = (LocaleContextResolver) localeResolver;
+			LocaleContext context = localeContextResolver.resolveLocaleContext(request);
+			localeContextResolver.setLocaleContext(
+					request,
+					response,
+					new SimpleTimeZoneAwareLocaleContext(
+							getLocale(context, locale),
+							getTimezone(context, timezone)
+					)
+			);
+		}
 	}
 
 	protected Locale getLocale(LocaleContext context, LocaleSpecification locale) {
