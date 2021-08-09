@@ -20,6 +20,7 @@
 
 package io.tesler.core.dto.data.view;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.tesler.api.data.dto.LocaleAware;
@@ -54,6 +55,9 @@ public final class ScreenNavigation {
 		 * navigation tabs.
 		 */
 		private boolean hidden;
+
+		@JsonIgnore
+		private Integer seq;
 
 	}
 

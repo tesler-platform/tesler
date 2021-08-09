@@ -37,7 +37,6 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.apache.commons.lang3.tuple.Pair;
-import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationContext;
 import org.springframework.core.io.Resource;
@@ -105,16 +104,16 @@ public class MetaResourceReaderService {
 		return Pair.of(objMapper.readValue(readResource(resource), valueType), resource);
 	}
 
-	@NotNull
+	@NonNull
 	@SneakyThrows
-	private BufferedReader readRelativeResource(@NotNull Resource resource, @NonNull String relativeFileName) {
+	private BufferedReader readRelativeResource(@NonNull Resource resource, @NonNull String relativeFileName) {
 		final Resource relative = resource.createRelative(relativeFileName);
 		return readResource(relative);
 	}
 
-	@NotNull
+	@NonNull
 	@SneakyThrows
-	private BufferedReader readResource(@NotNull Resource resource) {
+	private BufferedReader readResource(@NonNull Resource resource) {
 		return new BufferedReader(new InputStreamReader(resource.getInputStream(), StandardCharsets.UTF_8));
 	}
 
