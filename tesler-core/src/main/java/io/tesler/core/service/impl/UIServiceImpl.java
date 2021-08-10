@@ -55,12 +55,7 @@ import io.tesler.model.ui.navigation.NavigationGroup_;
 import io.tesler.model.ui.navigation.NavigationView;
 import io.tesler.model.ui.navigation.NavigationView_;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
@@ -318,6 +313,7 @@ public class UIServiceImpl implements UIService {
 				viewGroup.setHidden(navigationGroup.getHidden());
 				viewGroup.setTitle(navigationGroup.getTitle());
 				viewGroup.setDefaultView(navigationGroup.getDefaultView());
+				viewGroup.setSeq(navigationGroup.getSeq());
 				if (navigationGroup.getParent() == null) {
 					firstLevelMenu.add(
 							navigationGroup.getSeq() > firstLevelMenu.size() ? firstLevelMenu.size() : navigationGroup.getSeq(),
@@ -344,6 +340,7 @@ public class UIServiceImpl implements UIService {
 				singleView.setViewName(view.getViewName());
 				singleView.setHidden(view.getHidden());
 				singleView.setId(view.getId());
+				singleView.setSeq(view.getSeq());
 				if (view.getParentGroup() == null) {
 					firstLevelMenu.add(view.getSeq() > firstLevelMenu.size() ? firstLevelMenu.size() : view.getSeq(), singleView);
 				} else {
@@ -357,6 +354,9 @@ public class UIServiceImpl implements UIService {
 			}
 			final ScreenNavigation screenNavigation = new ScreenNavigation();
 			screenNavigation.setMenu(firstLevelMenu);
+
+			//TODO>>we use sort now, so we should remove complex unnecessary logic like "iew.getSeq() > childList.size() ? childList.size() : view.getSeq() - 1"
+			sortMenuItemsBySeq(screenNavigation);
 			return screenNavigation;
 		}
 
@@ -364,6 +364,19 @@ public class UIServiceImpl implements UIService {
 		public void evict() {
 		}
 
+	}
+
+	private static void sortMenuItemsBySeq(ScreenNavigation screenNavigation) {
+		screenNavigation.getMenu().sort(Comparator.comparingInt(MenuItem::getSeq));
+		screenNavigation.getMenu().forEach(UIServiceImpl::recursiveSort);
+	}
+
+	private static void recursiveSort(MenuItem m) {
+		if (m instanceof ViewGroup) {
+			final List<MenuItem> child = ((ViewGroup) m).getChild();
+			child.sort(Comparator.comparingInt(MenuItem::getSeq));
+			child.forEach(UIServiceImpl::recursiveSort);
+		}
 	}
 
 }
