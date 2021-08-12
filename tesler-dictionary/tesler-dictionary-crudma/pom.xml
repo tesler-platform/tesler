@@ -4,13 +4,13 @@
   <modelVersion>4.0.0</modelVersion>
   <artifactId>tesler-dictionary-crudma</artifactId>
   <packaging>jar</packaging>
-  <version>3.0.2</version>
+  <version>3.0.3-SNAPSHOT</version>
   <name>IO Tesler - Dictionary Crudma</name>
 
   <parent>
     <artifactId>tesler-dictionary</artifactId>
     <groupId>io.tesler</groupId>
-    <version>3.0.2</version>
+    <version>3.0.3-SNAPSHOT</version>
     <relativePath>../pom.xml</relativePath>
   </parent>
 
