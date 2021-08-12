@@ -216,13 +216,12 @@ public class RowDependentFieldsMeta<T extends DataResponseDTO> extends FieldsDTO
 				});
 	}
 
-	public <T extends DataResponseDTO, E extends Enum> void setAllEnumValues(
-			@NonNull RowDependentFieldsMeta<T> fieldsMeta,
-			@Nullable DtoField<T, E> field,
+	public <E extends Enum> void setEnumValues(
+			@Nullable DtoField<? super T, E> field,
 			@NonNull E... values
 	) {
 		if (field != null) {
-			fieldsMeta.setConcreteValues(field, Arrays
+			this.setConcreteValues(field, Arrays
 					.stream(values)
 					.map(en -> new SimpleDictionary(en.name(), serialize(en)))
 					.collect(Collectors.toList())
