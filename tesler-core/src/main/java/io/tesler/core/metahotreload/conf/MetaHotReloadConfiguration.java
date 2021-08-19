@@ -47,6 +47,7 @@ public class MetaHotReloadConfiguration {
 
 	@Bean
 	public MetaHotReloadService refreshMeta(
+			MetaConfigurationProperties config,
 			MetaResourceReaderService metaResourceReaderService,
 			InternalAuthorizationService authzService,
 			TransactionService txService,
@@ -57,6 +58,7 @@ public class MetaHotReloadConfiguration {
 			ScreenAndNavigationGroupAndNavigationViewUtil screenAndNavigationGroupAndNavigationViewUtil,
 			BcUtil bcUtil) {
 		return new MetaHotReloadServiceImpl(
+				config,
 				metaResourceReaderService,
 				authzService,
 				txService,
