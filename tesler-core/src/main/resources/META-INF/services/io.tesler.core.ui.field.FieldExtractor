@@ -1,5 +1,6 @@
 io.tesler.core.ui.field.AssocListFieldExtractor
 io.tesler.core.ui.field.ChartFieldExtractor
+io.tesler.core.ui.field.SimpleFormFieldExtractor
 io.tesler.core.ui.field.FormFieldExtractor
 io.tesler.core.ui.field.HeaderFieldExtractor
 io.tesler.core.ui.field.ListFieldExtractor
