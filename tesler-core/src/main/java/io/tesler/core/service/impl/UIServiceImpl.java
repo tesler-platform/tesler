@@ -104,6 +104,8 @@ public class UIServiceImpl implements UIService {
 		InputStream screens = getClass().getResourceAsStream("/commonScreens.json");
 		if (screens != null) {
 			commonScreens = objectMapper.readValue(screens, ScreenResponsibility.LIST_TYPE_REFERENCE);
+		} else {
+			commonScreens = new ArrayList<>();
 		}
 	}
 
