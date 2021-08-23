@@ -1,0 +1,222 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.3.xsd"
+  logicalFilePath="io/tesler/db/changelog/notifications/tesler-starter-notifications.xml">
+
+  <changeSet author="initial" id="NOTIFICATION TABLE">
+    <createTable tableName="NOTIFICATION">
+      <column name="ID" type="NUMBER(19, 0)">
+        <constraints primaryKey="true"/>
+      </column>
+      <column name="SUBJECT" type="VARCHAR2(1500)"/>
+      <column name="URL" type="VARCHAR2(4000 BYTE)"/>
+      <column name="USER_ID" type="NUMBER(19, 0)">
+        <constraints nullable="false"/>
+      </column>
+      <column defaultValueComputed="current_timestamp" name="CREATED_DATE" type="TIMESTAMP(6)">
+        <constraints nullable="false"/>
+      </column>
+      <column defaultValueComputed="current_timestamp" name="UPDATED_DATE" type="TIMESTAMP(6)">
+        <constraints nullable="false"/>
+      </column>
+      <column defaultValueNumeric="1" name="CREATED_BY_USER_ID" type="NUMBER(19, 0)">
+        <constraints nullable="false"/>
+      </column>
+      <column defaultValueNumeric="1" name="LAST_UPD_BY_USER_ID" type="NUMBER(19, 0)">
+        <constraints nullable="false"/>
+      </column>
+      <column name="EVENT_NAME_CD" type="VARCHAR2(255)"/>
+      <column name="MIME_TYPE_CD" type="VARCHAR2(255)"/>
+      <column defaultValueNumeric="0" name="DELIVERY_TYPE" type="NUMBER(10, 0)">
+        <constraints nullable="false"/>
+      </column>
+      <column defaultValueNumeric="0" name="DELIVERY_STATUS" type="NUMBER(10, 0)">
+        <constraints nullable="false"/>
+      </column>
+      <column name="MESSAGE" type="CLOB"/>
+      <column name="UI_MESSAGE" type="CLOB"/>
+      <column name="UI_SUBJECT" type="VARCHAR2(1500)"/>
+      <column defaultValueNumeric="0" name="VSTAMP" type="NUMBER(19, 0)">
+        <constraints nullable="false"/>
+      </column>
+    </createTable>
+  </changeSet>
+  <changeSet author="initial" id="NOTIFICATION_RECIPIENT TABLE">
+    <createTable remarks="Получатели уведомлений" tableName="NOTIFICATION_RECIPIENT">
+      <column name="ID" remarks="Идентификатор" type="NUMBER(19, 0)">
+        <constraints primaryKey="true"/>
+      </column>
+      <column name="SETTINGS_ID" remarks="Родитель" type="NUMBER(19, 0)">
+        <constraints nullable="false"/>
+      </column>
+      <column name="RECIPIENT_TYPE_CD" remarks="Получатель" type="VARCHAR2(255)"/>
+      <column defaultValueComputed="current_timestamp" name="CREATED_DATE" type="TIMESTAMP(6)">
+        <constraints nullable="false"/>
+      </column>
+      <column defaultValueComputed="current_timestamp" name="UPDATED_DATE" type="TIMESTAMP(6)">
+        <constraints nullable="false"/>
+      </column>
+      <column defaultValueNumeric="1" name="CREATED_BY_USER_ID" type="NUMBER(19, 0)">
+        <constraints nullable="false"/>
+      </column>
+      <column defaultValueNumeric="1" name="LAST_UPD_BY_USER_ID" type="NUMBER(19, 0)">
+        <constraints nullable="false"/>
+      </column>
+      <column defaultValueNumeric="0" name="VSTAMP" type="NUMBER(19, 0)">
+        <constraints nullable="false"/>
+      </column>
+      <column defaultValueNumeric="0" name="SAME_DEPT_ONLY" type="NUMBER(1, 0)"/>
+    </createTable>
+  </changeSet>
+  <changeSet author="initial" id="NOTIFICATION_SETTINGS TABLE">
+    <createTable remarks="Настройки доставки уведомлений" tableName="NOTIFICATION_SETTINGS">
+      <column name="ID" remarks="Идентификатор" type="NUMBER(19, 0)">
+        <constraints primaryKey="true"/>
+      </column>
+      <column name="USER_ID" remarks="Пользователь" type="NUMBER(19, 0)"/>
+      <column defaultValueNumeric="0" name="DELIVERY_TYPE" remarks="Тип доставки" type="NUMBER(10, 0)">
+        <constraints nullable="false"/>
+      </column>
+      <column name="SETTINGS_TYPE_CD" remarks="Тип" type="VARCHAR2(255)"/>
+      <column name="EVENT_NAME_CD" remarks="Событие" type="VARCHAR2(255)"/>
+      <column defaultValueComputed="current_timestamp" name="CREATED_DATE" type="TIMESTAMP(6)">
+        <constraints nullable="false"/>
+      </column>
+      <column defaultValueComputed="current_timestamp" name="UPDATED_DATE" type="TIMESTAMP(6)">
+        <constraints nullable="false"/>
+      </column>
+      <column defaultValueNumeric="1" name="CREATED_BY_USER_ID" type="NUMBER(19, 0)">
+        <constraints nullable="false"/>
+      </column>
+      <column defaultValueNumeric="1" name="LAST_UPD_BY_USER_ID" type="NUMBER(19, 0)">
+        <constraints nullable="false"/>
+      </column>
+      <column defaultValueNumeric="0" name="NOTIFY_MYSELF" type="NUMBER(1, 0)">
+        <constraints nullable="false"/>
+      </column>
+      <column defaultValueNumeric="0" name="VSTAMP" type="NUMBER(19, 0)">
+        <constraints nullable="false"/>
+      </column>
+    </createTable>
+  </changeSet>
+  <changeSet author="initial" id="NOTIFICATION_TEMPLATE TABLE">
+    <createTable remarks="Шаблон уведомлений" tableName="NOTIFICATION_TEMPLATE">
+      <column name="ID" remarks="Идентификатор" type="NUMBER(19, 0)">
+        <constraints primaryKey="true"/>
+      </column>
+      <column name="EVENT_NAME_CD" remarks="Событие" type="VARCHAR2(255)"/>
+      <column name="MIME_TYPE_CD" remarks="Формат" type="VARCHAR2(255)"/>
+      <column name="SUBJECT" remarks="Заголовок" type="VARCHAR2(2000)"/>
+      <column name="URL" type="VARCHAR2(500)"/>
+      <column name="MESSAGE" remarks="Тело сообщения" type="VARCHAR2(2000)"/>
+      <column defaultValueComputed="current_timestamp" name="CREATED_DATE" type="TIMESTAMP(6)">
+        <constraints nullable="false"/>
+      </column>
+      <column defaultValueComputed="current_timestamp" name="UPDATED_DATE" type="TIMESTAMP(6)">
+        <constraints nullable="false"/>
+      </column>
+      <column defaultValueNumeric="1" name="CREATED_BY_USER_ID" type="NUMBER(19, 0)">
+        <constraints nullable="false"/>
+      </column>
+      <column defaultValueNumeric="1" name="LAST_UPD_BY_USER_ID" type="NUMBER(19, 0)">
+        <constraints nullable="false"/>
+      </column>
+      <column name="UI_MESSAGE" type="VARCHAR2(2000)"/>
+      <column name="UI_SUBJECT" type="VARCHAR2(2000)"/>
+      <column defaultValueNumeric="0" name="VSTAMP" type="NUMBER(19, 0)">
+        <constraints nullable="false"/>
+      </column>
+    </createTable>
+  </changeSet>
+
+  <changeSet author="initial" dbms="oracle" id="NOTIFICATION INDEXES">
+    <createIndex indexName="IDX_NTIFIC_USER_ID" tableName="NOTIFICATION">
+      <column name="USER_ID"/>
+    </createIndex>
+    <createIndex indexName="NOTIFICATION_IND1" tableName="NOTIFICATION">
+      <column defaultValueNumeric="1" name="CREATED_BY_USER_ID"/>
+    </createIndex>
+    <createIndex indexName="NOTIFICATION_IND2" tableName="NOTIFICATION">
+      <column defaultValueNumeric="1" name="LAST_UPD_BY_USER_ID"/>
+    </createIndex>
+    <createIndex indexName="NOTIFICATION_UI_IND1" tableName="NOTIFICATION">
+      <column computed="true" name="BITAND(&quot;DELIVERY_TYPE&quot;,1)"/>
+      <column name="USER_ID"/>
+    </createIndex>
+  </changeSet>
+  <changeSet author="initial" dbms="postgresql" id="NOTIFICATION INDEXES">
+    <createIndex indexName="IDX_NTIFIC_USER_ID" tableName="NOTIFICATION">
+      <column name="USER_ID"/>
+    </createIndex>
+    <createIndex indexName="NOTIFICATION_IND1" tableName="NOTIFICATION">
+      <column defaultValueNumeric="1" name="CREATED_BY_USER_ID"/>
+    </createIndex>
+    <createIndex indexName="NOTIFICATION_IND2" tableName="NOTIFICATION">
+      <column defaultValueNumeric="1" name="LAST_UPD_BY_USER_ID"/>
+    </createIndex>
+    <createIndex indexName="NOTIFICATION_UI_IND1" tableName="NOTIFICATION">
+      <column computed="true" name="(DELIVERY_TYPE = 1.0)"/>
+      <column name="USER_ID"/>
+    </createIndex>
+  </changeSet>
+  <changeSet author="initial" id="NOTIFICATION_TEMPLATE INDEXES">
+    <createIndex indexName="NOTIFICATION_TEMPLATE_UQ1" tableName="NOTIFICATION_TEMPLATE" unique="true">
+      <column name="EVENT_NAME_CD"/>
+    </createIndex>
+  </changeSet>
+  <changeSet author="initial" id="NOTIFICATION CONSTRAINTS">
+    <addForeignKeyConstraint baseColumnNames="CREATED_BY_USER_ID" baseTableName="NOTIFICATION"
+      constraintName="FK_NOTIFICATION_CREATED_BY" deferrable="false"
+      initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT"
+      referencedColumnNames="ID" referencedTableName="USERS" validate="true"/>
+    <addForeignKeyConstraint baseColumnNames="LAST_UPD_BY_USER_ID" baseTableName="NOTIFICATION"
+      constraintName="FK_NOTIFICATION_UPDATED_BY" deferrable="false"
+      initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT"
+      referencedColumnNames="ID" referencedTableName="USERS" validate="true"/>
+    <addForeignKeyConstraint baseColumnNames="USER_ID" baseTableName="NOTIFICATION"
+      constraintName="NOTIFICATION_USER_ID_FK" deferrable="false" initiallyDeferred="false"
+      onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID"
+      referencedTableName="USERS" validate="true"/>
+  </changeSet>
+  <changeSet author="initial" id="NOTIFICATION_RECIPIENT CONSTRAINTS">
+    <addForeignKeyConstraint baseColumnNames="CREATED_BY_USER_ID" baseTableName="NOTIFICATION_RECIPIENT"
+      constraintName="FK_NOTIF_RECIPIENT_CREATED_BY" deferrable="false"
+      initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT"
+      referencedColumnNames="ID" referencedTableName="USERS" validate="true"/>
+    <addForeignKeyConstraint baseColumnNames="SETTINGS_ID" baseTableName="NOTIFICATION_RECIPIENT"
+      constraintName="FK_NOTIF_RECIPIENT_SETTINGS" deferrable="false"
+      initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT"
+      referencedColumnNames="ID" referencedTableName="NOTIFICATION_SETTINGS"
+      validate="true"/>
+    <addForeignKeyConstraint baseColumnNames="LAST_UPD_BY_USER_ID" baseTableName="NOTIFICATION_RECIPIENT"
+      constraintName="FK_NOTIF_RECIPIENT_UPDATED_BY" deferrable="false"
+      initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT"
+      referencedColumnNames="ID" referencedTableName="USERS" validate="true"/>
+  </changeSet>
+  <changeSet author="initial" id="NOTIFICATION_SETTINGS CONSTRAINTS">
+    <addForeignKeyConstraint baseColumnNames="CREATED_BY_USER_ID" baseTableName="NOTIFICATION_SETTINGS"
+      constraintName="FK_NOTIF_SETTINGS_CREATED_BY" deferrable="false"
+      initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT"
+      referencedColumnNames="ID" referencedTableName="USERS" validate="true"/>
+    <addForeignKeyConstraint baseColumnNames="LAST_UPD_BY_USER_ID" baseTableName="NOTIFICATION_SETTINGS"
+      constraintName="FK_NOTIF_SETTINGS_UPDATED_BY" deferrable="false"
+      initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT"
+      referencedColumnNames="ID" referencedTableName="USERS" validate="true"/>
+    <addForeignKeyConstraint baseColumnNames="USER_ID" baseTableName="NOTIFICATION_SETTINGS"
+      constraintName="FK_NOTIF_SETTINGS_USER" deferrable="false" initiallyDeferred="false"
+      onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID"
+      referencedTableName="USERS" validate="true"/>
+  </changeSet>
+  <changeSet author="initial" id="NOTIFICATION_TEMPLATE CONSTRAINTS">
+    <addForeignKeyConstraint baseColumnNames="CREATED_BY_USER_ID" baseTableName="NOTIFICATION_TEMPLATE"
+      constraintName="FK_NOTIF_TEMPLATE_CREATED_BY" deferrable="false"
+      initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT"
+      referencedColumnNames="ID" referencedTableName="USERS" validate="true"/>
+    <addForeignKeyConstraint baseColumnNames="LAST_UPD_BY_USER_ID" baseTableName="NOTIFICATION_TEMPLATE"
+      constraintName="FK_NOTIF_TEMPLATE_UPDATED_BY" deferrable="false"
+      initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT"
+      referencedColumnNames="ID" referencedTableName="USERS" validate="true"/>
+  </changeSet>
+
+</databaseChangeLog>
