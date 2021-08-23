@@ -1,0 +1,116 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.3.xsd"
+  logicalFilePath="io/tesler/db/changelog/quartz/tesler-starter-quartz.xml">
+
+  <include file="classpath:/org/quartz/impl/jdbcjobstore/liquibase.quartz.init.xml" relativeToChangelogFile="false"/>
+
+  <changeSet author="initial" id="SCHEDULED_JOB TABLE">
+    <createTable tableName="SCHEDULED_JOB">
+      <column name="ID" remarks="Суррогатный идентификатор" type="NUMBER(19, 0)">
+        <constraints primaryKey="true" primaryKeyName="SCHEDULED_JOB_PK"/>
+      </column>
+      <column name="SERVICE_NAME" remarks="Название сервиса" type="VARCHAR2(255)"/>
+      <column name="CRON_EXPRESSION" remarks="Расписание" type="VARCHAR2(255)"/>
+      <column defaultValueNumeric="0" name="ACTIVE_FLAG" remarks="Признак активности" type="BOOLEAN">
+        <constraints nullable="false"/>
+      </column>
+      <column defaultValueNumeric="0" name="SYSTEM_FLAG" remarks="Признак системного задания" type="BOOLEAN">
+        <constraints nullable="false"/>
+      </column>
+      <column defaultValueNumeric="0" name="LAUNCH_ON_CREATE" remarks="Запускать сразу после создания"
+        type="BOOLEAN">
+        <constraints nullable="false"/>
+      </column>
+      <column name="LAST_LAUNCH_STATUS_CD" remarks="Статус последнего запуска" type="VARCHAR2(255)"/>
+      <column name="LAST_LAUNCH_DATE" remarks="Дата последнего запуска" type="TIMESTAMP(6)"/>
+      <column name="LAST_LAUNCH_CNT" remarks="Кол-во попыток последнего запуска" type="NUMBER(19, 0)"/>
+      <column defaultValueNumeric="0" name="LAUNCH_CNT" remarks="Кол-во запусков" type="NUMBER(19, 0)">
+        <constraints nullable="false"/>
+      </column>
+      <column defaultValueNumeric="0" name="LAUNCH_FAILED_CNT" remarks="Кол-во запусков с ошибкой"
+        type="NUMBER(19, 0)">
+        <constraints nullable="false"/>
+      </column>
+      <column defaultValueNumeric="0" name="LAUNCH_FAILED_LAST_CNT"
+        remarks="Кол-во запусков с ошибкой с момента последнего успешного" type="NUMBER(19, 0)">
+        <constraints nullable="false"/>
+      </column>
+      <column name="LAST_SUCCESS_LAUNCH_DURATION" remarks="Длительность последнего успешного запуска"
+        type="NUMBER(19, 0)"/>
+      <column defaultValueComputed="current_timestamp" name="CREATED_DATE" type="TIMESTAMP(6)">
+        <constraints nullable="false"/>
+      </column>
+      <column defaultValueComputed="current_timestamp" name="UPDATED_DATE" type="TIMESTAMP(6)">
+        <constraints nullable="false"/>
+      </column>
+      <column defaultValueNumeric="1" name="CREATED_BY_USER_ID" type="NUMBER(19, 0)">
+        <constraints nullable="false"/>
+      </column>
+      <column defaultValueNumeric="1" name="LAST_UPD_BY_USER_ID" type="NUMBER(19, 0)">
+        <constraints nullable="false"/>
+      </column>
+      <column name="LAST_SUCCESS_LAUNCH_DATE" remarks="Дата последнего успешного запуска" type="TIMESTAMP(6)"/>
+      <column defaultValueNumeric="0" name="VSTAMP" type="NUMBER(19, 0)">
+        <constraints nullable="false"/>
+      </column>
+    </createTable>
+  </changeSet>
+  <changeSet author="initial" id="SCHEDULED_JOB_PARAM TABLE">
+    <createTable remarks="Параметры запуска фонового задания" tableName="SCHEDULED_JOB_PARAM">
+      <column name="ID" remarks="Индентификатор" type="NUMBER(19, 0)">
+        <constraints primaryKey="true" primaryKeyName="PK_SCHEDULED_JOB_PARAM"/>
+      </column>
+      <column name="SCHEDULED_JOB_ID" remarks="Идентификатор фонового задания" type="NUMBER(19, 0)">
+        <constraints nullable="false"/>
+      </column>
+      <column name="PARAM_NAME" remarks="Название параметра" type="VARCHAR2(255)"/>
+      <column name="PARAM_VALUE" remarks="Значение параметра" type="VARCHAR2(255)"/>
+      <column defaultValueComputed="current_timestamp" name="CREATED_DATE" remarks="Дата создания"
+        type="TIMESTAMP(6)">
+        <constraints nullable="false"/>
+      </column>
+      <column defaultValueComputed="current_timestamp" name="UPDATED_DATE" remarks="Дата изменения"
+        type="TIMESTAMP(6)">
+        <constraints nullable="false"/>
+      </column>
+      <column defaultValueNumeric="1" name="CREATED_BY_USER_ID" remarks="Кто создал" type="NUMBER(19, 0)">
+        <constraints nullable="false"/>
+      </column>
+      <column defaultValueNumeric="1" name="LAST_UPD_BY_USER_ID" remarks="Кто изменил" type="NUMBER(19, 0)">
+        <constraints nullable="false"/>
+      </column>
+      <column defaultValueNumeric="0" name="VSTAMP" type="NUMBER(19, 0)">
+        <constraints nullable="false"/>
+      </column>
+    </createTable>
+  </changeSet>
+
+  <changeSet author="initial" id="SCHEDULED_JOB_PARAM CONSTRAINTS">
+    <addForeignKeyConstraint baseColumnNames="CREATED_BY_USER_ID" baseTableName="SCHEDULED_JOB_PARAM"
+      constraintName="FK_JOB_PARAM_CREATED_BY" deferrable="false" initiallyDeferred="false"
+      onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID"
+      referencedTableName="USERS" validate="true"/>
+    <addForeignKeyConstraint baseColumnNames="LAST_UPD_BY_USER_ID" baseTableName="SCHEDULED_JOB_PARAM"
+      constraintName="FK_JOB_PARAM_UPDATED_BY" deferrable="false" initiallyDeferred="false"
+      onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID"
+      referencedTableName="USERS" validate="true"/>
+    <addForeignKeyConstraint baseColumnNames="SCHEDULED_JOB_ID" baseTableName="SCHEDULED_JOB_PARAM"
+      constraintName="FK_SCHEDULED_JOB_ARG" deferrable="false" initiallyDeferred="false"
+      onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID"
+      referencedTableName="SCHEDULED_JOB" validate="true"/>
+  </changeSet>
+
+  <changeSet author="initial" id="SCHEDULED_JOB CONSTRAINTS">
+    <addForeignKeyConstraint baseColumnNames="CREATED_BY_USER_ID" baseTableName="SCHEDULED_JOB"
+      constraintName="FK_SCHEDULED_JOB_CREATED_BY" deferrable="false"
+      initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT"
+      referencedColumnNames="ID" referencedTableName="USERS" validate="true"/>
+    <addForeignKeyConstraint baseColumnNames="LAST_UPD_BY_USER_ID" baseTableName="SCHEDULED_JOB"
+      constraintName="FK_SCHEDULED_JOB_UPDATED_BY" deferrable="false"
+      initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT"
+      referencedColumnNames="ID" referencedTableName="USERS" validate="true"/>
+  </changeSet>
+
+</databaseChangeLog>
