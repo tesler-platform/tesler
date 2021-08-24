@@ -1,0 +1,83 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.3.xsd"
+  logicalFilePath="io/tesler/db/changelog/sqlbc/tesler-starter-sqlbc.xml">
+  <changeSet author="initial" id="SQL_BC_EDIT_FIELD TABLE">
+    <createTable remarks="Редактируемые поля для sql бк" tableName="SQL_BC_EDIT_FIELD">
+      <column name="ID" remarks="Идентификатор" type="NUMBER(19, 0)">
+        <constraints primaryKey="true"/>
+      </column>
+      <column name="BC_NAME" remarks="Название бизнес-компонента" type="VARCHAR2(255)">
+        <constraints nullable="false"/>
+      </column>
+      <column name="PARENT_ID" remarks="Ид записи редактируемой строки" type="VARCHAR2(255)">
+        <constraints nullable="false"/>
+      </column>
+      <column name="EDIT_STRING1" remarks="Строка для ввода" type="VARCHAR2(4000)"/>
+      <column name="EDIT_STRING2" remarks="Строка для ввода" type="VARCHAR2(4000)"/>
+      <column name="EDIT_STRING3" remarks="Строка для ввода" type="VARCHAR2(4000)"/>
+      <column name="EDIT_STRING4" remarks="Строка для ввода" type="VARCHAR2(4000)"/>
+      <column name="EDIT_STRING5" remarks="Строка для ввода" type="VARCHAR2(4000)"/>
+      <column name="EDIT_NUMBER1" remarks="Числа для ввода" type="NUMBER(19, 0)"/>
+      <column name="EDIT_NUMBER2" remarks="Числа для ввода" type="NUMBER(19, 0)"/>
+      <column name="EDIT_NUMBER3" remarks="Числа для ввода" type="NUMBER(19, 0)"/>
+      <column name="EDIT_NUMBER4" remarks="Числа для ввода" type="NUMBER(19, 0)"/>
+      <column name="EDIT_NUMBER5" remarks="Числа для ввода" type="NUMBER(19, 0)"/>
+      <column name="EDIT_DATE1" remarks="Дата для ввода" type="TIMESTAMP(6)"/>
+      <column name="EDIT_DATE2" remarks="Дата для ввода" type="TIMESTAMP(6)"/>
+      <column name="EDIT_DATE3" remarks="Дата для ввода" type="TIMESTAMP(6)"/>
+      <column name="EDIT_DATE4" remarks="Дата для ввода" type="TIMESTAMP(6)"/>
+      <column name="EDIT_DATE5" remarks="Дата для ввода" type="TIMESTAMP(6)"/>
+      <column defaultValueComputed="current_timestamp" name="CREATED_DATE" remarks="Дата создания"
+        type="TIMESTAMP(6)">
+        <constraints nullable="false"/>
+      </column>
+      <column defaultValueComputed="current_timestamp" name="UPDATED_DATE" remarks="Дата обновления"
+        type="TIMESTAMP(6)">
+        <constraints nullable="false"/>
+      </column>
+      <column defaultValueNumeric="1" name="CREATED_BY_USER_ID" type="NUMBER(19, 0)">
+        <constraints nullable="false"/>
+      </column>
+      <column defaultValueNumeric="1" name="LAST_UPD_BY_USER_ID" type="NUMBER(19, 0)">
+        <constraints nullable="false"/>
+      </column>
+      <column name="EDIT_LOV1" type="VARCHAR2(255)"/>
+      <column name="EDIT_LOV2" type="VARCHAR2(255)"/>
+      <column name="EDIT_LOV3" type="VARCHAR2(255)"/>
+      <column name="EDIT_LOV4" type="VARCHAR2(255)"/>
+      <column name="EDIT_LOV5" type="VARCHAR2(255)"/>
+      <column name="EDIT_STRING6" type="VARCHAR2(4000)"/>
+      <column name="EDIT_STRING7" type="VARCHAR2(4000)"/>
+      <column name="EDIT_STRING8" type="VARCHAR2(4000)"/>
+      <column name="EDIT_STRING9" type="VARCHAR2(4000)"/>
+      <column name="EDIT_STRING10" type="VARCHAR2(4000)"/>
+      <column defaultValueNumeric="0" name="VSTAMP" type="NUMBER(19, 0)">
+        <constraints nullable="false"/>
+      </column>
+    </createTable>
+  </changeSet>
+  <changeSet author="initial" id="SQL_BC_EDIT_FIELD INDEXES">
+    <createIndex indexName="SQL_BC_EDIT_FIELD_IND1" tableName="SQL_BC_EDIT_FIELD">
+      <column defaultValueNumeric="1" name="CREATED_BY_USER_ID"/>
+    </createIndex>
+    <createIndex indexName="SQL_BC_EDIT_FIELD_IND2" tableName="SQL_BC_EDIT_FIELD">
+      <column defaultValueNumeric="1" name="LAST_UPD_BY_USER_ID"/>
+    </createIndex>
+    <createIndex indexName="SQL_BC_EDIT_FIELD_IND3" tableName="SQL_BC_EDIT_FIELD">
+      <column name="PARENT_ID"/>
+      <column name="BC_NAME"/>
+    </createIndex>
+  </changeSet>
+  <changeSet author="initial" id="SQL_BC_EDIT_FIELD CONSTRAINTS">
+    <addForeignKeyConstraint baseColumnNames="CREATED_BY_USER_ID" baseTableName="SQL_BC_EDIT_FIELD"
+      constraintName="FK_SQL_BC_EDITFIELD_CREATED_BY" deferrable="false"
+      initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT"
+      referencedColumnNames="ID" referencedTableName="USERS" validate="true"/>
+    <addForeignKeyConstraint baseColumnNames="LAST_UPD_BY_USER_ID" baseTableName="SQL_BC_EDIT_FIELD"
+      constraintName="FK_SQL_BC_EDITFIELD_UPDATED_BY" deferrable="false"
+      initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT"
+      referencedColumnNames="ID" referencedTableName="USERS" validate="true"/>
+  </changeSet>
+</databaseChangeLog>
