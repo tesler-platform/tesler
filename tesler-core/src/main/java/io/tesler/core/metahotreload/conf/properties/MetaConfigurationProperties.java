@@ -35,6 +35,8 @@ public class MetaConfigurationProperties {
 
 	private boolean devPanelEnabled = false;
 
+	private boolean viewAllowedRolesEnabled = false;
+
 	@NotNull(message = "Path to meta files directory. Supports file: or classpath: prefix. "
 			+ "Example of usage is: applicationContext.getResources(directory + widgetPath)")
 	private String directory = "classpath*:db/migration/liquibase/data/latest";

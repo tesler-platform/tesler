@@ -21,6 +21,7 @@
 package io.tesler.core.metahotreload.dto;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -49,6 +50,14 @@ public class ViewSourceDTO {
 	private JsonNode options;
 
 	private List<ViewWidgetSourceDTO> widgets;
+
+	/**
+	 * Inspired with JSR-250 and spring @RolesAllowed annotation.
+	 * Actually has same meaning, except the case when rolesAllowed is not defined.
+	 * While absence of @RolesAllowed means availability for all roles,
+	 * absence of rolesAllowed: [] in json means unavailability for all roles.
+	 */
+	private List<String> rolesAllowed = new ArrayList<>();
 
 	@Getter
 	@Setter

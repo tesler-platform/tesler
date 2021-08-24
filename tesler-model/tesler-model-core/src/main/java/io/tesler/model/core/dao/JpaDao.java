@@ -59,6 +59,8 @@ public interface JpaDao {
 
 	<T> T save(Object entity);
 
+	<T> List<T> saveAll(List<T> entities);
+
 	<T extends BaseEntity> T evict(T o);
 
 	void flush();

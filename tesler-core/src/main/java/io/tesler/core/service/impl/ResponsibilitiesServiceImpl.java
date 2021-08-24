@@ -25,6 +25,7 @@ import io.tesler.core.service.ResponsibilitiesService;
 import io.tesler.model.core.dao.JpaDao;
 import io.tesler.model.core.entity.Department;
 import io.tesler.model.core.entity.Responsibilities;
+import io.tesler.model.core.entity.Responsibilities.ResponsibilityType;
 import io.tesler.model.core.entity.Responsibilities_;
 import io.tesler.model.core.entity.User;
 import java.util.HashSet;
@@ -40,7 +41,7 @@ public class ResponsibilitiesServiceImpl implements ResponsibilitiesService {
 
 	private final JpaDao jpaDao;
 
-	private List<Responsibilities> getListByUserList(User user, LOV userRole, String responsibilityType) {
+	private List<Responsibilities> getListByUserList(User user, LOV userRole, ResponsibilityType responsibilityType) {
 		// В листе может быть не более одной записи
 		return jpaDao.getList(
 				Responsibilities.class,
@@ -53,7 +54,7 @@ public class ResponsibilitiesServiceImpl implements ResponsibilitiesService {
 	}
 
 	public Map<String, Boolean> getListRespByUser(User user, LOV userRole) {
-		return getListByUserList(user, userRole, "VIEW")
+		return getListByUserList(user, userRole, ResponsibilityType.VIEW)
 				.stream()
 				.collect(
 						Collectors.toMap(
@@ -65,7 +66,7 @@ public class ResponsibilitiesServiceImpl implements ResponsibilitiesService {
 	}
 
 	public String getListScreensByUser(User user, LOV userRole) {
-		return getListByUserList(user, userRole, "SCREEN")
+		return getListByUserList(user, userRole, ResponsibilityType.SCREEN)
 				.stream()
 				.map(Responsibilities::getScreens)
 				.filter(StringUtils::isNotBlank)
@@ -81,7 +82,7 @@ public class ResponsibilitiesServiceImpl implements ResponsibilitiesService {
 						(root, cb) -> root.get(Responsibilities_.view),
 						(root, cq, cb) -> cb.and(
 								cb.equal(root.get(Responsibilities_.departmentId), department.getId()),
-								cb.equal(root.get(Responsibilities_.responsibilityType), "VIEW")
+								cb.equal(root.get(Responsibilities_.responsibilityType), ResponsibilityType.VIEW)
 						)
 				)
 		);

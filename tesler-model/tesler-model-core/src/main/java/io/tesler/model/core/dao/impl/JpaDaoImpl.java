@@ -230,6 +230,14 @@ public class JpaDaoImpl implements JpaDao {
 	}
 
 	@Override
+	public <T> List<T> saveAll(List<T> entities) {
+		return entities
+				.stream()
+				.map(this::<T>save)
+				.collect(Collectors.toList());
+	}
+
+	@Override
 	public <T extends BaseEntity> T evict(T o) {
 		getSupportedEntityManager(Hibernate.getClass(o).getName()).unwrap(Session.class).evict(o);
 		return o;

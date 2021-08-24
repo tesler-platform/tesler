@@ -23,12 +23,15 @@ package io.tesler.model.core.entity;
 import io.tesler.api.data.dictionary.LOV;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.Lob;
 import javax.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.experimental.Accessors;
 import org.hibernate.annotations.Formula;
 import org.hibernate.annotations.Type;
 
@@ -37,6 +40,7 @@ import org.hibernate.annotations.Type;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Accessors(chain = true)
 @Table(name = "RESPONSIBILITIES")
 public class Responsibilities extends BaseEntity {
 
@@ -50,7 +54,8 @@ public class Responsibilities extends BaseEntity {
 	private String view;
 
 	@Column(name = "RESP_TYPE")
-	private String responsibilityType;
+	@Enumerated(EnumType.STRING)
+	private ResponsibilityType responsibilityType;
 
 	@Column(name = "READ_ONLY")
 	private boolean readOnly;
@@ -61,5 +66,10 @@ public class Responsibilities extends BaseEntity {
 
 	@Formula("(SELECT views.TITLE FROM views WHERE views.NAME = RESPONSIBILITIES)")
 	private String viewTitle;
+
+	public enum ResponsibilityType {
+		VIEW,
+		SCREEN
+	}
 
 }
