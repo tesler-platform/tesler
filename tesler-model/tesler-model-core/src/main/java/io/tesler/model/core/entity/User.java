@@ -83,8 +83,6 @@ public class User extends BaseEntity implements IAccessorSupplier {
 	@Column(name = "DN")
 	private String dn;
 
-	private String origDeptCode;
-
 	@JsonIgnore
 	private String password;
 

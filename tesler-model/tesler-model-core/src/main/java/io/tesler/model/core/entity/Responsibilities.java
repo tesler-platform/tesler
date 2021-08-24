@@ -47,9 +47,6 @@ public class Responsibilities extends BaseEntity {
 	@Column(name = "INTERNAL_ROLE_CD")
 	private LOV internalRoleCD;
 
-	@Column(name = "DEPT_ID")
-	private Long departmentId;
-
 	@Column(name = "RESPONSIBILITIES")
 	private String view;
 

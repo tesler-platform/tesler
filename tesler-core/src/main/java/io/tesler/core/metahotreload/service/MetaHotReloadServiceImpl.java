@@ -117,14 +117,12 @@ public class MetaHotReloadServiceImpl implements MetaHotReloadService {
 					.collect(Collectors.toMap(NavigationView::getViewName, NavigationView::getScreenName));
 
 			List<Responsibilities> responsibilities = new ArrayList<>();
-			long defaultDepartmentId = 0L; //TODO>>replace magic number with value from config
 			viewDtos.forEach(view -> {
 				view.getRolesAllowed().forEach(role -> {
 					responsibilities.add(new Responsibilities()
 							.setResponsibilityType(ResponsibilityType.VIEW)
 							.setInternalRoleCD(new LOV(role))
-							.setView(view.getName())
-							.setDepartmentId(defaultDepartmentId));
+							.setView(view.getName()));
 				});
 			});
 
@@ -156,8 +154,7 @@ public class MetaHotReloadServiceImpl implements MetaHotReloadService {
 									+ "    \"text\": \"" + screenNameToScreen.get(screen).getTitle() + "\",\n"
 									+ "    \"url\": \"/screen/" + screen + "\"\n"
 									+ "  }\n"
-									+ "]")
-							.setDepartmentId(defaultDepartmentId));
+									+ "]"));
 				});
 			});
 
