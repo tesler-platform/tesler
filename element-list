@@ -169,6 +169,8 @@ io.tesler.sqlbc.controller
 io.tesler.sqlbc.crudma
 io.tesler.sqlbc.dao
 io.tesler.sqlbc.dao.binds
+io.tesler.sqlbc.dto
+io.tesler.sqlbc.entity
 io.tesler.sqlbc.exception
 io.tesler.sqlbc.export.base
 io.tesler.sqlbc.export.base.model
