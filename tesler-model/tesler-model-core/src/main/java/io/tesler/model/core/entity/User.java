@@ -85,11 +85,6 @@ public class User extends BaseEntity implements IAccessorSupplier {
 	@Column(name = "DN")
 	private String dn;
 
-	@NotAudited
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "id", insertable = false, updatable = false)
-	private UserDivisions userDivisions;
-
 	private String origDeptCode;
 
 	@ManyToOne
