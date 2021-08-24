@@ -22,7 +22,6 @@ package io.tesler.model.dictionary.links.entity;
 
 import io.tesler.api.data.dictionary.LOV;
 import io.tesler.model.core.entity.BaseEntity;
-import io.tesler.model.core.entity.Department;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -53,10 +52,6 @@ public class DictionaryLnkRuleCond extends BaseEntity {
 	private String fieldType;
 
 	private boolean ruleInversionFlg;
-
-	@ManyToOne
-	@JoinColumn(name = "DEPT_ID")
-	private Department department;
 
 	private String bcName;
 

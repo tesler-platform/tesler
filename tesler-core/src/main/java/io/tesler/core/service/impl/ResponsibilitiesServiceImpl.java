@@ -23,7 +23,6 @@ package io.tesler.core.service.impl;
 import io.tesler.api.data.dictionary.LOV;
 import io.tesler.core.service.ResponsibilitiesService;
 import io.tesler.model.core.dao.JpaDao;
-import io.tesler.model.core.entity.Department;
 import io.tesler.model.core.entity.Responsibilities;
 import io.tesler.model.core.entity.Responsibilities.ResponsibilityType;
 import io.tesler.model.core.entity.Responsibilities_;
@@ -46,7 +45,6 @@ public class ResponsibilitiesServiceImpl implements ResponsibilitiesService {
 		return jpaDao.getList(
 				Responsibilities.class,
 				(root, cq, cb) -> cb.and(
-						cb.equal(root.get(Responsibilities_.departmentId), user.getDepartment().getId()),
 						cb.equal(root.get(Responsibilities_.internalRoleCD), userRole),
 						cb.equal(root.get(Responsibilities_.responsibilityType), responsibilityType)
 				)
@@ -74,14 +72,13 @@ public class ResponsibilitiesServiceImpl implements ResponsibilitiesService {
 				.orElse(null);
 	}
 
-	public Set<String> getViewResponsibilities(final Department department) {
+	public Set<String> getViewResponsibilities() {
 		return new HashSet<>(
 				jpaDao.getList(
 						Responsibilities.class,
 						String.class,
 						(root, cb) -> root.get(Responsibilities_.view),
 						(root, cq, cb) -> cb.and(
-								cb.equal(root.get(Responsibilities_.departmentId), department.getId()),
 								cb.equal(root.get(Responsibilities_.responsibilityType), ResponsibilityType.VIEW)
 						)
 				)

@@ -32,7 +32,6 @@ import io.tesler.core.dto.rowmeta.CreateResult;
 import io.tesler.core.service.action.Actions;
 import io.tesler.core.service.rowmeta.FieldMetaBuilder;
 import io.tesler.model.core.entity.BaseEntity;
-import io.tesler.model.core.entity.Department;
 import io.tesler.model.dictionary.links.entity.DictionaryLnkRule;
 import io.tesler.model.dictionary.links.entity.DictionaryLnkRuleCond;
 import io.tesler.source.dto.DictionaryLnkRuleCondDto;
@@ -70,7 +69,6 @@ public abstract class BaseDictionaryLnkRuleCondServiceImpl<D extends DictionaryL
 			if (data.isFieldChanged(DictionaryLnkRuleCondDto_.type)) {
 				entity.setType(DictionaryType.DICTIONARY_TERM_TYPE.lookupName(data.getType()));
 				entity.setFieldName(null);
-				entity.setDepartment(null);
 				entity.setFieldTextValue(null);
 				entity.setBcName(null);
 				entity.setFieldDictValue(null);
@@ -94,10 +92,6 @@ public abstract class BaseDictionaryLnkRuleCondServiceImpl<D extends DictionaryL
 			}
 			if (data.isFieldChanged(DictionaryLnkRuleCondDto_.bcName)) {
 				entity.setBcName(data.getBcName());
-			}
-			if (data.isFieldChanged(DictionaryLnkRuleCondDto_.departmentId)) {
-				entity.setDepartment(data.getDepartmentId() == null ? null
-						: baseDAO.findById(Department.class, Long.valueOf(data.getDepartmentId())));
 			}
 			if (data.isFieldChanged(DictionaryLnkRuleCondDto_.fieldTextValue)) {
 				entity.setFieldTextValue(data.getFieldTextValue());

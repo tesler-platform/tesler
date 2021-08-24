@@ -25,7 +25,6 @@ import io.tesler.api.data.dto.DataResponseDTO;
 import io.tesler.constgen.DtoField;
 import io.tesler.core.util.session.SessionService;
 import io.tesler.model.core.entity.BaseEntity;
-import io.tesler.model.core.entity.Department;
 import io.tesler.model.core.entity.User;
 import java.util.Map;
 import lombok.Getter;
@@ -51,10 +50,6 @@ public abstract class DtoConstructor<E extends BaseEntity, D extends DataRespons
 
 	@Autowired
 	private SessionService sessionService;
-
-	protected RequestValueSupplier<BaseEntity, DataResponseDTO, Department> currentUserDept = new RequestValueSupplier<>(
-			(mapping, entity) -> sessionService.getSessionUserDepartment()
-	);
 
 	protected RequestValueSupplier<BaseEntity, DataResponseDTO, User> currentUser = new RequestValueSupplier<>(
 			(mapping, entity) -> sessionService.getSessionUser()

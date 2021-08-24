@@ -28,7 +28,6 @@ import io.tesler.api.data.dto.DataResponseDTO;
 import io.tesler.core.dto.Lov;
 import io.tesler.core.util.filter.SearchParameter;
 import io.tesler.core.util.filter.provider.impl.LovValueProvider;
-import io.tesler.model.core.entity.Department;
 import io.tesler.model.dictionary.links.entity.DictionaryLnkRuleCond;
 import java.util.Optional;
 import lombok.AllArgsConstructor;
@@ -76,10 +75,6 @@ public class DictionaryLnkRuleCondDto extends DataResponseDTO {
 		this.fieldName = entity.getFieldName();
 		this.fieldNameText = entity.getFieldName();
 		this.bcName = entity.getBcName();
-		this.departmentId = Optional.of(entity).map(DictionaryLnkRuleCond::getDepartment)
-				.map(Department::getId).map(Object::toString).orElse(null);
-		this.department = Optional.of(entity).map(DictionaryLnkRuleCond::getDepartment)
-				.map(Department::getShortName).orElse(null);
 		this.fieldTextValue = entity.getFieldTextValue();
 		this.fieldBooleanValue = entity.getFieldBooleanValue();
 		this.type = DICTIONARY_TERM_TYPE.lookupValue(entity.getType());

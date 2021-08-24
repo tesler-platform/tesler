@@ -21,7 +21,6 @@
 package io.tesler.core.util.session;
 
 import io.tesler.api.data.dictionary.LOV;
-import io.tesler.model.core.entity.Department;
 import io.tesler.model.core.entity.User;
 import io.tesler.model.core.entity.UserRole;
 import java.util.Collection;
@@ -33,8 +32,6 @@ import java.util.Set;
 public interface SessionService {
 
 	User getSessionUser();
-
-	Department getSessionUserDepartment();
 
 	LOV getSessionUserRole();
 

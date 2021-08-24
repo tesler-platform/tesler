@@ -21,7 +21,6 @@
 package io.tesler.core.service;
 
 import io.tesler.api.data.dictionary.LOV;
-import io.tesler.model.core.entity.Department;
 import io.tesler.model.core.entity.User;
 import java.util.Map;
 import java.util.Set;
@@ -36,6 +35,6 @@ public interface ResponsibilitiesService {
 	String getListScreensByUser(User user, LOV userRole);
 
 	@Deprecated
-	Set<String> getViewResponsibilities(Department department);
+	Set<String> getViewResponsibilities();
 
 }

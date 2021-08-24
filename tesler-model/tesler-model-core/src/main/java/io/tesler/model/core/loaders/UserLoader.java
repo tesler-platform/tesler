@@ -21,23 +21,16 @@
 package io.tesler.model.core.loaders;
 
 import io.tesler.model.core.entity.User;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 
 @Component
 public class UserLoader extends AbstractObjectLoader<User> {
 
-	@Autowired
-	private DepartmentLoader departmentLoader;
 
 	@Override
 	public User ensureLoaded(User object) {
-		User user = load(object);
-		if (user != null) {
-			departmentLoader.ensureLoaded(user.getDepartment());
-		}
-		return user;
+		return load(object);
 	}
 
 	@Override

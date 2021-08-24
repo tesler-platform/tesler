@@ -33,7 +33,6 @@ import io.tesler.core.util.session.UserService;
 import io.tesler.core.util.session.WebHelper;
 import io.tesler.model.core.api.GroupService;
 import io.tesler.model.core.dao.JpaDao;
-import io.tesler.model.core.entity.Department;
 import io.tesler.model.core.entity.User;
 import io.tesler.model.core.entity.UserRole;
 import java.util.Collection;
@@ -88,11 +87,6 @@ public class SessionServiceImpl implements SessionService {
 			throw new SessionAuthenticationException("Not authorized");
 		}
 		return user;
-	}
-
-	@Override
-	public Department getSessionUserDepartment() {
-		return getSessionUser().getDepartment();
 	}
 
 	@Override

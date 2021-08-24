@@ -31,8 +31,6 @@ import java.util.Optional;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import lombok.Getter;
@@ -86,10 +84,6 @@ public class User extends BaseEntity implements IAccessorSupplier {
 	private String dn;
 
 	private String origDeptCode;
-
-	@ManyToOne
-	@JoinColumn(name = "dept_id")
-	private Department department;
 
 	@JsonIgnore
 	private String password;

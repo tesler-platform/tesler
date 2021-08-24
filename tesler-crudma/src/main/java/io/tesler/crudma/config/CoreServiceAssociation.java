@@ -26,7 +26,6 @@ import io.tesler.core.crudma.bc.impl.AbstractEnumBcSupplier;
 import io.tesler.core.crudma.bc.impl.BcDescription;
 import io.tesler.crudma.api.BcPropertiesService;
 import io.tesler.crudma.api.BcService;
-import io.tesler.crudma.api.DeptService;
 import io.tesler.crudma.api.FilterGroupService;
 import io.tesler.crudma.api.ScreenService;
 import io.tesler.crudma.api.WidgetService;
@@ -38,8 +37,6 @@ import org.springframework.stereotype.Component;
 public enum CoreServiceAssociation implements EnumBcIdentifier {
 
 	// @formatter:off
-
-	department(DeptService.class),
 
 	filterGroup(FilterGroupService.class),
 
