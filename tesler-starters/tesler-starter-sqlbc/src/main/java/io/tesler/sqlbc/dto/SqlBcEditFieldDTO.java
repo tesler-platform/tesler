@@ -18,10 +18,10 @@
  * #L%
  */
 
-package io.tesler.core.dto.data;
+package io.tesler.sqlbc.dto;
 
 import io.tesler.api.data.dto.DataResponseDTO;
-import io.tesler.model.ui.entity.SqlBcEditField;
+import io.tesler.sqlbc.entity.SqlBcEditField;
 import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

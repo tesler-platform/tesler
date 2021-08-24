@@ -18,7 +18,7 @@
  * #L%
  */
 
-package io.tesler.model.ui.entity;
+package io.tesler.sqlbc.entity;
 
 import io.tesler.model.core.entity.BaseEntity;
 import java.time.LocalDateTime;
