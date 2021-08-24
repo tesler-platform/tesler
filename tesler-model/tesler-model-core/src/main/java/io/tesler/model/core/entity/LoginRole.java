@@ -38,10 +38,6 @@ import lombok.Setter;
 @Table(name = "LOGIN_ROLE")
 public class LoginRole extends BaseEntity {
 
-	@ManyToOne
-	@JoinColumn(name = "PRJ_GRP_ID")
-	private ProjectGroup projectGroup;
-
 	private LOV internalRoleCd;
 
 	@ManyToOne
