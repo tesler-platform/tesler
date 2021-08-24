@@ -22,7 +22,6 @@ package io.tesler.core.util.session;
 
 import io.tesler.api.data.dictionary.LOV;
 import io.tesler.model.core.entity.Department;
-import io.tesler.model.core.entity.Division;
 import io.tesler.model.core.entity.User;
 import io.tesler.model.core.entity.UserRole;
 import java.util.Collection;
@@ -52,10 +51,6 @@ public interface SessionService {
 	String getFirstViewFromResponsibilities(String... views);
 
 	String getSessionId();
-
-	Division getSessionUserDivision(LOV levelCd);
-
-	Division getSessionUserDivision();
 
 	List<UserRole> getSessionUserRoles();
 

@@ -34,13 +34,11 @@ import io.tesler.core.util.session.WebHelper;
 import io.tesler.model.core.api.GroupService;
 import io.tesler.model.core.dao.JpaDao;
 import io.tesler.model.core.entity.Department;
-import io.tesler.model.core.entity.Division;
 import io.tesler.model.core.entity.User;
 import io.tesler.model.core.entity.UserRole;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 import javax.servlet.http.HttpServletRequest;
@@ -193,24 +191,6 @@ public class SessionServiceImpl implements SessionService {
 	@Override
 	public String getSessionId() {
 		return coreSessionService.getSessionId();
-	}
-
-	@Override
-	public Division getSessionUserDivision(LOV levelCd) {
-		return getSessionUserRoles().stream()
-				.filter(userRole -> Objects.equals(getSessionUserRole(), userRole.getInternalRoleCd()))
-				.findFirst()
-				.map(UserRole::getDivision)
-				.map(division -> division.getParentByLevelCode(levelCd)).orElse(null);
-	}
-
-	@Override
-	public Division getSessionUserDivision() {
-		return getSessionUserRoles().stream()
-				.filter(userRole -> Objects.equals(getSessionUserRole(), userRole.getInternalRoleCd()))
-				.findFirst()
-				.map(UserRole::getDivision)
-				.orElse(null);
 	}
 
 	@Override
