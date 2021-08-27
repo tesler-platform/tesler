@@ -22,8 +22,6 @@ package io.tesler.core.crudma;
 
 import static io.tesler.core.util.SpringBeanUtils.getBean;
 
-import io.tesler.api.security.obligations.IObligationSet;
-import io.tesler.api.security.obligations.IObligationSupplier;
 import io.tesler.core.controller.param.QueryParameters;
 import io.tesler.core.crudma.bc.BusinessComponent;
 import java.util.Objects;
@@ -72,7 +70,7 @@ public class CrudmaActionHolder {
 	}
 
 	public CrudmaActionHolder of(CrudmaActionType actionType) {
-		crudmaAction = new CrudmaAction(actionType);
+		crudmaAction = new SimpleCrudmaAction(actionType);
 		return this;
 	}
 
@@ -96,10 +94,34 @@ public class CrudmaActionHolder {
 		return this;
 	}
 
+	public interface CrudmaAction {
+
+		String toString();
+
+		CrudmaActionType getActionType();
+
+		String getDescription();
+
+		String getName();
+
+		io.tesler.core.crudma.bc.BusinessComponent getBc();
+
+		String getOriginalActionType();
+
+		CrudmaActionHolder.CrudmaAction setDescription(String description);
+
+		CrudmaActionHolder.CrudmaAction setName(String name);
+
+		CrudmaActionHolder.CrudmaAction setBc(io.tesler.core.crudma.bc.BusinessComponent bc);
+
+		CrudmaActionHolder.CrudmaAction setOriginalActionType(String originalActionType);
+
+	}
+	
 	@RequiredArgsConstructor
 	@Accessors(chain = true)
 	@ToString
-	public static class CrudmaAction implements IObligationSupplier<CrudmaAction> {
+	public static class SimpleCrudmaAction implements CrudmaAction {
 
 		@Getter
 		private final CrudmaActionType actionType;
@@ -116,10 +138,6 @@ public class CrudmaActionHolder {
 		@Getter
 		private BusinessComponent bc;
 
-		@Getter
-		@Setter
-		private IObligationSet obligationSet;
-
 		/**
 		 * If action has been initiated as custom action and transformed to CrudmaAction via `actionRole` parameter,
 		 * this field is used to store an original action name.
@@ -127,11 +145,6 @@ public class CrudmaActionHolder {
 		@Getter
 		@Setter
 		private String originalActionType;
-
-		@Override
-		public CrudmaAction getContext() {
-			return this;
-		}
 
 	}
 

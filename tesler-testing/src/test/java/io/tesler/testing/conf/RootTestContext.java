@@ -20,15 +20,12 @@
 
 package io.tesler.testing.conf;
 
-import static org.mockito.ArgumentMatchers.any;
+
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 import io.tesler.api.data.dictionary.DictionaryCache;
 import io.tesler.api.service.tx.DeploymentTransactionSupport;
 import io.tesler.api.system.SystemSettings;
-import io.tesler.core.security.PolicyEnforcer;
-import io.tesler.core.security.impl.obligations.ObligationSet;
 import io.tesler.core.util.session.SessionService;
 import org.springframework.context.annotation.Bean;
 
@@ -61,13 +58,13 @@ public class RootTestContext {
 	}
 
 
-	@Bean
+/*	@Bean
 	protected PolicyEnforcer policyEnforcer() {
 		PolicyEnforcer policyEnforcer = mock(PolicyEnforcer.class);
 		when(policyEnforcer.check(any())).thenReturn(new ObligationSet());
 		when(policyEnforcer.transform(any(), any(), any())).thenAnswer(i -> i.getArguments()[0]);
 		when(policyEnforcer.transform(any(), any())).thenAnswer(i -> i.getArguments()[0]);
 		return policyEnforcer;
-	}
+	}*/
 
 }

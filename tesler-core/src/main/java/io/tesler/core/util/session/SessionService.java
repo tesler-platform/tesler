@@ -28,7 +28,6 @@ import io.tesler.model.core.entity.UserRole;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 
 public interface SessionService {
@@ -62,7 +61,5 @@ public interface SessionService {
 	Collection<String> getCurrentScreenViews();
 
 	List<String> getViews(String screenName);
-
-	Set<Long> getAllUserGroups();
 
 }

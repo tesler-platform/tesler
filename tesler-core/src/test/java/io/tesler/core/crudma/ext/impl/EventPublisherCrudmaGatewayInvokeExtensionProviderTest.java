@@ -26,6 +26,7 @@ import static org.mockito.Mockito.when;
 import io.tesler.api.util.Invoker;
 import io.tesler.core.crudma.Crudma;
 import io.tesler.core.crudma.CrudmaActionHolder.CrudmaAction;
+import io.tesler.core.crudma.CrudmaActionHolder.SimpleCrudmaAction;
 import io.tesler.core.crudma.CrudmaActionType;
 import io.tesler.core.crudma.CrudmaFactory;
 import io.tesler.core.crudma.InterimResult;
@@ -76,7 +77,7 @@ class EventPublisherCrudmaGatewayInvokeExtensionProviderTest {
 
 	@Test
 	void testExtendInvokerForInvoke() {
-		CrudmaAction crudmaAction = new CrudmaAction(CrudmaActionType.INVOKE);
+		CrudmaAction crudmaAction = new SimpleCrudmaAction(CrudmaActionType.INVOKE);
 		crudmaAction.setBc(bc);
 		Invoker<Object, RuntimeException> result = eventPublisherCrudmaGatewayInvokeExtensionProvider
 				.extendInvoker(crudmaAction, () -> true, true);
@@ -85,7 +86,7 @@ class EventPublisherCrudmaGatewayInvokeExtensionProviderTest {
 
 	@Test
 	void testExtendInvokerForCreate() {
-		CrudmaAction crudmaAction = new CrudmaAction(CrudmaActionType.CREATE);
+		CrudmaAction crudmaAction = new SimpleCrudmaAction(CrudmaActionType.CREATE);
 		crudmaAction.setBc(bc);
 		Invoker<Object, RuntimeException> result = eventPublisherCrudmaGatewayInvokeExtensionProvider
 				.extendInvoker(crudmaAction, () -> interimResult, true);
@@ -94,7 +95,7 @@ class EventPublisherCrudmaGatewayInvokeExtensionProviderTest {
 
 	@Test
 	void testExtendInvokerForPreview() {
-		CrudmaAction crudmaAction = new CrudmaAction(CrudmaActionType.PREVIEW);
+		CrudmaAction crudmaAction = new SimpleCrudmaAction(CrudmaActionType.PREVIEW);
 		crudmaAction.setBc(bc);
 		Invoker<Object, RuntimeException> result = eventPublisherCrudmaGatewayInvokeExtensionProvider
 				.extendInvoker(crudmaAction, () -> interimResult, true);
@@ -103,7 +104,7 @@ class EventPublisherCrudmaGatewayInvokeExtensionProviderTest {
 
 	@Test
 	void testExtendInvokerForDelete() {
-		CrudmaAction crudmaAction = new CrudmaAction(CrudmaActionType.DELETE);
+		CrudmaAction crudmaAction = new SimpleCrudmaAction(CrudmaActionType.DELETE);
 		crudmaAction.setBc(bc);
 		Invoker<Object, RuntimeException> result = eventPublisherCrudmaGatewayInvokeExtensionProvider
 				.extendInvoker(crudmaAction, () -> interimResult, true);
@@ -112,7 +113,7 @@ class EventPublisherCrudmaGatewayInvokeExtensionProviderTest {
 
 	@Test
 	void testExtendInvokerWithException() {
-		CrudmaAction crudmaAction = new CrudmaAction(CrudmaActionType.INVOKE);
+		CrudmaAction crudmaAction = new SimpleCrudmaAction(CrudmaActionType.INVOKE);
 		crudmaAction.setBc(bc);
 		Invoker<Object, RuntimeException> result = eventPublisherCrudmaGatewayInvokeExtensionProvider
 				.extendInvoker(crudmaAction, () -> {

@@ -23,6 +23,7 @@ package io.tesler.core.crudma.ext.impl;
 import io.tesler.api.service.tx.TransactionService;
 import io.tesler.api.util.Invoker;
 import io.tesler.core.crudma.CrudmaActionHolder.CrudmaAction;
+import io.tesler.core.crudma.CrudmaActionHolder.SimpleCrudmaAction;
 import io.tesler.core.crudma.CrudmaActionType;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -59,7 +60,7 @@ class TxServiceCrudmaGatewayInvokeExtensionProviderTest {
 			when(txService.invokeInNewRollbackOnlyTx(any())).thenReturn(true);
 		};
 		Assertions.assertDoesNotThrow(executable);
-		CrudmaAction crudmaAction = new CrudmaAction(CrudmaActionType.INVOKE);
+		CrudmaAction crudmaAction = new SimpleCrudmaAction(CrudmaActionType.INVOKE);
 		Invoker<Object, RuntimeException> result;
 		result = txServiceCrudmaGatewayInvokeExtensionProvider.extendInvoker(crudmaAction, null, true);
 		Assertions.assertEquals(true, result.invoke());
