@@ -21,9 +21,6 @@
 package io.tesler.model.core.entity;
 
 import io.tesler.api.data.dictionary.LOV;
-import io.tesler.model.core.api.security.IAccessorSupplier;
-import io.tesler.model.core.entity.security.Accessor;
-import io.tesler.model.core.entity.security.types.AccessorType;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.time.ZoneId;
 import java.util.List;
@@ -52,7 +49,7 @@ import org.hibernate.envers.NotAudited;
 @Table(name = "users") // users, а не user, т.к. это служебное слово oracle
 @Getter
 @Setter
-public class User extends BaseEntity implements IAccessorSupplier {
+public class User extends BaseEntity /*TODO>>IBORISENKO>>this should be moved to project level!!!>> implements IAccessorSupplier*/ {
 
 	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinTable(name = "PRJ_GRP_USER",
@@ -192,11 +189,6 @@ public class User extends BaseEntity implements IAccessorSupplier {
 		return Optional.ofNullable(getTimezone())
 				.map(t -> ZoneId.of(t.getKey()))
 				.orElseGet(ZoneId::systemDefault);
-	}
-
-	@Override
-	public Accessor getAccessor() {
-		return AccessorType.USER.toAccessor(getId());
 	}
 
 }

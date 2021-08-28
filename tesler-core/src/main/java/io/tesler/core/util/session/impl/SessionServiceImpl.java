@@ -31,7 +31,6 @@ import io.tesler.core.util.session.SessionService;
 import io.tesler.core.util.session.UserExternalService;
 import io.tesler.core.util.session.UserService;
 import io.tesler.core.util.session.WebHelper;
-import io.tesler.model.core.api.GroupService;
 import io.tesler.model.core.dao.JpaDao;
 import io.tesler.model.core.entity.Department;
 import io.tesler.model.core.entity.Division;
@@ -42,7 +41,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.Set;
 import javax.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -77,8 +75,6 @@ public class SessionServiceImpl implements SessionService {
 	private final BcHierarchyAware bcHierarchyAware;
 
 	private final UserCache userCache;
-
-	private final GroupService groupService;
 
 	// если у нас транзакции нет, то здесь будут происходить
 	// постоянные запросы к СУБД, поэтому кешируем
@@ -231,11 +227,7 @@ public class SessionServiceImpl implements SessionService {
 		return userCache.getViews(screenName, getSessionUser(), getSessionUserRole());
 	}
 
-	@Cacheable(cacheNames = {CacheConfig.REQUEST_CACHE}, key = "#root.methodName")
-	@Override
-	public Set<Long> getAllUserGroups() {
-		return groupService.getUserAllGroups(getSessionUser());
-	}
+
 
 	@Component
 	@RequiredArgsConstructor

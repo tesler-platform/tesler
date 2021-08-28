@@ -2,7 +2,7 @@
  * #%L
  * IO Tesler - Core
  * %%
- * Copyright (C) 2018 - 2019 Tesler Contributors
+ * Copyright (C) 2018 - 2020 Tesler Contributors
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,28 +18,21 @@
  * #L%
  */
 
-package io.tesler.core.security.impl.obligations;
+package io.tesler.core.service.impl;
 
-import io.tesler.api.security.attributes.IAttributeType;
-import io.tesler.api.security.obligations.IObligation;
-import java.util.ArrayList;
-import java.util.List;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import static io.tesler.api.data.dao.SpecificationUtils.and;
 
+import io.tesler.core.crudma.bc.BusinessComponent;
+import io.tesler.core.service.BcSpecificationBuilder;
+import org.springframework.data.jpa.domain.Specification;
+import org.springframework.stereotype.Service;
 
-@Data
-@EqualsAndHashCode
-public class Obligation implements IObligation {
-
-	private final IAttributeType attributeType;
-
-	private final List<String> values = new ArrayList<>();
+@Service
+public class SpecificationBuilder implements BcSpecificationBuilder {
 
 	@Override
-	public IObligation addValue(String value) {
-		values.add(value);
-		return this;
+	public <E> Specification<E> buildBcSpecification(BusinessComponent bc, Specification<E> parentSpecification, Specification<E> specification) {
+		return and(parentSpecification, specification);
 	}
 
 }

@@ -24,8 +24,8 @@ import io.tesler.core.crudma.bc.BusinessComponent;
 import org.springframework.data.jpa.domain.Specification;
 
 
-public interface BcSpecificationBuilder<E> {
+public interface BcSpecificationBuilder {
 
-	Specification<E> buildBcSpecification(BusinessComponent bc);
+	<E> Specification<E> buildBcSpecification(BusinessComponent bc, Specification<E> parentSpecification, Specification<E> specification);
 
 }

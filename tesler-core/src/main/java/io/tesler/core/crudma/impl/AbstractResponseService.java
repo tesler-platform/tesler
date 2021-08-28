@@ -27,7 +27,6 @@ import io.tesler.api.data.dto.DataResponseDTO;
 import io.tesler.api.exception.ServerException;
 import io.tesler.core.config.CacheConfig;
 import io.tesler.core.controller.param.QueryParameters;
-import io.tesler.core.crudma.CrudmaActionHolder;
 import io.tesler.core.crudma.bc.BusinessComponent;
 import io.tesler.core.crudma.bc.impl.InnerBcDescription;
 import io.tesler.core.dao.BaseDAO;
@@ -38,7 +37,6 @@ import io.tesler.core.dto.rowmeta.*;
 import io.tesler.core.exception.BusinessException;
 import io.tesler.core.exception.EntityNotFoundException;
 import io.tesler.core.exception.UnconfirmedException;
-import io.tesler.core.security.PolicyEnforcer;
 import io.tesler.core.service.BcSpecificationBuilder;
 import io.tesler.core.service.DTOMapper;
 import io.tesler.core.service.IOutwardReportEngineService;
@@ -93,7 +91,8 @@ public abstract class AbstractResponseService<T extends DataResponseDTO, E exten
 
 	private final Class<? extends FieldMetaBuilder<T>> metaBuilder;
 
-	private final BcSpecificationBuilder<E> specificationBuilder = new SpecificationBuilder();
+	@Autowired
+	private BcSpecificationBuilder specificationBuilder;
 
 	protected Class<? extends SecuritySpecificationHolder<E>> securitySpecificationHolder = null;
 
@@ -110,9 +109,6 @@ public abstract class AbstractResponseService<T extends DataResponseDTO, E exten
 
 	@Autowired
 	protected ApplicationContext applicationContext;
-
-	@Autowired
-	private PolicyEnforcer policyEnforcer;
 
 	@Autowired
 	private DTOMapper dtoMapper;
@@ -151,7 +147,7 @@ public abstract class AbstractResponseService<T extends DataResponseDTO, E exten
 
 	@Override
 	public E getOneAsEntity(BusinessComponent bc) {
-		Specification<E> getOneSpecification = Specification.where(specificationBuilder.buildBcSpecification(bc))
+		Specification<E> getOneSpecification = Specification.where(specificationBuilder.buildBcSpecification(bc, getParentSpecification(bc), getSpecification(bc)))
 				.and((root, cq, cb) -> cb.equal(root.get(BaseEntity_.id), bc.getIdAsLong()));
 		E entity = baseDAO.getFirstResultOrNull(typeOfEntity, getOneSpecification);
 		if (entity == null) {
@@ -193,7 +189,7 @@ public abstract class AbstractResponseService<T extends DataResponseDTO, E exten
 				dao.getList(
 						typeOfEntity,
 						typeOfDTO,
-						specificationBuilder.buildBcSpecification(bc),
+						specificationBuilder.buildBcSpecification(bc, getParentSpecification(bc), getSpecification(bc)),
 						bc.getParameters(),
 						getFetchGraph(bc)
 				)
@@ -325,7 +321,7 @@ public abstract class AbstractResponseService<T extends DataResponseDTO, E exten
 				typeOfEntity,
 				typeOfDTO,
 				(root, cq, cb) -> {
-					Predicate pr = specificationBuilder.buildBcSpecification(bc).toPredicate(root, cq, cb);
+					Predicate pr = specificationBuilder.buildBcSpecification(bc, getParentSpecification(bc), getSpecification(bc)).toPredicate(root, cq, cb);
 					cq.orderBy();
 					return pr;
 				},
@@ -574,18 +570,6 @@ public abstract class AbstractResponseService<T extends DataResponseDTO, E exten
 			result.addAll(specificationHolder.allValues().stream().map(Object::toString).collect(Collectors.toList()));
 		}
 		return result;
-	}
-
-	class SpecificationBuilder implements BcSpecificationBuilder<E> {
-
-		@Override
-		public Specification<E> buildBcSpecification(BusinessComponent bc) {
-			return policyEnforcer.transform(
-					and(getParentSpecification(bc), getSpecification(bc)),
-					CrudmaActionHolder.getCrudmaAction()
-			);
-		}
-
 	}
 
 }

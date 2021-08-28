@@ -32,6 +32,7 @@ import io.tesler.api.data.dto.rowmeta.FieldsDTO;
 import io.tesler.api.util.Invoker;
 import io.tesler.core.controller.BCFactory;
 import io.tesler.core.crudma.CrudmaActionHolder.CrudmaAction;
+import io.tesler.core.crudma.CrudmaActionHolder.SimpleCrudmaAction;
 import io.tesler.core.crudma.CrudmaActionType;
 import io.tesler.core.crudma.InterimResult;
 import io.tesler.core.crudma.bc.BcHierarchy;
@@ -104,7 +105,7 @@ class BcStateCrudmaGatewayInvokeExtensionProviderTest {
 
 	@Test
 	void testExtendInvoker() {
-		CrudmaAction crudmaAction = new CrudmaAction(CrudmaActionType.INVOKE);
+		CrudmaAction crudmaAction = new SimpleCrudmaAction(CrudmaActionType.INVOKE);
 		crudmaAction.setBc(bc);
 		Invoker<Object, RuntimeException> result = bcStateCrudmaGatewayInvokeExtensionProvider
 				.extendInvoker(crudmaAction, () -> true, false);
@@ -113,7 +114,7 @@ class BcStateCrudmaGatewayInvokeExtensionProviderTest {
 
 	@Test
 	void testExtendInvokerWithCancel() {
-		CrudmaAction crudmaAction = new CrudmaAction(CrudmaActionType.INVOKE);
+		CrudmaAction crudmaAction = new SimpleCrudmaAction(CrudmaActionType.INVOKE);
 		crudmaAction.setName(ActionType.CANCEL_CREATE.getType());
 		crudmaAction.setBc(bc);
 		Invoker<Object, RuntimeException> result = bcStateCrudmaGatewayInvokeExtensionProvider
@@ -128,7 +129,7 @@ class BcStateCrudmaGatewayInvokeExtensionProviderTest {
 
 	@Test
 	void testExtendInvokerWithCreateAction() {
-		CrudmaAction crudmaAction = new CrudmaAction(CrudmaActionType.CREATE);
+		CrudmaAction crudmaAction = new SimpleCrudmaAction(CrudmaActionType.CREATE);
 		crudmaAction.setBc(bc);
 		TestResponseDto dto = new TestResponseDto();
 		dto.setId("1");
@@ -152,7 +153,7 @@ class BcStateCrudmaGatewayInvokeExtensionProviderTest {
 
 	@Test
 	void testExtendInvokerWithPreviewAction() {
-		CrudmaAction crudmaAction = new CrudmaAction(CrudmaActionType.PREVIEW);
+		CrudmaAction crudmaAction = new SimpleCrudmaAction(CrudmaActionType.PREVIEW);
 		when(bcStateAware.isPersisted(any())).thenReturn(false);
 		crudmaAction.setBc(bc);
 		TestResponseDto dto = new TestResponseDto();
@@ -172,7 +173,7 @@ class BcStateCrudmaGatewayInvokeExtensionProviderTest {
 
 	@Test
 	void testExtendInvokerWithMetaAction() {
-		CrudmaAction crudmaAction = new CrudmaAction(CrudmaActionType.META);
+		CrudmaAction crudmaAction = new SimpleCrudmaAction(CrudmaActionType.META);
 		when(bcStateAware.isPersisted(any())).thenReturn(false);
 		crudmaAction.setBc(bc);
 		FieldsDTO fields = new FieldsDTO();
@@ -193,7 +194,7 @@ class BcStateCrudmaGatewayInvokeExtensionProviderTest {
 
 	@Test
 	void testExtendInvokerWithGetAction() {
-		CrudmaAction crudmaAction = new CrudmaAction(CrudmaActionType.GET);
+		CrudmaAction crudmaAction = new SimpleCrudmaAction(CrudmaActionType.GET);
 		when(bcStateAware.isPersisted(any())).thenReturn(false);
 		crudmaAction.setBc(bc);
 		TestResponseDto dto = new TestResponseDto();
@@ -205,7 +206,7 @@ class BcStateCrudmaGatewayInvokeExtensionProviderTest {
 
 	@Test
 	void testExtendInvokerRestoreState() {
-		CrudmaAction crudmaAction = new CrudmaAction(CrudmaActionType.INVOKE);
+		CrudmaAction crudmaAction = new SimpleCrudmaAction(CrudmaActionType.INVOKE);
 		crudmaAction.setBc(bc);
 		Invoker<Object, RuntimeException> result = bcStateCrudmaGatewayInvokeExtensionProvider
 				.extendInvoker(crudmaAction, () -> "ExpectedResult", false);

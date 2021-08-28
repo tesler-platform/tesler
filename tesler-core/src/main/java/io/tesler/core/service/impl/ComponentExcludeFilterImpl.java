@@ -21,7 +21,7 @@
 package io.tesler.core.service.impl;
 
 import io.tesler.api.util.spring.AbstractComponentExcludeFilter;
-import io.tesler.model.core.service.BaseAccessService;
+//import io.tesler.acl.service.BaseAccessService;
 import com.google.common.collect.ImmutableSet;
 import java.util.Set;
 import lombok.EqualsAndHashCode;
@@ -33,7 +33,7 @@ public class ComponentExcludeFilterImpl extends AbstractComponentExcludeFilter {
 
 	@Getter
 	private final Set<String> classes = ImmutableSet.<String>builder()
-			.add(BaseAccessService.class.getName())
+			//.add(BaseAccessService.class.getName())
 			//.add(BaseNotificationSettingsProvider.class.getName())
 			.build();
 
