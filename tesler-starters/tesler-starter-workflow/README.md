@@ -1,4 +1,4 @@
-# Tesler starter for Quartz
+# Tesler starter for Workflow
 
 ## Prerequisites
 Your project uses tesler with tesler-starter-parent, e.g. you have in your pom.xml:
