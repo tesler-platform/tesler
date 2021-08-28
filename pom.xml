@@ -296,6 +296,9 @@
     <module>tesler-starters/tesler-starter-quartz</module>
     <module>tesler-starters/tesler-starter-notifications/tesler-starter-notifications</module>
     <module>tesler-starters/tesler-starter-notifications/tesler-starter-notifications-model</module>
+    <module>tesler-starters/tesler-starter-workflow/tesler-starter-workflow-model</module>
+    <module>tesler-starters/tesler-starter-workflow/tesler-starter-workflow-core</module>
+    <module>tesler-starters/tesler-starter-workflow/tesler-starter-workflow-api</module>
   </modules>
 
 </project>
