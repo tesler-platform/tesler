@@ -28,7 +28,6 @@ import io.tesler.engine.workflow.services.WorkflowDao;
 import io.tesler.model.core.dao.JpaDao;
 import io.tesler.model.core.dao.util.JpaUtils;
 import io.tesler.model.core.entity.BaseEntity_;
-import io.tesler.model.core.entity.Project;
 import io.tesler.model.core.entity.User;
 import io.tesler.model.workflow.entity.*;
 import lombok.extern.slf4j.Slf4j;
@@ -70,7 +69,7 @@ public class WorkflowDaoImpl implements WorkflowDao {
 		if (workflowTask != null) {
 			return getWorkflowStep(task.getWorkflowTask());
 		}
-		return getInitialStep(task.getProject(), task.getTaskType());
+		return getInitialStep(task.getTaskType());
 	}
 
 	@Override
@@ -82,9 +81,8 @@ public class WorkflowDaoImpl implements WorkflowDao {
 	}
 
 	@Override
-	public WorkflowStep getInitialStep(final Project project, final LOV taskType) {
+	public WorkflowStep getInitialStep(final LOV taskType) {
 		final Workflow workflow = jpaDao.getSingleResultOrNull(Workflow.class, (root, query, cb) -> cb.and(
-				cb.equal(root.get(Workflow_.project), project),
 				cb.equal(root.get(Workflow_.taskTypeCd), taskType)
 		));
 		return workflow == null || workflow.getActiveVersion() == null ? null : workflow.getActiveVersion().getFirstStep();
@@ -226,12 +224,11 @@ public class WorkflowDaoImpl implements WorkflowDao {
 	}
 
 	@Override
-	public List<LOV> getTaskTypesNotInWf(final Project project) {
+	public List<LOV> getTaskTypesNotInWf() {
 		return JpaUtils.<String>selectNativeQuery(
 				entityManager,
-				"select d.key from dictionary_item d where d.type = ? and d.key not in (select w.task_type_cd from wf w where w.project_id = ?)",
-				TASK_TYPE.getName(),
-				project
+				"select d.key from dictionary_item d where d.type = ? and d.key not in (select w.task_type_cd from wf w)",
+				TASK_TYPE.getName()
 		).stream().map(TASK_TYPE::lookupName).collect(Collectors.toList());
 	}
 

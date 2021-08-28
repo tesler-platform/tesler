@@ -23,7 +23,6 @@ package io.tesler.source.services.meta;
 import static io.tesler.source.dto.WorkflowAssigneeRecommendationDto_.condAssigneeCd;
 import static io.tesler.source.dto.WorkflowAssigneeRecommendationDto_.department;
 import static io.tesler.source.dto.WorkflowAssigneeRecommendationDto_.description;
-import static io.tesler.source.dto.WorkflowAssigneeRecommendationDto_.projectGroup;
 
 import io.tesler.core.crudma.bc.impl.InnerBcDescription;
 import io.tesler.core.dict.WorkflowDictionaryType;
@@ -39,7 +38,7 @@ public abstract class BaseWorkflowAssigneeRecommendationFieldMetaBuilder<D exten
 	@Override
 	public void buildRowDependentMeta(RowDependentFieldsMeta<D> fields, InnerBcDescription bcDescription, Long rowId,
 			Long parRowId) {
-		fields.setEnabled(condAssigneeCd, projectGroup, department, description);
+		fields.setEnabled(condAssigneeCd, department, description);
 	}
 
 	@Override

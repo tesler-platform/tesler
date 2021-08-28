@@ -131,9 +131,6 @@
       <column name="ID" remarks="Identifier" type="NUMBER(19, 0)">
         <constraints primaryKey="true"/>
       </column>
-      <column name="PROJECT_ID" remarks="Identifier проекта" type="NUMBER(19, 0)">
-        <constraints nullable="false"/>
-      </column>
       <column name="TASK_TYPE_CD" remarks="Тип активности" type="VARCHAR2(255)"/>
       <column name="NAME" remarks="Название воркфлоу" type="VARCHAR2(100)"/>
       <column name="DESCRIPTION" remarks="Описание воркфлоу" type="VARCHAR2(255)"/>
@@ -165,7 +162,6 @@
         <constraints nullable="false"/>
       </column>
       <column name="COND_ASSIGNEE_CD" remarks="Правило отбора" type="VARCHAR2(255)"/>
-      <column name="PRJ_GRP_ID" remarks="Группа пользователей" type="NUMBER(19, 0)"/>
       <column name="DEPT_ID" remarks="Департамент" type="NUMBER(19, 0)"/>
       <column name="DIVISION_LEVEL_CD" remarks="Уровень подразделения" type="VARCHAR2(255)"/>
       <column name="INTERNAL_ROLE_CD" remarks="Роль" type="VARCHAR2(255)"/>
@@ -631,15 +627,13 @@
   </changeSet>
   <changeSet author="initial" id="WF INDEXES">
     <createIndex indexName="WF_NAME_IND" tableName="WF" unique="true">
-      <column name="PROJECT_ID"/>
       <column name="NAME"/>
     </createIndex>
-    <addUniqueConstraint columnNames="PROJECT_ID, NAME" constraintName="WF_NAME" tableName="WF"/>
+    <addUniqueConstraint columnNames="NAME" constraintName="WF_NAME" tableName="WF"/>
     <createIndex indexName="WF_UNIQUE_IND" tableName="WF" unique="true">
-      <column name="PROJECT_ID"/>
       <column name="TASK_TYPE_CD"/>
     </createIndex>
-    <addUniqueConstraint columnNames="PROJECT_ID, TASK_TYPE_CD" constraintName="WF_UNIQUE" tableName="WF"/>
+    <addUniqueConstraint columnNames="TASK_TYPE_CD" constraintName="WF_UNIQUE" tableName="WF"/>
     <createIndex indexName="WF_IND1" tableName="WF">
       <column defaultValueNumeric="1" name="CREATED_BY_USER_ID"/>
     </createIndex>
@@ -894,9 +888,7 @@
     <addForeignKeyConstraint baseColumnNames="DEPT_ID" baseTableName="WF_ASSIGNEE_RECOMMEND"
       constraintName="WF_STEP_ASSIG_DEPT_FK" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT"
       onUpdate="RESTRICT" referencedColumnNames="ID" referencedTableName="DEPT" validate="true"/>
-    <addForeignKeyConstraint baseColumnNames="PRJ_GRP_ID" baseTableName="WF_ASSIGNEE_RECOMMEND"
-      constraintName="WF_STEP_ASSIG_PRG_GRP_FK" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT"
-      onUpdate="RESTRICT" referencedColumnNames="ID" referencedTableName="PRJ_GRP" validate="true"/>
+
     <addForeignKeyConstraint baseColumnNames="COND_GROUP_ID" baseTableName="WF_ASSIGNEE_RECOMMEND"
       constraintName="WF_STEP_ASSIG_STEP_COND_GRP_FK" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT"
       onUpdate="RESTRICT" referencedColumnNames="ID" referencedTableName="WF_STEP_COND_GROUP" validate="true"/>
@@ -976,9 +968,6 @@
     <addForeignKeyConstraint baseColumnNames="OWNER_DEPT_ID" baseTableName="WF" constraintName="WF_DEPT"
       deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID"
       referencedTableName="DEPT" validate="true"/>
-    <addForeignKeyConstraint baseColumnNames="PROJECT_ID" baseTableName="WF" constraintName="WF_PRJ_FK"
-      deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID"
-      referencedTableName="PRJ" validate="true"/>
   </changeSet>
   <changeSet author="initial" id="WF_STEP CONSTRAINTS">
     <addForeignKeyConstraint baseColumnNames="CREATED_BY_USER_ID" baseTableName="WF_STEP"

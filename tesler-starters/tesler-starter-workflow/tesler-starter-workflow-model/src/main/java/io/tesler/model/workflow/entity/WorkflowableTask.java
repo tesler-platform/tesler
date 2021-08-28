@@ -22,7 +22,6 @@ package io.tesler.model.workflow.entity;
 
 import io.tesler.api.data.dictionary.LOV;
 import io.tesler.model.core.entity.BaseEntity;
-import io.tesler.model.core.entity.Project;
 import io.tesler.model.core.entity.User;
 import java.time.LocalDateTime;
 import javax.persistence.Column;
@@ -53,8 +52,6 @@ public abstract class WorkflowableTask extends BaseEntity {
 
 	@Column(name = "TEMPLATE_FLG")
 	private boolean templateFlg;
-
-	public abstract Project getProject();
 
 	public abstract LOV getTaskType();
 

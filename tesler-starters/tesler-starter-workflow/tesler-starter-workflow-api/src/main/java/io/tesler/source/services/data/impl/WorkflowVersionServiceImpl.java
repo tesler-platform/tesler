@@ -147,8 +147,6 @@ public class WorkflowVersionServiceImpl extends
 				joinWith(
 						"/",
 						"screen/admin/view/wftransitionfunc",
-						WorkflowServiceAssociation.wfProject,
-						newVersion.getWorkflow().getProject().getId(),
 						WorkflowServiceAssociation.wf,
 						newVersion.getWorkflow().getId(),
 						WorkflowServiceAssociation.wfVersion,

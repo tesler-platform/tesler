@@ -25,13 +25,10 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.time.ZoneId;
 import java.util.List;
 import java.util.Optional;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -50,14 +47,6 @@ import org.hibernate.envers.NotAudited;
 @Getter
 @Setter
 public class User extends BaseEntity /*TODO>>IBORISENKO>>this should be moved to project level!!!>> implements IAccessorSupplier*/ {
-
-	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@JoinTable(name = "PRJ_GRP_USER",
-			joinColumns = {
-					@JoinColumn(name = "USER_ID", nullable = false, updatable = false)},
-			inverseJoinColumns = {
-					@JoinColumn(name = "PRJ_GRP_ID", nullable = false, updatable = false)})
-	List<ProjectGroup> projectGroup;
 
 	private String login;
 
@@ -106,10 +95,6 @@ public class User extends BaseEntity /*TODO>>IBORISENKO>>this should be moved to
 
 	@JsonIgnore
 	private String password;
-
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "default_prj_id")
-	private Project project;
 
 	@Deprecated
 	@Column(name = "internal_role_cd")
