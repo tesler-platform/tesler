@@ -1,3 +1,4 @@
+io.tesler
 io.tesler.api.data
 io.tesler.api.data.dao
 io.tesler.api.data.dao.databaselistener
@@ -49,6 +50,7 @@ io.tesler.core.dao.hbn
 io.tesler.core.dao.impl
 io.tesler.core.diag
 io.tesler.core.diag.jdbc
+io.tesler.core.dict
 io.tesler.core.dto
 io.tesler.core.dto.data
 io.tesler.core.dto.data.entity
@@ -91,6 +93,18 @@ io.tesler.crudma.config
 io.tesler.crudma.dto
 io.tesler.crudma.impl
 io.tesler.crudma.meta
+io.tesler.engine.notification
+io.tesler.engine.workflow
+io.tesler.engine.workflow.cache
+io.tesler.engine.workflow.condition
+io.tesler.engine.workflow.dao
+io.tesler.engine.workflow.diag
+io.tesler.engine.workflow.function
+io.tesler.engine.workflow.notification.impl
+io.tesler.engine.workflow.preinvoke
+io.tesler.engine.workflow.recommendation
+io.tesler.engine.workflow.services
+io.tesler.engine.workflow.validation
 io.tesler.model.core.api
 io.tesler.model.core.config
 io.tesler.model.core.converter
@@ -112,6 +126,8 @@ io.tesler.model.dictionary.links.entity
 io.tesler.model.dictionary.listener
 io.tesler.model.ui.entity
 io.tesler.model.ui.navigation
+io.tesler.model.workflow.entity
+io.tesler.model.workflow.loaders
 io.tesler.notifications.api
 io.tesler.notifications.controller
 io.tesler.notifications.crudma.api
@@ -147,7 +163,10 @@ io.tesler.source.service.data
 io.tesler.source.service.data.impl
 io.tesler.source.service.meta
 io.tesler.source.service.specification
+io.tesler.source.services
+io.tesler.source.services.action
 io.tesler.source.services.cache
+io.tesler.source.services.crudma
 io.tesler.source.services.data
 io.tesler.source.services.data.impl
 io.tesler.source.services.meta
