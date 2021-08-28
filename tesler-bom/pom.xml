@@ -140,21 +140,6 @@
       </dependency>
       <dependency>
         <groupId>io.tesler</groupId>
-        <artifactId>tesler-starter-acl-api</artifactId>
-        <version>3.0.3-SNAPSHOT</version>
-      </dependency>
-      <dependency>
-        <groupId>io.tesler</groupId>
-        <artifactId>tesler-starter-acl-core</artifactId>
-        <version>3.0.3-SNAPSHOT</version>
-      </dependency>
-      <dependency>
-        <groupId>io.tesler</groupId>
-        <artifactId>tesler-starter-acl-model-core</artifactId>
-        <version>3.0.3-SNAPSHOT</version>
-      </dependency>
-      <dependency>
-        <groupId>io.tesler</groupId>
         <artifactId>tesler-all</artifactId>
         <type>pom</type>
         <version>3.0.3-SNAPSHOT</version>
