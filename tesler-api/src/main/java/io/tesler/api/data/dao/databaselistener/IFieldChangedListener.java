@@ -20,37 +20,24 @@
 
 package io.tesler.api.data.dao.databaselistener;
 
+
 import io.tesler.api.data.dictionary.LOV;
 import javax.persistence.metamodel.Attribute;
-import org.springframework.core.Ordered;
 
+public interface IFieldChangedListener<E, V> extends IChangeListener<E> {
 
-public interface IChangeListener<E> extends Ordered {
-
-	Class<? extends E> getType();
-
-	default boolean isSupported(Object entity) {
-		return getType().isInstance(entity);
-	}
-
-	default boolean canProcess(IChangeVector vector, LOV event) {
-		return isSupported(vector.getEntity());
-	}
-
-	void process(IChangeVector vector, LOV event);
+	Attribute<E, V> getField();
 
 	@Override
-	default int getOrder() {
-		return HIGHEST_PRECEDENCE;
-	}
-
-	default <V> boolean isFieldChanged(IChangeVector vector, Attribute<E, V> field) {
+	default boolean canProcess(IChangeVector vector, LOV event) {
+		if (!IChangeListener.super.canProcess(vector, event)) {
+			return false;
+		}
 		if (vector.isNew()) {
-			return vector.getValue(field) != null;
+			return vector.getValue(getField()) != null;
 		} else if (vector.isUpdate()) {
-			return vector.hasChanged(field);
+			return vector.hasChanged(getField());
 		}
 		return false;
 	}
-
 }
