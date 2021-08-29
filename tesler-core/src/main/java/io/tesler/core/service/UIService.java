@@ -29,7 +29,6 @@ import io.tesler.model.ui.entity.BcProperties;
 import io.tesler.model.ui.entity.FilterGroup;
 import io.tesler.model.ui.entity.Screen;
 import io.tesler.model.ui.entity.View;
-import io.tesler.model.ui.entity.ViewLayout;
 import io.tesler.model.ui.entity.ViewWidgets;
 import com.fasterxml.jackson.databind.JsonNode;
 import java.util.List;
@@ -57,8 +56,6 @@ public interface UIService {
 	ScreenNavigation getScreenNavigation(final Screen screen);
 
 	List<View> getViews(final List<String> views);
-
-	Map<String, ViewLayout> getAllViewLayoutByScreenForUser(List<String> views, Long userId);
 
 	Map<String, List<ViewWidgets>> getAllWidgetsWithPositionByScreen(List<String> views);
 

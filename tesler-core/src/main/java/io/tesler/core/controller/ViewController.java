@@ -24,18 +24,12 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import io.tesler.core.crudma.bc.BcRegistry;
 import io.tesler.core.dto.ResponseBuilder;
 import io.tesler.core.dto.ResponseDTO;
-import io.tesler.core.exception.ClientException;
 import io.tesler.core.service.UIService;
 import io.tesler.core.service.ViewService;
 import io.tesler.core.ui.BcUtils;
-import io.tesler.model.ui.entity.WidgetLayout;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -62,36 +56,10 @@ public class ViewController {
 		return resp.build(views.getScreen(name));
 	}
 
-	@RequestMapping(method = RequestMethod.POST, value = "/meta/view/{name}/layout")
-	public ResponseDTO saveLayout(@PathVariable String name, @RequestBody Map<String, Object> requestBody) {
-		if (requestBody == null || requestBody.get("data") == null || !(requestBody.get("data") instanceof Map)) {
-			throw new ClientException("Request with wrong request body. Expected: {\"data\":{}}");
-		}
-		Map data = (Map) requestBody.get("data");
-		List widgetsData = (List) data.get("widgets");
-		List<WidgetLayout> widgets = convertWidgets(widgetsData);
-		views.saveLayout(name, widgets);
-		invalidateCache();
-		return resp.build();
-	}
-
-	@RequestMapping(method = RequestMethod.DELETE, value = "/meta/view/{name}/layout")
-	public ResponseDTO clearLayout(@PathVariable String name) {
-		views.clearLayout(name);
-		invalidateCache();
-		return resp.build();
-	}
-
 	private void invalidateCache() {
 		bcRegistry.refresh();
 		bcUtils.invalidateFieldCache();
 		uiService.invalidateCache();
-	}
-
-	private List<WidgetLayout> convertWidgets(List<?> data) {
-		return data.stream()
-				.map(widget -> mapper.convertValue(widget, WidgetLayout.class))
-				.collect(Collectors.toList());
 	}
 
 }

@@ -24,7 +24,6 @@ import io.tesler.api.data.dto.LocaleAware;
 import io.tesler.api.util.jackson.deser.convert.Raw2StringDeserializer;
 import io.tesler.core.util.filter.SearchParameter;
 import io.tesler.model.ui.entity.View;
-import io.tesler.model.ui.entity.ViewLayout;
 import com.fasterxml.jackson.annotation.JsonRawValue;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import java.util.List;
@@ -79,12 +78,6 @@ public class ViewDTO {
 		this.editable = view.getEditable();
 		this.ignoreHistory = view.getIgnoreHistory();
 		this.options = view.getOptions();
-	}
-
-	public ViewDTO(View view, ViewLayout layout) {
-		this(view);
-		this.columns = layout.getColumns();
-		this.rowHeight = layout.getRowHeight();
 	}
 
 }

@@ -34,16 +34,6 @@ public class CoreDictionaries {
 
 	}
 
-
-	@UtilityClass
-	public static final class UserActivityType {
-
-		public static final LOV LOGIN = new LOV("LOGIN");
-
-		public static final LOV BROWSE_VIEW = new LOV("BROWSE_VIEW");
-
-	}
-
 	@UtilityClass
 	public static final class PreInvokeType {
 
