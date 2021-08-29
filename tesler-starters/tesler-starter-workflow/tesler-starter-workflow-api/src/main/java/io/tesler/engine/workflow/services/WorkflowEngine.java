@@ -37,7 +37,6 @@ public interface WorkflowEngine extends ExtensionPoint {
 
 	/**
 	 * Sets the specified task to the initial step of the corresponding transition model.
-	 * The transition model is selected according to the project {@link WorkflowableTask#getProject()}
 	 * and type {@link WorkflowableTask#getTaskType()} of task.
 	 *
 	 * @param task workflow task
