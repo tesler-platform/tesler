@@ -37,10 +37,14 @@ import io.tesler.model.ui.entity.*;
 import io.tesler.model.ui.navigation.NavigationGroup;
 import io.tesler.model.ui.navigation.NavigationView;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map.Entry;
 import java.util.Set;
+import java.util.StringJoiner;
 import java.util.stream.Collectors;
+import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 
 import javax.validation.constraints.NotNull;
@@ -124,43 +128,59 @@ public class MetaHotReloadServiceImpl implements MetaHotReloadService {
 				});
 			});
 
-			Map<String, Set<String>> screenToRoles = new HashMap<>();
-			viewDtos.forEach(v -> {
-				if (viewToScreenMap.containsKey(v.getName())) {
-					String screenName = viewToScreenMap.get(v.getName());
-					if (!screenToRoles.containsKey(screenName)) {
-						screenToRoles.put(screenName, new HashSet<>());
-					}
-					Set<String> roles = screenToRoles.get(screenName);
-					roles.addAll(v.getRolesAllowed());
-				}
-			});
-
 			Map<String, ScreenSourceDto> screenNameToScreen = screenDtos.stream()
 					.collect(Collectors.toMap(ScreenSourceDto::getName, sd -> sd));
 
-			screenToRoles.forEach((screen, roles) -> {
-				roles.forEach(role -> {
-					responsibilities.add(new Responsibilities()
-							.setResponsibilityType(ResponsibilityType.SCREEN)
-							.setInternalRoleCD(new LOV(role))
-							.setView(screen)
-							.setScreens("[\n"
-									+ "  {\n"
-									+ "    \"id\": \"id1\",\n"
-									+ "    \"name\": \"" + screen + "\",\n"
-									+ "    \"text\": \"" + screenNameToScreen.get(screen).getTitle() + "\",\n"
-									+ "    \"url\": \"/screen/" + screen + "\"\n"
-									+ "  }\n"
-									+ "]")
-							.setDepartmentId(defaultDepartmentId));
-				});
+			Map<String, Set<ScreenSourceDto>> rolesToScreens = new HashMap<>();
+			viewDtos.forEach(v -> {
+				if (viewToScreenMap.containsKey(v.getName())) {
+					String screenName = viewToScreenMap.get(v.getName());
+					v.getRolesAllowed().forEach(role -> {
+						if (!rolesToScreens.containsKey(role)) {
+							rolesToScreens.put(role, new HashSet<>());
+						}
+						rolesToScreens.get(role).add(screenNameToScreen.get(screenName));
+					});
+				}
 			});
+
+			for (Entry<String, Set<ScreenSourceDto>> entry : rolesToScreens.entrySet()) {
+				String role = entry.getKey();
+				Set<ScreenSourceDto> screens = entry.getValue();
+				responsibilities.add(new Responsibilities()
+						.setResponsibilityType(ResponsibilityType.SCREEN)
+						.setInternalRoleCD(new LOV(role))
+						.setScreens(mapToScreens(screenNameToScreen, screens))
+						.setDepartmentId(defaultDepartmentId));
+			}
 
 			jpaDao.delete(Responsibilities.class, (root, query, cb) -> cb.and());
 			jpaDao.saveAll(responsibilities);
 
 		}
+	}
+
+	//TODO>>Draft. Refactor
+	@NonNull
+	private String mapToScreens(@NonNull Map<String, ScreenSourceDto> screenNameToScreen, @NonNull Set<ScreenSourceDto> screens) {
+		StringJoiner joiner = new StringJoiner(",");
+		List<ScreenSourceDto> orderedScreens = screens
+				.stream()
+				.sorted(Comparator.comparing(ScreenSourceDto::getOrder))
+				.collect(Collectors.toList());
+		for (int i = 0; i < orderedScreens.size(); i++) {
+			ScreenSourceDto screen = orderedScreens.get(i);
+			String s = "  {\n"
+					+ "    \"id\": \"id" + i + "\",\n"
+					+ "    \"name\": \"" + screen.getName() + "\",\n"
+					+ "    \"text\": \"" + screen.getTitle() + "\",\n"
+					+ "    \"url\": \"/screen/" + screen.getName() + "\",\n"
+					+ "    \"icon\": \"" + screen.getIcon() + "\"\n"
+					+ "  }";
+			joiner.add(s);
+		}
+		String collect = joiner.toString();
+		return "[\n" + collect + "\n]";
 	}
 
 	protected void loadMetaPreProcess(List<WidgetSourceDTO> widgetDtos,

@@ -29,8 +29,21 @@ import lombok.Setter;
 @Setter
 public class ScreenSourceDto {
 
+	/**
+	 * used only if tesler.meta.view-allowed-roles-enabled=true (see {@link io.tesler.core.metahotreload.conf.properties.MetaConfigurationProperties#viewAllowedRolesEnabled})
+	 */
+	private int order = 0;
+
+	/**
+	 * used only if tesler.meta.view-allowed-roles-enabled=true (see {@link io.tesler.core.metahotreload.conf.properties.MetaConfigurationProperties#viewAllowedRolesEnabled})
+	 */
+	private String icon;
+
 	private String name;
 
+	/**
+	 * used only if tesler.meta.view-allowed-roles-enabled=true (see {@link io.tesler.core.metahotreload.conf.properties.MetaConfigurationProperties#viewAllowedRolesEnabled})
+	 */
 	private String title;
 
 	private String primaryViewName;
