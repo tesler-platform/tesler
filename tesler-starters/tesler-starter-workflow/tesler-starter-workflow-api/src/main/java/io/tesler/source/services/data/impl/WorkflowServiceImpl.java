@@ -35,10 +35,8 @@ import io.tesler.core.service.action.Actions;
 import io.tesler.core.util.session.SessionService;
 import io.tesler.engine.workflow.services.WorkflowDao;
 import io.tesler.model.core.entity.Department;
-import io.tesler.model.core.entity.Project;
 import io.tesler.model.workflow.entity.Workflow;
 import io.tesler.model.workflow.entity.WorkflowVersion;
-import io.tesler.model.workflow.entity.Workflow_;
 import io.tesler.source.dto.WorkflowDto;
 import io.tesler.source.dto.WorkflowDto_;
 import io.tesler.source.services.data.WorkflowService;
@@ -59,7 +57,7 @@ public class WorkflowServiceImpl extends VersionAwareResponseService<WorkflowDto
 	private WorkflowDao workflowDao;
 
 	public WorkflowServiceImpl() {
-		super(WorkflowDto.class, Workflow.class, Workflow_.project, WorkflowFieldMetaBuilder.class);
+		super(WorkflowDto.class, Workflow.class, null, WorkflowFieldMetaBuilder.class);
 	}
 
 	@Override
@@ -100,9 +98,7 @@ public class WorkflowServiceImpl extends VersionAwareResponseService<WorkflowDto
 
 	@Override
 	protected CreateResult<WorkflowDto> doCreateEntity(final Workflow entity, final BusinessComponent bc) {
-		final Project project = baseDAO.findById(Project.class, bc.getParentIdAsLong());
-		entity.setProject(project);
-		List<LOV> taskTypes = workflowDao.getTaskTypesNotInWf(project);
+		List<LOV> taskTypes = workflowDao.getTaskTypesNotInWf();
 		if (taskTypes.isEmpty()) {
 			throw new BusinessException().addPopup(errorMessage("error.no_task_type_available"));
 		}
@@ -122,9 +118,7 @@ public class WorkflowServiceImpl extends VersionAwareResponseService<WorkflowDto
 	}
 
 	private boolean hasTaskTypesNotInWf(final BusinessComponent bc) {
-		return isEditable(bc) && !workflowDao.getTaskTypesNotInWf(
-				baseDAO.findById(Project.class, bc.getParentIdAsLong())
-		).isEmpty();
+		return isEditable(bc) && !workflowDao.getTaskTypesNotInWf().isEmpty();
 	}
 
 	private boolean isEditable(final BusinessComponent bc) {

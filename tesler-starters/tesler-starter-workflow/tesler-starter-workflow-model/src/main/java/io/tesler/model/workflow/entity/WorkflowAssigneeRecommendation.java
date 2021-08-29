@@ -23,7 +23,6 @@ package io.tesler.model.workflow.entity;
 import io.tesler.api.data.dictionary.LOV;
 import io.tesler.model.core.entity.BaseEntity;
 import io.tesler.model.core.entity.Department;
-import io.tesler.model.core.entity.ProjectGroup;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
@@ -53,13 +52,6 @@ public class WorkflowAssigneeRecommendation extends BaseEntity {
 	 */
 	@Column(name = "COND_ASSIGNEE_CD")
 	private LOV condAssigneeCd;
-
-	/**
-	 * Группа пользователей
-	 */
-	@ManyToOne
-	@JoinColumn(name = "PRJ_GRP_ID")
-	private ProjectGroup projectGroup;
 
 	/**
 	 * Департамент

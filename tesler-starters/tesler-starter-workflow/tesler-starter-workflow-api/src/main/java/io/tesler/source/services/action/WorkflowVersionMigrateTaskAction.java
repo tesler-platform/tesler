@@ -20,7 +20,6 @@
 
 package io.tesler.source.services.action;
 
-import static io.tesler.api.data.dictionary.CoreDictionaries.DatabaseEvent.TASK_WORKFLOW_MIGRATION_RESULT;
 import static io.tesler.api.util.i18n.ErrorMessageSource.errorMessage;
 
 import io.tesler.api.service.PluginAware;
@@ -32,7 +31,6 @@ import io.tesler.core.dto.rowmeta.ActionResultDTO;
 import io.tesler.core.dto.rowmeta.PostAction;
 import io.tesler.core.service.action.ResponseServiceAction;
 import io.tesler.core.util.session.SessionService;
-import io.tesler.engine.notification.IWorkflowVersionEventGenerator;
 import io.tesler.engine.workflow.dao.WorkflowableTaskDao;
 import io.tesler.engine.workflow.services.WorkflowDao;
 import io.tesler.model.core.dao.JpaDao;
@@ -89,8 +87,6 @@ public class WorkflowVersionMigrateTaskAction extends ResponseServiceAction<Work
 
 		private final WorkflowDao workflowDao;
 
-		private final IWorkflowVersionEventGenerator workflowVersionEventGenerator;
-
 		private final TransactionService txService;
 
 		@Async
@@ -123,11 +119,6 @@ public class WorkflowVersionMigrateTaskAction extends ResponseServiceAction<Work
 				);
 				migrated++;
 			}
-			workflowVersionEventGenerator.builder(version, TASK_WORKFLOW_MIGRATION_RESULT)
-					.addModel("migrated", migrated)
-					.addModel("skipped", skipped)
-					.setPerformer(sessionService.getSessionUser())
-					.publish();
 		}
 
 

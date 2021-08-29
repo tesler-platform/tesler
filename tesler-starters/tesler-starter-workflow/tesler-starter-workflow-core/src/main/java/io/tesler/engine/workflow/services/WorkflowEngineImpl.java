@@ -64,7 +64,7 @@ public class WorkflowEngineImpl implements WorkflowEngine {
 
 	@Override
 	public void setInitialStep(final WorkflowableTask task) {
-		setCustomStep(task, workflowDao.getInitialStep(task.getProject(), task.getTaskType()));
+		setCustomStep(task, workflowDao.getInitialStep(task.getTaskType()));
 	}
 
 	@Override

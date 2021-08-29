@@ -21,7 +21,6 @@
 package io.tesler.engine.workflow.services;
 
 import io.tesler.api.data.dictionary.LOV;
-import io.tesler.model.core.entity.Project;
 import io.tesler.model.workflow.entity.*;
 import org.pf4j.ExtensionPoint;
 
@@ -54,7 +53,7 @@ public interface WorkflowDao extends ExtensionPoint {
 	 * @param taskType task type
 	 * @return initial step of the transition model
 	 */
-	WorkflowStep getInitialStep(Project project, LOV taskType);
+	WorkflowStep getInitialStep(LOV taskType);
 
 	/**
 	 * * Checks whether the specified step is the initial step for its transition model.
@@ -167,10 +166,9 @@ public interface WorkflowDao extends ExtensionPoint {
 	/**
 	 * Returns a list of TASK_TYPE types that do not have transition models created in the specified project.
 	 *
-	 * @param project the project
 	 * @return list of TASK_TYPE types for which transition models were not created in the specified project
 	 */
-	List<LOV> getTaskTypesNotInWf(Project project);
+	List<LOV> getTaskTypesNotInWf();
 
 	/**
 	 * Returns the maximum version number for the specified transition model.

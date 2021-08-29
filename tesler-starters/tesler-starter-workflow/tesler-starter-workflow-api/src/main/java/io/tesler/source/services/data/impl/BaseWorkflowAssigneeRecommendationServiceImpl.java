@@ -29,7 +29,6 @@ import io.tesler.core.service.action.Actions;
 import io.tesler.core.service.rowmeta.FieldMetaBuilder;
 import io.tesler.model.core.entity.BaseEntity;
 import io.tesler.model.core.entity.Department;
-import io.tesler.model.core.entity.ProjectGroup;
 import io.tesler.model.workflow.entity.WorkflowAssigneeRecommendation;
 import io.tesler.model.workflow.entity.WorkflowStepConditionGroup;
 import io.tesler.source.dto.WorkflowAssigneeRecommendationDto;
@@ -67,10 +66,6 @@ public abstract class BaseWorkflowAssigneeRecommendationServiceImpl<D extends Wo
 	protected void update(E entity, D dto, BusinessComponent bc) {
 		if (dto.isFieldChanged(WorkflowAssigneeRecommendationDto_.condAssigneeCd)) {
 			entity.setCondAssigneeCd(WorkflowDictionaryType.WF_COND_ASSIGNEE.lookupName(dto.getCondAssigneeCd()));
-		}
-		if (dto.isFieldChanged(WorkflowAssigneeRecommendationDto_.projectGroupId)) {
-			entity.setProjectGroup(
-					dto.getProjectGroupId() == null ? null : baseDAO.findById(ProjectGroup.class, dto.getProjectGroupId()));
 		}
 		if (dto.isFieldChanged(WorkflowAssigneeRecommendationDto_.departmentId)) {
 			entity.setDepartment(

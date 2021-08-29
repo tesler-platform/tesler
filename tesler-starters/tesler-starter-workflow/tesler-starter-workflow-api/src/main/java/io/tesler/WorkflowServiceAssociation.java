@@ -31,7 +31,6 @@ import io.tesler.source.services.data.TaskChildBcService;
 import io.tesler.source.services.data.WorkflowAssigneeRecommendationService;
 import io.tesler.source.services.data.WorkflowConditionService;
 import io.tesler.source.services.data.WorkflowPostFunctionService;
-import io.tesler.source.services.data.WorkflowProjectService;
 import io.tesler.source.services.data.WorkflowService;
 import io.tesler.source.services.data.WorkflowStepConditionGroupService;
 import io.tesler.source.services.data.WorkflowStepFieldService;
@@ -52,8 +51,7 @@ import org.springframework.stereotype.Component;
 public enum WorkflowServiceAssociation implements EnumBcIdentifier {
 
 	// @formatter:off
-	wfProject(WorkflowProjectService.class),
-		wf(wfProject, WorkflowService.class),
+		wf(WorkflowService.class),
 			wfActiveVersion(wf, WorkflowVersionService.class),
 			wfVersion(wf, WorkflowVersionService.class),
 				wfStepAutoClosed(wfVersion, WorkflowStepService.class),
@@ -99,8 +97,7 @@ public enum WorkflowServiceAssociation implements EnumBcIdentifier {
 							wfStepCondRecommendedAssigneeDmnConstants(wfStepCondRecommendedAssignee, DmnHelperFieldsCrudmaService.class),
 				wfStepRecommendedAssignee(wfStepCondGroupRecommendedAssignee, WorkflowAssigneeRecommendationService.class),
 
-	migrationWfProject(WorkflowProjectService.class),
-		migrationWf(migrationWfProject, WorkflowService.class),
+		migrationWf(WorkflowService.class),
 			migrationWfVersion(migrationWf, WorkflowVersionService.class),
 				wfTemplateMigration(migrationWfVersion, WorkflowTaskMigrationService.class),
 					wfTemplateMigrationCurrentStep(wfTemplateMigration, WorkflowStepService.class),

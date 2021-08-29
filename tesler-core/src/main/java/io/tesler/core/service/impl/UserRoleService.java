@@ -27,11 +27,6 @@ import io.tesler.api.data.dictionary.LOV;
 import io.tesler.api.data.dictionary.SimpleDictionary;
 import io.tesler.api.exception.ServerException;
 import io.tesler.model.core.dao.JpaDao;
-import io.tesler.model.core.entity.LoginRole;
-import io.tesler.model.core.entity.LoginRole_;
-import io.tesler.model.core.entity.ProjectGroup;
-import io.tesler.model.core.entity.ProjectGroupUser;
-import io.tesler.model.core.entity.ProjectGroupUser_;
 import io.tesler.model.core.entity.User;
 import io.tesler.model.core.entity.UserRole;
 import io.tesler.model.core.entity.UserRole_;
@@ -41,8 +36,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
-import javax.persistence.criteria.Root;
-import javax.persistence.criteria.Subquery;
 import lombok.RequiredArgsConstructor;
 import org.hibernate.LockOptions;
 import org.springframework.stereotype.Service;
@@ -84,9 +77,6 @@ public class UserRoleService {
 	public void upsertUserRoles(Long userId, List<String> intUserRoleKeyList) {
 		User user = jpaDao.findById(User.class, userId);
 		List<UserRole> userRoleList = updateUserRoles(user, intUserRoleKeyList);
-		if (user.getDepartment() != null && user.getDepartment().getId() != null) {
-			updateProjectGroupUserList(user, userRoleList);
-		}
 	}
 
 	/**
@@ -220,64 +210,6 @@ public class UserRoleService {
 			jpaDao.save(userRole);
 		}
 		return userRole;
-	}
-
-	/**
-	 * Update user groups
-	 *
-	 * @param user user
-	 * @param activeUserRoleList list of active user roles
-	 */
-	private void updateProjectGroupUserList(User user, List<UserRole> activeUserRoleList) {
-		List<LoginRole> loginRoleList = listByDeptByInternalRole(user);
-
-		List<LoginRole> activeLoginRoleList = loginRoleList.stream()
-				.filter(loginRole -> activeUserRoleList.stream().anyMatch(userRole -> userRole.getActive() &&
-						userRole.getInternalRoleCd().equals(loginRole.getInternalRoleCd())))
-				.collect(Collectors.toList());
-
-		List<ProjectGroup> activeProjectGroupList = activeLoginRoleList.stream()
-				.map(LoginRole::getProjectGroup)
-				.distinct()
-				.collect(Collectors.toList());
-
-		List<ProjectGroupUser> projectGroupUserList = jpaDao.getList(
-				ProjectGroupUser.class,
-				(root, cq, cb) -> cb.equal(root.get(ProjectGroupUser_.user), user)
-		);
-
-		activeProjectGroupList.forEach(projectGroup -> {
-			if (projectGroupUserList.stream().noneMatch(pgu ->
-					pgu.getProjectGroup().getId().equals(projectGroup.getId()))) {
-				ProjectGroupUser projectGroupUser = new ProjectGroupUser();
-				projectGroupUser.setProjectGroup(projectGroup);
-				projectGroupUser.setUser(user);
-				jpaDao.save(projectGroupUser);
-			}
-		});
-
-		projectGroupUserList.forEach(pgu -> {
-			if (activeLoginRoleList.stream().noneMatch(loginRole ->
-					loginRole.getProjectGroup().getId().equals(pgu.getProjectGroup().getId()))) {
-				jpaDao.delete(pgu);
-			}
-		});
-	}
-
-	private List<LoginRole> listByDeptByInternalRole(User user) {
-		return jpaDao.getList(LoginRole.class, (root, query, cb) -> {
-			final Subquery<LOV> subquery = query.subquery(LOV.class);
-			final Root<UserRole> subqueryRoot = subquery.from(UserRole.class);
-			subquery.select(subqueryRoot.get(UserRole_.internalRoleCd));
-			subquery.where(cb.equal(subqueryRoot.get(UserRole_.user), user));
-			return cb.and(
-					cb.or(
-							cb.isNull(root.get(LoginRole_.department)),
-							cb.equal(root.get(LoginRole_.department), user.getDepartment())
-					),
-					root.get(LoginRole_.internalRoleCd).in(subquery)
-			);
-		});
 	}
 
 	/**

@@ -23,10 +23,8 @@ package io.tesler.model.workflow.entity;
 import io.tesler.api.data.dictionary.LOV;
 import io.tesler.model.core.entity.BaseEntity;
 import io.tesler.model.core.entity.Department;
-import io.tesler.model.core.entity.Project;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import lombok.Getter;
@@ -40,13 +38,6 @@ import lombok.Setter;
 @Entity
 @Table(name = "WF")
 public class Workflow extends BaseEntity {
-
-	/**
-	 * Проект
-	 */
-	@ManyToOne
-	@JoinColumn(name = "PROJECT_ID", nullable = false)
-	private Project project;
 
 	/**
 	 * Тип активности

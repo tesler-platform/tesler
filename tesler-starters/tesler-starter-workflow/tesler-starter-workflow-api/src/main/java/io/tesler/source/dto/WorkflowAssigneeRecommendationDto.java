@@ -30,10 +30,6 @@ public class WorkflowAssigneeRecommendationDto extends DataResponseDTO {
 
 	private String condAssigneeCd;
 
-	private Long projectGroupId;
-
-	private String projectGroup;
-
 	private Long departmentId;
 
 	private String department;

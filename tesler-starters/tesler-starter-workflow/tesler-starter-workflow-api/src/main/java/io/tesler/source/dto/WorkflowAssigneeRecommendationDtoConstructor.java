@@ -24,8 +24,6 @@ import static io.tesler.source.dto.WorkflowAssigneeRecommendationDto_.condAssign
 import static io.tesler.source.dto.WorkflowAssigneeRecommendationDto_.department;
 import static io.tesler.source.dto.WorkflowAssigneeRecommendationDto_.departmentId;
 import static io.tesler.source.dto.WorkflowAssigneeRecommendationDto_.description;
-import static io.tesler.source.dto.WorkflowAssigneeRecommendationDto_.projectGroup;
-import static io.tesler.source.dto.WorkflowAssigneeRecommendationDto_.projectGroupId;
 import static java.util.Optional.ofNullable;
 
 import io.tesler.constgen.DtoField;
@@ -33,7 +31,6 @@ import io.tesler.core.dict.WorkflowDictionaryType;
 import io.tesler.core.dto.mapper.DtoConstructor;
 import io.tesler.core.dto.mapper.ValueSupplier;
 import io.tesler.model.core.entity.Department;
-import io.tesler.model.core.entity.ProjectGroup;
 import io.tesler.model.workflow.entity.WorkflowAssigneeRecommendation;
 import com.google.common.collect.ImmutableMap;
 import java.util.Map;
@@ -53,14 +50,6 @@ public class WorkflowAssigneeRecommendationDtoConstructor extends
 				.put(condAssigneeCd, (mapping, entity) -> WorkflowDictionaryType.WF_COND_ASSIGNEE.lookupValue(
 						entity.getCondAssigneeCd()
 				))
-				.put(projectGroupId, (mapping, entity) -> ofNullable(entity.getProjectGroup())
-						.map(ProjectGroup::getId)
-						.orElse(null)
-				)
-				.put(projectGroup, (mapping, entity) -> ofNullable(entity.getProjectGroup())
-						.map(ProjectGroup::getName)
-						.orElse(null)
-				)
 				.put(departmentId, (mapping, entity) -> ofNullable(entity.getDepartment())
 						.map(Department::getId)
 						.orElse(null)
