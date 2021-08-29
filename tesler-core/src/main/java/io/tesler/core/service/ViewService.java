@@ -21,16 +21,10 @@
 package io.tesler.core.service;
 
 import io.tesler.core.dto.data.view.ScreenDTO;
-import io.tesler.model.ui.entity.WidgetLayout;
-import java.util.List;
 
 
 public interface ViewService {
 
 	ScreenDTO getScreen(String name);
-
-	void saveLayout(String viewName, List<WidgetLayout> widgets);
-
-	void clearLayout(String viewName);
 
 }

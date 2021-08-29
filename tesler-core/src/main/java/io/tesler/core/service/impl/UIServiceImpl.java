@@ -45,8 +45,6 @@ import io.tesler.model.ui.entity.FilterGroup_;
 import io.tesler.model.ui.entity.Screen;
 import io.tesler.model.ui.entity.Screen_;
 import io.tesler.model.ui.entity.View;
-import io.tesler.model.ui.entity.ViewLayout;
-import io.tesler.model.ui.entity.ViewLayout_;
 import io.tesler.model.ui.entity.ViewWidgets;
 import io.tesler.model.ui.entity.ViewWidgets_;
 import io.tesler.model.ui.entity.View_;
@@ -59,7 +57,6 @@ import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
-import javax.persistence.criteria.Predicate;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -194,17 +191,6 @@ public class UIServiceImpl implements UIService {
 		Map<String, List<ViewWidgets>> all = uiCache.getWidgets();
 		views.forEach(view -> result.put(view, all.get(view)));
 		return result;
-	}
-
-	public Map<String, ViewLayout> getAllViewLayoutByScreenForUser(final List<String> views, final Long userId) {
-		return jpaDao.getList(ViewLayout.class, (root, cq, cb) -> {
-			Predicate[] predicates = views.stream()
-					.map(view -> cb.equal(root.get(ViewLayout_.viewName), view))
-					.toArray(Predicate[]::new);
-			return cb.and(cb.or(predicates), cb.equal(root.get(ViewLayout_.userId), userId));
-		}).stream().collect(
-				Collectors.toMap(ViewLayout::getViewName, Function.identity())
-		);
 	}
 
 	public List<View> getViews(final List<String> views) {

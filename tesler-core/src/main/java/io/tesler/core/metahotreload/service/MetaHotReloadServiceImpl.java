@@ -64,8 +64,6 @@ public class MetaHotReloadServiceImpl implements MetaHotReloadService {
 
 	protected final WidgetUtil widgetUtil;
 
-	protected final WidgetPropertyUtil widgetPropertyUtil;
-
 	protected final ViewAndViewWidgetUtil viewAndViewWidgetUtil;
 
 	protected final ScreenAndNavigationGroupAndNavigationViewUtil screenAndNavigationGroupAndNavigationViewUtil;
@@ -78,7 +76,6 @@ public class MetaHotReloadServiceImpl implements MetaHotReloadService {
 		jpaDao.delete(Screen.class, (root, query, cb) -> cb.and());
 		jpaDao.delete(ViewWidgets.class, (root, query, cb) -> cb.and());
 		jpaDao.delete(View.class, (root, query, cb) -> cb.and());
-		jpaDao.delete(WidgetProperty.class, (root, query, cb) -> cb.and());
 		jpaDao.delete(Widget.class, (root, query, cb) -> cb.and());
 		jpaDao.delete(Bc.class, (root, query, cb) -> cb.and());
 	}
@@ -97,7 +94,6 @@ public class MetaHotReloadServiceImpl implements MetaHotReloadService {
 				deleteAllMeta(jpaDao);
 				bcUtil.process(bcDtos);
 				Map<String, Widget> nameToWidget = widgetUtil.process(widgetDtos);
-				widgetPropertyUtil.process(widgetDtos, nameToWidget);
 				viewAndViewWidgetUtil.process(viewDtos, nameToWidget);
 				screenAndNavigationGroupAndNavigationViewUtil.process(screenDtos);
 				responsibilitiesProcess(screenDtos, viewDtos);

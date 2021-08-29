@@ -42,6 +42,12 @@ public class MetaHotReloadController {
 
 	final CacheManager cacheManager;
 
+	/*TODO>>test and uncomment
+	final BcUtils bcUtils;
+
+	final BcRegistry bcRegistry;
+	*/
+
 	@GetMapping("refresh-meta")
 	public void refresh() {
 		metaHotReloadService.loadMeta();
@@ -50,6 +56,9 @@ public class MetaHotReloadController {
 					cacheManager.getCache(CacheConfig.UI_CACHE).clear();
 					cacheManager.getCache(CacheConfig.REQUEST_CACHE).clear();
 					cacheManager.getCache(CacheConfig.USER_CACHE).clear();
+					/*TODO>>test and uncomment
+					bcRegistry.refresh();
+					bcUtils.invalidateFieldCache();*/
 				}
 		));
 	}

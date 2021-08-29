@@ -35,7 +35,6 @@ import io.tesler.core.dto.data.view.WidgetDTO;
 import io.tesler.core.dto.rowmeta.FilterGroupDTO;
 import io.tesler.core.exception.ClientException;
 import io.tesler.core.service.ViewService;
-import io.tesler.core.service.impl.UIServiceImpl;
 import io.tesler.core.ui.model.json.WidgetOptions;
 import io.tesler.core.util.JsonUtils;
 import io.tesler.core.util.session.SessionService;
@@ -45,11 +44,7 @@ import io.tesler.model.ui.entity.FilterGroup;
 import io.tesler.model.ui.entity.Screen;
 import io.tesler.model.ui.entity.Screen_;
 import io.tesler.model.ui.entity.View;
-import io.tesler.model.ui.entity.ViewLayout;
-import io.tesler.model.ui.entity.ViewLayout_;
 import io.tesler.model.ui.entity.ViewWidgets;
-import io.tesler.model.ui.entity.WidgetLayout;
-import io.tesler.model.ui.entity.WidgetLayout_;
 import com.fasterxml.jackson.databind.JsonNode;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -59,12 +54,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.Set;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -86,29 +79,17 @@ public class ViewServiceImpl implements ViewService {
 
 	private ViewDTO buildViewDTO(View view,
 			Map<String, List<ViewWidgets>> allViewWidgets,
-			Map<String, ViewLayout> allViewLayoutsByUser,
 			Map<String, Boolean> responsibilities) {
 		int widgetIdCounter = 0;
-		ViewLayout viewLayout = allViewLayoutsByUser.get(view.getName());
 		List<ViewWidgets> viewWidgetsList = allViewWidgets.get(view.getName());
 		if (viewWidgetsList == null) {
 			viewWidgetsList = Collections.emptyList();
 		}
-		ViewDTO result = viewLayout != null ? new ViewDTO(view, viewLayout) : new ViewDTO(view);
+		ViewDTO result = new ViewDTO(view);
 		result.setReadOnly(Optional.ofNullable(responsibilities.get(view.getName())).orElse(false));
-		Set<WidgetLayout> widgetLayouts = viewLayout != null ? viewLayout.getWidgets() : null;
 		List<WidgetDTO> list = new ArrayList<>();
 		for (ViewWidgets widgetWithPosition : viewWidgetsList) {
-			WidgetLayout layout = null;
-			if (widgetLayouts != null) {
-				layout = widgetLayouts
-						.stream()
-						.filter(widget -> widget.getWidgetId().equals(widgetWithPosition.getWidget().getId()))
-						.findFirst().orElse(null);
-			}
-			WidgetDTO widgetDTO = layout != null
-					? new WidgetDTO(widgetWithPosition, widgetIdCounter, layout)
-					: new WidgetDTO(widgetWithPosition, widgetIdCounter);
+			WidgetDTO widgetDTO = new WidgetDTO(widgetWithPosition, widgetIdCounter);
 			widgetDTO.setUrl(bcRegistry.getUrlFromBc(widgetWithPosition.getWidget().getBc()));
 			list.add(widgetDTO);
 			widgetIdCounter++;
@@ -137,15 +118,11 @@ public class ViewServiceImpl implements ViewService {
 		final Map<String, List<ViewWidgets>> allViewWidgets = uiService.getAllWidgetsWithPositionByScreen(
 				meta.getViews()
 		);
-		final Map<String, ViewLayout> allViewLayoutsByUser = uiService.getAllViewLayoutByScreenForUser(
-				meta.getViews(),
-				sessionService.getSessionUser().getId()
-		);
 
 		List<View> views = uiService.getViews(meta.getViews());
 
 		final List<ViewDTO> viewDTOs = views.stream()
-				.map(view -> buildViewDTO(view, allViewWidgets, allViewLayoutsByUser, meta.getResponsibilities()))
+				.map(view -> buildViewDTO(view, allViewWidgets, meta.getResponsibilities()))
 				.collect(Collectors.toList());
 
 		final ScreenDTO result = new ScreenDTO(screen);
@@ -153,60 +130,6 @@ public class ViewServiceImpl implements ViewService {
 		result.setViews(viewDTOs);
 		result.setBo(getBusinessObject(viewDTOs));
 		return result;
-	}
-
-	@Override
-	public void saveLayout(String viewName, List<WidgetLayout> widgets) {
-		View view = viewDAO.findByName(viewName);
-		Specification<ViewLayout> spec = (root, cq, cb) -> cb.and(
-				cb.equal(root.get(ViewLayout_.userId), sessionService.getSessionUser().getId()),
-				cb.equal(root.get(ViewLayout_.viewName), view.getName())
-		);
-
-		List<ViewLayout> results = jpaDao.getList(ViewLayout.class, spec);
-
-		if (results.isEmpty()) {
-			ViewLayout layout = new ViewLayout();
-			layout.setUserId(sessionService.getSessionUser().getId());
-			layout.setViewName(view.getName());
-			jpaDao.save(layout);
-			widgets.forEach(widgetLayout -> widgetLayout.setLayout(layout));
-			widgets.forEach(jpaDao::save);
-			return;
-		}
-
-		ViewLayout layout = results.get(0);
-		Set<WidgetLayout> prevWidgets = layout.getWidgets();
-		widgets.forEach(widget -> {
-			Optional<WidgetLayout> existedWidget = prevWidgets.stream()
-					.filter(prevWidget -> prevWidget.getWidgetId().equals(widget.getWidgetId()))
-					.findFirst();
-			if (existedWidget.isPresent()) {
-				existedWidget.get().merge(widget);
-			} else {
-				widget.setLayout(layout);
-			}
-			WidgetLayout widgetLayout = existedWidget.orElse(widget);
-			if (widgetLayout.getId() == null) {
-				jpaDao.save(widgetLayout);
-			}
-		});
-	}
-
-	@Override
-	public void clearLayout(String viewName) {
-		View view = viewDAO.findByName(viewName);
-
-		Specification<ViewLayout> spec = (root, cq, cb) -> cb.and(
-				cb.equal(root.get(ViewLayout_.userId), sessionService.getSessionUser().getId()),
-				cb.equal(root.get(ViewLayout_.viewName), view.getName())
-		);
-
-		ViewLayout layout = jpaDao.getSingleResultOrNull(ViewLayout.class, spec);
-		if (layout != null) {
-			jpaDao.delete(WidgetLayout.class, (root, query, cb) -> cb.equal(root.get(WidgetLayout_.layout), layout));
-			jpaDao.delete(layout);
-		}
 	}
 
 	private BusinessObjectDTO getBusinessObject(List<ViewDTO> viewDTOs) {

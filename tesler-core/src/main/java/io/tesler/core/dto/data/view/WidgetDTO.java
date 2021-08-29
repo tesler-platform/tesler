@@ -27,7 +27,6 @@ import io.tesler.api.util.jackson.ser.contextaware.I18NAwareRawStringSerializer;
 import io.tesler.core.util.filter.SearchParameter;
 import io.tesler.model.ui.entity.ViewWidgets;
 import io.tesler.model.ui.entity.Widget;
-import io.tesler.model.ui.entity.WidgetLayout;
 import com.fasterxml.jackson.annotation.JsonFilter;
 import com.fasterxml.jackson.annotation.JsonRawValue;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
@@ -144,20 +143,6 @@ public class WidgetDTO extends DataResponseDTO implements BcSource {
 		this.showExportStamp = widgetWithPosition.getShowExportStamp();
 		this.widgetId = widgetIdCounter;
 		this.hide = widgetWithPosition.getHide();
-	}
-
-	public WidgetDTO(ViewWidgets widgetWithPosition, int widgetIdCounter, WidgetLayout layout) {
-		this(widgetWithPosition, widgetIdCounter);
-		this.x = layout.getX();
-		this.y = layout.getY();
-		this.width = layout.getWidth();
-		this.height = layout.getHeight();
-		this.minHeight = layout.getMinHeight();
-		this.maxHeight = layout.getMaxHeight();
-		this.minWidth = layout.getMinWidth();
-		this.maxWidth = layout.getMaxWidth();
-		this.isResizable = layout.getIsResizable();
-		this.isDraggable = layout.getIsDraggable();
 	}
 
 	public WidgetDTO(Widget widget) {
