@@ -53,7 +53,6 @@ public class MetaHotReloadConfiguration {
 			TransactionService txService,
 			JpaDao jpaDao,
 			WidgetUtil widgetUtil,
-			WidgetPropertyUtil widgetPropertyUtil,
 			ViewAndViewWidgetUtil viewAndViewWidgetUtil,
 			ScreenAndNavigationGroupAndNavigationViewUtil screenAndNavigationGroupAndNavigationViewUtil,
 			BcUtil bcUtil) {
@@ -64,7 +63,6 @@ public class MetaHotReloadConfiguration {
 				txService,
 				jpaDao,
 				widgetUtil,
-				widgetPropertyUtil,
 				viewAndViewWidgetUtil,
 				screenAndNavigationGroupAndNavigationViewUtil,
 				bcUtil);

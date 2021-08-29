@@ -58,8 +58,6 @@ public class WidgetSourceDTO {
 
 	private JsonNode pivotFields;
 
-	private Boolean isConclusionWidget;
-
 	public String getWidgetNaturalKey() {
 		return Optional.ofNullable(this.id).orElse(this.name);
 	}
