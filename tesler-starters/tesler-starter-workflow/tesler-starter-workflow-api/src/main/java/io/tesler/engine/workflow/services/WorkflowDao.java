@@ -49,7 +49,6 @@ public interface WorkflowDao extends ExtensionPoint {
 	/**
 	 * Returns the initial step for the transition model corresponding to the specified project and task type.
 	 *
-	 * @param project the project
 	 * @param taskType task type
 	 * @return initial step of the transition model
 	 */
