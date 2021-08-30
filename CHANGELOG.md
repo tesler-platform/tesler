@@ -1,4 +1,21 @@
-# Version 3.0.0
+# Version 3.0.3
+
+## Breaking changes
+* ⚠BREAKING⚠ tesler access lists security feature removed from tesler. Tables NOTIFICATION_RECIPIENT, NOTIFICATION_SETTINGS, NOTIFICATION_TEMPLATE, NOTIFICATION are deleted [#189](https://github.com/tesler-platform/tesler/pull/189)
+* ⚠BREAKING⚠ tables PRJ, PRJ_GRP, PRJ_GRP_USER, LOGIN_ROLE removed from tesler [#192](https://github.com/tesler-platform/tesler/pull/192)
+* ⚠BREAKING⚠ tables USER_ACTIVITY, LAYOUTS_VIEWS, LAYOUTS_WIDGETS, WIDGET_PROPERTY  removed from tesler [#195](https://github.com/tesler-platform/tesler/pull/195)
+
+## Non-breaking features
+* IDeletedListener, IFieldChangedListener and  ICreatedListener added in addition to IChangeListener for convetient entoty chages tracking [#193](https://github.com/tesler-platform/tesler/pull/193)
+* liquibase migrations for optional dependency tesler-starter-sqlbc are now embeded in it. Readme.md for starter added with instructions to turn it on. So you do not need to create this tables if starter is not used in your project! [#186](https://github.com/tesler-platform/tesler/pull/186)
+* liquibase migrations for optional dependency tesler-starter-notifications-* are now embeded in tesler-starter-notifications-model. Readme.md for starter added with instructions to turn it on. So you do not need to create this tables if starter is not used in your project! [#185](https://github.com/tesler-platform/tesler/pull/185)
+* liquibase migrations for optional dependency tesler-starter-quartz are now embeded in it. Readme.md for starter added with instructions to turn it on. So you do not need to create this tables if starter is not used in your project!  [#184](https://github.com/tesler-platform/tesler/pull/184)
+* commonScreens.json file is now optional (e.g. you can delete it, if you do not use it) [#183](https://github.com/tesler-platform/tesler/pull/183)
+* opportunity to define roles (for which view is available) directly in .view.json. Add tesler.meta.view-allowed-roles-enabled = true to your application.properties to turn this feature on [#182](https://github.com/tesler-platform/tesler/pull/182) [#196](https://github.com/tesler-platform/tesler/pull/196)
+* MultivalueOptionType additional value HIDDEN adde [#197](https://github.com/tesler-platform/tesler/pull/197)
+* tesler archetype temporarily replaced with tesler-demo (see https://github.com/tesler-platform/tesler-demo). Tesler archetype will come back in next releases with tesler-demo ui and features [#198](https://github.com/tesler-platform/tesler/pull/198)
+
+# Version 3.0.0-3.0.2
 
 ## Breaking changes
 
