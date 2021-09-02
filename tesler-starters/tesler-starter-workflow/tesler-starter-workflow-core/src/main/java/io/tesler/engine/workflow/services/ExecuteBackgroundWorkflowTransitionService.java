@@ -27,7 +27,6 @@ import io.tesler.api.service.session.InternalAuthorizationService;
 import io.tesler.api.service.tx.TransactionService;
 import io.tesler.api.system.SystemSettings;
 import io.tesler.api.util.Invoker;
-import io.tesler.api.util.privileges.PrivilegeUtil;
 import io.tesler.engine.workflow.dao.WorkflowableTaskDao;
 import io.tesler.model.core.dao.JpaDao;
 import io.tesler.model.workflow.entity.PendingTransition;
@@ -143,46 +142,44 @@ public class ExecuteBackgroundWorkflowTransitionService implements ExtensionPoin
 
 		@Override
 		public Void call() {
-			PrivilegeUtil.runPrivileged(Invoker.of(() -> {
-				authorizationService.loginAs(userLogin, userRole);
+			authorizationService.loginAs(userLogin, userRole);
+			try {
+				transactionService.invokeInNewTx(Invoker.of(() -> {
+					final WorkflowTask workflowTask = jpaDao.findById(WorkflowTask.class, workflowTaskId);
+					jpaDao.lockAndRefresh(workflowTask, LockOptions.WAIT_FOREVER);
+					final PendingTransition pendingTransition = workflowTask.getPendingTransition();
+					if (pendingTransition != null) {
+						workflowEngine.forceInvokeAutoTransition(
+								workflowableTaskDao.getTask(workflowTask),
+								pendingTransition.getTransition()
+						);
+						workflowTask.setPendingTransition(null);
+					}
+				}));
+			} catch (Exception e) {
+				final UUID uuid = UUID.randomUUID();
+				log.error(uuid.toString() + ": Ошибка выполнения фонового перехода.", e);
 				try {
 					transactionService.invokeInNewTx(Invoker.of(() -> {
 						final WorkflowTask workflowTask = jpaDao.findById(WorkflowTask.class, workflowTaskId);
 						jpaDao.lockAndRefresh(workflowTask, LockOptions.WAIT_FOREVER);
 						final PendingTransition pendingTransition = workflowTask.getPendingTransition();
 						if (pendingTransition != null) {
-							workflowEngine.forceInvokeAutoTransition(
-									workflowableTaskDao.getTask(workflowTask),
-									pendingTransition.getTransition()
+							workflowNotificationService.ifPresent(
+									notificationService -> notificationService.sendBackgroundTransitionErrorMessage(
+											uuid,
+											workflowableTaskDao.getTask(workflowTask),
+											pendingTransition.getTransition()
+									)
 							);
+							workflowDao.setWorkflowStep(workflowTask, pendingTransition.getTransition().getSourceStep());
 							workflowTask.setPendingTransition(null);
 						}
 					}));
-				} catch (Exception e) {
-					final UUID uuid = UUID.randomUUID();
-					log.error(uuid.toString() + ": Ошибка выполнения фонового перехода.", e);
-					try {
-						transactionService.invokeInNewTx(Invoker.of(() -> {
-							final WorkflowTask workflowTask = jpaDao.findById(WorkflowTask.class, workflowTaskId);
-							jpaDao.lockAndRefresh(workflowTask, LockOptions.WAIT_FOREVER);
-							final PendingTransition pendingTransition = workflowTask.getPendingTransition();
-							if (pendingTransition != null) {
-								workflowNotificationService.ifPresent(
-										notificationService -> notificationService.sendBackgroundTransitionErrorMessage(
-												uuid,
-												workflowableTaskDao.getTask(workflowTask),
-												pendingTransition.getTransition()
-										)
-								);
-								workflowDao.setWorkflowStep(workflowTask, pendingTransition.getTransition().getSourceStep());
-								workflowTask.setPendingTransition(null);
-							}
-						}));
-					} catch (Exception e2) {
-						log.error(uuid.toString() + ": Ошибка при возврате на исходный шаг фонового перехода.", e2);
-					}
+				} catch (Exception e2) {
+					log.error(uuid.toString() + ": Ошибка при возврате на исходный шаг фонового перехода.", e2);
 				}
-			}));
+			}
 			return null;
 		}
 

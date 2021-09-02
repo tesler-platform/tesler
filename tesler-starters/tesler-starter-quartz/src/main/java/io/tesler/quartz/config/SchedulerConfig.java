@@ -21,7 +21,6 @@
 package io.tesler.quartz.config;
 
 import com.google.common.base.Objects;
-import io.tesler.quartz.db.ProxyAwarePrivilegedDataSource;
 import java.util.Properties;
 import javax.sql.DataSource;
 
@@ -78,11 +77,7 @@ public class SchedulerConfig {
 		schedulerFactoryBean.setJobFactory(quartzJobFactory);
 		schedulerFactoryBean.setTransactionManager(transactionManager);
 		schedulerFactoryBean.setSchedulerName(schedulerProperties.getSchedulerName());
-		schedulerFactoryBean.setDataSource(
-				new TransactionAwareDataSourceProxy(
-						new ProxyAwarePrivilegedDataSource(primaryDS)
-				)
-		);
+		schedulerFactoryBean.setDataSource(new TransactionAwareDataSourceProxy(primaryDS));
 		Properties quartzProperties = new Properties();
 		quartzProperties.setProperty("org.quartz.scheduler.skipUpdateCheck", String.valueOf(true));
 		quartzProperties.setProperty("org.quartz.jobStore.class", LocalDataSourceJobStore.class.getName());
