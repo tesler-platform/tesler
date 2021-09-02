@@ -18,9 +18,9 @@
  * #L%
  */
 
-package io.tesler.core.ui.model.json;
+package io.tesler.sqlbc.dto;
 
-import io.tesler.core.ui.model.json.SqlBindMeta.SqlBindOperations;
+import io.tesler.sqlbc.dto.SqlBindMeta.SqlBindOperations;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.ObjectCodec;
 import com.fasterxml.jackson.core.TreeNode;
