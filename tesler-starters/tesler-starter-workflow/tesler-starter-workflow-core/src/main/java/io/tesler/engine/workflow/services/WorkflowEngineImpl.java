@@ -30,7 +30,6 @@ import io.tesler.model.core.entity.User;
 import io.tesler.model.workflow.entity.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.pf4j.Extension;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
@@ -42,7 +41,7 @@ import java.util.stream.Stream;
 
 @Slf4j
 @Service
-@Extension
+
 @RequiredArgsConstructor
 public class WorkflowEngineImpl implements WorkflowEngine {
 

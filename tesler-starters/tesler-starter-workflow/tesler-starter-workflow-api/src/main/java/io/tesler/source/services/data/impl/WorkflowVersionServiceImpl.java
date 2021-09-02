@@ -24,7 +24,6 @@ import static io.tesler.core.service.action.ActionAvailableChecker.and;
 import static org.apache.commons.lang3.StringUtils.joinWith;
 
 import io.tesler.WorkflowServiceAssociation;
-import io.tesler.api.service.PluginAware;
 import io.tesler.core.crudma.bc.BusinessComponent;
 import io.tesler.core.crudma.impl.VersionAwareResponseService;
 import io.tesler.core.dto.DrillDownType;
@@ -53,7 +52,6 @@ import org.springframework.stereotype.Service;
 
 @Slf4j
 @Service
-@PluginAware
 public class WorkflowVersionServiceImpl extends
 		VersionAwareResponseService<WorkflowVersionDto, WorkflowVersion> implements WorkflowVersionService {
 

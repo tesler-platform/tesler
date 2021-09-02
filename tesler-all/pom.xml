@@ -74,10 +74,6 @@
         </dependency>
         <dependency>
             <groupId>io.tesler</groupId>
-            <artifactId>tesler-plugin</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>io.tesler</groupId>
             <artifactId>tesler-starter-quartz</artifactId>
         </dependency>
         <dependency>

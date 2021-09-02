@@ -286,7 +286,6 @@
     <module>tesler-core</module>
     <module>tesler-crudma</module>
     <module>tesler-testing</module>
-    <module>tesler-plugin</module>
     <module>tesler-all</module>
     <module>tesler-dictionary</module>
     <module>tesler-dictionary-links</module>

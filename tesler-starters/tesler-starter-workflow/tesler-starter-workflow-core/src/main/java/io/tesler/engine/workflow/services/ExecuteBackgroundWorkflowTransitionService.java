@@ -50,15 +50,13 @@ import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.hibernate.LockOptions;
-import org.pf4j.Extension;
-import org.pf4j.ExtensionPoint;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j
-@Extension
+
 @Service("regularExecuteBackgroundWorkflowTransition")
-public class ExecuteBackgroundWorkflowTransitionService implements ExtensionPoint, ScheduledService {
+public class ExecuteBackgroundWorkflowTransitionService implements ScheduledService {
 
 	private final WorkflowEngine workflowEngine;
 

@@ -30,16 +30,13 @@ import io.tesler.model.workflow.entity.WorkflowTransitionHistory;
 import io.tesler.model.workflow.entity.WorkflowableTask;
 import java.util.Collections;
 import java.util.List;
-import org.pf4j.Extension;
-import org.pf4j.ExtensionPoint;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
-@Extension
+
 @Service
-public class PostFunctionAssignPrevious implements PostFunction<WorkflowableTask, WorkflowPostFunction>,
-		ExtensionPoint {
+public class PostFunctionAssignPrevious implements PostFunction<WorkflowableTask, WorkflowPostFunction> {
 
 	@Lazy
 	@Autowired

@@ -25,7 +25,6 @@ import static io.tesler.api.util.i18n.ErrorMessageSource.errorMessage;
 import io.tesler.WorkflowServiceAssociation;
 import io.tesler.api.data.ResultPage;
 import io.tesler.api.data.dto.DataResponseDTO;
-import io.tesler.api.service.PluginAware;
 import io.tesler.core.crudma.bc.BusinessComponent;
 import io.tesler.core.crudma.impl.AbstractResponseService;
 import io.tesler.core.dao.BaseDAO;
@@ -53,7 +52,6 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 @Service
-@PluginAware
 public class WorkflowTaskMigrationServiceImpl extends
 		AbstractResponseService<WorkflowTaskMigrationDto, WorkflowableTask> implements WorkflowTaskMigrationService {
 

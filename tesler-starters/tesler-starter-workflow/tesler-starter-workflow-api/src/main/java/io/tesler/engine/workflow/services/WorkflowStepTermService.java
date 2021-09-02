@@ -20,10 +20,9 @@
 
 package io.tesler.engine.workflow.services;
 
-import org.pf4j.ExtensionPoint;
 
 
-public interface WorkflowStepTermService extends ExtensionPoint {
+public interface WorkflowStepTermService {
 
 	/**
 	 * Находит активности для которых истек срок выполнения шага и выполняет заданные для них переходы

@@ -24,10 +24,9 @@ import io.tesler.core.crudma.bc.BusinessComponent;
 import io.tesler.model.core.entity.FileEntity;
 import io.tesler.model.workflow.entity.WorkflowVersion;
 import io.tesler.source.dto.WorkflowVersionDto;
-import org.pf4j.ExtensionPoint;
 
 
-public interface WorkflowExporter extends ExtensionPoint {
+public interface WorkflowExporter {
 
 	FileEntity exportNewVersion(BusinessComponent bc, WorkflowVersionDto data);
 

@@ -21,7 +21,6 @@
 package io.tesler.source.services.data.impl;
 
 import io.tesler.WorkflowServiceAssociation;
-import io.tesler.api.service.PluginAware;
 import io.tesler.core.crudma.bc.BusinessComponent;
 import io.tesler.core.crudma.impl.VersionAwareResponseService;
 import io.tesler.core.dict.WorkflowDictionaries;
@@ -51,7 +50,6 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 @Service
-@PluginAware
 public class WorkflowTransitionServiceImpl extends
 		VersionAwareResponseService<WorkflowTransitionDto, WorkflowTransition> implements WorkflowTransitionService {
 
