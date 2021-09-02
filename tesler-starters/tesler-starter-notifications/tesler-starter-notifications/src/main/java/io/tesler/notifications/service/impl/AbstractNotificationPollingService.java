@@ -24,7 +24,6 @@ import io.tesler.api.data.ResultPage;
 import io.tesler.api.system.ISystemSettingChangeEventListener;
 import io.tesler.api.system.SystemSettingChangedEvent;
 import io.tesler.api.system.SystemSettings;
-import io.tesler.api.util.privileges.PrivilegeUtil;
 import io.tesler.api.util.tz.TimeZoneUtil;
 import io.tesler.core.dto.ResponseBuilder;
 import io.tesler.core.dto.ResponseDTO;
@@ -107,10 +106,8 @@ public class AbstractNotificationPollingService implements ISystemSettingChangeE
 			return;
 		}
 
-		PrivilegeUtil.runPrivileged(() -> {
-			doExecutePollTaskInQueue();
-			return null;
-		});
+		doExecutePollTaskInQueue();
+
 	}
 
 	private void doExecutePollTaskInQueue() {

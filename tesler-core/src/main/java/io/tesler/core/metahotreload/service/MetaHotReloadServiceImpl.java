@@ -23,7 +23,6 @@ package io.tesler.core.metahotreload.service;
 import io.tesler.api.data.dictionary.LOV;
 import io.tesler.api.service.session.InternalAuthorizationService;
 import io.tesler.api.service.tx.TransactionService;
-import io.tesler.api.util.privileges.PrivilegeUtil;
 import io.tesler.core.metahotreload.MetaHotReloadService;
 import io.tesler.core.metahotreload.conf.properties.MetaConfigurationProperties;
 import io.tesler.core.metahotreload.dto.ScreenSourceDto;
@@ -90,20 +89,17 @@ public class MetaHotReloadServiceImpl implements MetaHotReloadService {
 		List<WidgetSourceDTO> widgetDtos = metaResourceReaderService.getWidgets();
 		List<ViewSourceDTO> viewDtos = metaResourceReaderService.getViews();
 
-		PrivilegeUtil.runPrivileged(() -> {
-			authzService.loginAs(authzService.createAuthentication(VANILLA));
+		authzService.loginAs(authzService.createAuthentication(VANILLA));
 
-			txService.invokeInTx(() -> {
-				loadMetaPreProcess(widgetDtos, viewDtos, screenDtos);
-				deleteAllMeta(jpaDao);
-				bcUtil.process(bcDtos);
-				Map<String, Widget> nameToWidget = widgetUtil.process(widgetDtos);
-				viewAndViewWidgetUtil.process(viewDtos, nameToWidget);
-				screenAndNavigationGroupAndNavigationViewUtil.process(screenDtos);
-				responsibilitiesProcess(screenDtos, viewDtos);
-				loadMetaAfterProcess();
-				return null;
-			});
+		txService.invokeInTx(() -> {
+			loadMetaPreProcess(widgetDtos, viewDtos, screenDtos);
+			deleteAllMeta(jpaDao);
+			bcUtil.process(bcDtos);
+			Map<String, Widget> nameToWidget = widgetUtil.process(widgetDtos);
+			viewAndViewWidgetUtil.process(viewDtos, nameToWidget);
+			screenAndNavigationGroupAndNavigationViewUtil.process(screenDtos);
+			responsibilitiesProcess(screenDtos, viewDtos);
+			loadMetaAfterProcess();
 			return null;
 		});
 	}
@@ -162,7 +158,8 @@ public class MetaHotReloadServiceImpl implements MetaHotReloadService {
 
 	//TODO>>Draft. Refactor
 	@NonNull
-	private String mapToScreens(@NonNull Map<String, ScreenSourceDto> screenNameToScreen, @NonNull Set<ScreenSourceDto> screens) {
+	private String mapToScreens(@NonNull Map<String, ScreenSourceDto> screenNameToScreen,
+			@NonNull Set<ScreenSourceDto> screens) {
 		StringJoiner joiner = new StringJoiner(",");
 		List<ScreenSourceDto> orderedScreens = screens
 				.stream()

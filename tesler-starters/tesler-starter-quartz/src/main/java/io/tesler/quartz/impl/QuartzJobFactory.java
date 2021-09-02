@@ -25,7 +25,6 @@ import static io.tesler.api.service.session.InternalAuthorizationService.VANILLA
 import io.tesler.api.data.dictionary.CoreDictionaries;
 import io.tesler.api.service.session.InternalAuthorizationService;
 import io.tesler.api.service.tx.TransactionService;
-import io.tesler.api.util.privileges.PrivilegeUtil;
 import io.tesler.core.util.DateTimeUtil;
 import io.tesler.model.core.dao.JpaDao;
 import java.time.LocalDateTime;
@@ -68,22 +67,20 @@ public class QuartzJobFactory extends AdaptableJobFactory {
 
 	@Override
 	public Object createJobInstance(TriggerFiredBundle bundle) throws Exception {
-		return PrivilegeUtil.runPrivileged(() -> {
-			String jobName = bundle.getJobDetail().getKey().getName();
-			ScheduledJob scheduledJob = null;
-			if (NumberUtils.isParsable(jobName)) {
-				long id = NumberUtils.toLong(jobName);
-				scheduledJob = jpaDao.findById(ScheduledJob.class, id);
-			}
-			if (scheduledJob == null) {
-				return super.createJobInstance(bundle);
-			}
-			Object job = applicationContext.getBean(scheduledJob.getService().getKey());
-			if (job instanceof ScheduledService) {
-				return new DelegatingJob((ScheduledService) job, scheduledJob);
-			}
-			return job;
-		});
+		String jobName = bundle.getJobDetail().getKey().getName();
+		ScheduledJob scheduledJob = null;
+		if (NumberUtils.isParsable(jobName)) {
+			long id = NumberUtils.toLong(jobName);
+			scheduledJob = jpaDao.findById(ScheduledJob.class, id);
+		}
+		if (scheduledJob == null) {
+			return super.createJobInstance(bundle);
+		}
+		Object job = applicationContext.getBean(scheduledJob.getService().getKey());
+		if (job instanceof ScheduledService) {
+			return new DelegatingJob((ScheduledService) job, scheduledJob);
+		}
+		return job;
 	}
 
 	class DelegatingJob implements Job {
@@ -100,14 +97,11 @@ public class QuartzJobFactory extends AdaptableJobFactory {
 		}
 
 		public void execute(JobExecutionContext context) throws JobExecutionException {
-			PrivilegeUtil.runPrivileged(() -> {
-				authzService.loginAs(authentication);
-				doExecute();
-				if (deferredException != null) {
-					throw new JobExecutionException(deferredException);
-				}
-				return null;
-			});
+			authzService.loginAs(authentication);
+			doExecute();
+			if (deferredException != null) {
+				throw new JobExecutionException(deferredException);
+			}
 		}
 
 		private void doExecute() {

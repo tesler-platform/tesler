@@ -25,7 +25,6 @@ import io.tesler.api.service.AsyncService;
 import io.tesler.api.service.tx.DeploymentTransactionSupport;
 import io.tesler.api.service.tx.TransactionService;
 import io.tesler.api.util.Invoker;
-import io.tesler.api.util.privileges.PrivilegeUtil;
 import io.tesler.core.crudma.bc.RefreshableBcSupplier;
 import io.tesler.core.crudma.bc.impl.BcDescription;
 import io.tesler.model.core.dao.JpaDao;
@@ -74,11 +73,9 @@ public final class SqlBcSupplier implements RefreshableBcSupplier {
 	}
 
 	private void loadData(boolean startup) {
-		PrivilegeUtil.runPrivileged(() ->
-				asyncService.<Void, RuntimeException>invokeAsync(() ->
-						txService.<Void, RuntimeException>invokeInTx(
-								Invoker.of(() -> doLoadData(startup))
-						)
+		asyncService.<Void, RuntimeException>invokeAsync(() ->
+				txService.<Void, RuntimeException>invokeInTx(
+						Invoker.of(() -> doLoadData(startup))
 				)
 		);
 	}
