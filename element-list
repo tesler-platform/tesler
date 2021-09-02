@@ -10,9 +10,6 @@ io.tesler.api.service
 io.tesler.api.service.session
 io.tesler.api.service.tx
 io.tesler.api.system
-io.tesler.api.task
-io.tesler.api.task.decorators
-io.tesler.api.task.executors
 io.tesler.api.util
 io.tesler.api.util.i18n
 io.tesler.api.util.jackson
