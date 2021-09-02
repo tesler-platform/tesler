@@ -81,7 +81,6 @@ io.tesler.core.ui.model.json
 io.tesler.core.ui.model.json.field
 io.tesler.core.ui.model.json.field.subtypes
 io.tesler.core.util
-io.tesler.core.util.db
 io.tesler.core.util.filter
 io.tesler.core.util.filter.provider
 io.tesler.core.util.filter.provider.impl
@@ -150,6 +149,7 @@ io.tesler.quartz.config
 io.tesler.quartz.crudma.dto
 io.tesler.quartz.crudma.meta
 io.tesler.quartz.crudma.service
+io.tesler.quartz.db
 io.tesler.quartz.impl
 io.tesler.quartz.model
 io.tesler.source
