@@ -18,27 +18,23 @@
  * #L%
  */
 
-package io.tesler.core.config.properties;
+package io.tesler.quartz.db;
 
-import java.time.Duration;
-import lombok.Getter;
-import lombok.Setter;
-import org.springframework.boot.context.properties.ConfigurationProperties;
+import javax.sql.DataSource;
+import org.springframework.core.InfrastructureProxy;
 
-@Getter
-@Setter
-@ConfigurationProperties("tesler.scheduler")
-public class SchedulerProperties {
+/**
+ * Intended exclusively for use inside TransactionAwareDataSourceProxy
+ */
+public class ProxyAwarePrivilegedDataSource extends PrivilegedDataSource implements InfrastructureProxy {
 
-	/**
-	 * Delay after which the scheduler is started once initialization completes.
-	 */
-	private Duration startupDelay = Duration.ofSeconds(300);
+	public ProxyAwarePrivilegedDataSource(DataSource targetDataSource) {
+		super(targetDataSource);
+	}
 
-	/**
-	 * Scheduler name
-	 */
-	private String schedulerName = "teslerScheduler";
-
+	@Override
+	public Object getWrappedObject() {
+		return getTargetDataSource();
+	}
 
 }

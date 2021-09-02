@@ -20,7 +20,6 @@
 
 package io.tesler.quartz.config;
 
-import io.tesler.core.config.properties.SchedulerProperties;
 import io.tesler.quartz.impl.QuartzJobFactory;
 import io.tesler.quartz.impl.QuartzSchedulerListener;
 import org.junit.jupiter.api.Assertions;
