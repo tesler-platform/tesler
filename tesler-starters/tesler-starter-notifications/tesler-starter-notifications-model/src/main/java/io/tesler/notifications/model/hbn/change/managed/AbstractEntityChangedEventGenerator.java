@@ -22,7 +22,7 @@ package io.tesler.notifications.model.hbn.change.managed;
 
 import io.tesler.api.data.dao.databaselistener.IChangeVector;
 import io.tesler.api.data.dictionary.LOV;
-import io.tesler.model.core.api.Tracked;
+import io.tesler.notifications.api.Tracked;
 import io.tesler.notifications.model.api.INotificationEventBuilder;
 import io.tesler.model.core.entity.BaseEntity;
 import io.tesler.notifications.model.hbn.change.AbstractEventGenerator;

@@ -18,7 +18,7 @@
  * #L%
  */
 
-package io.tesler.model.core.api;
+package io.tesler.notifications.api;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
