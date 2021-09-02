@@ -18,7 +18,7 @@
  * #L%
  */
 
-package io.tesler.core.ui.model.json;
+package io.tesler.sqlbc.dto;
 
 import io.tesler.api.util.MapUtils;
 import com.fasterxml.jackson.annotation.JsonCreator;
