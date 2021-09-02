@@ -21,8 +21,7 @@
 package io.tesler.quartz.config;
 
 import com.google.common.base.Objects;
-import io.tesler.core.config.properties.SchedulerProperties;
-import io.tesler.core.util.db.ProxyAwarePrivilegedDataSource;
+import io.tesler.quartz.db.ProxyAwarePrivilegedDataSource;
 import java.util.Properties;
 import javax.sql.DataSource;
 

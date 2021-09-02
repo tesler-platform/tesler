@@ -18,7 +18,7 @@
  * #L%
  */
 
-package io.tesler.core.util.db;
+package io.tesler.quartz.db;
 
 import io.tesler.api.util.privileges.PrivilegeUtil;
 import java.sql.Connection;

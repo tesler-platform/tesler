@@ -29,14 +29,8 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @ConfigurationProperties("tesler.widget.fields")
 public class WidgetFieldsIdResolverProperties {
 
-	/**
-	 * Delay after which the scheduler is started once initialization completes.
-	 */
 	private String[] includePackages = {"io.tesler.core.ui.model.json.field.subtypes"};
 
-	/**
-	 * Scheduler name
-	 */
 	private String[] excludeClasses = {};
 
 }

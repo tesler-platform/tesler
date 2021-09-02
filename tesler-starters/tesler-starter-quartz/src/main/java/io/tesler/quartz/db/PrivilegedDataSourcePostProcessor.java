@@ -18,7 +18,7 @@
  * #L%
  */
 
-package io.tesler.core.util.db;
+package io.tesler.quartz.db;
 
 import javax.sql.DataSource;
 import lombok.RequiredArgsConstructor;
