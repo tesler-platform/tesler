@@ -44,8 +44,6 @@ io.tesler.core.crudma.state.impl
 io.tesler.core.dao
 io.tesler.core.dao.hbn
 io.tesler.core.dao.impl
-io.tesler.core.diag
-io.tesler.core.diag.jdbc
 io.tesler.core.dict
 io.tesler.core.dto
 io.tesler.core.dto.data
@@ -92,7 +90,6 @@ io.tesler.engine.workflow
 io.tesler.engine.workflow.cache
 io.tesler.engine.workflow.condition
 io.tesler.engine.workflow.dao
-io.tesler.engine.workflow.diag
 io.tesler.engine.workflow.function
 io.tesler.engine.workflow.preinvoke
 io.tesler.engine.workflow.recommendation
