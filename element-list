@@ -20,7 +20,6 @@ io.tesler.api.util.jackson.ser.contextaware
 io.tesler.api.util.jackson.ser.contextual
 io.tesler.api.util.jackson.ser.convert
 io.tesler.api.util.locale
-io.tesler.api.util.privileges
 io.tesler.api.util.proxy
 io.tesler.api.util.proxy.impl
 io.tesler.api.util.spring
@@ -146,7 +145,6 @@ io.tesler.quartz.config
 io.tesler.quartz.crudma.dto
 io.tesler.quartz.crudma.meta
 io.tesler.quartz.crudma.service
-io.tesler.quartz.db
 io.tesler.quartz.impl
 io.tesler.quartz.model
 io.tesler.source
