@@ -137,7 +137,6 @@ io.tesler.notifications.model.hbn.change.methods
 io.tesler.notifications.model.hbn.change.unmanaged
 io.tesler.notifications.service
 io.tesler.notifications.service.impl
-io.tesler.plugin
 io.tesler.quartz.config
 io.tesler.quartz.crudma.dto
 io.tesler.quartz.crudma.meta
