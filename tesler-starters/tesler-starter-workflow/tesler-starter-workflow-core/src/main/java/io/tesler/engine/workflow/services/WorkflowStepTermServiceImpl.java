@@ -24,12 +24,11 @@ import io.tesler.core.util.DateTimeUtil;
 import io.tesler.engine.workflow.dao.WorkflowableTaskDao;
 import io.tesler.model.workflow.entity.WorkflowableTask;
 import lombok.RequiredArgsConstructor;
-import org.pf4j.Extension;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
-@Extension
+
 @RequiredArgsConstructor
 public class WorkflowStepTermServiceImpl implements WorkflowStepTermService {
 

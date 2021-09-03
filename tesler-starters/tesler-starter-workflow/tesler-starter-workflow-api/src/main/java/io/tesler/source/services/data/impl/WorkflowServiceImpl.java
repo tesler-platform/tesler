@@ -25,7 +25,6 @@ import static io.tesler.api.util.i18n.ErrorMessageSource.errorMessage;
 import io.tesler.WorkflowServiceAssociation;
 import io.tesler.api.data.dictionary.DictionaryType;
 import io.tesler.api.data.dictionary.LOV;
-import io.tesler.api.service.PluginAware;
 import io.tesler.core.crudma.bc.BusinessComponent;
 import io.tesler.core.crudma.impl.VersionAwareResponseService;
 import io.tesler.core.dto.rowmeta.ActionResultDTO;
@@ -47,7 +46,6 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 @Service
-@PluginAware
 public class WorkflowServiceImpl extends VersionAwareResponseService<WorkflowDto, Workflow> implements WorkflowService {
 
 	@Autowired

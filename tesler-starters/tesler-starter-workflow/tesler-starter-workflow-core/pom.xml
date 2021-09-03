@@ -15,11 +15,8 @@
   </parent>
 
   <properties>
-    <plugin.id>workflow-plugin</plugin.id>
-    <plugin.class>io.tesler.engine.workflow.WorkflowPlugin</plugin.class>
-    <plugin.version>${project.version}</plugin.version>
-    <plugin.provider>atc</plugin.provider>
-    <plugin.dependencies />
+    <maven.compiler.source>8</maven.compiler.source>
+    <maven.compiler.target>8</maven.compiler.target>
   </properties>
 
   <dependencies>
@@ -34,49 +31,6 @@
       <version>${project.version}</version>
       <scope>provided</scope>
     </dependency>
-    <dependency>
-      <groupId>io.tesler</groupId>
-      <artifactId>tesler-plugin</artifactId>
-      <scope>provided</scope>
-    </dependency>
   </dependencies>
-
-  <build>
-    <plugins>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-assembly-plugin</artifactId>
-        <version>3.1.1</version>
-        <configuration>
-          <descriptorRefs>
-            <descriptorRef>jar-with-dependencies</descriptorRef>
-          </descriptorRefs>
-          <attach>true</attach>
-          <archive>
-            <manifest>
-              <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
-              <addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
-            </manifest>
-            <manifestEntries>
-              <Plugin-Id>${plugin.id}</Plugin-Id>
-              <Plugin-Version>${plugin.version}</Plugin-Version>
-              <Plugin-Provider>${plugin.provider}</Plugin-Provider>
-              <Plugin-Class>${plugin.class}</Plugin-Class>
-              <Plugin-Dependencies>${plugin.dependencies}</Plugin-Dependencies>
-            </manifestEntries>
-          </archive>
-        </configuration>
-        <executions>
-          <execution>
-            <id>make-assembly</id>
-            <phase>package</phase>
-            <goals>
-              <goal>single</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
-    </plugins>
-  </build>
 
 </project>

@@ -27,13 +27,12 @@ import io.tesler.model.core.entity.User;
 import io.tesler.model.workflow.entity.WorkflowStep;
 import io.tesler.model.workflow.entity.WorkflowTransition;
 import io.tesler.model.workflow.entity.WorkflowableTask;
-import org.pf4j.ExtensionPoint;
 import org.springframework.data.jpa.domain.Specification;
 
 import java.util.List;
 
 
-public interface WorkflowEngine extends ExtensionPoint {
+public interface WorkflowEngine {
 
 	/**
 	 * Sets the specified task to the initial step of the corresponding transition model.

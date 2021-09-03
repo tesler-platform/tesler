@@ -34,11 +34,10 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.math.NumberUtils;
-import org.pf4j.Extension;
 import org.springframework.stereotype.Service;
 
 @RequiredArgsConstructor
-@Extension
+
 @Service
 public class WorkflowAdministrationBcDisabler extends BcDisabler {
 

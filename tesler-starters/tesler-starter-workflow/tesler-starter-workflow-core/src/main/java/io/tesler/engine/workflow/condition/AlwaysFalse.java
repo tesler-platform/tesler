@@ -25,16 +25,14 @@ import io.tesler.core.dict.WorkflowDictionaries.WfCondition;
 import io.tesler.model.workflow.entity.WorkflowCondition;
 import io.tesler.model.workflow.entity.WorkflowTransition;
 import io.tesler.model.workflow.entity.WorkflowableTask;
-import org.pf4j.Extension;
-import org.pf4j.ExtensionPoint;
 import org.springframework.stereotype.Service;
 
 /**
  * Всегда false
  */
-@Extension
+
 @Service
-public class AlwaysFalse implements ConditionChecker<WorkflowableTask, WorkflowCondition>, ExtensionPoint {
+public class AlwaysFalse implements ConditionChecker<WorkflowableTask, WorkflowCondition> {
 
 	@Override
 	public LOV getType() {

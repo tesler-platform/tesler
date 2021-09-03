@@ -23,7 +23,6 @@ package io.tesler.core.service.rowmeta;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.tesler.api.data.dto.DataResponseDTO;
 import io.tesler.api.data.dto.rowmeta.FieldDTO;
-import io.tesler.api.service.PluginAware;
 import io.tesler.core.crudma.bc.BcIdentifier;
 import io.tesler.core.crudma.bc.BusinessComponent;
 import io.tesler.core.dto.rowmeta.ActionsDTO;
@@ -54,7 +53,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j
-@PluginAware
 @Service
 @Transactional
 public class RowResponseService {

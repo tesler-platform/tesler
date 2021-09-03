@@ -22,13 +22,12 @@ package io.tesler.engine.workflow.services;
 
 import io.tesler.api.data.dictionary.LOV;
 import io.tesler.model.workflow.entity.*;
-import org.pf4j.ExtensionPoint;
 
 import java.math.BigDecimal;
 import java.util.List;
 
 
-public interface WorkflowDao extends ExtensionPoint {
+public interface WorkflowDao {
 
 	/**
 	 * Returns the current step for the specified activity.

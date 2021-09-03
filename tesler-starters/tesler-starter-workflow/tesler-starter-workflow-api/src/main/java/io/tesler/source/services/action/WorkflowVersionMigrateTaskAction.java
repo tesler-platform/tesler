@@ -22,7 +22,6 @@ package io.tesler.source.services.action;
 
 import static io.tesler.api.util.i18n.ErrorMessageSource.errorMessage;
 
-import io.tesler.api.service.PluginAware;
 import io.tesler.api.service.tx.TransactionService;
 import io.tesler.api.util.Invoker;
 import io.tesler.core.crudma.bc.BusinessComponent;
@@ -75,7 +74,6 @@ public class WorkflowVersionMigrateTaskAction extends ResponseServiceAction<Work
 
 	@Slf4j
 	@Service
-	@PluginAware
 	@RequiredArgsConstructor
 	public static class AsyncTaskMigration {
 

@@ -20,7 +20,6 @@
 
 package io.tesler.source.services.data.impl;
 
-import io.tesler.api.service.PluginAware;
 import io.tesler.core.crudma.bc.BusinessComponent;
 import io.tesler.core.crudma.impl.VersionAwareResponseService;
 import io.tesler.core.dict.WorkflowDictionaryType;
@@ -43,7 +42,6 @@ import javax.persistence.metamodel.SingularAttribute;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
 
-@PluginAware
 public abstract class BaseWorkflowPostFunctionServiceImpl<D extends WorkflowPostFunctionDto, E extends WorkflowPostFunction> extends
 		VersionAwareResponseService<D, E> {
 

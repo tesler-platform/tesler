@@ -26,10 +26,9 @@ import io.tesler.core.crudma.bc.BusinessComponent;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
-import org.pf4j.ExtensionPoint;
 
 
-public abstract class BcDisabler implements ExtensionPoint {
+public abstract class BcDisabler {
 
 	public abstract Collection<BcIdentifier> getSupportedBc();
 

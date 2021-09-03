@@ -31,7 +31,6 @@ import io.tesler.model.core.entity.BaseEntity_;
 import io.tesler.model.core.entity.User;
 import io.tesler.model.workflow.entity.*;
 import lombok.extern.slf4j.Slf4j;
-import org.pf4j.Extension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -51,7 +50,7 @@ import static java.util.Comparator.*;
 
 @Slf4j
 @Service
-@Extension
+
 public class WorkflowDaoImpl implements WorkflowDao {
 
 	@PersistenceContext(unitName = "teslerEntityManagerFactory")
