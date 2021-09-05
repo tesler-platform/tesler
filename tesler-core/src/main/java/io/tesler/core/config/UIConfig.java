@@ -20,6 +20,9 @@
 
 package io.tesler.core.config;
 
+import io.tesler.core.config.properties.UIProperties;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.Ordered;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
@@ -28,20 +31,34 @@ import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver;
 
-
+@EnableConfigurationProperties(UIProperties.class)
 @EnableWebMvc
 public class UIConfig implements WebMvcConfigurer {
 
+	@Autowired
+	private UIProperties uiProperties;
+
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
-		registry.addResourceHandler("/**").addResourceLocations("classpath:/ui/");
+		if (uiProperties.getUseServletContextPath()) {
+			registry.addResourceHandler("/**").addResourceLocations("classpath:/ui/");
+		} else {
+			registry.addResourceHandler(uiProperties.getPath() + "/**").addResourceLocations("classpath:/ui/");
+		}
 	}
 
 	@Override
 	public void addViewControllers(ViewControllerRegistry registry) {
-		registry.addRedirectViewController("/ui", "/ui/");
-		registry.addViewController("/").setViewName("index");
-		registry.setOrder(Ordered.HIGHEST_PRECEDENCE);
+		if (uiProperties.getUseServletContextPath()) {
+			registry.addRedirectViewController("/ui", "/ui/");
+			registry.addViewController("/").setViewName("index");
+			registry.setOrder(Ordered.HIGHEST_PRECEDENCE);
+		} else {
+			registry.addRedirectViewController("/", uiProperties.getPath() + "/");
+			registry.addRedirectViewController(uiProperties.getPath(), uiProperties.getPath() + "/");
+			registry.addViewController(uiProperties.getPath() + "/").setViewName("index");
+			registry.setOrder(Ordered.HIGHEST_PRECEDENCE);
+		}
 	}
 
 	@Bean

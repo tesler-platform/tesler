@@ -21,6 +21,7 @@
 package io.tesler.core.controller;
 
 import static io.tesler.api.util.i18n.ErrorMessageSource.errorMessage;
+import static io.tesler.core.config.properties.APIProperties.TESLER_API_PATH_SPEL;
 
 import io.tesler.api.exception.ServerException;
 import io.tesler.core.dto.ResponseBuilder;
@@ -52,7 +53,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 @Slf4j
 @RestController
-@RequestMapping(value = "file")
+@RequestMapping(TESLER_API_PATH_SPEL + "/file")
 public class FileController {
 
 	@Autowired

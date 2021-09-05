@@ -21,6 +21,7 @@
 package io.tesler.core.controller;
 
 import static io.tesler.api.util.i18n.InfoMessageSource.infoMessage;
+import static io.tesler.core.config.properties.APIProperties.TESLER_API_PATH_SPEL;
 
 import io.tesler.api.data.ResultPage;
 import io.tesler.api.data.dto.DataResponseDTO;
@@ -43,6 +44,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@RequestMapping(TESLER_API_PATH_SPEL)
 public class UniversalDataController {
 
 	@Autowired

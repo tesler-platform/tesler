@@ -20,6 +20,7 @@
 
 package io.tesler.core.controller;
 
+import static io.tesler.core.config.properties.APIProperties.TESLER_API_PATH_SPEL;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
 import static io.tesler.api.util.i18n.InfoMessageSource.infoMessage;
 
@@ -44,7 +45,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping(value = "associate/**")
+@RequestMapping(value = TESLER_API_PATH_SPEL + "/associate/**")
 public class UniversalAssociateController {
 
 	@Autowired

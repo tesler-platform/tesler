@@ -20,6 +20,8 @@
 
 package io.tesler.core.controller;
 
+import static io.tesler.core.config.properties.APIProperties.TESLER_API_PATH_SPEL;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.tesler.core.crudma.bc.BcRegistry;
 import io.tesler.core.dto.ResponseBuilder;
@@ -36,6 +38,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
+@RequestMapping(TESLER_API_PATH_SPEL)
 public class ViewController {
 
 	@Qualifier("teslerObjectMapper")

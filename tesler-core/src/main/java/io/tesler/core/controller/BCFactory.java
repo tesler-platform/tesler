@@ -20,6 +20,7 @@
 
 package io.tesler.core.controller;
 
+import io.tesler.core.config.properties.APIProperties;
 import io.tesler.core.controller.param.QueryParameters;
 import io.tesler.core.crudma.bc.BcHierarchy;
 import io.tesler.core.crudma.bc.BcRegistry;
@@ -34,10 +35,13 @@ import javax.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.web.util.UrlPathHelper;
 
 @Service
 @RequiredArgsConstructor
 public class BCFactory {
+
+	private final APIProperties apiProperties;
 
 	private final Set<String> operations = ImmutableSet.of(
 			"data", "count", "custom-action", "associate", "row-meta-new", "row-meta-empty", "row-meta"
@@ -72,10 +76,18 @@ public class BCFactory {
 
 	private Deque<String> getRequestParts(HttpServletRequest request) {
 		String uri = request.getRequestURI();
-		for (String prefix : new String[]{request.getContextPath(), request.getServletPath(), "/",}) {
-			uri = StringUtils.removeStart(uri, prefix);
+		if (apiProperties.getUseServletContextPath()) {
+			for (String prefix : new String[]{request.getContextPath(), request.getServletPath(), "/",}) {
+				uri = StringUtils.removeStart(uri, prefix);
+			}
+			return new LinkedList<>(Arrays.asList(uri.split("/")));
+		} else {
+			uri = StringUtils
+					.removeStart(new UrlPathHelper().getPathWithinApplication(request), apiProperties.getPath());
+			uri = StringUtils
+					.removeStart(uri, "/");
+			return new LinkedList<>(Arrays.asList(uri.split("/")));
 		}
-		return new LinkedList<>(Arrays.asList(uri.split("/")));
 	}
 
 	BusinessComponent getBusinessComponent(HttpServletRequest request, QueryParameters queryParameters) {

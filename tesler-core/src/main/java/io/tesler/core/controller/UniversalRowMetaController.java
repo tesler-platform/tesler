@@ -21,6 +21,7 @@
 package io.tesler.core.controller;
 
 import static io.tesler.api.util.i18n.InfoMessageSource.infoMessage;
+import static io.tesler.core.config.properties.APIProperties.TESLER_API_PATH_SPEL;
 
 import io.tesler.core.controller.param.QueryParameters;
 import io.tesler.core.crudma.CrudmaActionHolder;
@@ -43,6 +44,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
+@RequestMapping(TESLER_API_PATH_SPEL)
 public class UniversalRowMetaController {
 
 	private final CrudmaGateway crudmaGateway;

@@ -23,6 +23,7 @@ package io.tesler.core.config;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.tesler.api.service.LocaleService;
 import io.tesler.api.service.session.CoreSessionService;
+import io.tesler.core.config.properties.APIProperties;
 import io.tesler.core.controller.http.FillLogParametersInterceptor;
 import io.tesler.core.controller.param.resolvers.LocaleParameterArgumentResolver;
 import io.tesler.core.controller.param.resolvers.PageParameterArgumentResolver;
@@ -32,6 +33,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.converter.ByteArrayHttpMessageConverter;
 import org.springframework.http.converter.HttpMessageConverter;
@@ -48,6 +50,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @EnableWebMvc
 @ControllerScan({"io.tesler.core.controller"})
 @AllArgsConstructor
+@EnableConfigurationProperties(APIProperties.class)
 public class APIConfig implements WebMvcConfigurer {
 
 	protected final FillLogParametersInterceptor debugModeInterceptor;

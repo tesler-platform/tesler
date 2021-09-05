@@ -20,6 +20,8 @@
 
 package io.tesler.core.controller;
 
+import static io.tesler.core.config.properties.APIProperties.TESLER_API_PATH_SPEL;
+
 import io.tesler.core.controller.param.QueryParameters;
 import io.tesler.core.crudma.CrudmaActionHolder;
 import io.tesler.core.crudma.CrudmaActionHolder.CrudmaAction;
@@ -38,7 +40,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping(value = "custom-action/**")
+@RequestMapping(value = TESLER_API_PATH_SPEL + "/custom-action/**")
 public class UniversalCustomActionController {
 
 	@Autowired

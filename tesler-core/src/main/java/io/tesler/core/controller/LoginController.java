@@ -20,6 +20,8 @@
 
 package io.tesler.core.controller;
 
+import static io.tesler.core.config.properties.APIProperties.TESLER_API_PATH_SPEL;
+
 import io.tesler.api.data.dictionary.LOV;
 import io.tesler.api.service.LocaleService;
 import io.tesler.api.service.session.CoreSessionService;
@@ -53,6 +55,7 @@ import org.springframework.web.servlet.LocaleResolver;
 @RequiredArgsConstructor
 @Slf4j
 @RestController
+@RequestMapping(TESLER_API_PATH_SPEL)
 public class LoginController {
 
 	private final LocaleService localeService;
