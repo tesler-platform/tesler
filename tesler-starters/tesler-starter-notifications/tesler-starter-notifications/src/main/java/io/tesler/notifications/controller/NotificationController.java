@@ -43,7 +43,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.async.DeferredResult;
 
 @RestController
-@RequestMapping(TESLER_API_PATH_SPEL)
+@RequestMapping(TESLER_API_PATH_SPEL + "/notification")
 public class NotificationController {
 
 	@Autowired
