@@ -20,6 +20,8 @@
 
 package io.tesler.sqlbc.controller;
 
+import static io.tesler.core.config.properties.APIProperties.TESLER_API_PATH_SPEL;
+
 import io.tesler.api.data.PageSpecification;
 import io.tesler.api.data.ResultPage;
 import io.tesler.api.service.tx.TransactionService;
@@ -49,7 +51,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 
 @RestController
-@RequestMapping("sql")
+@RequestMapping(TESLER_API_PATH_SPEL + "/sql")
 public class SQLController {
 
 	private static final int DEFAULT_PAGE_NUMBER = 1;

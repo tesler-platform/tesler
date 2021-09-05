@@ -20,6 +20,8 @@
 
 package io.tesler.core.controller;
 
+import static io.tesler.core.config.properties.APIProperties.TESLER_API_PATH_SPEL;
+
 import io.tesler.core.controller.http.AJAXRedirectStrategy;
 import io.tesler.core.service.RouterService;
 import java.io.IOException;
@@ -35,6 +37,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RequiredArgsConstructor
 @RestController
+@RequestMapping(TESLER_API_PATH_SPEL)
 public class RouterController {
 
 	private final RouterService routerService;

@@ -21,6 +21,8 @@
 package io.tesler.core.controller;
 
 
+import static io.tesler.core.config.properties.APIProperties.TESLER_API_PATH_SPEL;
+
 import io.tesler.api.service.tx.TransactionService;
 import io.tesler.api.util.Invoker;
 import io.tesler.core.config.CacheConfig;
@@ -32,8 +34,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("bc-registry")
 @RequiredArgsConstructor
+@RequestMapping(TESLER_API_PATH_SPEL + "/bc-registry")
 public class MetaHotReloadController {
 
 	final MetaHotReloadService metaHotReloadService;

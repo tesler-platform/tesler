@@ -20,6 +20,7 @@
 
 package io.tesler.core.controller;
 
+import static io.tesler.core.config.properties.APIProperties.TESLER_API_PATH_SPEL;
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 
 import io.tesler.core.crudma.bc.BcRegistry;
@@ -32,7 +33,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("bc-registry")
+@RequestMapping(TESLER_API_PATH_SPEL + "/bc-registry")
 public class BcRegistryController {
 
 	@Autowired
