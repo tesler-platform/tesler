@@ -24,6 +24,7 @@ import static javax.persistence.FetchType.LAZY;
 
 import io.tesler.api.data.dictionary.LOV;
 import io.tesler.model.core.entity.BaseEntity;
+import io.tesler.model.core.hbn.ExtSequenceGenerator;
 import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
@@ -33,6 +34,9 @@ import javax.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.Formula;
+import org.hibernate.annotations.Parameter;
+import org.hibernate.id.enhanced.OptimizerFactory;
+import org.hibernate.id.enhanced.SequenceStyleGenerator;
 
 /**
  * Шаг модели переходов
@@ -41,6 +45,14 @@ import org.hibernate.annotations.Formula;
 @Setter
 @Entity
 @Table(name = "WF_STEP")
+@ExtSequenceGenerator(
+		parameters = {
+				@Parameter(name = SequenceStyleGenerator.SEQUENCE_PARAM, value = "META_SEQ"),
+				@Parameter(name = SequenceStyleGenerator.INITIAL_PARAM, value = "1"),
+				@Parameter(name = SequenceStyleGenerator.INCREMENT_PARAM, value = "100"),
+				@Parameter(name = SequenceStyleGenerator.OPT_PARAM, value = OptimizerFactory.POOL_LO)
+		}
+)
 public class WorkflowStep extends BaseEntity {
 
 	/**
