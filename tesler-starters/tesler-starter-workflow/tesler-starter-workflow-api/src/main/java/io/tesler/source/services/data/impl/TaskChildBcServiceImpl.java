@@ -56,7 +56,6 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import javax.persistence.Tuple;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -64,6 +63,7 @@ import javax.persistence.criteria.Join;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import lombok.extern.slf4j.Slf4j;
+import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -73,8 +73,8 @@ import org.springframework.stereotype.Service;
 public class TaskChildBcServiceImpl extends AbstractResponseService<AdminBcDto, BaseEntity> implements
 		TaskChildBcService {
 
-	@PersistenceContext(unitName = "teslerEntityManagerFactory")
-	private EntityManager entityManager;
+	@Autowired
+	private List<EntityManager> entityManagers;
 
 	@Autowired
 	private BcRegistry bcRegistry;
@@ -102,6 +102,7 @@ public class TaskChildBcServiceImpl extends AbstractResponseService<AdminBcDto, 
 	}
 
 	private Map<String, String> getAllViewsByBcNames(List<String> bcNames) {
+		EntityManager entityManager = getSupportedEntityManager(Hibernate.getClass(ViewWidgets.class).getName());
 		CriteriaBuilder cb = entityManager.getCriteriaBuilder();
 		CriteriaQuery<Tuple> cq = cb.createTupleQuery();
 		Root<ViewWidgets> viewWidgetsRoot = cq.from(ViewWidgets.class);
@@ -217,6 +218,21 @@ public class TaskChildBcServiceImpl extends AbstractResponseService<AdminBcDto, 
 				&& WorkflowableTaskService.class.isAssignableFrom(
 				((InnerBcDescription) bcDescription).getServiceClass()
 		);
+	}
+
+	protected EntityManager getSupportedEntityManager(String entityClazz) {
+		List<EntityManager> supportedEntityManagers = entityManagers.stream().filter(
+				entityManager -> entityManager.getMetamodel().getEntities().stream().anyMatch(
+						//todo: delete check simpleName in next major release
+						entityType -> com.google.common.base.Objects.equal(entityType.getBindableJavaType().getSimpleName(), entityClazz)
+								|| com.google.common.base.Objects.equal(entityType.getBindableJavaType().getName(), entityClazz)
+				)
+		).collect(Collectors.toList());
+		if (supportedEntityManagers.size() == 1) {
+			return supportedEntityManagers.get(0);
+		} else {
+			throw new IllegalArgumentException("Can't find unique EntityManager for entity: " + entityClazz);
+		}
 	}
 
 }

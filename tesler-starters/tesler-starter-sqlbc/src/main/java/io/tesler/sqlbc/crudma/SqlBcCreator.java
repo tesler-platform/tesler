@@ -22,6 +22,7 @@ package io.tesler.sqlbc.crudma;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.tesler.api.config.TeslerBeanProperties;
 import io.tesler.api.exception.ServerException;
 import io.tesler.core.controller.param.SearchOperation;
 import io.tesler.sqlbc.crudma.SqlBcDescription;
@@ -42,6 +43,7 @@ import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.concurrent.LazyInitializer;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.ApplicationContext;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
@@ -56,10 +58,9 @@ public class SqlBcCreator {
 
 	private final ObjectMapper objectMapper;
 
-	public SqlBcCreator(@Qualifier("primaryDS") DataSource dataSource,
-			@Qualifier("teslerObjectMapper") ObjectMapper objectMapper
+	public SqlBcCreator(ApplicationContext applicationContext, TeslerBeanProperties teslerBeanProperties, @Qualifier("teslerObjectMapper") ObjectMapper objectMapper
 	) {
-		this.jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
+		this.jdbcTemplate = new NamedParameterJdbcTemplate(applicationContext.getBean(teslerBeanProperties.getDataSource(), DataSource.class));
 		this.objectMapper = objectMapper;
 	}
 

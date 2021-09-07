@@ -31,11 +31,11 @@ import io.tesler.model.core.entity.BaseEntity_;
 import io.tesler.model.core.entity.User;
 import io.tesler.model.workflow.entity.*;
 import lombok.extern.slf4j.Slf4j;
+import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import javax.persistence.criteria.Root;
 import javax.persistence.criteria.Subquery;
 import java.math.BigDecimal;
@@ -53,8 +53,7 @@ import static java.util.Comparator.*;
 
 public class WorkflowDaoImpl implements WorkflowDao {
 
-	@PersistenceContext(unitName = "teslerEntityManagerFactory")
-	private EntityManager entityManager;
+	private List<EntityManager> entityManagers;
 
 	@Autowired
 	private JpaDao jpaDao;
@@ -224,6 +223,7 @@ public class WorkflowDaoImpl implements WorkflowDao {
 
 	@Override
 	public List<LOV> getTaskTypesNotInWf() {
+		EntityManager entityManager = getSupportedEntityManager(Hibernate.getClass(Workflow.class).getName());
 		return JpaUtils.<String>selectNativeQuery(
 				entityManager,
 				"select d.key from dictionary_item d where d.type = ? and d.key not in (select w.task_type_cd from wf w)",
@@ -413,6 +413,21 @@ public class WorkflowDaoImpl implements WorkflowDao {
 		));
 		if (count > 0) {
 			jpaDao.flush();
+		}
+	}
+
+	protected EntityManager getSupportedEntityManager(String entityClazz) {
+		List<EntityManager> supportedEntityManagers = entityManagers.stream().filter(
+				entityManager -> entityManager.getMetamodel().getEntities().stream().anyMatch(
+						//todo: delete check simpleName in next major release
+						entityType -> com.google.common.base.Objects.equal(entityType.getBindableJavaType().getSimpleName(), entityClazz)
+								|| com.google.common.base.Objects.equal(entityType.getBindableJavaType().getName(), entityClazz)
+				)
+		).collect(Collectors.toList());
+		if (supportedEntityManagers.size() == 1) {
+			return supportedEntityManagers.get(0);
+		} else {
+			throw new IllegalArgumentException("Can't find unique EntityManager for entity: " + entityClazz);
 		}
 	}
 

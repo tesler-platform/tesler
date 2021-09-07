@@ -21,6 +21,7 @@
 package io.tesler.sqlbc.export.sql;
 
 import com.google.common.collect.Lists;
+import io.tesler.api.config.TeslerBeanProperties;
 import io.tesler.sqlbc.export.base.JdbcTemplateSqlExporter;
 import io.tesler.sqlbc.export.base.Parameters;
 import io.tesler.sqlbc.export.sql.query.UpdateForeignKey;
@@ -31,7 +32,7 @@ import java.util.List;
 import javax.sql.DataSource;
 
 import io.tesler.sqlbc.export.sql.query.Insert;
-import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.ApplicationContext;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Service;
@@ -43,11 +44,9 @@ public class SqlExportQueryBuilder {
 
 	private final JdbcTemplateSqlExporter jdbcTemplateSqlExporter;
 
-	SqlExportQueryBuilder(
-			@Qualifier("primaryDS") final DataSource dataSource,
-			final JdbcTemplateSqlExporter jdbcTemplateSqlExporter
+	SqlExportQueryBuilder(final JdbcTemplateSqlExporter jdbcTemplateSqlExporter, ApplicationContext applicationContext, TeslerBeanProperties teslerBeanProperties
 	) {
-		this.jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
+		this.jdbcTemplate = new NamedParameterJdbcTemplate(applicationContext.getBean(teslerBeanProperties.getDataSource(), DataSource.class));
 		this.jdbcTemplateSqlExporter = jdbcTemplateSqlExporter;
 	}
 

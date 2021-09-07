@@ -46,7 +46,7 @@ import org.hibernate.envers.NotAudited;
 @Table(name = "users") // users, а не user, т.к. это служебное слово oracle
 @Getter
 @Setter
-public class User extends BaseEntity /*TODO>>IBORISENKO>>this should be moved to project level!!!>> implements IAccessorSupplier*/ {
+public class User extends BaseEntity {
 
 	private String login;
 

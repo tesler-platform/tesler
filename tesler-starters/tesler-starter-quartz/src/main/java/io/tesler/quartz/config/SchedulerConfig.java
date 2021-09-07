@@ -21,11 +21,12 @@
 package io.tesler.quartz.config;
 
 import com.google.common.base.Objects;
+import io.tesler.api.config.TeslerBeanProperties;
 import java.util.Properties;
-import javax.sql.DataSource;
 
 import io.tesler.quartz.impl.QuartzJobFactory;
 import io.tesler.quartz.impl.QuartzSchedulerListener;
+import javax.sql.DataSource;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -66,8 +67,7 @@ public class SchedulerConfig {
 	private final SchedulerProperties schedulerProperties;
 
 	@Bean
-	public SchedulerFactoryBean quartzScheduler(@Qualifier("primaryDS") DataSource primaryDS,
-			@Qualifier("primaryDatabase") Database primaryDatabase) {
+	public SchedulerFactoryBean quartzScheduler(ApplicationContext applicationContext, TeslerBeanProperties teslerBeanProperties, @Qualifier("primaryDatabase") Database primaryDatabase) {
 		SchedulerFactoryBean schedulerFactoryBean = new SchedulerFactoryBean();
 		schedulerFactoryBean.setAutoStartup(!environment.acceptsProfiles("quartzDisable"));
 		schedulerFactoryBean.setStartupDelay((int) schedulerProperties.getStartupDelay().getSeconds());
@@ -77,7 +77,8 @@ public class SchedulerConfig {
 		schedulerFactoryBean.setJobFactory(quartzJobFactory);
 		schedulerFactoryBean.setTransactionManager(transactionManager);
 		schedulerFactoryBean.setSchedulerName(schedulerProperties.getSchedulerName());
-		schedulerFactoryBean.setDataSource(new TransactionAwareDataSourceProxy(primaryDS));
+		DataSource dataSource = applicationContext.getBean(teslerBeanProperties.getDataSource(), DataSource.class);
+		schedulerFactoryBean.setDataSource(new TransactionAwareDataSourceProxy(dataSource));
 		Properties quartzProperties = new Properties();
 		quartzProperties.setProperty("org.quartz.scheduler.skipUpdateCheck", String.valueOf(true));
 		quartzProperties.setProperty("org.quartz.jobStore.class", LocalDataSourceJobStore.class.getName());

@@ -20,8 +20,10 @@
 
 package io.tesler.model.core.tx;
 
+import io.tesler.api.config.TeslerBeanProperties;
 import io.tesler.api.service.tx.ITransactionStatus;
 import javax.persistence.EntityManagerFactory;
+import org.springframework.context.ApplicationContext;
 import org.springframework.core.Ordered;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.transaction.TransactionDefinition;
@@ -30,11 +32,19 @@ import org.springframework.transaction.support.TransactionSynchronizationAdapter
 import org.springframework.transaction.support.TransactionSynchronizationManager;
 
 
-public class JpaTransactionManagerCustom extends JpaTransactionManager {
+public class TeslerJpaTransactionManagerForceActiveAware extends JpaTransactionManager {
 
 	private final ITransactionStatus txStatus;
 
-	public JpaTransactionManagerCustom(EntityManagerFactory emf, ITransactionStatus txStatus) {
+	public TeslerJpaTransactionManagerForceActiveAware(ApplicationContext applicationContext, TeslerBeanProperties teslerBeanProperties, ITransactionStatus txStatus) {
+		super(applicationContext.getBean(
+				teslerBeanProperties.getEntityManagerFactory(),
+				EntityManagerFactory.class
+		));
+		this.txStatus = txStatus;
+	}
+
+	public TeslerJpaTransactionManagerForceActiveAware(EntityManagerFactory emf, ITransactionStatus txStatus) {
 		super(emf);
 		this.txStatus = txStatus;
 	}

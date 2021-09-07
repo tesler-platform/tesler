@@ -27,6 +27,7 @@ import static org.hibernate.event.spi.EventType.POST_DELETE;
 import static org.hibernate.event.spi.EventType.POST_INSERT;
 import static org.hibernate.event.spi.EventType.POST_UPDATE;
 
+import io.tesler.api.config.TeslerBeanProperties;
 import io.tesler.model.core.listeners.hbn.change.ChangeInterceptor;
 import io.tesler.model.core.listeners.hbn.flush.FlushInterceptor;
 import javax.annotation.PostConstruct;
@@ -49,7 +50,7 @@ import org.hibernate.event.spi.PostUpdateEvent;
 import org.hibernate.event.spi.PostUpdateEventListener;
 import org.hibernate.persister.entity.EntityPersister;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 
 
@@ -59,8 +60,10 @@ public class DatabaseListener implements
 		FlushEntityEventListener, FlushEventListener, AutoFlushEventListener {
 
 	@Autowired
-	@Qualifier("teslerEntityManagerFactory")
-	private EntityManagerFactory emf;
+	private ApplicationContext applicationContext;
+
+	@Autowired
+	private TeslerBeanProperties teslerBeanProperties;
 
 	@Autowired
 	private ChangeInterceptor changeInterceptor;
@@ -114,7 +117,10 @@ public class DatabaseListener implements
 	}
 
 	private EventListenerRegistry getRegistry() {
-		SessionFactoryImplementor implementor = emf.unwrap(SessionFactoryImplementor.class);
+		SessionFactoryImplementor implementor = applicationContext.getBean(
+				teslerBeanProperties.getEntityManagerFactory(),
+				EntityManagerFactory.class
+		).unwrap(SessionFactoryImplementor.class);
 		return implementor.getServiceRegistry().getService(EventListenerRegistry.class);
 	}
 

@@ -21,6 +21,7 @@
 package io.tesler.sqlbc.dao.binds;
 
 import com.google.common.collect.ImmutableMap;
+import io.tesler.api.config.TeslerBeanProperties;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -28,7 +29,7 @@ import java.sql.Timestamp;
 import java.util.List;
 import java.util.Map;
 import javax.sql.DataSource;
-import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.ApplicationContext;
 import org.springframework.jdbc.core.SqlParameter;
 import org.springframework.jdbc.core.namedparam.NamedParameterUtils;
 import org.springframework.jdbc.core.namedparam.ParsedSql;
@@ -42,11 +43,10 @@ public class SqlNamedParameterQueryBinderImpl implements SqlNamedParameterQueryB
 			.put(Timestamp.class, "{ts '%s'}")
 			.put(String.class, "'%s'")
 			.build();
-
 	private final DataSource dataSource;
 
-	public SqlNamedParameterQueryBinderImpl(@Qualifier("primaryDS") DataSource dataSource) {
-		this.dataSource = dataSource;
+	public SqlNamedParameterQueryBinderImpl(ApplicationContext applicationContext, TeslerBeanProperties teslerBeanProperties) {
+		this.dataSource = applicationContext.getBean(teslerBeanProperties.getDataSource(), DataSource.class);
 	}
 
 	@Override

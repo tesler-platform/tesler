@@ -20,6 +20,7 @@
 
 package io.tesler.quartz.config;
 
+import io.tesler.api.config.TeslerBeanProperties;
 import io.tesler.quartz.impl.QuartzJobFactory;
 import io.tesler.quartz.impl.QuartzSchedulerListener;
 import org.junit.jupiter.api.Assertions;
@@ -75,14 +76,14 @@ class SchedulerConfigTest {
 
 	@Test
 	void testQuartzScheduler() {
-		SchedulerFactoryBean result = schedulerConfig.quartzScheduler(null, Database.DEFAULT);
+		SchedulerFactoryBean result = schedulerConfig.quartzScheduler(applicationContext, new TeslerBeanProperties(), Database.DEFAULT);
 		Assertions.assertEquals(SchedulerFactoryBean.class, result.getClass());
 	}
 
 	@Test
 	void testQuartzSchedulerService() {
 		TransactionProxyFactoryBean result = schedulerConfig.quartzSchedulerService(
-				schedulerConfig.quartzScheduler(null, Database.DEFAULT)
+				schedulerConfig.quartzScheduler(applicationContext, new TeslerBeanProperties(), Database.DEFAULT)
 		);
 		Assertions.assertEquals(TransactionProxyFactoryBean.class, result.getClass());
 	}
