@@ -1,6 +1,6 @@
 /*-
  * #%L
- * IO Tesler - Workflow API
+ * IO Tesler - Model Core
  * %%
  * Copyright (C) 2018 - 2019 Tesler Contributors
  * %%
@@ -18,18 +18,24 @@
  * #L%
  */
 
-package io.tesler.engine.workflow.services;
+package io.tesler.model.core.entity;
 
-import io.tesler.core.crudma.bc.BusinessComponent;
-import io.tesler.model.core.entity.TeslerFile;
-import io.tesler.model.workflow.entity.WorkflowVersion;
-import io.tesler.source.dto.WorkflowVersionDto;
+public interface TeslerFile {
 
+	Long getId();
 
-public interface WorkflowExporter {
+	String getFileName();
 
-	TeslerFile exportNewVersion(BusinessComponent bc, WorkflowVersionDto data);
+	String getFileType();
 
-	WorkflowVersion copyNewVersion(BusinessComponent bc, WorkflowVersionDto data);
+	byte[] getFileContent();
+
+	void setFileName(String name);
+
+	void setFileType(String type);
+
+	void setFileContent(byte[] content);
+
+	void setTemporary(boolean temporary);
 
 }

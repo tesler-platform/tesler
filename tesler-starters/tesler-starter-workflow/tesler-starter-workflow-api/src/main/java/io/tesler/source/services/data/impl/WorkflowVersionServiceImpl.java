@@ -35,7 +35,7 @@ import io.tesler.core.service.action.Actions;
 import io.tesler.engine.workflow.services.WorkflowDao;
 import io.tesler.engine.workflow.services.WorkflowExporter;
 import io.tesler.model.core.entity.BaseEntity_;
-import io.tesler.model.core.entity.FileEntity;
+import io.tesler.model.core.entity.TeslerFile;
 import io.tesler.model.workflow.entity.Workflow;
 import io.tesler.model.workflow.entity.WorkflowStep;
 import io.tesler.model.workflow.entity.WorkflowVersion;
@@ -134,7 +134,7 @@ public class WorkflowVersionServiceImpl extends
 	}
 
 	private ActionResultDTO<WorkflowVersionDto> exportNewVersion(BusinessComponent bc, WorkflowVersionDto data) {
-		final FileEntity fileEntity = workflowExporter.exportNewVersion(bc, data);
+		final TeslerFile fileEntity = workflowExporter.exportNewVersion(bc, data);
 		return new ActionResultDTO<>(data).setAction(PostAction.downloadFile(String.valueOf(fileEntity.getId())));
 	}
 

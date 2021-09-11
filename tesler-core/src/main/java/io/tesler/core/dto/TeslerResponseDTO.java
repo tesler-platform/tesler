@@ -18,18 +18,23 @@
  * #L%
  */
 
-package io.tesler.core.service;
+package io.tesler.core.dto;
 
-import java.io.ByteArrayInputStream;
-import java.io.InputStream;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+import lombok.experimental.Accessors;
 
+@Getter
+@ToString
+@Setter
+@Accessors(chain = true)
+@JsonInclude(JsonInclude.Include.NON_NULL)
+public class TeslerResponseDTO<T> {
 
-public interface AVService {
+	public final boolean success = true;
 
-	default void requireClean(byte[] content, String fileName) {
-		requireClean(new ByteArrayInputStream(content), content.length, fileName);
-	}
-
-	void requireClean(InputStream is, long size, String fileName);
+	public T data;
 
 }

@@ -24,97 +24,48 @@ import static io.tesler.api.util.i18n.ErrorMessageSource.errorMessage;
 import static io.tesler.core.config.properties.APIProperties.TESLER_API_PATH_SPEL;
 
 import io.tesler.api.exception.ServerException;
-import io.tesler.core.dto.ResponseBuilder;
-import io.tesler.core.dto.ResponseDTO;
+import io.tesler.core.dto.TeslerResponseDTO;
 import io.tesler.core.dto.data.FileUploadDto;
 import io.tesler.core.exception.ClientException;
-import io.tesler.core.service.AVService;
 import io.tesler.core.service.FileService;
-import io.tesler.core.service.file.CustomSourceFile;
-import io.tesler.core.service.file.CustomSourceFileService;
-import io.tesler.model.core.dao.JpaDao;
-import io.tesler.model.core.entity.FileEntity;
+import io.tesler.model.core.entity.TeslerFile;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.Optional;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ContentDisposition;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.InvalidMediaTypeException;
-import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+//import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 @Slf4j
-@RestController
+@RequiredArgsConstructor
+//@RestController
 @RequestMapping(TESLER_API_PATH_SPEL + "/file")
-public class FileController {
+@ConditionalOnMissingBean(TeslerFileControllerContract.class)
+public class FileController implements TeslerFileControllerContract {
 
-	@Autowired
-	private FileService fileService;
+	private final FileService fileService;
 
-	@Autowired
-	private CustomSourceFileService customSourceFileService;
-
-	@Autowired
-	private Optional<AVService> avService;
-
-	@Autowired
-	private ResponseBuilder resp;
-
-	@Autowired
-	private JpaDao jpaDao;
-
-	@RequestMapping(method = RequestMethod.POST)
-	public ResponseDTO upload(
-			@RequestParam("file") MultipartFile file,
-			@RequestParam(value = "source", required = false) String source) {
+	@Override
+	@PostMapping
+	public TeslerResponseDTO<FileUploadDto> upload(MultipartFile file, String source) {
 		try {
-			return resp.build(doUpload(file, source));
+			return new TeslerResponseDTO<FileUploadDto>().setData(doUpload(file, source));
 		} catch (IOException e) {
 			log.error(e.getMessage(), e);
 			throw new ClientException(errorMessage("error.failed_to_upload_file", file.getName()));
 		}
 	}
 
-	private FileUploadDto doUpload(MultipartFile file, String source) throws IOException {
-		byte[] content = file.getBytes();
-		avService.ifPresent(s -> s.requireClean(content, file.getOriginalFilename()));
-		if (source != null) {
-			return customSourceUpload(file, source);
-		}
-		FileEntity fileEntity = fileService.saveUpload(
-				file.getOriginalFilename(),
-				file.getContentType(),
-				false,
-				content
-		);
-		return new FileUploadDto(fileEntity);
-	}
-
-	private FileUploadDto customSourceUpload(MultipartFile file, String source) {
-		Long id = customSourceFileService.saveFileToSource(source, file);
-		CustomSourceFile fileFromSource = customSourceFileService.getFileFromSource(source, id);
-		return new FileUploadDto(
-				fileFromSource.getId().toString(),
-				fileFromSource.getName(),
-				fileFromSource.getType()
-		);
-	}
-
-	@RequestMapping(method = RequestMethod.GET)
-	public HttpEntity<byte[]> download(
-			@RequestParam("id") Long id,
-			@RequestParam(value = "source", required = false) String source,
-			@RequestParam(value = "preview", required = false, defaultValue = "false") boolean preview) {
+	@Override
+	@GetMapping
+	public HttpEntity<byte[]> download(String id, String source, boolean preview) {
 		try {
-			return doDownload(id, source, preview);
+			return doDownload(Long.parseLong(id), source, preview);
 		} catch (ClientException e) {
 			throw e;
 		} catch (Exception e) {
@@ -122,54 +73,28 @@ public class FileController {
 		}
 	}
 
+	@Override
+	@DeleteMapping
+	public TeslerResponseDTO<Void> remove(String id, String source) {
+		fileService.remove(Long.parseLong(id));
+		return new TeslerResponseDTO<>();
+	}
+
+	private FileUploadDto doUpload(MultipartFile file, String source) throws IOException {
+		TeslerFile fileEntity = fileService.saveUpload(
+				file.getOriginalFilename(),
+				file.getContentType(),
+				false,
+				file.getBytes()
+		);
+		return new FileUploadDto(fileEntity);
+	}
+
 	private HttpEntity<byte[]> doDownload(Long id, String source, boolean inline) {
-		if (source != null) {
-			return customSourceDownload(id, source, inline);
-		}
-		FileEntity file = jpaDao.findById(FileEntity.class, id);
-		if (file == null) {
-			throw new ClientException(errorMessage("error.file_not_found"));
-		}
+		TeslerFile file = fileService.getFileEntityChecked(id);
 		byte[] content = fileService.getContent(file);
 		String fileType = file.getFileType();
 		String fileName = file.getFileName();
-		return buildHttpEntity(content, fileName, fileType, inline);
+		return buildFileHttpEntity(content, fileName, fileType, inline);
 	}
-
-	private HttpEntity<byte[]> customSourceDownload(Long id, String source, boolean inline) {
-		CustomSourceFile fileFromSource = customSourceFileService.getFileFromSource(source, id);
-		return buildHttpEntity(fileFromSource.getContent(), fileFromSource.getName(), fileFromSource.getType(), inline);
-	}
-
-	private HttpEntity<byte[]> buildHttpEntity(byte[] content, String fileName, String fileType, boolean inline) {
-		HttpHeaders header = new HttpHeaders();
-		header.set(
-				HttpHeaders.CONTENT_DISPOSITION,
-				ContentDisposition.builder(inline ? "inline" : "attachment")
-						.filename(fileName, StandardCharsets.UTF_8)
-						.build()
-						.toString()
-		);
-		header.setContentType(getMediaType(fileType));
-		header.setContentLength(content.length);
-		return new HttpEntity<>(content, header);
-	}
-
-	@RequestMapping(method = RequestMethod.DELETE)
-	public ResponseDTO remove(
-			@RequestParam("id") Long id,
-			@RequestParam("source") String source) {
-		fileService.remove(id);
-		return resp.build(new ArrayList<>());
-	}
-
-	private MediaType getMediaType(final String type) {
-		try {
-			return MediaType.parseMediaType(type);
-		} catch (InvalidMediaTypeException e) {
-			log.debug("Invalid media type", e);
-			return MediaType.APPLICATION_OCTET_STREAM;
-		}
-	}
-
 }

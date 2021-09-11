@@ -21,6 +21,7 @@
 package io.tesler.model.core.entity;
 
 import io.tesler.api.data.dictionary.CoreDictionaries;
+import io.tesler.api.data.dictionary.CoreDictionaries.FileStorage;
 import io.tesler.api.data.dictionary.LOV;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -39,7 +40,7 @@ import lombok.Setter;
 @EqualsAndHashCode(callSuper = true)
 @Entity
 @Table(name = "FILE_ENTITY")
-public class FileEntity extends BaseEntity {
+public class FileEntity extends BaseEntity implements TeslerFile {
 
 	private String fileName;
 
@@ -59,8 +60,13 @@ public class FileEntity extends BaseEntity {
 	@Lob
 	private byte[] fileContent;
 
+	public void setFileContent(byte[] fileContent) {
+		this.fileContent = fileContent;
+		this.size = (long) fileContent.length;
+	}
+
 	@Column(name = "file_storage_cd", nullable = false)
-	private LOV fileStorageCd;
+	private LOV fileStorageCd = FileStorage.DB;
 
 	@Column(name = "RESTRICTED_FLG")
 	private boolean restrictedFlg;

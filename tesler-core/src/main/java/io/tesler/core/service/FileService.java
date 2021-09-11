@@ -20,21 +20,33 @@
 
 package io.tesler.core.service;
 
-import io.tesler.api.data.dictionary.LOV;
-import io.tesler.model.core.entity.FileEntity;
+import static io.tesler.api.util.i18n.ErrorMessageSource.errorMessage;
+
+import io.tesler.core.exception.ClientException;
+import io.tesler.model.core.entity.TeslerFile;
 
 
-public interface FileService {
+public interface FileService<T extends TeslerFile> {
 
-	FileEntity save(String name, String type, boolean temporary, byte[] content, LOV storageType);
+	T save(String name, String type, boolean temporary, byte[] content);
 
-	FileEntity save(String name, String type, boolean temporary, byte[] content);
-
-	default FileEntity saveUpload(String name, String type, boolean temporary, byte[] content) {
+	default T saveUpload(String name, String type, boolean temporary, byte[] content) {
 		return save(name, type, temporary, content);
 	}
 
-	byte[] getContent(FileEntity entity);
+	default byte[] getContent(final T entity) {
+		return entity.getFileContent();
+	}
+
+	T getFileEntity(Long fileId);
+
+	default T getFileEntityChecked(final Long fileId) {
+		T fileEntity = getFileEntity(fileId);
+		if (fileEntity == null) {
+			throw new ClientException(errorMessage("error.file_not_found"));
+		}
+		return fileEntity;
+	}
 
 	void remove(Long fileId);
 

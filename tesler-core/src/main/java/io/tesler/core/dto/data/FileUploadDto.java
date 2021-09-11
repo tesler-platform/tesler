@@ -20,7 +20,7 @@
 
 package io.tesler.core.dto.data;
 
-import io.tesler.model.core.entity.FileEntity;
+import io.tesler.model.core.entity.TeslerFile;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -34,7 +34,7 @@ public class FileUploadDto {
 
 	private String type;
 
-	public FileUploadDto(FileEntity entity) {
+	public FileUploadDto(TeslerFile entity) {
 		this.id = entity.getId().toString();
 		this.name = entity.getFileName();
 		this.type = entity.getFileType();
