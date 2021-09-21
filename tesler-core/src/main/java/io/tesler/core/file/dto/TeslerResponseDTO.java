@@ -18,22 +18,23 @@
  * #L%
  */
 
-package io.tesler.core.dto.data;
+package io.tesler.core.file.dto;
 
-import io.tesler.api.data.dto.DataResponseDTO;
-import java.util.List;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;
 import lombok.Setter;
-
+import lombok.ToString;
+import lombok.experimental.Accessors;
 
 @Getter
+@ToString
 @Setter
-public class CommentDTO extends DataResponseDTO {
+@Accessors(chain = true)
+@JsonInclude(JsonInclude.Include.NON_NULL)
+public class TeslerResponseDTO<T> {
 
-	private String data;
+	public final boolean success = true;
 
-	private String url;
-
-	private List<Long> mentions;
+	public T data;
 
 }

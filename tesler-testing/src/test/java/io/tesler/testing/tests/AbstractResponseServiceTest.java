@@ -26,8 +26,7 @@ import io.tesler.core.crudma.bc.BusinessComponent;
 import io.tesler.core.crudma.bc.impl.BcDescription;
 import io.tesler.core.crudma.bc.impl.BcRegistryImpl;
 import io.tesler.core.dao.impl.SearchSpecDao;
-import io.tesler.core.dto.ResponseBuilder;
-import io.tesler.core.dto.ValidatorsProviderImpl;
+import io.tesler.core.service.impl.ValidatorsProviderImpl;
 import io.tesler.core.dto.mapper.DtoConstructorService;
 import io.tesler.core.dto.mapper.RequestValueCache;
 import io.tesler.core.service.DTOMapper;
@@ -49,7 +48,6 @@ import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 						BcUtils.class,
 						InnerBcTypeAware.class,
 						ResponseFactory.class,
-						ResponseBuilder.class,
 						BcRegistryImpl.class,
 						SearchSpecDao.class,
 						ValidatorsProviderImpl.class,

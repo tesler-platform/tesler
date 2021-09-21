@@ -24,10 +24,10 @@ import static io.tesler.core.config.properties.APIProperties.TESLER_API_PATH_SPE
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 
 import io.tesler.core.crudma.bc.BcRegistry;
-import io.tesler.core.dto.ResponseBuilder;
 import io.tesler.core.dto.ResponseDTO;
 import io.tesler.core.service.UIService;
 import io.tesler.core.ui.BcUtils;
+import io.tesler.core.util.ResponseBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -40,9 +40,6 @@ public class BcRegistryController {
 	private BcRegistry bcRegistry;
 
 	@Autowired
-	private ResponseBuilder responseBuilder;
-
-	@Autowired
 	private BcUtils bcUtils;
 
 	@Autowired
@@ -53,7 +50,7 @@ public class BcRegistryController {
 		bcRegistry.refresh();
 		bcUtils.invalidateFieldCache();
 		uiService.invalidateCache();
-		return responseBuilder.build();
+		return ResponseBuilder.build();
 	}
 
 }

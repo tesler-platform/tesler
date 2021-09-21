@@ -18,15 +18,19 @@
  * #L%
  */
 
-package io.tesler.core.dto.data;
+package io.tesler.core.file.dto;
 
 import lombok.Getter;
-import lombok.Setter;
+import lombok.RequiredArgsConstructor;
 
 @Getter
-@Setter
-public class ViewAssocDto extends ViewDto {
+@RequiredArgsConstructor
+public class FileDownloadDto {
 
-	private boolean _associate;
+	private final byte[] bytes;
+
+	private final String name;
+
+	private final String type;
 
 }

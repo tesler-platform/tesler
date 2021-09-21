@@ -31,9 +31,9 @@ import io.tesler.core.crudma.CrudmaActionHolder.CrudmaAction;
 import io.tesler.core.crudma.CrudmaActionType;
 import io.tesler.core.crudma.CrudmaGateway;
 import io.tesler.core.crudma.bc.BusinessComponent;
-import io.tesler.core.dto.ResponseBuilder;
 import io.tesler.core.dto.ResponseDTO;
 import io.tesler.core.exception.ClientException;
+import io.tesler.core.util.ResponseBuilder;
 import java.util.Collections;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
@@ -49,9 +49,6 @@ public class UniversalDataController {
 
 	@Autowired
 	private CrudmaGateway crudmaGateway;
-
-	@Autowired
-	private ResponseBuilder resp;
 
 	@Autowired
 	private BCFactory bcFactory;
@@ -76,7 +73,7 @@ public class UniversalDataController {
 					)
 			);
 			DataResponseDTO data = crudmaGateway.get(crudmaAction);
-			return resp.build(data == null ? Collections.emptyList() : Collections.singletonList(data));
+			return ResponseBuilder.build(data == null ? Collections.emptyList() : Collections.singletonList(data));
 		} else {
 			CrudmaAction crudmaAction = crudmaActionHolder.of(CrudmaActionType.FIND)
 					.setBc(bc).getAction();
@@ -84,7 +81,7 @@ public class UniversalDataController {
 					infoMessage("info.get_list_request", bc.getDescription().getName(), bc.getParentId())
 			);
 			ResultPage<? extends DataResponseDTO> data = crudmaGateway.getAll(crudmaAction);
-			return resp.build(data.getResult(), data.isHasNext());
+			return ResponseBuilder.build(data.getResult(), data.isHasNext());
 		}
 	}
 
@@ -108,7 +105,7 @@ public class UniversalDataController {
 								bc.getParentId()
 						)
 				).getAction();
-		return resp.build(crudmaGateway.update(crudmaAction, requestBody));
+		return ResponseBuilder.build(crudmaGateway.update(crudmaAction, requestBody));
 	}
 
 	@RequestMapping(method = RequestMethod.DELETE, value = {"data/**"})
@@ -126,7 +123,7 @@ public class UniversalDataController {
 								bc.getParentId()
 						)
 				).getAction();
-		return resp.build(crudmaGateway.delete(crudmaAction));
+		return ResponseBuilder.build(crudmaGateway.delete(crudmaAction));
 	}
 
 	@RequestMapping(method = {RequestMethod.GET, RequestMethod.POST}, value = {"count/**"})
@@ -143,7 +140,7 @@ public class UniversalDataController {
 								bc.getParentId()
 						)
 				).getAction();
-		return resp.build(crudmaGateway.count(crudmaAction));
+		return ResponseBuilder.build(crudmaGateway.count(crudmaAction));
 	}
 
 }

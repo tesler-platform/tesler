@@ -31,10 +31,10 @@ import io.tesler.core.crudma.CrudmaActionHolder.CrudmaAction;
 import io.tesler.core.crudma.CrudmaActionType;
 import io.tesler.core.crudma.CrudmaGateway;
 import io.tesler.core.crudma.bc.BusinessComponent;
-import io.tesler.core.dto.ResponseBuilder;
 import io.tesler.core.dto.ResponseDTO;
 import io.tesler.core.exception.ClientException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.tesler.core.util.ResponseBuilder;
 import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
@@ -54,9 +54,6 @@ public class UniversalAssociateController {
 
 	@Autowired
 	private CrudmaGateway crudmaGateway;
-
-	@Autowired
-	private ResponseBuilder resp;
 
 	@Autowired
 	private BCFactory bcFactory;
@@ -82,7 +79,7 @@ public class UniversalAssociateController {
 								bc.getParentId()
 						)
 				).getAction();
-		return resp.build(crudmaGateway.associate(crudmaAction, convertData(data)));
+		return ResponseBuilder.build(crudmaGateway.associate(crudmaAction, convertData(data)));
 	}
 
 	private List<AssociateDTO> convertData(List<Object> data) {

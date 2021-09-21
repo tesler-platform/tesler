@@ -35,7 +35,7 @@ import io.tesler.core.crudma.bc.BusinessComponent;
 import io.tesler.core.crudma.bc.impl.BcDescription;
 import io.tesler.core.crudma.bc.impl.InnerBcDescription;
 import io.tesler.core.crudma.impl.AbstractResponseService;
-import io.tesler.core.dto.data.AdminBcDto;
+import io.tesler.source.dto.AdminBcDto;
 import io.tesler.model.core.entity.BaseEntity;
 import io.tesler.model.ui.entity.View;
 import io.tesler.model.ui.entity.ViewWidgets;

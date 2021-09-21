@@ -21,6 +21,7 @@
 package io.tesler.core.config;
 
 import io.tesler.api.config.TeslerBeanProperties;
+import io.tesler.core.file.conf.TeslerFileConfiguration;
 import io.tesler.core.metahotreload.conf.MetaHotReloadConfiguration;
 import io.tesler.core.service.ResponsibilitiesService;
 import io.tesler.core.service.impl.ResponsibilitiesServiceImpl;
@@ -40,7 +41,8 @@ import org.springframework.context.annotation.aspectj.EnableSpringConfigured;
 @BeanScan({"io.tesler"})
 @EnableSpringConfigured
 @ImportAutoConfiguration({
-		MetaHotReloadConfiguration.class
+		MetaHotReloadConfiguration.class,
+		TeslerFileConfiguration.class
 })
 @EnableConfigurationProperties(TeslerBeanProperties.class)
 public class CoreApplicationConfig {

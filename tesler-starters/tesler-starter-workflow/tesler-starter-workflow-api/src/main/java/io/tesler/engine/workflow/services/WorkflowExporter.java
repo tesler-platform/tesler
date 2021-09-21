@@ -21,7 +21,7 @@
 package io.tesler.engine.workflow.services;
 
 import io.tesler.core.crudma.bc.BusinessComponent;
-import io.tesler.model.core.entity.TeslerFile;
+import io.tesler.api.file.entity.TeslerFile;
 import io.tesler.model.workflow.entity.WorkflowVersion;
 import io.tesler.source.dto.WorkflowVersionDto;
 

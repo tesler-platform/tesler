@@ -35,7 +35,7 @@ import io.tesler.core.service.action.Actions;
 import io.tesler.engine.workflow.services.WorkflowDao;
 import io.tesler.engine.workflow.services.WorkflowExporter;
 import io.tesler.model.core.entity.BaseEntity_;
-import io.tesler.model.core.entity.TeslerFile;
+import io.tesler.api.file.entity.TeslerFile;
 import io.tesler.model.workflow.entity.Workflow;
 import io.tesler.model.workflow.entity.WorkflowStep;
 import io.tesler.model.workflow.entity.WorkflowVersion;

@@ -28,8 +28,8 @@ import io.tesler.api.service.session.CoreSessionService;
 import io.tesler.api.util.locale.LocaleSpecification;
 import io.tesler.api.util.tz.TimeZoneSpecification;
 import io.tesler.core.dto.LoggedUser;
-import io.tesler.core.dto.ResponseBuilder;
 import io.tesler.core.dto.ResponseDTO;
+import io.tesler.core.util.ResponseBuilder;
 import io.tesler.core.util.session.LoginService;
 import java.time.ZoneId;
 import java.util.ArrayList;
@@ -64,8 +64,6 @@ public class LoginController {
 
 	private final LoginService loginService;
 
-	private final ResponseBuilder resp;
-
 	private final CoreSessionService coreSessionService;
 
 	/**
@@ -96,7 +94,7 @@ public class LoginController {
 	 */
 	@RequestMapping(method = RequestMethod.GET, value = "/logout")
 	public ResponseDTO logout() {
-		return resp.build(new ArrayList<>());
+		return ResponseBuilder.build(new ArrayList<>());
 	}
 
 	protected void resetLocaleContext(

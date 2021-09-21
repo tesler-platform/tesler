@@ -28,9 +28,9 @@ import io.tesler.core.crudma.CrudmaActionHolder.CrudmaAction;
 import io.tesler.core.crudma.CrudmaActionType;
 import io.tesler.core.crudma.CrudmaGateway;
 import io.tesler.core.crudma.bc.BusinessComponent;
-import io.tesler.core.dto.ResponseBuilder;
 import io.tesler.core.dto.ResponseDTO;
 import io.tesler.core.exception.ClientException;
+import io.tesler.core.util.ResponseBuilder;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,9 +45,6 @@ public class UniversalCustomActionController {
 
 	@Autowired
 	private CrudmaGateway crudmaGateway;
-
-	@Autowired
-	private ResponseBuilder responseBuilder;
 
 	@Autowired
 	private BCFactory bcFactory;
@@ -74,7 +71,7 @@ public class UniversalCustomActionController {
 								bc.getParentId()
 						)
 				).getAction();
-		return responseBuilder.build(crudmaGateway.invokeAction(crudmaAction, requestBody.get("data")));
+		return ResponseBuilder.build(crudmaGateway.invokeAction(crudmaAction, requestBody.get("data")));
 	}
 
 }

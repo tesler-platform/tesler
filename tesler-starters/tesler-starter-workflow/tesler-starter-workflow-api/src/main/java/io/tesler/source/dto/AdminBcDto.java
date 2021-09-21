@@ -1,6 +1,6 @@
 /*-
  * #%L
- * IO Tesler - Model Core
+ * IO Tesler - Core
  * %%
  * Copyright (C) 2018 - 2019 Tesler Contributors
  * %%
@@ -18,33 +18,31 @@
  * #L%
  */
 
-package io.tesler.model.core.entity;
+package io.tesler.source.dto;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
-import lombok.EqualsAndHashCode;
+import io.tesler.api.data.dto.DataResponseDTO;
+import io.tesler.core.crudma.bc.impl.BcDescription;
+import io.tesler.core.util.filter.SearchParameter;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
-@EqualsAndHashCode(callSuper = true)
-@Entity
-@Table(name = "FILE_DATASOURCE")
-public class FileDatasource extends BaseEntity {
+@NoArgsConstructor
+public class AdminBcDto extends DataResponseDTO {
 
+	@SearchParameter
 	private String name;
 
-	private String sourceTable;
+	@SearchParameter
+	private String parentName;
 
-	private String idField;
+	private String affectedWidgets;
 
-	private String nameField;
-
-	private String contentField;
-
-	private String typeField;
-
-	private String sizeField;
+	public AdminBcDto(BcDescription bcDescription) {
+		this.name = this.id = bcDescription.getName();
+		this.parentName = bcDescription.getParentName();
+	}
 
 }

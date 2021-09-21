@@ -18,31 +18,14 @@
  * #L%
  */
 
-package io.tesler.core.dto.data;
+package io.tesler.core.service;
 
-import io.tesler.api.data.dto.DataResponseDTO;
-import io.tesler.core.crudma.bc.impl.BcDescription;
-import io.tesler.core.util.filter.SearchParameter;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 
-@Getter
-@Setter
-@NoArgsConstructor
-public class AdminBcDto extends DataResponseDTO {
+import javax.validation.Validator;
 
-	@SearchParameter
-	private String name;
 
-	@SearchParameter
-	private String parentName;
+public interface ValidatorsProvider {
 
-	private String affectedWidgets;
-
-	public AdminBcDto(BcDescription bcDescription) {
-		this.name = this.id = bcDescription.getName();
-		this.parentName = bcDescription.getParentName();
-	}
+	Validator getValidator(Class<?> clazz);
 
 }

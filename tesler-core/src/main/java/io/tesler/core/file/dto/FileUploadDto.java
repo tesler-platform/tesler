@@ -18,17 +18,19 @@
  * #L%
  */
 
-package io.tesler.core.config;
+package io.tesler.core.file.dto;
 
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
-public interface IApplicationConfig {
+@Getter
+@RequiredArgsConstructor
+public class FileUploadDto {
 
-	Class<?> getRootContextConfig();
+	private final String id;
 
-	Class<?> getSecurityConfig();
+	private final String name;
 
-	Class<?> getAPIConfig();
-
-	Class<?> getUIConfig();
+	private final String type;
 
 }

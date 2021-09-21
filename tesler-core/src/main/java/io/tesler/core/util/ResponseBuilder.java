@@ -18,23 +18,32 @@
  * #L%
  */
 
-package io.tesler.core.dto;
+package io.tesler.core.util;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
-import lombok.experimental.Accessors;
+import io.tesler.api.data.ResultPage;
+import io.tesler.core.dto.ResponseDTO;
+import java.util.Collection;
 
-@Getter
-@ToString
-@Setter
-@Accessors(chain = true)
-@JsonInclude(JsonInclude.Include.NON_NULL)
-public class TeslerResponseDTO<T> {
+public class ResponseBuilder {
 
-	public final boolean success = true;
+	public static ResponseDTO build(Collection collection) {
+		return new ResponseDTO(collection);
+	}
 
-	public T data;
+	public static ResponseDTO build(Collection collection, boolean hasNext) {
+		return new ResponseDTO(collection, hasNext);
+	}
+
+	public static ResponseDTO build(ResultPage page) {
+		return new ResponseDTO(page);
+	}
+
+	public static ResponseDTO build() {
+		return new ResponseDTO();
+	}
+
+	public static ResponseDTO build(Object data) {
+		return new ResponseDTO(data);
+	}
 
 }

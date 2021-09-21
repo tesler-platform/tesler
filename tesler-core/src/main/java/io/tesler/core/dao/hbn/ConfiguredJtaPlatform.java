@@ -30,7 +30,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.jta.JtaTransactionManager;
 
-
+//TODO>>iborisenko>>ITransactionProvider has 0 implementations. Can we delete this?
 @RequiredArgsConstructor
 @Component
 public class ConfiguredJtaPlatform extends AbstractJtaPlatform {

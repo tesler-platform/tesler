@@ -39,6 +39,7 @@ import java.util.stream.Collectors;
 import javax.persistence.EntityManager;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
+import org.hibernate.Hibernate;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.event.spi.AbstractEvent;
@@ -90,7 +91,7 @@ public class ChangeInterceptor implements ApplicationListener<EntitySerializatio
 		}
 
 		BaseEntity entity = serializationEvent.getEntity();
-		SessionImpl session = getSupportedEntityManager(entity.getClass().getName()).unwrap(SessionImpl.class);
+		SessionImpl session = getSupportedEntityManager(Hibernate.getClass(entity).getName()).unwrap(SessionImpl.class);
 		session.flush();
 		if (needRefresh(session, entity)) {
 			session.refresh(entity);

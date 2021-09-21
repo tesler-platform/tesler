@@ -1,6 +1,6 @@
 /*-
  * #%L
- * IO Tesler - Core
+ * IO Tesler - Model Core
  * %%
  * Copyright (C) 2018 - 2019 Tesler Contributors
  * %%
@@ -18,14 +18,22 @@
  * #L%
  */
 
-package io.tesler.core.dto;
+package io.tesler.api.file.entity;
 
+public interface TeslerFile {
 
-import javax.validation.Validator;
+	Long getId();
 
+	String getFileName();
 
-public interface ValidatorsProvider {
+	String getFileType();
 
-	Validator getValidator(Class<?> clazz);
+	byte[] getFileContent();
+
+	void setFileName(String name);
+
+	void setFileType(String type);
+
+	void setFileContent(byte[] content);
 
 }

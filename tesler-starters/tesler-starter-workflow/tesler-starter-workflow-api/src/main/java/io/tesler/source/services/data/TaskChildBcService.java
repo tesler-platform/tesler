@@ -20,7 +20,7 @@
 
 package io.tesler.source.services.data;
 
-import io.tesler.core.dto.data.AdminBcDto;
+import io.tesler.source.dto.AdminBcDto;
 import io.tesler.core.service.ResponseService;
 import io.tesler.model.core.entity.BaseEntity;
 

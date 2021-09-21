@@ -18,10 +18,11 @@
  * #L%
  */
 
-package io.tesler.core.dto;
+package io.tesler.core.service.impl;
 
 import static io.tesler.api.util.i18n.ErrorMessageSource.errorMessage;
 
+import io.tesler.core.service.ValidatorsProvider;
 import java.util.Locale;
 import javax.validation.MessageInterpolator;
 import javax.validation.Validation;

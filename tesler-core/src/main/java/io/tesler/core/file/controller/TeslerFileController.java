@@ -18,10 +18,10 @@
  * #L%
  */
 
-package io.tesler.core.controller;
+package io.tesler.core.file.controller;
 
-import io.tesler.core.dto.TeslerResponseDTO;
-import io.tesler.core.dto.data.FileUploadDto;
+import io.tesler.core.file.dto.TeslerResponseDTO;
+import io.tesler.core.file.dto.FileUploadDto;
 import java.nio.charset.StandardCharsets;
 import org.springframework.http.ContentDisposition;
 import org.springframework.http.HttpEntity;
@@ -39,12 +39,12 @@ import org.springframework.web.multipart.MultipartFile;
  * }</pre>
  * on implementation class
  * */
-public interface TeslerFileControllerContract {
+public interface TeslerFileController {
 
 	/**
 	 * Add
 	 * <pre>{@code
-	 * @PostMapping
+	 * @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
 	 * }</pre>
 	 * on implementation class.
 	 * You can extend api for /file endpoint (declaring method with another signature), so we are not placing @PostMapping on interface to avoid endpoints clash
