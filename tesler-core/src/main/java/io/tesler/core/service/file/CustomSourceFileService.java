@@ -21,6 +21,7 @@
 package io.tesler.core.service.file;
 
 import io.tesler.api.exception.ServerException;
+import io.tesler.api.config.TeslerBeanProperties;
 import io.tesler.core.exception.ClientException;
 import io.tesler.model.core.dao.JpaDao;
 import io.tesler.model.core.entity.FileDatasource;
@@ -35,7 +36,7 @@ import javax.sql.DataSource;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.ApplicationContext;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -53,7 +54,8 @@ public class CustomSourceFileService {
 	private final JpaDao jpaDao;
 
 	@Autowired
-	public CustomSourceFileService(@Qualifier("primaryDS") DataSource dataSource, JpaDao jpaDao) {
+	public CustomSourceFileService(ApplicationContext applicationContext, TeslerBeanProperties teslerBeanProperties, JpaDao jpaDao) {
+		DataSource dataSource = applicationContext.getBean(teslerBeanProperties.getDataSource(), DataSource.class);
 		this.jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
 		this.jpaDao = jpaDao;
 	}

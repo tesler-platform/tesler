@@ -33,7 +33,6 @@ import javax.sql.DataSource;
 
 import io.tesler.sqlbc.exception.BadSqlComponentException;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.BadSqlGrammarException;
 import org.springframework.jdbc.core.ResultSetExtractor;
@@ -50,8 +49,9 @@ public final class SqlBcJdbcTemplate {
 
 	private final Database database;
 
-	public SqlBcJdbcTemplate(SessionService sessionService, @Qualifier("primaryDS") DataSource dataSource,
-			@Qualifier("primaryDatabase") Database primaryDatabase) {
+	public SqlBcJdbcTemplate(SessionService sessionService,
+			DataSource dataSource,
+			Database primaryDatabase) {
 		this.sessionService = sessionService;
 		this.jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
 		this.database = primaryDatabase;

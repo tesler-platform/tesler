@@ -32,9 +32,7 @@ import io.tesler.model.core.dao.impl.JpaDaoImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.jpa.domain.Specification;
-import org.springframework.orm.jpa.vendor.Database;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -59,19 +57,15 @@ public class BaseDAOImpl extends JpaDaoImpl implements BaseDAO {
 
 	private final List<ClassifyDataProvider> providers;
 
-	private final Database primaryDatabase;
-
 	public BaseDAOImpl(
 			Set<EntityManager> entityManagers,
 			TransactionService txService,
 			Optional<IPdqExtractor> pdqExtractor,
-			List<ClassifyDataProvider> providers,
-			@Qualifier("primaryDatabase") Database primaryDatabase
+			List<ClassifyDataProvider> providers
 	) {
 		super(entityManagers, txService);
 		this.pdqExtractor = pdqExtractor;
 		this.providers = providers;
-		this.primaryDatabase = primaryDatabase;
 	}
 
 	private Specification getPdqSearchSpec(final QueryParameters queryParameters) {

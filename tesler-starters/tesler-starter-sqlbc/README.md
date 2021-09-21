@@ -19,6 +19,20 @@ In your pom.xml add
     <artifactId>tesler-starter-sqlbc</artifactId>
 </dependency>
 ```
+In your app add bean corresponding to your database vendor:
+```
+@Bean(name = "primaryDatabase")
+Database primaryDatabase() {
+	return Database.POSTGRESQL;
+}
+```
+or
+```
+@Bean(name = "primaryDatabase")
+Database primaryDatabase() {
+	return Database.ORACLE;
+}
+```
 ### Liquibase migrations
 
 In your liquibase change log check following line is included:

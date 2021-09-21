@@ -21,6 +21,7 @@
 package io.tesler.sqlbc.export.base;
 
 import com.google.common.collect.Lists;
+import io.tesler.api.config.TeslerBeanProperties;
 import io.tesler.sqlbc.export.base.model.ExportedRecord;
 import io.tesler.sqlbc.export.base.model.TableMeta;
 import io.tesler.sqlbc.dao.SqlFieldType;
@@ -32,7 +33,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Stream;
 import javax.sql.DataSource;
-import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.ApplicationContext;
 import org.springframework.jdbc.core.namedparam.EmptySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -44,8 +45,8 @@ public class JdbcTemplateSqlExporter {
 
 	private final NamedParameterJdbcTemplate jdbcTemplate;
 
-	public JdbcTemplateSqlExporter(@Qualifier("primaryDS") final DataSource dataSource) {
-		this.jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
+	public JdbcTemplateSqlExporter(ApplicationContext applicationContext, TeslerBeanProperties teslerBeanProperties) {
+		this.jdbcTemplate = new NamedParameterJdbcTemplate(applicationContext.getBean(teslerBeanProperties.getDataSource(), DataSource.class));
 	}
 
 	public List<ExportedRecord> queryForMap(final String tableName,

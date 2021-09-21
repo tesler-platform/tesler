@@ -20,6 +20,7 @@
 
 package io.tesler.sqlbc.dao;
 
+import io.tesler.api.config.TeslerBeanProperties;
 import io.tesler.api.data.ResultPage;
 import io.tesler.core.controller.param.QueryParameters;
 import io.tesler.core.crudma.bc.BusinessComponent;
@@ -35,6 +36,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.cglib.beans.BeanGenerator;
+import org.springframework.context.ApplicationContext;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.orm.jpa.vendor.Database;
 import org.springframework.stereotype.Service;
@@ -46,9 +48,9 @@ public class SqlComponentDao {
 	private final SqlBcJdbcTemplate jdbcTemplate;
 
 	@Autowired
-	public SqlComponentDao(SessionService sessionService, @Qualifier("primaryDS") DataSource dataSource,
+	public SqlComponentDao(ApplicationContext applicationContext, TeslerBeanProperties teslerBeanProperties, SessionService sessionService,
 			@Qualifier("primaryDatabase") Database primaryDatabase) {
-		jdbcTemplate = new SqlBcJdbcTemplate(sessionService, dataSource, primaryDatabase);
+		jdbcTemplate = new SqlBcJdbcTemplate(sessionService, applicationContext.getBean(teslerBeanProperties.getDataSource(), DataSource.class), primaryDatabase);
 	}
 
 	@SuppressWarnings("unchecked")

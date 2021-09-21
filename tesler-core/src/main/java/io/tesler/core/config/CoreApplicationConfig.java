@@ -20,6 +20,7 @@
 
 package io.tesler.core.config;
 
+import io.tesler.api.config.TeslerBeanProperties;
 import io.tesler.core.metahotreload.conf.MetaHotReloadConfiguration;
 import io.tesler.core.service.ResponsibilitiesService;
 import io.tesler.core.service.impl.ResponsibilitiesServiceImpl;
@@ -29,6 +30,7 @@ import io.tesler.model.core.service.BaseEntityListenerDelegate;
 import io.tesler.model.core.service.TeslerBaseEntityListenerDelegate;
 import org.springframework.boot.autoconfigure.ImportAutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.context.annotation.aspectj.EnableSpringConfigured;
@@ -40,6 +42,7 @@ import org.springframework.context.annotation.aspectj.EnableSpringConfigured;
 @ImportAutoConfiguration({
 		MetaHotReloadConfiguration.class
 })
+@EnableConfigurationProperties(TeslerBeanProperties.class)
 public class CoreApplicationConfig {
 
 	@Bean

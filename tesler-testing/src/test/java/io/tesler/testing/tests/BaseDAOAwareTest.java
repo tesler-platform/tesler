@@ -36,7 +36,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicLong;
 import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
@@ -67,8 +66,7 @@ public abstract class BaseDAOAwareTest extends AbstractTeslerTest {
 
 	protected final AtomicLong idSequence = new AtomicLong(Long.MIN_VALUE);
 
-	@PersistenceContext(unitName = "teslerEntityManagerFactory")
-	protected EntityManager entityManager;
+	protected List<EntityManager> entityManagers;
 
 	@Autowired
 	protected BaseDAO baseDAO;
@@ -141,11 +139,11 @@ public abstract class BaseDAOAwareTest extends AbstractTeslerTest {
 	}
 
 	private <T> AbstractProducedQuery<T> compile(Class<T> cls, Specification<T> spec) {
-		CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+		CriteriaBuilder cb = entityManagers.get(0).getCriteriaBuilder();
 		CriteriaQuery<T> cq = cb.createQuery(cls);
 		Root<T> root = cq.from(cls);
 		cq.where(spec.toPredicate(root, cq, cb));
-		return (AbstractProducedQuery<T>) entityManager.createQuery(cq).unwrap(AbstractProducedQuery.class);
+		return (AbstractProducedQuery<T>) entityManagers.get(0).createQuery(cq).unwrap(AbstractProducedQuery.class);
 	}
 
 	private EntityKey createEntityKey(Class<?> cls, Serializable id) {
@@ -157,7 +155,7 @@ public abstract class BaseDAOAwareTest extends AbstractTeslerTest {
 	}
 
 	private String getModelName(Class<?> cls) {
-		return entityManager.getMetamodel().entity(cls).getName();
+		return entityManagers.get(0).getMetamodel().entity(cls).getName();
 	}
 
 	@Data
