@@ -1,6 +1,6 @@
 /*-
  * #%L
- * IO Tesler - Model Core
+ * IO Tesler - Core
  * %%
  * Copyright (C) 2018 - 2019 Tesler Contributors
  * %%
@@ -18,33 +18,19 @@
  * #L%
  */
 
-package io.tesler.model.core.entity;
+package io.tesler.core.file.dto;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import lombok.Setter;
+import lombok.RequiredArgsConstructor;
 
 @Getter
-@Setter
-@EqualsAndHashCode(callSuper = true)
-@Entity
-@Table(name = "FILE_DATASOURCE")
-public class FileDatasource extends BaseEntity {
+@RequiredArgsConstructor
+public class FileDownloadDto {
 
-	private String name;
+	private final byte[] bytes;
 
-	private String sourceTable;
+	private final String name;
 
-	private String idField;
-
-	private String nameField;
-
-	private String contentField;
-
-	private String typeField;
-
-	private String sizeField;
+	private final String type;
 
 }

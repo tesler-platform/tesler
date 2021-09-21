@@ -22,7 +22,6 @@ package io.tesler.notifications.service.impl;
 
 import io.tesler.api.system.SystemSettings;
 import io.tesler.notifications.dao.NotificationDAO;
-import io.tesler.core.dto.ResponseBuilder;
 import io.tesler.core.dto.ResponseDTO;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.async.DeferredResult;
@@ -30,10 +29,9 @@ import org.springframework.web.context.request.async.DeferredResult;
 @Component
 public class NotificationInitialPollingService extends AbstractNotificationPollingService {
 
-	public NotificationInitialPollingService(ResponseBuilder resp,
-			SystemSettings systemSettings,
+	public NotificationInitialPollingService(SystemSettings systemSettings,
 			NotificationDAO notificationDAO) {
-		super(resp, systemSettings, notificationDAO);
+		super(systemSettings, notificationDAO);
 	}
 
 	@Override

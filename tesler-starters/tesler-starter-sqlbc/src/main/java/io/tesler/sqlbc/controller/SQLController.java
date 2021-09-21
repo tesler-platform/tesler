@@ -27,8 +27,8 @@ import io.tesler.api.data.PageSpecification;
 import io.tesler.api.data.ResultPage;
 import io.tesler.api.service.tx.TransactionService;
 import io.tesler.api.util.Invoker;
-import io.tesler.core.dto.ResponseBuilder;
 import io.tesler.core.dto.ResponseDTO;
+import io.tesler.core.util.ResponseBuilder;
 import io.tesler.sqlbc.dao.SqlFieldType;
 import java.sql.CallableStatement;
 import java.sql.ResultSet;
@@ -67,9 +67,6 @@ public class SQLController {
 	private TransactionService txService;
 
 	@Autowired
-	private ResponseBuilder resp;
-
-	@Autowired
 	public SQLController(ApplicationContext applicationContext, TeslerBeanProperties teslerBeanProperties) {
 		jdbcTemplate = new JdbcTemplate(applicationContext.getBean(teslerBeanProperties.getDataSource(), DataSource.class));
 	}
@@ -106,7 +103,7 @@ public class SQLController {
 			}
 			Map<String, Integer> data = new HashMap<>();
 			data.put("affected_rows", cs.getUpdateCount());
-			return resp.build(Collections.singletonList(data));
+			return ResponseBuilder.build(Collections.singletonList(data));
 		});
 	}
 

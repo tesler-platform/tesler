@@ -24,8 +24,8 @@ import static io.tesler.core.config.properties.APIProperties.TESLER_API_PATH_SPE
 
 import io.tesler.api.data.PageSpecification;
 import io.tesler.api.data.dto.DataResponseDTO;
-import io.tesler.core.dto.ResponseBuilder;
 import io.tesler.core.dto.ResponseDTO;
+import io.tesler.core.util.ResponseBuilder;
 import io.tesler.core.util.session.UserService;
 import lombok.Getter;
 import lombok.Setter;
@@ -40,16 +40,13 @@ import org.springframework.web.bind.annotation.RestController;
 public class UserController {
 
 	@Autowired
-	private ResponseBuilder resp;
-
-	@Autowired
 	private UserService userService;
 
 	@RequestMapping(method = RequestMethod.GET, value = "/users")
 	public ResponseDTO searchUser(
 			@RequestParam(value = "search") String search,
 			PageSpecification page) {
-		return resp.build(userService.getByMention(search, page));
+		return ResponseBuilder.build(userService.getByMention(search, page));
 	}
 
 	@Getter

@@ -29,9 +29,9 @@ import io.tesler.core.crudma.CrudmaActionHolder.CrudmaAction;
 import io.tesler.core.crudma.CrudmaActionType;
 import io.tesler.core.crudma.CrudmaGateway;
 import io.tesler.core.crudma.bc.BusinessComponent;
-import io.tesler.core.dto.ResponseBuilder;
 import io.tesler.core.dto.ResponseDTO;
 import io.tesler.core.exception.ClientException;
+import io.tesler.core.util.ResponseBuilder;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
@@ -48,8 +48,6 @@ import org.springframework.web.bind.annotation.RestController;
 public class UniversalRowMetaController {
 
 	private final CrudmaGateway crudmaGateway;
-
-	private final ResponseBuilder resp;
 
 	private final BCFactory bcFactory;
 
@@ -69,7 +67,7 @@ public class UniversalRowMetaController {
 								bc.getParentId()
 						)
 				).getAction();
-		return resp.build(crudmaGateway.create(crudmaAction));
+		return ResponseBuilder.build(crudmaGateway.create(crudmaAction));
 	}
 
 	@RequestMapping(method = RequestMethod.GET, value = "row-meta-empty/**")
@@ -83,7 +81,7 @@ public class UniversalRowMetaController {
 								bc.getParentId()
 						)
 				).getAction();
-		return resp.build(crudmaGateway.getMetaEmpty(crudmaAction));
+		return ResponseBuilder.build(crudmaGateway.getMetaEmpty(crudmaAction));
 	}
 
 	@RequestMapping(method = RequestMethod.GET, value = "row-meta/**")
@@ -98,7 +96,7 @@ public class UniversalRowMetaController {
 								bc.getParentId()
 						)
 				).getAction();
-		return resp.build(crudmaGateway.getMeta(crudmaAction));
+		return ResponseBuilder.build(crudmaGateway.getMeta(crudmaAction));
 	}
 
 	@RequestMapping(method = RequestMethod.POST, value = "row-meta/**")
@@ -121,7 +119,7 @@ public class UniversalRowMetaController {
 								bc.getParentId()
 						)
 				).getAction();
-		return resp.build(crudmaGateway.preview(crudmaAction, requestBody));
+		return ResponseBuilder.build(crudmaGateway.preview(crudmaAction, requestBody));
 	}
 
 }

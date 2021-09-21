@@ -18,17 +18,14 @@
  * #L%
  */
 
-package io.tesler.core.config;
+package io.tesler.core.service;
 
 
-public interface IApplicationConfig {
+import javax.validation.Validator;
 
-	Class<?> getRootContextConfig();
 
-	Class<?> getSecurityConfig();
+public interface ValidatorsProvider {
 
-	Class<?> getAPIConfig();
-
-	Class<?> getUIConfig();
+	Validator getValidator(Class<?> clazz);
 
 }

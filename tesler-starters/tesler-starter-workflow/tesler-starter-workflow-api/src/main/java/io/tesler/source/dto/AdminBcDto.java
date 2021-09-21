@@ -18,22 +18,31 @@
  * #L%
  */
 
-package io.tesler.core.dto.data;
+package io.tesler.source.dto;
 
 import io.tesler.api.data.dto.DataResponseDTO;
-import java.util.List;
+import io.tesler.core.crudma.bc.impl.BcDescription;
+import io.tesler.core.util.filter.SearchParameter;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
-
 
 @Getter
 @Setter
-public class CommentDTO extends DataResponseDTO {
+@NoArgsConstructor
+public class AdminBcDto extends DataResponseDTO {
 
-	private String data;
+	@SearchParameter
+	private String name;
 
-	private String url;
+	@SearchParameter
+	private String parentName;
 
-	private List<Long> mentions;
+	private String affectedWidgets;
+
+	public AdminBcDto(BcDescription bcDescription) {
+		this.name = this.id = bcDescription.getName();
+		this.parentName = bcDescription.getParentName();
+	}
 
 }

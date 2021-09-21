@@ -18,15 +18,32 @@
  * #L%
  */
 
-package io.tesler.core.dto.data;
+package io.tesler.core.util;
 
-import lombok.Getter;
-import lombok.Setter;
+import io.tesler.api.data.ResultPage;
+import io.tesler.core.dto.ResponseDTO;
+import java.util.Collection;
 
-@Getter
-@Setter
-public class ViewAssocDto extends ViewDto {
+public class ResponseBuilder {
 
-	private boolean _associate;
+	public static ResponseDTO build(Collection collection) {
+		return new ResponseDTO(collection);
+	}
+
+	public static ResponseDTO build(Collection collection, boolean hasNext) {
+		return new ResponseDTO(collection, hasNext);
+	}
+
+	public static ResponseDTO build(ResultPage page) {
+		return new ResponseDTO(page);
+	}
+
+	public static ResponseDTO build() {
+		return new ResponseDTO();
+	}
+
+	public static ResponseDTO build(Object data) {
+		return new ResponseDTO(data);
+	}
 
 }

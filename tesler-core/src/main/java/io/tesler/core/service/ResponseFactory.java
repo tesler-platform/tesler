@@ -32,7 +32,6 @@ import io.tesler.api.data.dto.DataResponseDTO_;
 import io.tesler.core.crudma.bc.BusinessComponent;
 import io.tesler.core.crudma.bc.impl.InnerBcDescription;
 import io.tesler.core.dto.BusinessError.Entity;
-import io.tesler.core.dto.ValidatorsProvider;
 import io.tesler.core.exception.BusinessException;
 import java.lang.reflect.Type;
 import java.lang.reflect.TypeVariable;

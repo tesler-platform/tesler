@@ -24,8 +24,8 @@ import static io.tesler.core.config.properties.APIProperties.TESLER_API_PATH_SPE
 
 import io.tesler.api.data.PageSpecification;
 import io.tesler.api.data.ResultPage;
-import io.tesler.core.dto.ResponseBuilder;
 import io.tesler.core.dto.ResponseDTO;
+import io.tesler.core.util.ResponseBuilder;
 import io.tesler.core.util.session.SessionService;
 import java.util.List;
 
@@ -47,9 +47,6 @@ import org.springframework.web.context.request.async.DeferredResult;
 public class NotificationController {
 
 	@Autowired
-	private ResponseBuilder resp;
-
-	@Autowired
 	private NotificationDAO notificationDAO;
 
 	@Autowired
@@ -63,7 +60,7 @@ public class NotificationController {
 			@RequestParam(defaultValue = "false") boolean unread,
 			@RequestParam(required = false) Long offset,
 			PageSpecification page) {
-		return resp.build(ResultPage.of(
+		return ResponseBuilder.build(ResultPage.of(
 				notificationDAO.getNotifications(
 						sessionService.getSessionUser().getId(),
 						unread,
@@ -78,7 +75,7 @@ public class NotificationController {
 	public ResponseDTO countNotifications(
 			@RequestParam(defaultValue = "false") boolean unread,
 			@RequestParam(required = false) Long offset) {
-		return resp.build(notificationDAO.countNotifications(
+		return ResponseBuilder.build(notificationDAO.countNotifications(
 				sessionService.getSessionUser().getId(),
 				unread,
 				offset

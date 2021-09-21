@@ -18,24 +18,23 @@
  * #L%
  */
 
-package io.tesler.core.service;
+package io.tesler.core.file.dto;
 
-import io.tesler.api.data.dictionary.LOV;
-import io.tesler.model.core.entity.FileEntity;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+import lombok.experimental.Accessors;
 
+@Getter
+@ToString
+@Setter
+@Accessors(chain = true)
+@JsonInclude(JsonInclude.Include.NON_NULL)
+public class TeslerResponseDTO<T> {
 
-public interface FileService {
+	public final boolean success = true;
 
-	FileEntity save(String name, String type, boolean temporary, byte[] content, LOV storageType);
-
-	FileEntity save(String name, String type, boolean temporary, byte[] content);
-
-	default FileEntity saveUpload(String name, String type, boolean temporary, byte[] content) {
-		return save(name, type, temporary, content);
-	}
-
-	byte[] getContent(FileEntity entity);
-
-	void remove(Long fileId);
+	public T data;
 
 }

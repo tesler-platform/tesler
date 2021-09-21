@@ -24,11 +24,11 @@ import static io.tesler.core.config.properties.APIProperties.TESLER_API_PATH_SPE
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.tesler.core.crudma.bc.BcRegistry;
-import io.tesler.core.dto.ResponseBuilder;
 import io.tesler.core.dto.ResponseDTO;
 import io.tesler.core.service.UIService;
 import io.tesler.core.service.ViewService;
 import io.tesler.core.ui.BcUtils;
+import io.tesler.core.util.ResponseBuilder;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -46,8 +46,6 @@ public class ViewController {
 
 	private final ViewService views;
 
-	private final ResponseBuilder resp;
-
 	private final BcUtils bcUtils;
 
 	private final BcRegistry bcRegistry;
@@ -56,7 +54,7 @@ public class ViewController {
 
 	@RequestMapping(method = RequestMethod.GET, value = {"/screen/{name}/**", "/screen/{name}"})
 	public ResponseDTO screen(@PathVariable String name) {
-		return resp.build(views.getScreen(name));
+		return ResponseBuilder.build(views.getScreen(name));
 	}
 
 	private void invalidateCache() {

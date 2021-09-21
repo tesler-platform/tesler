@@ -21,11 +21,11 @@
 package io.tesler.source.services.meta;
 
 import io.tesler.core.crudma.bc.impl.InnerBcDescription;
-import io.tesler.core.dto.data.AdminBcDto;
-import io.tesler.core.dto.data.AdminBcDto_;
+import io.tesler.source.dto.AdminBcDto;
 import io.tesler.core.dto.rowmeta.FieldsMeta;
 import io.tesler.core.dto.rowmeta.RowDependentFieldsMeta;
 import io.tesler.core.service.rowmeta.FieldMetaBuilder;
+import io.tesler.source.dto.AdminBcDto_;
 import org.springframework.stereotype.Service;
 
 

@@ -21,14 +21,14 @@
 package io.tesler.engine.workflow.services;
 
 import io.tesler.core.crudma.bc.BusinessComponent;
-import io.tesler.model.core.entity.FileEntity;
+import io.tesler.api.file.entity.TeslerFile;
 import io.tesler.model.workflow.entity.WorkflowVersion;
 import io.tesler.source.dto.WorkflowVersionDto;
 
 
 public interface WorkflowExporter {
 
-	FileEntity exportNewVersion(BusinessComponent bc, WorkflowVersionDto data);
+	TeslerFile exportNewVersion(BusinessComponent bc, WorkflowVersionDto data);
 
 	WorkflowVersion copyNewVersion(BusinessComponent bc, WorkflowVersionDto data);
 

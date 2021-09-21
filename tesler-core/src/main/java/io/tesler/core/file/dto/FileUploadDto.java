@@ -18,26 +18,19 @@
  * #L%
  */
 
-package io.tesler.core.dto.data;
+package io.tesler.core.file.dto;
 
-import io.tesler.model.core.entity.FileEntity;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
-@AllArgsConstructor
 @Getter
+@RequiredArgsConstructor
 public class FileUploadDto {
 
-	private String id;
+	private final String id;
 
-	private String name;
+	private final String name;
 
-	private String type;
-
-	public FileUploadDto(FileEntity entity) {
-		this.id = entity.getId().toString();
-		this.name = entity.getFileName();
-		this.type = entity.getFileType();
-	}
+	private final String type;
 
 }

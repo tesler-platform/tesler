@@ -25,8 +25,8 @@ import io.tesler.api.system.ISystemSettingChangeEventListener;
 import io.tesler.api.system.SystemSettingChangedEvent;
 import io.tesler.api.system.SystemSettings;
 import io.tesler.api.util.tz.TimeZoneUtil;
-import io.tesler.core.dto.ResponseBuilder;
 import io.tesler.core.dto.ResponseDTO;
+import io.tesler.core.util.ResponseBuilder;
 import io.tesler.notifications.dao.NotificationDAO;
 import io.tesler.notifications.model.entity.Notification;
 import io.tesler.notifications.service.INotificationPollingService;
@@ -50,8 +50,6 @@ import static java.util.stream.Collectors.*;
 @RequiredArgsConstructor
 public class AbstractNotificationPollingService implements ISystemSettingChangeEventListener,
 		INotificationPollingService {
-
-	private final ResponseBuilder resp;
 
 	private final SystemSettings systemSettings;
 
@@ -151,7 +149,7 @@ public class AbstractNotificationPollingService implements ISystemSettingChangeE
 					.collect(
 							collectingAndThen(
 									collectingAndThen(
-											toList(), list -> resp.build(ResultPage.of(list, false))
+											toList(), list -> ResponseBuilder.build(ResultPage.of(list, false))
 									),
 									result::setResult
 							)
