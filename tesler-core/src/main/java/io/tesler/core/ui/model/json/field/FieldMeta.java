@@ -126,6 +126,8 @@ public abstract class FieldMeta extends CellStyle {
 
 		private Map<String, String> customFields = new HashMap<>();
 
+		private String filterBy;
+
 		@JsonAnySetter
 		public void setCustomFields(String name, String value) {
 			customFields.put(name, value);
