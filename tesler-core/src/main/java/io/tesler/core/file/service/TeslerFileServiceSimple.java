@@ -81,7 +81,8 @@ public class TeslerFileServiceSimple implements TeslerFileService {
 
 	@NonNull
 	private Path getPathFromId(@NonNull String id) {
-		return Paths.get(this.fileFolder + "/" + id);
+		Path fileId = Paths.get("/" + id).normalize();
+		return Paths.get(this.fileFolder + "/" + fileId);
 	}
 
 }
