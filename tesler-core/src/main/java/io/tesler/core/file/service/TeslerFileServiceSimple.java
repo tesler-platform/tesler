@@ -67,7 +67,7 @@ public class TeslerFileServiceSimple implements TeslerFileService {
 		Path path = getPathFromId(id);
 		return new FileDownloadDto(
 				Files.readAllBytes(path),
-				path.getFileName().toString().substring(path.getFileName().toString().indexOf(UNIQUE_PREFIX_SEPARATOR)),
+				path.getFileName().toString().substring(0, path.getFileName().toString().indexOf(UNIQUE_PREFIX_SEPARATOR)),
 				Files.probeContentType(path)
 		);
 	}
