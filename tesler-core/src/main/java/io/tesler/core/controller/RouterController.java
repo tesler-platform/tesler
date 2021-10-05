@@ -45,7 +45,7 @@ public class RouterController {
 	private final AJAXRedirectStrategy redirectStrategy;
 
 	@RequestMapping(method = RequestMethod.GET, value = "/router/{type}/{id}")
-	protected void route(
+	public void route(
 			HttpServletRequest request,
 			HttpServletResponse response,
 			@PathVariable String type,
