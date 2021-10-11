@@ -25,7 +25,7 @@ import static io.tesler.core.config.properties.APIProperties.TESLER_API_PATH_SPE
 
 import io.tesler.api.service.tx.TransactionService;
 import io.tesler.api.util.Invoker;
-import io.tesler.core.config.CacheConfig;
+import io.tesler.core.config.cache.CacheConfig;
 import io.tesler.core.metahotreload.MetaHotReloadService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.CacheManager;

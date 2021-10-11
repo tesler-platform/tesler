@@ -23,7 +23,7 @@ package io.tesler.core.ui;
 import io.tesler.api.data.dto.DataResponseDTO;
 import io.tesler.constgen.DtoField;
 import io.tesler.core.bc.InnerBcTypeAware;
-import io.tesler.core.config.CacheConfig;
+import io.tesler.core.config.cache.CacheConfig;
 import io.tesler.core.crudma.bc.BcIdentifier;
 import io.tesler.core.crudma.bc.BcRegistry;
 import io.tesler.core.crudma.bc.impl.BcDescription;
@@ -158,7 +158,7 @@ public class BcUtils {
 	 * Returns a set of required fields for the given business component on the current screen
 	 */
 	@SneakyThrows
-	@Cacheable(cacheNames = {CacheConfig.REQUEST_CACHE}, key = "{#root.methodName, #bc.name}")
+	@Cacheable(cacheResolver = "teslerCacheResolver", cacheNames = {CacheConfig.REQUEST_CACHE}, key = "{#root.methodName, #bc.name}")
 	public Set<String> getBcFieldsForCurrentScreen(final BcIdentifier bc) {
 		final Set<String> viewFields = new HashSet<>();
 		for (final String viewName : sessionService.getCurrentScreenViews()) {
@@ -173,7 +173,7 @@ public class BcUtils {
 	/**
 	 * Returns a set of required dto fields ({@link DtoField}) for the given business component on the current screen
 	 */
-	@Cacheable(cacheNames = {CacheConfig.REQUEST_CACHE}, key = "{#root.methodName, #bc.name}")
+	@Cacheable(cacheResolver = "teslerCacheResolver", cacheNames = {CacheConfig.REQUEST_CACHE}, key = "{#root.methodName, #bc.name}")
 	public <D extends DataResponseDTO> Set<DtoField<D, ?>> getDtoFieldsForCurrentScreen(final BcIdentifier bc) {
 		final Set<String> viewFields = getBcFieldsForCurrentScreen(bc);
 		return getDtoFields(bc).stream()
@@ -185,7 +185,7 @@ public class BcUtils {
 	/**
 	 * Returns a set of required dto fields ({@link DtoField}) for the given business component on the current screen
 	 */
-	@Cacheable(cacheNames = {CacheConfig.REQUEST_CACHE}, key = "{#root.methodName, #bc.name, #dtoClass}")
+	@Cacheable(cacheResolver = "teslerCacheResolver", cacheNames = {CacheConfig.REQUEST_CACHE}, key = "{#root.methodName, #bc.name, #dtoClass}")
 	public <D extends DataResponseDTO> Set<DtoField<D, ?>> getDtoFieldsForCurrentScreen(
 			final BcIdentifier bc,
 			final Class<? extends DataResponseDTO> dtoClass) {

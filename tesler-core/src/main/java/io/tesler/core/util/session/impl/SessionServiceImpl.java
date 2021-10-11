@@ -23,7 +23,7 @@ package io.tesler.core.util.session.impl;
 import io.tesler.api.data.dictionary.LOV;
 import io.tesler.api.service.session.CoreSessionService;
 import io.tesler.api.service.session.TeslerUserDetailsInterface;
-import io.tesler.core.config.CacheConfig;
+import io.tesler.core.config.cache.CacheConfig;
 import io.tesler.core.controller.BcHierarchyAware;
 import io.tesler.core.service.UIService;
 import io.tesler.core.service.impl.UserRoleService;
@@ -79,7 +79,7 @@ public class SessionServiceImpl implements SessionService {
 	// если у нас транзакции нет, то здесь будут происходить
 	// постоянные запросы к СУБД, поэтому кешируем
 	@Override
-	@Cacheable(cacheNames = {CacheConfig.REQUEST_CACHE}, key = "#root.methodName")
+	@Cacheable(cacheResolver = "teslerCacheResolver", cacheNames = {CacheConfig.REQUEST_CACHE}, key = "#root.methodName")
 	public User getSessionUser() {
 		User user = getUserFromDetails(coreSessionService.getSessionUserDetails(true));
 		if (user == null) {
@@ -94,7 +94,7 @@ public class SessionServiceImpl implements SessionService {
 	}
 
 	@Override
-	@Cacheable(cacheNames = {CacheConfig.REQUEST_CACHE}, key = "#root.methodName")
+	@Cacheable(cacheResolver = "teslerCacheResolver", cacheNames = {CacheConfig.REQUEST_CACHE}, key = "#root.methodName")
 	public LOV getSessionUserRole() {
 		TeslerUserDetailsInterface userDetails = coreSessionService.getSessionUserDetails(true);
 		HttpServletRequest request = WebHelper.getCurrentRequest().orElse(null);
@@ -235,7 +235,7 @@ public class SessionServiceImpl implements SessionService {
 
 		private final UIService uiService;
 
-		@Cacheable(
+		@Cacheable(cacheResolver = "teslerCacheResolver", 
 				cacheNames = {CacheConfig.USER_CACHE},
 				key = "{#root.methodName, #user.id, #userRole}"
 		)
@@ -246,7 +246,7 @@ public class SessionServiceImpl implements SessionService {
 			);
 		}
 
-		@Cacheable(
+		@Cacheable(cacheResolver = "teslerCacheResolver", 
 				cacheNames = {CacheConfig.USER_CACHE},
 				key = "{#root.methodName, #screenName, #user.id, #userRole}"
 		)

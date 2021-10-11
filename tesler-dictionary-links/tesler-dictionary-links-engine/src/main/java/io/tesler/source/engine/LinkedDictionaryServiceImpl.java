@@ -24,7 +24,7 @@ import io.tesler.api.data.dictionary.DictionaryCache;
 import io.tesler.api.data.dictionary.LOV;
 import io.tesler.api.data.dictionary.SimpleDictionary;
 import io.tesler.constgen.DtoField;
-import io.tesler.core.config.CacheConfig;
+import io.tesler.core.config.cache.CacheConfig;
 import io.tesler.core.crudma.bc.BusinessComponent;
 import io.tesler.core.crudma.bc.impl.InnerBcDescription;
 import io.tesler.core.dto.rowmeta.EngineFieldsMeta;
@@ -242,7 +242,7 @@ public class LinkedDictionaryServiceImpl implements LinkedDictionaryService {
 
 		private final JpaDao jpaDao;
 
-		@Cacheable(
+		@Cacheable(cacheResolver = "teslerCacheResolver", 
 				cacheNames = {CacheConfig.LINKED_DICTIONARY_RULES},
 				key = "{#root.methodName, #serviceName}"
 		)
@@ -261,7 +261,7 @@ public class LinkedDictionaryServiceImpl implements LinkedDictionaryService {
 			).stream().distinct().map(jpaDao::evict).collect(Collectors.groupingBy(DictionaryLnkRule::getField));
 		}
 
-		@CacheEvict(value = CacheConfig.LINKED_DICTIONARY_RULES, allEntries = true)
+		@CacheEvict(cacheResolver = "teslerCacheResolver", value = CacheConfig.LINKED_DICTIONARY_RULES, allEntries = true)
 		public void evictRules() {
 
 		}

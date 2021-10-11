@@ -22,7 +22,7 @@ package io.tesler.source.engine.condition;
 
 import io.tesler.api.data.dictionary.CoreDictionaries.DictionaryTermType;
 import io.tesler.api.data.dictionary.LOV;
-import io.tesler.core.config.CacheConfig;
+import io.tesler.core.config.cache.CacheConfig;
 import io.tesler.core.crudma.bc.BusinessComponent;
 import io.tesler.core.util.session.SessionService;
 import io.tesler.model.core.entity.Department;
@@ -55,7 +55,7 @@ public class UserDepartmentLinkedDictionaryConditionChecker implements LinkedDic
 	}
 
 	@Override
-	@Cacheable(
+	@Cacheable(cacheResolver = "teslerCacheResolver", 
 			cacheNames = CacheConfig.REQUEST_CACHE,
 			keyGenerator = "conditionKeyGenerator"
 	)

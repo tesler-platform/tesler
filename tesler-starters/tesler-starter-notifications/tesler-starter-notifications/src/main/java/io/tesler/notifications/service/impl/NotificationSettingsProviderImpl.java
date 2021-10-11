@@ -21,11 +21,11 @@
 package io.tesler.notifications.service.impl;
 
 import io.tesler.api.data.dictionary.LOV;
-import io.tesler.notifications.api.EventSettings;
-import io.tesler.core.config.CacheConfig;
-import io.tesler.notifications.service.CacheableNotificationSettingsProvider;
+import io.tesler.core.config.cache.CacheConfig;
 import io.tesler.model.core.dao.JpaDao;
+import io.tesler.notifications.api.EventSettings;
 import io.tesler.notifications.model.hbn.change.BaseNotificationSettingsProvider;
+import io.tesler.notifications.service.CacheableNotificationSettingsProvider;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
@@ -40,25 +40,25 @@ public class NotificationSettingsProviderImpl extends BaseNotificationSettingsPr
 	}
 
 	@Override
-	@Cacheable(CacheConfig.NOTIFICATION_SETTINGS)
+	@Cacheable(cacheResolver = "teslerCacheResolver", cacheNames = CacheConfig.NOTIFICATION_SETTINGS)
 	public EventSettings getGlobalSettings(LOV event) {
 		return super.getGlobalSettings(event);
 	}
 
 	@Override
-	@CacheEvict(CacheConfig.NOTIFICATION_SETTINGS)
+	@CacheEvict(cacheResolver = "teslerCacheResolver", cacheNames = CacheConfig.NOTIFICATION_SETTINGS)
 	public void evict(LOV event) {
 
 	}
 
 	@Override
-	@Cacheable(CacheConfig.NOTIFICATION_SETTINGS)
+	@Cacheable(cacheResolver = "teslerCacheResolver", cacheNames = CacheConfig.NOTIFICATION_SETTINGS)
 	public EventSettings getUserSettings(LOV event, Long userId) {
 		return super.getUserSettings(event, userId);
 	}
 
 	@Override
-	@CacheEvict(CacheConfig.NOTIFICATION_SETTINGS)
+	@CacheEvict(cacheResolver = "teslerCacheResolver", cacheNames = CacheConfig.NOTIFICATION_SETTINGS)
 	public void evict(LOV event, Long userId) {
 
 	}

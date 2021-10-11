@@ -21,7 +21,7 @@
 package io.tesler.core.dao.impl;
 
 import io.tesler.api.data.dictionary.CoreDictionaries;
-import io.tesler.core.config.CacheConfig;
+import io.tesler.core.config.cache.CacheConfig;
 import io.tesler.core.crudma.bc.impl.InnerBcDescription;
 import io.tesler.core.util.session.SessionService;
 import io.tesler.model.core.dao.JpaDao;
@@ -76,7 +76,7 @@ public class SearchSpecDao {
 		return linkSpecification.toSpecification(serviceName);
 	}
 
-	@Cacheable(
+	@Cacheable(cacheResolver = "teslerCacheResolver", 
 			cacheNames = {CacheConfig.SPECIFICATION_CACHE},
 			key = "{#root.methodName, #bcDescription?.name, @sessionService.sessionUserRole}"
 	)
@@ -97,7 +97,7 @@ public class SearchSpecDao {
 		);
 	}
 
-	@Cacheable(
+	@Cacheable(cacheResolver = "teslerCacheResolver", 
 			cacheNames = {CacheConfig.SPECIFICATION_CACHE},
 			key = "{#root.methodName, #bcDescription?.name}"
 	)
@@ -111,7 +111,7 @@ public class SearchSpecDao {
 		);
 	}
 
-	@Cacheable(
+	@Cacheable(cacheResolver = "teslerCacheResolver", 
 			cacheNames = {CacheConfig.SPECIFICATION_CACHE},
 			key = "{#root.methodName, #bcDescription?.name}"
 	)
@@ -128,7 +128,7 @@ public class SearchSpecDao {
 		);
 	}
 
-	@CacheEvict(cacheNames = CacheConfig.SPECIFICATION_CACHE, allEntries = true)
+	@CacheEvict(cacheResolver = "teslerCacheResolver", cacheNames = CacheConfig.SPECIFICATION_CACHE, allEntries = true)
 	public void clearCache() {
 
 	}
