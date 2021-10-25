@@ -25,7 +25,7 @@ import io.tesler.api.data.dictionary.LOV;
 import io.tesler.api.data.dto.AssociateDTO;
 import io.tesler.api.data.dto.DataResponseDTO;
 import io.tesler.api.exception.ServerException;
-import io.tesler.core.config.CacheConfig;
+import io.tesler.core.config.cache.CacheConfig;
 import io.tesler.core.controller.param.QueryParameters;
 import io.tesler.core.crudma.bc.BusinessComponent;
 import io.tesler.core.crudma.bc.impl.InnerBcDescription;
@@ -157,7 +157,7 @@ public abstract class AbstractResponseService<T extends DataResponseDTO, E exten
 	}
 
 	@Override
-	@Cacheable(
+	@Cacheable(cacheResolver = "teslerCacheResolver", 
 			cacheNames = CacheConfig.REQUEST_CACHE,
 			key = "{#root.targetClass, #root.methodName, #bc.name, #bc.id}"
 	)

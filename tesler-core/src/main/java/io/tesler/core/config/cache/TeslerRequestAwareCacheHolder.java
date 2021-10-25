@@ -1,6 +1,6 @@
 /*-
  * #%L
- * IO Tesler - DTO Constant Generator
+ * IO Tesler - Core
  * %%
  * Copyright (C) 2018 - 2019 Tesler Contributors
  * %%
@@ -18,17 +18,16 @@
  * #L%
  */
 
-package io.tesler.constgen;
+package io.tesler.core.config.cache;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import org.springframework.cache.Cache;
 
-import java.io.Serializable;
-
-@AllArgsConstructor
 @Getter
-public final class DtoField<D, T> implements Serializable {
+@RequiredArgsConstructor
+public class TeslerRequestAwareCacheHolder {
 
-	private final String name;
+	private final Cache cache;
 
 }

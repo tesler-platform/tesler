@@ -24,23 +24,25 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.tesler.api.data.dto.LocaleAware;
-import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.io.Serializable;
+import java.util.List;
 
 /**
  * The navigation object that is transmitted to the client side to create the menu structure
  */
 @Getter
 @Setter
-public final class ScreenNavigation {
+public final class ScreenNavigation implements Serializable {
 
 	private List<MenuItem> menu;
 
 	@Getter
 	@Setter
 	@JsonInclude(JsonInclude.Include.NON_NULL)
-	public abstract static class MenuItem {
+	public abstract static class MenuItem implements Serializable {
 
 		private String id;
 

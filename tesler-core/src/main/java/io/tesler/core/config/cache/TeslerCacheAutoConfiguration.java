@@ -18,19 +18,27 @@
  * #L%
  */
 
-package io.tesler.core.config;
-
+package io.tesler.core.config.cache;
 
 import io.tesler.core.metahotreload.MetaHotReloadService;
 import lombok.RequiredArgsConstructor;
+import org.jetbrains.annotations.NotNull;
+import org.springframework.boot.autoconfigure.AutoConfigureAfter;
+import org.springframework.boot.autoconfigure.cache.CacheAutoConfiguration;
+import org.springframework.boot.autoconfigure.cache.CacheProperties;
+import org.springframework.boot.autoconfigure.cache.CacheType;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
-import org.springframework.cache.annotation.CachingConfigurerSupport;
-import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.cache.concurrent.ConcurrentMapCache;
 import org.springframework.cache.concurrent.ConcurrentMapCacheManager;
+import org.springframework.cache.interceptor.CacheAspectSupport;
+import org.springframework.cache.interceptor.CacheResolver;
 import org.springframework.cache.support.CompositeCacheManager;
 import org.springframework.cache.support.NoOpCache;
+import org.springframework.cache.support.NoOpCacheManager;
 import org.springframework.cache.support.SimpleCacheManager;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
@@ -39,63 +47,52 @@ import org.springframework.web.context.annotation.RequestScope;
 import org.springframework.web.context.request.RequestContextHolder;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.stream.Collectors;
 
-
-@RequiredArgsConstructor
 @Configuration
-@EnableCaching
-public class CacheConfig extends CachingConfigurerSupport {
-
-	public static final String NOTIFICATION_SETTINGS = "notificationSettings";
-
-	public static final String WORKFLOW_CACHE = "workflow";
-
-	public static final String USER_CACHE = "userCache";
-
-	public static final String REQUEST_CACHE = "requestCache";
-
-	public static final String LINKED_DICTIONARY_RULES = "linkedDictionaryRules";
-
-	public static final String SPECIFICATION_CACHE = "specifications";
-
-	public static final String UI_CACHE = "widgetcache";
+@ConditionalOnClass({CacheManager.class})
+@ConditionalOnBean({CacheAspectSupport.class})
+@ConditionalOnMissingBean(name = "teslerCacheResolver")
+@AutoConfigureAfter(CacheAutoConfiguration.class)
+@RequiredArgsConstructor
+public class TeslerCacheAutoConfiguration {
 
 	private final ApplicationContext applicationContext;
 
-	@Bean(name = USER_CACHE)
-	public Cache userCache() {
-		return new ConcurrentMapCache(USER_CACHE);
-	}
-
-	@Bean(name = REQUEST_CACHE)
-	@RequestScope
-	public Cache requestCache() {
-		return new ConcurrentMapCache(REQUEST_CACHE);
-	}
+	private final CacheProperties cacheProperties;
 
 	@Bean
-	public CacheManager cacheManager(MetaHotReloadService metaHotReloadService) {
+	public CacheResolver teslerCacheResolver(MetaHotReloadService metaHotReloadService) {
 		metaHotReloadService.loadMeta();
+		if (CacheType.NONE.equals(cacheProperties.getType())) {
+			return new TeslerCacheResolver(new NoOpCacheManager());
+		}
 		CompositeCacheManager compositeCacheManager = new CompositeCacheManager();
 		compositeCacheManager.setCacheManagers(buildCacheManagers());
 		compositeCacheManager.setFallbackToNoOpCache(true);
-		return compositeCacheManager;
+		return new TeslerCacheResolver(compositeCacheManager);
 	}
+
+	@Bean
+	public TeslerRequestAwareCacheHolder userCache() {
+		return new TeslerRequestAwareCacheHolder(new ConcurrentMapCache(CacheConfig.USER_CACHE));
+	}
+
+	@Bean
+	@RequestScope
+	public TeslerRequestAwareCacheHolder requestCache() {
+		return new TeslerRequestAwareCacheHolder(new ConcurrentMapCache(CacheConfig.REQUEST_CACHE));
+	}
+
 
 	protected List<CacheManager> buildCacheManagers() {
 		List<CacheManager> result = new ArrayList<>();
 		result.add(buildUnExpirableCacheManager(
-				NOTIFICATION_SETTINGS,
-				LINKED_DICTIONARY_RULES,
-				WORKFLOW_CACHE,
-				SPECIFICATION_CACHE,
-				UI_CACHE
+				TeslerCaches.getSimpleCacheNames().toArray(new String[0])
 		));
-		result.add(buildRequestAwareCacheManager(USER_CACHE, REQUEST_CACHE));
+		result.add(buildRequestAwareCacheManager(TeslerCaches.getRequestCaches()));
 		return result;
 	}
 
@@ -103,9 +100,9 @@ public class CacheConfig extends CachingConfigurerSupport {
 		return new ConcurrentMapCacheManager(names);
 	}
 
-	protected CacheManager buildRequestAwareCacheManager(String... names) {
+	protected CacheManager buildRequestAwareCacheManager(List<String> cacheNames) {
 		SimpleCacheManager simpleCacheManager = new SimpleCacheManager();
-		simpleCacheManager.setCaches(Arrays.stream(names)
+		simpleCacheManager.setCaches(cacheNames.stream()
 				.map(RequestAwareCacheDecorator::new)
 				.collect(Collectors.toList())
 		);
@@ -119,48 +116,50 @@ public class CacheConfig extends CachingConfigurerSupport {
 
 		private final NoOpCache noOpCache;
 
-		private RequestAwareCacheDecorator(String name) {
+		RequestAwareCacheDecorator(String name) {
 			this.name = name;
 			this.noOpCache = new NoOpCache(name);
 		}
 
+		@NotNull
 		@Override
 		public String getName() {
 			return name;
 		}
 
+		@NotNull
 		@Override
 		public Object getNativeCache() {
 			return getDelegate().getNativeCache();
 		}
 
 		@Override
-		public ValueWrapper get(Object key) {
+		public ValueWrapper get(@NotNull Object key) {
 			return getDelegate().get(key);
 		}
 
 		@Override
-		public <T> T get(Object key, Class<T> type) {
+		public <T> T get(@NotNull Object key, Class<T> type) {
 			return getDelegate().get(key, type);
 		}
 
 		@Override
-		public <T> T get(Object key, Callable<T> valueLoader) {
+		public <T> T get(@NotNull Object key, @NotNull Callable<T> valueLoader) {
 			return getDelegate().get(key, valueLoader);
 		}
 
 		@Override
-		public void put(Object key, Object value) {
+		public void put(@NotNull Object key, Object value) {
 			getDelegate().put(key, value);
 		}
 
 		@Override
-		public ValueWrapper putIfAbsent(Object key, Object value) {
+		public ValueWrapper putIfAbsent(@NotNull Object key, Object value) {
 			return getDelegate().putIfAbsent(key, value);
 		}
 
 		@Override
-		public void evict(Object key) {
+		public void evict(@NotNull Object key) {
 			getDelegate().evict(key);
 		}
 
@@ -173,7 +172,7 @@ public class CacheConfig extends CachingConfigurerSupport {
 			if (RequestContextHolder.getRequestAttributes() == null) {
 				return noOpCache;
 			}
-			return applicationContext.getBean(name, Cache.class);
+			return applicationContext.getBean(name, TeslerRequestAwareCacheHolder.class).getCache();
 		}
 
 	}

@@ -27,7 +27,7 @@ import io.tesler.api.data.dictionary.CoreDictionaries.ViewGroupType;
 import io.tesler.api.data.dictionary.LOV;
 import io.tesler.api.service.tx.TransactionService;
 import io.tesler.api.util.Invoker;
-import io.tesler.core.config.CacheConfig;
+import io.tesler.core.config.cache.CacheConfig;
 import io.tesler.core.dto.data.view.BusinessObjectDTO;
 import io.tesler.core.dto.data.view.ScreenNavigation;
 import io.tesler.core.dto.data.view.ScreenNavigation.MenuItem;
@@ -221,7 +221,7 @@ public class UIServiceImpl implements UIService {
 
 		private final JpaDao jpaDao;
 
-		@Cacheable(
+		@Cacheable(cacheResolver = "teslerCacheResolver", 
 				cacheNames = CacheConfig.UI_CACHE,
 				key = "{#root.methodName}"
 		)
@@ -234,7 +234,7 @@ public class UIServiceImpl implements UIService {
 			);
 		}
 
-		@Cacheable(
+		@Cacheable(cacheResolver = "teslerCacheResolver", 
 				cacheNames = CacheConfig.UI_CACHE,
 				key = "{#root.methodName}"
 		)
@@ -246,7 +246,7 @@ public class UIServiceImpl implements UIService {
 			);
 		}
 
-		@Cacheable(
+		@Cacheable(cacheResolver = "teslerCacheResolver", 
 				cacheNames = CacheConfig.UI_CACHE,
 				key = "{#root.methodName}"
 		)
@@ -256,7 +256,7 @@ public class UIServiceImpl implements UIService {
 			).stream().collect(Collectors.toMap(BcProperties::getBc, Function.identity()));
 		}
 
-		@Cacheable(
+		@Cacheable(cacheResolver = "teslerCacheResolver", 
 				cacheNames = CacheConfig.UI_CACHE,
 				key = "{#root.methodName}"
 		)
@@ -268,7 +268,7 @@ public class UIServiceImpl implements UIService {
 			);
 		}
 
-		@Cacheable(
+		@Cacheable(cacheResolver = "teslerCacheResolver", 
 				cacheNames = CacheConfig.UI_CACHE,
 				key = "{#root.methodName, #screen.name}"
 		)
@@ -348,7 +348,7 @@ public class UIServiceImpl implements UIService {
 			return screenNavigation;
 		}
 
-		@CacheEvict(cacheNames = CacheConfig.UI_CACHE, allEntries = true)
+		@CacheEvict(cacheResolver = "teslerCacheResolver", cacheNames = CacheConfig.UI_CACHE, allEntries = true)
 		public void evict() {
 		}
 

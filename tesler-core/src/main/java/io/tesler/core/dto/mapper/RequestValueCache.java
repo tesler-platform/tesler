@@ -21,7 +21,7 @@
 package io.tesler.core.dto.mapper;
 
 import io.tesler.api.data.dto.DataResponseDTO;
-import io.tesler.core.config.CacheConfig;
+import io.tesler.core.config.cache.CacheConfig;
 import io.tesler.model.core.entity.BaseEntity;
 import java.util.Optional;
 import java.util.function.Supplier;
@@ -31,7 +31,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class RequestValueCache {
 
-	@Cacheable(
+	@Cacheable(cacheResolver = "teslerCacheResolver", 
 			cacheNames = {CacheConfig.REQUEST_CACHE},
 			key = "{#valueSupplier, #key}"
 	)
