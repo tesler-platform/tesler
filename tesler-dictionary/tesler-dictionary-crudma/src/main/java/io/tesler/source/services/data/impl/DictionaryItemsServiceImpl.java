@@ -30,6 +30,7 @@ import io.tesler.core.dto.rowmeta.ActionResultDTO;
 import io.tesler.core.dto.rowmeta.CreateResult;
 import io.tesler.core.service.action.Actions;
 import io.tesler.model.dictionary.entity.DictionaryItem;
+import io.tesler.model.dictionary.entity.DictionaryItemTranslation;
 import io.tesler.model.dictionary.entity.DictionaryItem_;
 import io.tesler.model.dictionary.entity.DictionaryTypeDesc;
 import io.tesler.model.dictionary.entity.DictionaryTypeDesc_;
@@ -39,6 +40,7 @@ import io.tesler.source.dto.DictionaryItemDTO_;
 import io.tesler.source.services.data.DictionaryItemService;
 import io.tesler.source.services.meta.DictionaryItemsFieldMetaBuilder;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
@@ -91,6 +93,14 @@ public class DictionaryItemsServiceImpl extends
 		if (data.isFieldChanged(DictionaryItemDTO_.additionFlg)) {
 			item.setAdditionFlg(data.isAdditionFlg());
 		}
+		if (data.isFieldChanged(DictionaryItemDTO_.value)) {
+			Optional<DictionaryItemTranslation> itemTranslation = item.getTranslation();
+			if (itemTranslation.isPresent()) {
+				DictionaryItemTranslation dictionaryItemTranslation = itemTranslation.get();
+				dictionaryItemTranslation.setValue(data.getValue());
+			}
+		}
+		dictionaryCache.reload();
 		DictionaryItemDTO updatedDto = entityToDto(bc, item);
 		return new ActionResultDTO<>(updatedDto);
 	}
@@ -126,4 +136,12 @@ public class DictionaryItemsServiceImpl extends
 		return entities.stream().map(DictionaryItemDTO::new).collect(Collectors.toList());
 	}
 
+	@Override
+	protected DictionaryItemDTO entityToDto(BusinessComponent bc, DictionaryItem entity) {
+		DictionaryItemDTO dictionaryItemDTO = super.entityToDto(bc, entity);
+		Optional<DictionaryItemTranslation> translation = entity.getTranslation();
+		translation.ifPresent(dictionaryItemTranslation ->
+				dictionaryItemDTO.setValue(dictionaryItemTranslation.getValue()));
+		return dictionaryItemDTO;
+	}
 }
