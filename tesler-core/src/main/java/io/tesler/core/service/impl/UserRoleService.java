@@ -25,7 +25,7 @@ import static java.lang.String.format;
 import io.tesler.api.data.dictionary.DictionaryCache;
 import io.tesler.api.data.dictionary.LOV;
 import io.tesler.api.data.dictionary.SimpleDictionary;
-import io.tesler.api.exception.ServerException;
+import io.tesler.core.exception.BusinessException;
 import io.tesler.model.core.dao.JpaDao;
 import io.tesler.model.core.entity.User;
 import io.tesler.model.core.entity.UserRole;
@@ -113,7 +113,7 @@ public class UserRoleService {
 		List<UserRole> userRoleList = getListByUser(user);
 
 		if (userRoleList == null || userRoleList.isEmpty()) {
-			throw new ServerException(format("User [id=%s] has no roles!", user.getId()));
+			throw new BusinessException().addPopup(format("User [id=%s] has no roles!", user.getId()));
 		}
 
 		return userRoleList.stream()
