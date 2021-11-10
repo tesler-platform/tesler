@@ -5,7 +5,7 @@
   <groupId>io.tesler</groupId>
   <artifactId>tesler-starter-parent</artifactId>
   <packaging>pom</packaging>
-  <version>3.0.4.M1</version>
+  <version>3.0.4.M1-SNAPSHOT</version>
   <name>IO Tesler - Starter Parent</name>
 
   <url>http://tesler.io</url>
@@ -35,7 +35,7 @@
     <connection>scm:git:git@github.com:tesler-platformtesler.git</connection>
     <developerConnection>scm:git:git@github.com:tesler-platform/tesler.git</developerConnection>
     <url>https://github.com/tesler-platform/tesler</url>
-    <tag>tesler-3.0.4.M1</tag>
+    <tag>3.0.0.M10.10-SNAPSHOT</tag>
   </scm>
 
   <distributionManagement>
@@ -56,7 +56,7 @@
   </parent>
 
   <properties>
-    <tesler.version>3.0.4.M1</tesler.version>
+    <tesler.version>3.0.4.M1-SNAPSHOT</tesler.version>
     <spring-boot.version>2.5.1</spring-boot.version>
     <hibernate.version>5.4.13.Final</hibernate.version>
     <jaxb.version>2.3.0</jaxb.version>
