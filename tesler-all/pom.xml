@@ -3,13 +3,13 @@
     <modelVersion>4.0.0</modelVersion>
     <artifactId>tesler-all</artifactId>
     <packaging>pom</packaging>
-    <version>3.0.4-SNAPSHOT</version>
+    <version>3.0.4.M1</version>
     <name>IO Tesler - All</name>
 
     <parent>
         <groupId>io.tesler</groupId>
         <artifactId>tesler-base</artifactId>
-        <version>3.0.4-SNAPSHOT</version>
+        <version>3.0.4.M1</version>
         <relativePath>../tesler-base/pom.xml</relativePath>
     </parent>
 
@@ -24,7 +24,7 @@
                 <groupId>io.tesler</groupId>
                 <artifactId>tesler-bom</artifactId>
                 <type>import</type>
-                <version>3.0.4-SNAPSHOT</version>
+                <version>3.0.4.M1</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

@@ -4,13 +4,13 @@
   <modelVersion>4.0.0</modelVersion>
   <artifactId>tesler-dictionary-model</artifactId>
   <packaging>jar</packaging>
-  <version>3.0.4-SNAPSHOT</version>
+  <version>3.0.4.M1</version>
   <name>IO Tesler - Dictionary Model</name>
 
   <parent>
     <artifactId>tesler-dictionary</artifactId>
     <groupId>io.tesler</groupId>
-    <version>3.0.4-SNAPSHOT</version>
+    <version>3.0.4.M1</version>
     <relativePath>../pom.xml</relativePath>
   </parent>
 
