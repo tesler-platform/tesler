@@ -60,7 +60,7 @@
     <juel.version>2.2.7</juel.version>
     <javapoet.version>1.10.0</javapoet.version>
     <guava.version>30.0-jre</guava.version>
-    <cron-utils.version>9.1.3</cron-utils.version>
+    <cron-utils.version>9.1.6</cron-utils.version>
     <reflections.version>0.9.11</reflections.version>
     <auto-service.version>1.0-rc4</auto-service.version>
 
