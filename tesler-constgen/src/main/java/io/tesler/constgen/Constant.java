@@ -28,9 +28,17 @@ import lombok.Getter;
 @AllArgsConstructor
 public class Constant implements Comparable<Constant> {
 
+	public Constant(final String name, final TypeName type) {
+		this.name = name;
+		this.type = type;
+		this.initializer = "null";
+	}
+
 	private final String name;
 
 	private final TypeName type;
+
+	private final String initializer;
 
 	@Override
 	public int compareTo(Constant o) {
