@@ -22,10 +22,13 @@ package io.tesler.api.util;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ServiceConfigurationError;
 import java.util.ServiceLoader;
 import lombok.experimental.UtilityClass;
+import lombok.extern.slf4j.Slf4j;
 
 @UtilityClass
+@Slf4j
 public class ServiceUtils {
 
 	public static <T> List<T> loadServices(Class<T> cls, Object caller) {
@@ -43,8 +46,12 @@ public class ServiceUtils {
 		}
 		List<T> result = new ArrayList<>();
 		for (ServiceLoader<T> serviceLoader : serviceLoaders) {
-			for (T service : serviceLoader) {
-				result.add(service);
+			try {
+				for (T service : serviceLoader) {
+					result.add(service);
+				}
+			} catch (ServiceConfigurationError e) {
+				log.error("ClassLoader failed with ServiceConfigurationError");
 			}
 		}
 		return result;
