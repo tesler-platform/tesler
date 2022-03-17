@@ -30,9 +30,9 @@ import io.tesler.model.core.dao.util.JpaUtils;
 import io.tesler.model.core.entity.BaseEntity_;
 import io.tesler.model.core.entity.User;
 import io.tesler.model.workflow.entity.*;
+import java.util.Set;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.hibernate.Hibernate;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;
@@ -50,16 +50,12 @@ import static java.util.Comparator.*;
 
 @Slf4j
 @Service
-
+@RequiredArgsConstructor
 public class WorkflowDaoImpl implements WorkflowDao {
 
-	private List<EntityManager> entityManagers;
-
-	@Autowired
-	private JpaDao jpaDao;
-
-	@Autowired
-	private WorkflowCache workflowCache;
+	private final Set<EntityManager> entityManagers;
+	private final JpaDao jpaDao;
+	private final WorkflowCache workflowCache;
 
 	@Override
 	public WorkflowStep getCurrentStep(final WorkflowableTask task) {
@@ -223,7 +219,7 @@ public class WorkflowDaoImpl implements WorkflowDao {
 
 	@Override
 	public List<LOV> getTaskTypesNotInWf() {
-		EntityManager entityManager = getSupportedEntityManager(Hibernate.getClass(Workflow.class).getName());
+		EntityManager entityManager = getSupportedEntityManager(Workflow.class.getName());
 		return JpaUtils.<String>selectNativeQuery(
 				entityManager,
 				"select d.key from dictionary_item d where d.type = ? and d.key not in (select w.task_type_cd from wf w)",

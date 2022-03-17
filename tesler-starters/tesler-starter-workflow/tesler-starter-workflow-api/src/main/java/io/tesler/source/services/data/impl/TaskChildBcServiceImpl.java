@@ -63,7 +63,6 @@ import javax.persistence.criteria.Join;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import lombok.extern.slf4j.Slf4j;
-import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -102,7 +101,7 @@ public class TaskChildBcServiceImpl extends AbstractResponseService<AdminBcDto, 
 	}
 
 	private Map<String, String> getAllViewsByBcNames(List<String> bcNames) {
-		EntityManager entityManager = getSupportedEntityManager(Hibernate.getClass(ViewWidgets.class).getName());
+		EntityManager entityManager = getSupportedEntityManager(ViewWidgets.class.getName());
 		CriteriaBuilder cb = entityManager.getCriteriaBuilder();
 		CriteriaQuery<Tuple> cq = cb.createTupleQuery();
 		Root<ViewWidgets> viewWidgetsRoot = cq.from(ViewWidgets.class);
