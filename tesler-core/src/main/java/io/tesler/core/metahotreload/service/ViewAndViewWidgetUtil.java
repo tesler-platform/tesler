@@ -23,19 +23,25 @@ package io.tesler.core.metahotreload.service;
 import static io.tesler.core.metahotreload.util.JsonUtils.serializeOrElseEmptyArr;
 import static java.util.Optional.ofNullable;
 
-import io.tesler.core.metahotreload.dto.ViewSourceDTO;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.tesler.core.metahotreload.dto.ViewSourceDTO;
 import io.tesler.model.core.dao.JpaDao;
 import io.tesler.model.ui.entity.View;
 import io.tesler.model.ui.entity.ViewWidgets;
 import io.tesler.model.ui.entity.ViewWidgetsPK;
 import io.tesler.model.ui.entity.Widget;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Map;
-
+import java.util.Objects;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.core.io.DefaultResourceLoader;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -88,13 +94,28 @@ public class ViewAndViewWidgetUtil {
 				.setWidget(widget)
 				.setPositon(dto.getPosition())
 				.setDescriptionTitle(dto.getDescriptionTitle())
-				.setDescription(dto.getDescription())
+				.setDescription(getWidgetDescription(dto))
 				.setSnippet(dto.getSnippet())
 				.setLimit(dto.getPageLimit())
 				.setGridWidth(ofNullable(dto.getGridWidth()).orElse(1L))
 				.setGridBreak(ofNullable(dto.getGridBreak()).orElse(0L))
 				.setHide(ofNullable(dto.getHideByDefault()).orElse(false))
 				.setShowExportStamp(ofNullable(dto.getShowExportStamp()).orElse(false));
+	}
+
+	private static String getWidgetDescription(ViewSourceDTO.ViewWidgetSourceDTO dto) {
+		if (dto.getDescription() != null && !Objects.equals(dto.getDescription(), "")) {
+			return dto.getDescription();
+		}
+		if (dto.getDescriptionFile() != null && !Objects.equals(dto.getDescriptionFile(), "")) {
+			try {
+				ResourceLoader resourceLoader = new DefaultResourceLoader();
+				Resource resource = resourceLoader.getResource(dto.getDescriptionFile());
+				return IOUtils.toString(resource.getInputStream(), StandardCharsets.UTF_8);
+			} catch (IOException ignored) {
+			}
+		}
+		return null;
 	}
 
 }
