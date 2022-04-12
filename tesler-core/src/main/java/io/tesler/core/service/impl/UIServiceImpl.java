@@ -221,7 +221,7 @@ public class UIServiceImpl implements UIService {
 
 		private final JpaDao jpaDao;
 
-		@Cacheable(cacheResolver = "teslerCacheResolver", 
+		@Cacheable(cacheResolver = CacheConfig.TESLER_CACHE_RESOLVER, 
 				cacheNames = CacheConfig.UI_CACHE,
 				key = "{#root.methodName}"
 		)
@@ -234,7 +234,7 @@ public class UIServiceImpl implements UIService {
 			);
 		}
 
-		@Cacheable(cacheResolver = "teslerCacheResolver", 
+		@Cacheable(cacheResolver = CacheConfig.TESLER_CACHE_RESOLVER, 
 				cacheNames = CacheConfig.UI_CACHE,
 				key = "{#root.methodName}"
 		)
@@ -246,7 +246,7 @@ public class UIServiceImpl implements UIService {
 			);
 		}
 
-		@Cacheable(cacheResolver = "teslerCacheResolver", 
+		@Cacheable(cacheResolver = CacheConfig.TESLER_CACHE_RESOLVER, 
 				cacheNames = CacheConfig.UI_CACHE,
 				key = "{#root.methodName}"
 		)
@@ -256,7 +256,7 @@ public class UIServiceImpl implements UIService {
 			).stream().collect(Collectors.toMap(BcProperties::getBc, Function.identity()));
 		}
 
-		@Cacheable(cacheResolver = "teslerCacheResolver", 
+		@Cacheable(cacheResolver = CacheConfig.TESLER_CACHE_RESOLVER, 
 				cacheNames = CacheConfig.UI_CACHE,
 				key = "{#root.methodName}"
 		)
@@ -268,7 +268,7 @@ public class UIServiceImpl implements UIService {
 			);
 		}
 
-		@Cacheable(cacheResolver = "teslerCacheResolver", 
+		@Cacheable(cacheResolver = CacheConfig.TESLER_CACHE_RESOLVER, 
 				cacheNames = CacheConfig.UI_CACHE,
 				key = "{#root.methodName, #screen.name}"
 		)
@@ -348,7 +348,7 @@ public class UIServiceImpl implements UIService {
 			return screenNavigation;
 		}
 
-		@CacheEvict(cacheResolver = "teslerCacheResolver", cacheNames = CacheConfig.UI_CACHE, allEntries = true)
+		@CacheEvict(cacheResolver = CacheConfig.TESLER_CACHE_RESOLVER, cacheNames = CacheConfig.UI_CACHE, allEntries = true)
 		public void evict() {
 		}
 

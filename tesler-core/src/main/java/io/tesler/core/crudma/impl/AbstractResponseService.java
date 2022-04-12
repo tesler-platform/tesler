@@ -157,7 +157,7 @@ public abstract class AbstractResponseService<T extends DataResponseDTO, E exten
 	}
 
 	@Override
-	@Cacheable(cacheResolver = "teslerCacheResolver", 
+	@Cacheable(cacheResolver = CacheConfig.TESLER_CACHE_RESOLVER, 
 			cacheNames = CacheConfig.REQUEST_CACHE,
 			key = "{#root.targetClass, #root.methodName, #bc.name, #bc.id}"
 	)

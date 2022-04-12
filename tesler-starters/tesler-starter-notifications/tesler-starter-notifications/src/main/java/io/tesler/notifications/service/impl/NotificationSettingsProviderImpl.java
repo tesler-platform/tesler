@@ -40,25 +40,25 @@ public class NotificationSettingsProviderImpl extends BaseNotificationSettingsPr
 	}
 
 	@Override
-	@Cacheable(cacheResolver = "teslerCacheResolver", cacheNames = CacheConfig.NOTIFICATION_SETTINGS)
+	@Cacheable(cacheResolver = CacheConfig.TESLER_CACHE_RESOLVER, cacheNames = CacheConfig.NOTIFICATION_SETTINGS)
 	public EventSettings getGlobalSettings(LOV event) {
 		return super.getGlobalSettings(event);
 	}
 
 	@Override
-	@CacheEvict(cacheResolver = "teslerCacheResolver", cacheNames = CacheConfig.NOTIFICATION_SETTINGS)
+	@CacheEvict(cacheResolver = CacheConfig.TESLER_CACHE_RESOLVER, cacheNames = CacheConfig.NOTIFICATION_SETTINGS)
 	public void evict(LOV event) {
 
 	}
 
 	@Override
-	@Cacheable(cacheResolver = "teslerCacheResolver", cacheNames = CacheConfig.NOTIFICATION_SETTINGS)
+	@Cacheable(cacheResolver = CacheConfig.TESLER_CACHE_RESOLVER, cacheNames = CacheConfig.NOTIFICATION_SETTINGS)
 	public EventSettings getUserSettings(LOV event, Long userId) {
 		return super.getUserSettings(event, userId);
 	}
 
 	@Override
-	@CacheEvict(cacheResolver = "teslerCacheResolver", cacheNames = CacheConfig.NOTIFICATION_SETTINGS)
+	@CacheEvict(cacheResolver = CacheConfig.TESLER_CACHE_RESOLVER, cacheNames = CacheConfig.NOTIFICATION_SETTINGS)
 	public void evict(LOV event, Long userId) {
 
 	}

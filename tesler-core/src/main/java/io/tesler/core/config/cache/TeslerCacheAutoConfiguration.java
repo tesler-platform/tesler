@@ -53,8 +53,8 @@ import java.util.stream.Collectors;
 
 @Configuration
 @ConditionalOnClass({CacheManager.class})
-@ConditionalOnBean({CacheAspectSupport.class})
 @ConditionalOnMissingBean(name = "teslerCacheResolver")
+@ConditionalOnBean({CacheAspectSupport.class})
 @AutoConfigureAfter(CacheAutoConfiguration.class)
 @RequiredArgsConstructor
 public class TeslerCacheAutoConfiguration {

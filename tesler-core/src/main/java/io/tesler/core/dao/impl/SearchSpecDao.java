@@ -76,7 +76,7 @@ public class SearchSpecDao {
 		return linkSpecification.toSpecification(serviceName);
 	}
 
-	@Cacheable(cacheResolver = "teslerCacheResolver", 
+	@Cacheable(cacheResolver = CacheConfig.TESLER_CACHE_RESOLVER, 
 			cacheNames = {CacheConfig.SPECIFICATION_CACHE},
 			key = "{#root.methodName, #bcDescription?.name, @sessionService.sessionUserRole}"
 	)
@@ -97,7 +97,7 @@ public class SearchSpecDao {
 		);
 	}
 
-	@Cacheable(cacheResolver = "teslerCacheResolver", 
+	@Cacheable(cacheResolver = CacheConfig.TESLER_CACHE_RESOLVER, 
 			cacheNames = {CacheConfig.SPECIFICATION_CACHE},
 			key = "{#root.methodName, #bcDescription?.name}"
 	)
@@ -111,7 +111,7 @@ public class SearchSpecDao {
 		);
 	}
 
-	@Cacheable(cacheResolver = "teslerCacheResolver", 
+	@Cacheable(cacheResolver = CacheConfig.TESLER_CACHE_RESOLVER, 
 			cacheNames = {CacheConfig.SPECIFICATION_CACHE},
 			key = "{#root.methodName, #bcDescription?.name}"
 	)
@@ -128,7 +128,7 @@ public class SearchSpecDao {
 		);
 	}
 
-	@CacheEvict(cacheResolver = "teslerCacheResolver", cacheNames = CacheConfig.SPECIFICATION_CACHE, allEntries = true)
+	@CacheEvict(cacheResolver = CacheConfig.TESLER_CACHE_RESOLVER, cacheNames = CacheConfig.SPECIFICATION_CACHE, allEntries = true)
 	public void clearCache() {
 
 	}

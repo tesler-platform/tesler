@@ -158,7 +158,7 @@ public class BcUtils {
 	 * Returns a set of required fields for the given business component on the current screen
 	 */
 	@SneakyThrows
-	@Cacheable(cacheResolver = "teslerCacheResolver", cacheNames = {CacheConfig.REQUEST_CACHE}, key = "{#root.methodName, #bc.name}")
+	@Cacheable(cacheResolver = CacheConfig.TESLER_CACHE_RESOLVER, cacheNames = {CacheConfig.REQUEST_CACHE}, key = "{#root.methodName, #bc.name}")
 	public Set<String> getBcFieldsForCurrentScreen(final BcIdentifier bc) {
 		final Set<String> viewFields = new HashSet<>();
 		for (final String viewName : sessionService.getCurrentScreenViews()) {
@@ -173,7 +173,7 @@ public class BcUtils {
 	/**
 	 * Returns a set of required dto fields ({@link DtoField}) for the given business component on the current screen
 	 */
-	@Cacheable(cacheResolver = "teslerCacheResolver", cacheNames = {CacheConfig.REQUEST_CACHE}, key = "{#root.methodName, #bc.name}")
+	@Cacheable(cacheResolver = CacheConfig.TESLER_CACHE_RESOLVER, cacheNames = {CacheConfig.REQUEST_CACHE}, key = "{#root.methodName, #bc.name}")
 	public <D extends DataResponseDTO> Set<DtoField<D, ?>> getDtoFieldsForCurrentScreen(final BcIdentifier bc) {
 		final Set<String> viewFields = getBcFieldsForCurrentScreen(bc);
 		return getDtoFields(bc).stream()
@@ -185,7 +185,7 @@ public class BcUtils {
 	/**
 	 * Returns a set of required dto fields ({@link DtoField}) for the given business component on the current screen
 	 */
-	@Cacheable(cacheResolver = "teslerCacheResolver", cacheNames = {CacheConfig.REQUEST_CACHE}, key = "{#root.methodName, #bc.name, #dtoClass}")
+	@Cacheable(cacheResolver = CacheConfig.TESLER_CACHE_RESOLVER, cacheNames = {CacheConfig.REQUEST_CACHE}, key = "{#root.methodName, #bc.name, #dtoClass}")
 	public <D extends DataResponseDTO> Set<DtoField<D, ?>> getDtoFieldsForCurrentScreen(
 			final BcIdentifier bc,
 			final Class<? extends DataResponseDTO> dtoClass) {

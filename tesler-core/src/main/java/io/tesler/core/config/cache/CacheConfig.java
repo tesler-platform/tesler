@@ -27,6 +27,8 @@ import org.springframework.context.annotation.Configuration;
 @EnableCaching
 public class CacheConfig {
 
+	public static final String TESLER_CACHE_RESOLVER = "teslerCacheResolver";
+
 	public static final String NOTIFICATION_SETTINGS = "notificationSettings";
 
 	public static final String WORKFLOW_CACHE = "workflow";
