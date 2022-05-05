@@ -23,7 +23,6 @@ package io.tesler.sqlbc.crudma;
 import io.tesler.api.data.dto.DataResponseDTO;
 import io.tesler.sqlbc.dao.SqlBcQuery;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import java.util.Map;
 import org.springframework.cglib.beans.BeanMap;
 
 
@@ -40,7 +39,7 @@ public class SqlComponentObject extends DataResponseDTO {
 		return SqlBcQuery.FIELD_ID.equals(fieldName);
 	}
 
-	public Map getFields() {
+	public BeanMap getFields() {
 		return fields;
 	}
 

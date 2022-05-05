@@ -10,4 +10,8 @@ public class ParentDto {
 
 	private int parentField;
 
+	public int getParentField() {
+		return this.parentField;
+	}
+
 }

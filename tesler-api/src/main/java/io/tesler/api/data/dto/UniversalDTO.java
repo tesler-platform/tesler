@@ -21,7 +21,6 @@
 package io.tesler.api.data.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import java.util.Map;
 import org.springframework.cglib.beans.BeanMap;
 
 
@@ -34,7 +33,7 @@ public class UniversalDTO extends DataResponseDTO {
 		fields = BeanMap.create(this);
 	}
 
-	public Map getFields() {
+	public BeanMap getFields() {
 		return fields;
 	}
 

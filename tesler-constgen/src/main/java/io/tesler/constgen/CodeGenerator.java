@@ -20,6 +20,7 @@
 
 package io.tesler.constgen;
 
+import com.google.common.collect.ImmutableMap;
 import com.squareup.javapoet.ClassName;
 import com.squareup.javapoet.FieldSpec;
 import com.squareup.javapoet.JavaFile;
@@ -30,15 +31,19 @@ import com.squareup.javapoet.TypeSpec.Builder;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import javax.lang.model.element.AnnotationMirror;
 import javax.lang.model.element.Element;
 import javax.lang.model.element.ElementKind;
+import javax.lang.model.element.ExecutableElement;
 import javax.lang.model.element.Modifier;
 import javax.lang.model.element.Name;
 import javax.lang.model.element.TypeElement;
 import javax.lang.model.element.VariableElement;
 import javax.lang.model.util.Elements;
 import lombok.Getter;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.text.StringSubstitutor;
 
 class CodeGenerator {
 
@@ -66,6 +71,10 @@ class CodeGenerator {
 		return el.getModifiers().contains(Modifier.STATIC);
 	}
 
+	private static boolean isStatic(final ExecutableElement el) {
+		return el.getModifiers().contains(Modifier.STATIC);
+	}
+
 	JavaFile generate() {
 		Builder classBuilder = TypeSpec.classBuilder(className);
 		if (superclass != null) {
@@ -81,7 +90,7 @@ class CodeGenerator {
 			);
 			FieldSpec fieldSpec = FieldSpec.builder(parameterizedTypeName, constant.getName())
 					.addModifiers(Modifier.PUBLIC, Modifier.FINAL, Modifier.STATIC)
-					.initializer("new DtoField($S)", constant.getName())
+					.initializer(constant.getInitializer(), constant.getName())
 					.build();
 			classBuilder.addField(fieldSpec);
 		}
@@ -89,23 +98,87 @@ class CodeGenerator {
 	}
 
 	private List<Constant> collectFields() {
-		List<Constant> fields = new ArrayList<>();
-		for (Element el : typeElement.getEnclosedElements()) {
+		final List<Constant> fieldSpecs = new ArrayList<>();
+		final List<VariableElement> fields = new ArrayList<>();
+		final List<ExecutableElement> methods = new ArrayList<>();
+		for (final Element el : typeElement.getEnclosedElements()) {
 			if (el.getKind() == ElementKind.FIELD) {
-				VariableElement varEl = (VariableElement) el;
+				final VariableElement varEl = (VariableElement) el;
 				if (!isTransient(varEl) && !isStatic(varEl)) {
-					fields.add(new Constant(el.getSimpleName().toString(), TypeName.get(varEl.asType()).box()));
+					fields.add(varEl);
+				}
+			}
+			if (el.getKind() == ElementKind.METHOD) {
+				final ExecutableElement method = (ExecutableElement) el;
+				if (!isStatic(method)) {
+					methods.add(method);
 				}
 			}
 		}
-		Collections.sort(fields);
-		return fields;
+		fields.forEach(field -> fieldSpecs.add(
+				new Constant(field.getSimpleName().toString(), TypeName.get(field.asType()).box(), fieldInitializer(methods, field))
+		));
+		Collections.sort(fieldSpecs);
+		return fieldSpecs;
+	}
+
+	public String fieldInitializer(final List<ExecutableElement> methods, final VariableElement field) {
+		final String getterName = getterName(field);
+		final boolean getterExist = hasFieldGetter(field) || hasClassGetter(typeElement) || methods.stream()
+				.filter(method -> Objects.equals(getterName, method.getSimpleName().toString()))
+				.map(ExecutableElement.class::cast)
+				.filter(method -> method.getTypeParameters().isEmpty())
+				.anyMatch(method -> Objects.equals(TypeName.get(method.getReturnType()), TypeName.get(field.asType())));
+		return StringSubstitutor.replace(
+				"new DtoField<>($S${getter})",
+				ImmutableMap.of("getter", getterExist ? ", " + methodReference(getterName) : "")
+		);
+	}
+
+	private String methodReference(final String getterName) {
+		return StringSubstitutor.replace(
+				"${class}::${getter}",
+				ImmutableMap.of(
+						"class", TypeName.get(typeElement.asType()),
+						"getter", getterName
+				)
+		);
+	}
+
+	private String getterName(final Element field) {
+		return StringSubstitutor.replace(
+				"${prefix}${name}",
+				ImmutableMap.of(
+						"prefix", (field.asType().getKind().isPrimitive() && TypeName.BOOLEAN.equals(TypeName.get(field.asType()))) ? "is" : "get",
+						"name", StringUtils.capitalize(field.getSimpleName().toString())
+				)
+		);
 	}
 
 	private boolean isTransient(VariableElement el) {
 		for (AnnotationMirror am : elements.getAllAnnotationMirrors(el)) {
 			Name qualifiedName = ((TypeElement) am.getAnnotationType().asElement()).getQualifiedName();
 			if (qualifiedName.contentEquals("io.tesler.constgen.DtoMetamodelIgnore")) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	private boolean hasFieldGetter(final VariableElement field) {
+		for (final AnnotationMirror am : elements.getAllAnnotationMirrors(field)) {
+			final Name qualifiedName = ((TypeElement) am.getAnnotationType().asElement()).getQualifiedName();
+			if (qualifiedName.contentEquals("lombok.Getter")) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	private boolean hasClassGetter(final TypeElement clazz) {
+		for (final AnnotationMirror am : elements.getAllAnnotationMirrors(clazz)) {
+			final Name qualifiedName = ((TypeElement) am.getAnnotationType().asElement()).getQualifiedName();
+			if (qualifiedName.contentEquals("lombok.Getter")) {
 				return true;
 			}
 		}

@@ -57,6 +57,7 @@
     <commons-beanutils.version>1.9.4</commons-beanutils.version>
     <commons-fileupload.version>1.3.3</commons-fileupload.version>
     <commons-lang.version>2.3</commons-lang.version>
+    <commons-text.version>1.9</commons-text.version>
     <juel.version>2.2.7</juel.version>
     <javapoet.version>1.10.0</javapoet.version>
     <guava.version>30.0-jre</guava.version>

@@ -25,6 +25,7 @@ import io.tesler.api.data.dictionary.LOV;
 import io.tesler.api.data.dto.AssociateDTO;
 import io.tesler.api.data.dto.DataResponseDTO;
 import io.tesler.api.exception.ServerException;
+import io.tesler.constgen.DtoField;
 import io.tesler.core.config.cache.CacheConfig;
 import io.tesler.core.controller.param.QueryParameters;
 import io.tesler.core.crudma.bc.BusinessComponent;
@@ -50,6 +51,9 @@ import io.tesler.core.service.spec.SecuritySpecificationHolder;
 import io.tesler.model.core.entity.BaseEntity;
 import io.tesler.model.core.entity.BaseEntity_;
 import io.tesler.model.ui.entity.SearchSpec;
+import java.util.function.Consumer;
+import java.util.function.Function;
+import java.util.function.Supplier;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
@@ -122,6 +126,68 @@ public abstract class AbstractResponseService<T extends DataResponseDTO, E exten
 
 	public static <T> T cast(Object o, Class<T> clazz) {
 		return clazz.isInstance(o) ? clazz.cast(o) : null;
+	}
+
+	/**
+	 * Saving the value of the DTO field (when it changes) in the entity field (using the custom DTO-getter).
+	 *
+	 * @param <D> type of DTO field value to be saved in the entity field
+	 * @param <V> type of entity field to the value is to be saved
+	 * @param dto DTO-object, which value to be saved to the entity field
+	 * @param dtoField the DTO-object field, which value to be saved to the entity field
+	 * @param entitySetter method for saving a value (when it changes) to an entity
+	 * @param dtoGetter method for retrieving a value (when it changes) from the DTO
+	 * @param mapper converts the saving value into the corresponding entity field type
+	 */
+	public final <D, V> void setMappedIfChanged(
+			final T dto, final DtoField<T, D> dtoField,
+			final Consumer<V> entitySetter, final Supplier<D> dtoGetter, final Function<D, V> mapper) {
+		if (dto.isFieldChanged(dtoField)) {
+			entitySetter.accept(mapper.apply(dtoGetter.get()));
+		}
+	}
+
+	/**
+	 * Saving the value of the DTO field (when it changes) in the entity field (using the custom DTO-getter).
+	 *
+	 * @param <V> type of entity field to the value is to be saved
+	 * @param dto DTO-object, which value to be saved to the entity field
+	 * @param dtoField the DTO-object field, which value to be saved to the entity field
+	 * @param entitySetter method for saving a value (when it changes) to an entity
+	 * @param dtoGetter method for retrieving a value (when it changes) from the DTO
+	 */
+	public final <V> void setIfChanged(
+			final T dto, final DtoField<T, V> dtoField,
+			final Consumer<V> entitySetter, final Supplier<V> dtoGetter) {
+		setMappedIfChanged(dto, dtoField, entitySetter, dtoGetter, Function.identity());
+	}
+
+	/**
+	 * Saving the value of the DTO field (when it changes) in the entity field.
+	 *
+	 * @param <D> type of DTO field value to be saved in the entity field
+	 * @param <V> type of entity field to the value is to be saved
+	 * @param dto DTO-object, which value to be saved to the entity field
+	 * @param dtoField the DTO-object field, which value to be saved to the entity field
+	 * @param entitySetter method for saving a value (when it changes) to an entity
+	 * @param mapper converts the saving value into the corresponding entity field type
+	 */
+	public final <D, V> void setMappedIfChanged(
+			final T dto, final DtoField<T, D> dtoField,
+			final Consumer<V> entitySetter, final Function<D, V> mapper) {
+		setMappedIfChanged(dto, dtoField, entitySetter, () -> dtoField.getValue(dto), mapper);
+	}
+
+	/**
+	 * Saving the value of the DTO field (when it changes) in the entity field.
+	 *
+	 * @param <V> type of entity field to the value is to be saved
+	 * @param dto DTO-object, which value to be saved to the entity field
+	 * @param dtoField the DTO-object field, which value to be saved to the entity field
+	 * @param entitySetter method for saving a value (when it changes) to an entity
+	 */
+	public final <V> void setIfChanged(final T dto, final DtoField<T, V> dtoField, final Consumer<V> entitySetter) {
+		setMappedIfChanged(dto, dtoField, entitySetter, Function.identity());
 	}
 
 	@Override

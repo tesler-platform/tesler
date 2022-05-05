@@ -24,11 +24,33 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 import java.io.Serializable;
+import java.util.function.Function;
 
 @AllArgsConstructor
 @Getter
 public final class DtoField<D, T> implements Serializable {
 
+	public DtoField(final String name) {
+		this.name = name;
+		this.getter = noDefaultGetter -> {
+			throw new DefaultGetterNotFoundException(this.name);
+		};
+	}
+
 	private final String name;
+
+	private final Function<D, T> getter;
+
+	public T getValue(D dto) {
+		return this.getter.apply(dto);
+	}
+
+	private static class DefaultGetterNotFoundException extends RuntimeException {
+
+		public DefaultGetterNotFoundException(final String fieldName) {
+			super("DTO hasn't default getter for field: " + fieldName);
+		}
+
+	}
 
 }
