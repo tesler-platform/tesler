@@ -24,24 +24,24 @@ import static io.tesler.core.metahotreload.util.JsonUtils.serializeOrElseEmptyAr
 import static java.util.Optional.ofNullable;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.tesler.core.metahotreload.conf.properties.MetaConfigurationProperties;
 import io.tesler.core.metahotreload.dto.ViewSourceDTO;
 import io.tesler.model.core.dao.JpaDao;
 import io.tesler.model.ui.entity.View;
 import io.tesler.model.ui.entity.ViewWidgets;
 import io.tesler.model.ui.entity.ViewWidgetsPK;
 import io.tesler.model.ui.entity.Widget;
-import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.core.io.DefaultResourceLoader;
+import org.springframework.context.ApplicationContext;
 import org.springframework.core.io.Resource;
-import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -52,6 +52,10 @@ public class ViewAndViewWidgetUtil {
 
 	@Qualifier("teslerObjectMapper")
 	private final ObjectMapper objMapper;
+
+	final ApplicationContext applicationContext;
+
+	final MetaConfigurationProperties config;
 
 	public void process(
 			@NonNull List<ViewSourceDTO> viewDtos,
@@ -82,7 +86,7 @@ public class ViewAndViewWidgetUtil {
 	}
 
 	@NonNull
-	private static ViewWidgets mapToViewWidget(
+	private ViewWidgets mapToViewWidget(
 			@NonNull String viewName,
 			@NonNull Widget widget,
 			@NonNull ViewSourceDTO.ViewWidgetSourceDTO dto) {
@@ -103,17 +107,14 @@ public class ViewAndViewWidgetUtil {
 				.setShowExportStamp(ofNullable(dto.getShowExportStamp()).orElse(false));
 	}
 
-	private static String getWidgetDescription(ViewSourceDTO.ViewWidgetSourceDTO dto) {
+	@SneakyThrows
+	private String getWidgetDescription(ViewSourceDTO.ViewWidgetSourceDTO dto) {
 		if (dto.getDescription() != null && !Objects.equals(dto.getDescription(), "")) {
 			return dto.getDescription();
 		}
 		if (dto.getDescriptionFile() != null && !Objects.equals(dto.getDescriptionFile(), "")) {
-			try {
-				ResourceLoader resourceLoader = new DefaultResourceLoader();
-				Resource resource = resourceLoader.getResource(dto.getDescriptionFile());
-				return IOUtils.toString(resource.getInputStream(), StandardCharsets.UTF_8);
-			} catch (IOException ignored) {
-			}
+			Resource resource = applicationContext.getResource(config.getDirectory() + dto.getDescriptionFile());
+			return IOUtils.toString(resource.getInputStream(), StandardCharsets.UTF_8);
 		}
 		return null;
 	}
