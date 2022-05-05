@@ -20,13 +20,11 @@
 
 package io.tesler.core.config.cache;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.experimental.UtilityClass;
-
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
+import lombok.Getter;
+import lombok.experimental.UtilityClass;
 
 @UtilityClass
 public class TeslerCaches {
@@ -38,24 +36,30 @@ public class TeslerCaches {
 				.collect(Collectors.toList());
 	}
 
-	public static List<String> getRequestCaches() {
-		return Arrays.stream(Caches.values())
-				.filter(Caches::isRequestScope)
-				.map(Caches::name)
-				.collect(Collectors.toList());
+	public static String getRequestCacheName() {
+		return Caches.requestCache.name();
 	}
 
-	@AllArgsConstructor
+
 	@Getter
 	public enum Caches {
-		linkedDictionaryRules(false),
-		specifications(false),
-		widgetcache(false),
-		notificationSettings(false),
-		workflow(false),
+		linkedDictionaryRules,
+		specifications,
+		widgetcache,
+		notificationSettings,
+		workflow,
 		requestCache(true),
-		userCache(true);
+		userCache;
 
 		private final boolean requestScope;
+
+		Caches(boolean requestScope) {
+			this.requestScope = requestScope;
+		}
+
+		Caches() {
+			this.requestScope = false;
+		}
 	}
+
 }

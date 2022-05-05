@@ -79,7 +79,7 @@ public class SessionServiceImpl implements SessionService {
 	// если у нас транзакции нет, то здесь будут происходить
 	// постоянные запросы к СУБД, поэтому кешируем
 	@Override
-	@Cacheable(cacheResolver = "teslerCacheResolver", cacheNames = {CacheConfig.REQUEST_CACHE}, key = "#root.methodName")
+	@Cacheable(cacheResolver = CacheConfig.TESLER_CACHE_RESOLVER, cacheNames = {CacheConfig.REQUEST_CACHE}, key = "#root.methodName")
 	public User getSessionUser() {
 		User user = getUserFromDetails(coreSessionService.getSessionUserDetails(true));
 		if (user == null) {
@@ -94,7 +94,7 @@ public class SessionServiceImpl implements SessionService {
 	}
 
 	@Override
-	@Cacheable(cacheResolver = "teslerCacheResolver", cacheNames = {CacheConfig.REQUEST_CACHE}, key = "#root.methodName")
+	@Cacheable(cacheResolver = CacheConfig.TESLER_CACHE_RESOLVER, cacheNames = {CacheConfig.REQUEST_CACHE}, key = "#root.methodName")
 	public LOV getSessionUserRole() {
 		TeslerUserDetailsInterface userDetails = coreSessionService.getSessionUserDetails(true);
 		HttpServletRequest request = WebHelper.getCurrentRequest().orElse(null);
@@ -235,7 +235,7 @@ public class SessionServiceImpl implements SessionService {
 
 		private final UIService uiService;
 
-		@Cacheable(cacheResolver = "teslerCacheResolver", 
+		@Cacheable(cacheResolver = CacheConfig.TESLER_CACHE_RESOLVER, 
 				cacheNames = {CacheConfig.USER_CACHE},
 				key = "{#root.methodName, #user.id, #userRole}"
 		)
@@ -246,7 +246,7 @@ public class SessionServiceImpl implements SessionService {
 			);
 		}
 
-		@Cacheable(cacheResolver = "teslerCacheResolver", 
+		@Cacheable(cacheResolver = CacheConfig.TESLER_CACHE_RESOLVER, 
 				cacheNames = {CacheConfig.USER_CACHE},
 				key = "{#root.methodName, #screenName, #user.id, #userRole}"
 		)

@@ -54,7 +54,7 @@ public class WorkflowCache {
 
 	private final JpaDao jpaDao;
 
-	@Cacheable(cacheResolver = "teslerCacheResolver", cacheNames = CacheConfig.WORKFLOW_CACHE, key = "{#root.methodName, #sourceStep.id}")
+	@Cacheable(cacheResolver = CacheConfig.TESLER_CACHE_RESOLVER, cacheNames = CacheConfig.WORKFLOW_CACHE, key = "{#root.methodName, #sourceStep.id}")
 	public List<WorkflowTransition> getTransitions(final WorkflowStep sourceStep) {
 		return jpaDao.getList(WorkflowTransition.class, (root, query, cb) -> {
 			root.fetch(WorkflowTransition_.destinationStep);
@@ -68,7 +68,7 @@ public class WorkflowCache {
 		}).stream().distinct().map(jpaDao::evict).collect(Collectors.toList());
 	}
 
-	@Cacheable(cacheResolver = "teslerCacheResolver", cacheNames = CacheConfig.WORKFLOW_CACHE, key = "{#root.methodName, #transition.id, #condGroupCd}")
+	@Cacheable(cacheResolver = CacheConfig.TESLER_CACHE_RESOLVER, cacheNames = CacheConfig.WORKFLOW_CACHE, key = "{#root.methodName, #transition.id, #condGroupCd}")
 	public List<WorkflowTransitionConditionGroup> getTransitionConditionGroups(final WorkflowTransition transition,
 			final LOV condGroupCd) {
 		return jpaDao.getList(WorkflowTransitionConditionGroup.class, (root, query, cb) -> cb.and(
@@ -79,7 +79,7 @@ public class WorkflowCache {
 				.collect(Collectors.toList());
 	}
 
-	@Cacheable(cacheResolver = "teslerCacheResolver", cacheNames = CacheConfig.WORKFLOW_CACHE, key = "{#root.methodName, #workflowStep.id}")
+	@Cacheable(cacheResolver = CacheConfig.TESLER_CACHE_RESOLVER, cacheNames = CacheConfig.WORKFLOW_CACHE, key = "{#root.methodName, #workflowStep.id}")
 	public List<WorkflowStepField> getStepFields(final WorkflowStep workflowStep) {
 		return jpaDao.getList(
 				WorkflowStepField.class,
@@ -87,18 +87,18 @@ public class WorkflowCache {
 		).stream().map(jpaDao::evict).collect(Collectors.toList());
 	}
 
-	@Cacheable(cacheResolver = "teslerCacheResolver", cacheNames = CacheConfig.WORKFLOW_CACHE, key = "{#root.methodName, #workflowStep.id}")
+	@Cacheable(cacheResolver = CacheConfig.TESLER_CACHE_RESOLVER, cacheNames = CacheConfig.WORKFLOW_CACHE, key = "{#root.methodName, #workflowStep.id}")
 	public WorkflowStep getFirstWorkflowStep(final WorkflowStep workflowStep) {
 		return workflowStep.getWorkflowVersion().getFirstStep();
 	}
 
-	@Cacheable(cacheResolver = "teslerCacheResolver", cacheNames = CacheConfig.WORKFLOW_CACHE, key = "{#root.methodName, #workflowStep.id}")
+	@Cacheable(cacheResolver = CacheConfig.TESLER_CACHE_RESOLVER, cacheNames = CacheConfig.WORKFLOW_CACHE, key = "{#root.methodName, #workflowStep.id}")
 	public List<WorkflowTaskChildBcAvailability> getWorkflowTaskChildBcAvailabilities(final WorkflowStep workflowStep) {
 		return jpaDao.getList(WorkflowTaskChildBcAvailability.class, (root, query, cb) -> cb.equal(root
 				.get(WorkflowTaskChildBcAvailability_.workflowStep), workflowStep));
 	}
 
-	@Cacheable(cacheResolver = "teslerCacheResolver", cacheNames = CacheConfig.WORKFLOW_CACHE, key = "{#root.methodName, #conditionGroup.id}")
+	@Cacheable(cacheResolver = CacheConfig.TESLER_CACHE_RESOLVER, cacheNames = CacheConfig.WORKFLOW_CACHE, key = "{#root.methodName, #conditionGroup.id}")
 	public <C extends WorkflowCondition> List<C> getTransitionConditions(
 			final Class<C> conditionClass,
 			final WorkflowTransitionConditionGroup conditionGroup) {
@@ -112,7 +112,7 @@ public class WorkflowCache {
 		return result;
 	}
 
-	@Cacheable(cacheResolver = "teslerCacheResolver", cacheNames = CacheConfig.WORKFLOW_CACHE, key = "{#root.methodName, #conditionGroup.id}")
+	@Cacheable(cacheResolver = CacheConfig.TESLER_CACHE_RESOLVER, cacheNames = CacheConfig.WORKFLOW_CACHE, key = "{#root.methodName, #conditionGroup.id}")
 	public <C extends WorkflowCondition> List<C> getStepConditions(
 			final Class<C> conditionClass,
 			final WorkflowStepConditionGroup conditionGroup) {
@@ -126,7 +126,7 @@ public class WorkflowCache {
 		return result;
 	}
 
-	@Cacheable(cacheResolver = "teslerCacheResolver", cacheNames = CacheConfig.WORKFLOW_CACHE, key = "{#root.methodName, #stepField.id}")
+	@Cacheable(cacheResolver = CacheConfig.TESLER_CACHE_RESOLVER, cacheNames = CacheConfig.WORKFLOW_CACHE, key = "{#root.methodName, #stepField.id}")
 	public <C extends WorkflowCondition> List<C> getFieldConditions(
 			final Class<C> conditionClass,
 			final WorkflowStepField stepField) {
@@ -140,7 +140,7 @@ public class WorkflowCache {
 		return result;
 	}
 
-	@Cacheable(cacheResolver = "teslerCacheResolver", cacheNames = CacheConfig.WORKFLOW_CACHE, key = "{#root.methodName, #childBcAvailability.id}")
+	@Cacheable(cacheResolver = CacheConfig.TESLER_CACHE_RESOLVER, cacheNames = CacheConfig.WORKFLOW_CACHE, key = "{#root.methodName, #childBcAvailability.id}")
 	public <C extends WorkflowCondition> List<C> getAvailabilityConditions(
 			final Class<C> conditionClass,
 			final WorkflowTaskChildBcAvailability childBcAvailability) {

@@ -18,29 +18,26 @@
  * #L%
  */
 
-package io.tesler.core.config.cache;
+package io.tesler.core.autoconfigure;
 
-import org.springframework.cache.annotation.EnableCaching;
+import java.lang.annotation.Documented;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.AliasFor;
 
+@Target({ElementType.TYPE})
+@Retention(RetentionPolicy.RUNTIME)
+@Documented
 @Configuration
-@EnableCaching
-public class CacheConfig {
+public @interface AutoConfiguration {
 
-	public static final String TESLER_CACHE_RESOLVER = "teslerCacheResolver";
+	@AliasFor(annotation = Configuration.class, attribute = "proxyBeanMethods")
+	boolean proxyBeanMethods() default true;
 
-	public static final String NOTIFICATION_SETTINGS = "notificationSettings";
-
-	public static final String WORKFLOW_CACHE = "workflow";
-
-	public static final String USER_CACHE = "userCache";
-
-	public static final String REQUEST_CACHE = "requestCache";
-
-	public static final String LINKED_DICTIONARY_RULES = "linkedDictionaryRules";
-
-	public static final String SPECIFICATION_CACHE = "specifications";
-
-	public static final String UI_CACHE = "widgetcache";
+	@AliasFor(annotation = Configuration.class, attribute = "value")
+	String value() default "";
 
 }

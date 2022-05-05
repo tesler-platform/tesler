@@ -242,7 +242,7 @@ public class LinkedDictionaryServiceImpl implements LinkedDictionaryService {
 
 		private final JpaDao jpaDao;
 
-		@Cacheable(cacheResolver = "teslerCacheResolver", 
+		@Cacheable(cacheResolver = CacheConfig.TESLER_CACHE_RESOLVER, 
 				cacheNames = {CacheConfig.LINKED_DICTIONARY_RULES},
 				key = "{#root.methodName, #serviceName}"
 		)
@@ -261,7 +261,7 @@ public class LinkedDictionaryServiceImpl implements LinkedDictionaryService {
 			).stream().distinct().map(jpaDao::evict).collect(Collectors.groupingBy(DictionaryLnkRule::getField));
 		}
 
-		@CacheEvict(cacheResolver = "teslerCacheResolver", value = CacheConfig.LINKED_DICTIONARY_RULES, allEntries = true)
+		@CacheEvict(cacheResolver = CacheConfig.TESLER_CACHE_RESOLVER, value = CacheConfig.LINKED_DICTIONARY_RULES, allEntries = true)
 		public void evictRules() {
 
 		}

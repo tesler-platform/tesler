@@ -57,7 +57,7 @@ public class DictionaryFieldLinkedDictionaryConditionChecker implements LinkedDi
 	}
 
 	@Override
-	@Cacheable(cacheResolver = "teslerCacheResolver", 
+	@Cacheable(cacheResolver = CacheConfig.TESLER_CACHE_RESOLVER, 
 			cacheNames = CacheConfig.REQUEST_CACHE,
 			keyGenerator = "conditionKeyGenerator"
 	)

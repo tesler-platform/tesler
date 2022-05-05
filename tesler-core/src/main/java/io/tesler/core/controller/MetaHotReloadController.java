@@ -25,10 +25,9 @@ import static io.tesler.core.config.properties.APIProperties.TESLER_API_PATH_SPE
 
 import io.tesler.api.service.tx.TransactionService;
 import io.tesler.api.util.Invoker;
-import io.tesler.core.config.cache.CacheConfig;
+import io.tesler.core.config.cache.TeslerCachingService;
 import io.tesler.core.metahotreload.MetaHotReloadService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.cache.CacheManager;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -42,7 +41,7 @@ public class MetaHotReloadController {
 
 	final TransactionService txService;
 
-	final CacheManager cacheManager;
+	final TeslerCachingService cachingService;
 
 	/*TODO>>test and uncomment
 	final BcUtils bcUtils;
@@ -55,9 +54,9 @@ public class MetaHotReloadController {
 		metaHotReloadService.loadMeta();
 		txService.invokeAfterCompletion(Invoker.of(
 				() -> {
-					cacheManager.getCache(CacheConfig.UI_CACHE).clear();
-					cacheManager.getCache(CacheConfig.REQUEST_CACHE).clear();
-					cacheManager.getCache(CacheConfig.USER_CACHE).clear();
+					cachingService.evictUiCache();
+					cachingService.evictRequestCache();
+					cachingService.evictUserCache();
 					/*TODO>>test and uncomment
 					bcRegistry.refresh();
 					bcUtils.invalidateFieldCache();*/

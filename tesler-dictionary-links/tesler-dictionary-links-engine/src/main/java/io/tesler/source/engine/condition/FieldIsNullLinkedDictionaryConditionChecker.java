@@ -54,7 +54,7 @@ public class FieldIsNullLinkedDictionaryConditionChecker implements LinkedDictio
 	}
 
 	@Override
-	@Cacheable(cacheResolver = "teslerCacheResolver", 
+	@Cacheable(cacheResolver = CacheConfig.TESLER_CACHE_RESOLVER, 
 			cacheNames = CacheConfig.REQUEST_CACHE,
 			keyGenerator = "conditionKeyGenerator"
 	)

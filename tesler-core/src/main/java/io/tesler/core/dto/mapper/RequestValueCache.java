@@ -31,7 +31,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class RequestValueCache {
 
-	@Cacheable(cacheResolver = "teslerCacheResolver", 
+	@Cacheable(cacheResolver = CacheConfig.TESLER_CACHE_RESOLVER, 
 			cacheNames = {CacheConfig.REQUEST_CACHE},
 			key = "{#valueSupplier, #key}"
 	)

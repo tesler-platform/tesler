@@ -36,6 +36,7 @@ public interface ClassifyDataProvider {
 	 * @param providers all Classify Data Providers providing Classify Data Parameters
 	 * @return Classify Data Parameters for defining of predicates of searching data in Persistence Layer
 	 */
-	List<ClassifyDataParameter> getClassifyDataParameters(Field dtoField, FilterParameter filterParam, SearchParameter searchParam, List<ClassifyDataProvider> providers);
+	List<ClassifyDataParameter> getClassifyDataParameters(Field dtoField, FilterParameter filterParam,
+			SearchParameter searchParam, List<ClassifyDataProvider> providers);
 
 }
