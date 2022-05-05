@@ -1,2 +1,2 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-io.tesler.core.config.cache.TeslerCacheAutoConfiguration
+io.tesler.core.autoconfigure.cache.TeslerCacheAutoConfiguration

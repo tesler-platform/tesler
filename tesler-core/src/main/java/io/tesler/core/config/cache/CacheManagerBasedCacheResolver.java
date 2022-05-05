@@ -25,9 +25,9 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
+import javax.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.jetbrains.annotations.NotNull;
 import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.interceptor.CacheOperationInvocationContext;
@@ -35,7 +35,7 @@ import org.springframework.cache.interceptor.CacheResolver;
 
 @Slf4j
 @RequiredArgsConstructor
-public class TeslerCacheResolver implements CacheResolver {
+public class CacheManagerBasedCacheResolver implements CacheResolver {
 
 	private final CacheManager teslerCachesManager;
 
@@ -43,7 +43,7 @@ public class TeslerCacheResolver implements CacheResolver {
 	@Override
 	public Collection<? extends Cache> resolveCaches(CacheOperationInvocationContext<?> context) {
 		Set<String> cacheNames = context.getOperation().getCacheNames();
-		if (cacheNames == null) {
+		if (cacheNames.isEmpty()) {
 			return Collections.emptyList();
 		}
 		List<Cache> result = new ArrayList<>(cacheNames.size());

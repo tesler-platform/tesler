@@ -29,18 +29,18 @@ import io.tesler.model.core.api.CurrentUserAware;
 import io.tesler.model.core.dao.JpaDao;
 import io.tesler.model.core.service.BaseEntityListenerDelegate;
 import io.tesler.model.core.service.TeslerBaseEntityListenerDelegate;
-import org.springframework.boot.autoconfigure.ImportAutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
+import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.aspectj.EnableSpringConfigured;
 
 
 @EnableAspectJAutoProxy
 @BeanScan({"io.tesler"})
 @EnableSpringConfigured
-@ImportAutoConfiguration({
+@Import({
 		MetaHotReloadConfiguration.class,
 		TeslerFileConfiguration.class
 })
@@ -58,4 +58,5 @@ public class CoreApplicationConfig {
 	public BaseEntityListenerDelegate baseEntityListenerDelegate(CurrentUserAware currentUserAware) {
 		return new TeslerBaseEntityListenerDelegate(currentUserAware);
 	}
+
 }

@@ -18,11 +18,20 @@
  * #L%
  */
 
-package io.tesler.core.config.cache;
+package io.tesler.core.autoconfigure.cache;
 
+import com.google.common.collect.ImmutableList;
+import io.tesler.core.autoconfigure.AutoConfiguration;
+import io.tesler.core.config.cache.CacheConfig;
+import io.tesler.core.config.cache.CacheManagerBasedCacheResolver;
+import io.tesler.core.config.cache.TeslerCaches;
+import io.tesler.core.config.cache.TeslerRequestAwareCacheHolder;
 import io.tesler.core.metahotreload.MetaHotReloadService;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.Callable;
+import javax.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
-import org.jetbrains.annotations.NotNull;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.cache.CacheAutoConfiguration;
 import org.springframework.boot.autoconfigure.cache.CacheProperties;
@@ -42,16 +51,22 @@ import org.springframework.cache.support.NoOpCacheManager;
 import org.springframework.cache.support.SimpleCacheManager;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.web.context.annotation.RequestScope;
 import org.springframework.web.context.request.RequestContextHolder;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.Callable;
-import java.util.stream.Collectors;
 
-@Configuration
+/**
+ * <p>Auto-configuration class which declares "teslerCacheResolver" bean of type CacheResolver.</p>
+ * <p>As it says in the Spring documentation:</p>
+ * <p><strong>Auto-configuration is non-invasive. At any point, you can start to define your own configuration to replace specific parts of the auto-configuration.</strong></p>
+ * <p>It follows that if you declare a bean with name "teslerCacheResolver" and type {@link CacheResolver CacheResolver} in a project, which defines dependency on Tesler, this autoconfiguration will be ignored, otherwise it will create the "teslerCacheResolver" bean {@link #teslerCacheResolver defined below}.
+ * A bean named "teslerCacheResolver" is used by Tesler in all annotations which are related to Spring cache abstraction.</p>
+ * <p>{@link AutoConfiguration @AutoConfiguration} is nothing but alias for {@link org.springframework.context.annotation.Configuration @Configuration},
+ * it is used to exclude a class from component scanning (see {@link io.tesler.core.config.BeanScan @BeanScan}).</p>
+ *
+ * @see CacheManagerBasedCacheResolver
+ */
+@AutoConfiguration
 @ConditionalOnClass({CacheManager.class})
 @ConditionalOnMissingBean(name = "teslerCacheResolver")
 @ConditionalOnBean({CacheAspectSupport.class})
@@ -67,17 +82,12 @@ public class TeslerCacheAutoConfiguration {
 	public CacheResolver teslerCacheResolver(MetaHotReloadService metaHotReloadService) {
 		metaHotReloadService.loadMeta();
 		if (CacheType.NONE.equals(cacheProperties.getType())) {
-			return new TeslerCacheResolver(new NoOpCacheManager());
+			return new CacheManagerBasedCacheResolver(new NoOpCacheManager());
 		}
 		CompositeCacheManager compositeCacheManager = new CompositeCacheManager();
 		compositeCacheManager.setCacheManagers(buildCacheManagers());
 		compositeCacheManager.setFallbackToNoOpCache(true);
-		return new TeslerCacheResolver(compositeCacheManager);
-	}
-
-	@Bean
-	public TeslerRequestAwareCacheHolder userCache() {
-		return new TeslerRequestAwareCacheHolder(new ConcurrentMapCache(CacheConfig.USER_CACHE));
+		return new CacheManagerBasedCacheResolver(compositeCacheManager);
 	}
 
 	@Bean
@@ -86,13 +96,12 @@ public class TeslerCacheAutoConfiguration {
 		return new TeslerRequestAwareCacheHolder(new ConcurrentMapCache(CacheConfig.REQUEST_CACHE));
 	}
 
-
 	protected List<CacheManager> buildCacheManagers() {
 		List<CacheManager> result = new ArrayList<>();
 		result.add(buildUnExpirableCacheManager(
 				TeslerCaches.getSimpleCacheNames().toArray(new String[0])
 		));
-		result.add(buildRequestAwareCacheManager(TeslerCaches.getRequestCaches()));
+		result.add(buildRequestAwareCacheManager(TeslerCaches.getRequestCacheName()));
 		return result;
 	}
 
@@ -100,11 +109,10 @@ public class TeslerCacheAutoConfiguration {
 		return new ConcurrentMapCacheManager(names);
 	}
 
-	protected CacheManager buildRequestAwareCacheManager(List<String> cacheNames) {
+	protected CacheManager buildRequestAwareCacheManager(String cacheName) {
 		SimpleCacheManager simpleCacheManager = new SimpleCacheManager();
-		simpleCacheManager.setCaches(cacheNames.stream()
-				.map(RequestAwareCacheDecorator::new)
-				.collect(Collectors.toList())
+		simpleCacheManager.setCaches(
+				ImmutableList.of(new RequestAwareCacheDecorator(cacheName))
 		);
 		simpleCacheManager.initializeCaches();
 		return simpleCacheManager;

@@ -21,6 +21,7 @@
 package io.tesler.core.config;
 
 import io.tesler.api.util.spring.ServiceBasedComponentExcludeFilter;
+import io.tesler.core.autoconfigure.AutoConfiguration;
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -45,6 +46,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 				@Filter(value = {Aspect.class}, type = FilterType.ANNOTATION)
 		},
 		excludeFilters = {
+				@Filter(value = {AutoConfiguration.class}, type = FilterType.ANNOTATION),
 				@Filter(value = {Controller.class, ControllerAdvice.class}, type = FilterType.ANNOTATION),
 				@Filter(value = {
 						WebMvcConfigurer.class,
