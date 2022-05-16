@@ -1,3 +1,25 @@
+# Version 3.0.4
+
+## Breaking changes
+* ⚠BREAKING⚠  Supported single Servlet configuration [#213](https://github.com/tesler-platform/tesler/pull/213)
+* ⚠BREAKING⚠  Introduced new file api  [#217](https://github.com/tesler-platform/tesler/pull/217)
+
+## Non-breaking features
+* Added support to descriptionFile option on widgets [#231](https://github.com/tesler-platform/tesler/pull/231)
+* Added one-liner for DTO-to-Entity mapping [#225](https://github.com/tesler-platform/tesler/pull/225)
+* Reworked Spring Cache configuration [#221](https://github.com/tesler-platform/tesler/pull/221)
+* Supported dataSource and entityManagerFactory injection by name defined in application.yml [#215](https://github.com/tesler-platform/tesler/pull/215)
+* Updated dependencies versions [#208](https://github.com/tesler-platform/tesler/pull/208), [#209](https://github.com/tesler-platform/tesler/pull/209), [#210](https://github.com/tesler-platform/tesler/pull/210), [#211](https://github.com/tesler-platform/tesler/pull/211), [#212](https://github.com/tesler-platform/tesler/pull/212)
+* Removed legacy code [#202](https://github.com/tesler-platform/tesler/pull/202), [#203](https://github.com/tesler-platform/tesler/pull/203), [#205](https://github.com/tesler-platform/tesler/pull/205), [#206](https://github.com/tesler-platform/tesler/pull/206), [#207](https://github.com/tesler-platform/tesler/pull/207)
+* Connected files moved to tesler-starter-sqlbc [#204](https://github.com/tesler-platform/tesler/pull/204)
+* Connected files moved to tesler-starter-notifications [#201](https://github.com/tesler-platform/tesler/pull/201)
+* Connected files moved to tesler-starter-quartz [#200](https://github.com/tesler-platform/tesler/pull/200)
+
+## Fixes
+* Fxed DAO layer in Workflow plugin [#227](https://github.com/tesler-platform/tesler/pull/227)
+* Added try-catch block to avoid error while loading services [#226](https://github.com/tesler-platform/tesler/pull/226)
+* Fixed meta insert performance [#214](https://github.com/tesler-platform/tesler/pull/214)
+
 # Version 3.0.3
 
 ## Breaking changes
