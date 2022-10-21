@@ -20,9 +20,11 @@
 
 package io.tesler.core.dto.rowmeta;
 
+import io.tesler.api.data.dto.DataResponseDTO;
 import io.tesler.api.data.dto.rowmeta.ActionDTO;
 import io.tesler.api.data.dto.rowmeta.ActionDTOListSerializer;
 import io.tesler.core.crudma.bc.BusinessComponent;
+import io.tesler.core.crudma.bc.impl.BcDescription;
 import io.tesler.core.service.action.ActionDescription;
 import com.fasterxml.jackson.annotation.JsonValue;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
@@ -42,11 +44,13 @@ public class ActionsDTO implements Iterable<ActionDTO> {
 
 	private List<ActionDTO> actions = new ArrayList<>();
 
-	public ActionsDTO addMethod(ActionDescription actionDescription, BusinessComponent bc) {
+	public <T extends DataResponseDTO, D extends BcDescription> ActionsDTO addMethod(
+			ActionDescription<T, D> actionDescription, BusinessComponent<D> bc) {
 		return addMethod(actions.size(), actionDescription, bc);
 	}
 
-	public ActionsDTO addMethod(int position, ActionDescription actionDescription, BusinessComponent bc) {
+	public <T extends DataResponseDTO, D extends BcDescription> ActionsDTO addMethod(int position,
+			ActionDescription<T, D> actionDescription, BusinessComponent<D> bc) {
 		actions.add(position, actionDescription.toDto(bc));
 		return this;
 	}

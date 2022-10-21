@@ -35,7 +35,7 @@ import io.tesler.core.dto.DTOUtils;
 import io.tesler.core.dto.LovUtils;
 import io.tesler.core.dto.rowmeta.FieldsMeta;
 import io.tesler.core.dto.rowmeta.RowDependentFieldsMeta;
-import io.tesler.core.service.rowmeta.FieldMetaBuilder;
+import io.tesler.core.service.rowmeta.InnerFieldMetaBuilder;
 import io.tesler.model.core.dao.JpaDao;
 import io.tesler.model.dictionary.links.entity.DictionaryLnkRuleCond;
 import io.tesler.source.dto.DictionaryLnkRuleCondDto;
@@ -49,7 +49,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public abstract class BaseDictionaryLnkRuleCondFieldMetaBuilder<R extends DictionaryLnkRuleCondDto>
-		extends FieldMetaBuilder<R> {
+		extends InnerFieldMetaBuilder<R> {
 
 	@Autowired
 	private JpaDao jpaDao;

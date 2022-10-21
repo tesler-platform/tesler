@@ -36,11 +36,13 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+
 import org.springframework.context.annotation.DependsOn;
 import org.springframework.stereotype.Service;
 
@@ -52,7 +54,7 @@ public class BcRegistryImpl implements BcRegistry {
 
 	private final List<BcOverrider> bcOverriders;
 
-	private Map<String, BcDescription> bcDescriptionMap;
+	private Map<Class<? extends BcDescription>, Map<String, BcDescription>> bcDescriptionMap;
 
 	public BcRegistryImpl(Optional<List<BcSupplier>> bcSuppliers, Optional<List<BcOverrider>> bcOverriders) {
 		this.bcSuppliers = bcSuppliers.orElse(Collections.emptyList());
@@ -70,10 +72,13 @@ public class BcRegistryImpl implements BcRegistry {
 	}
 
 	private void build() {
-		Map<String, BcDescription> bcDescriptionMap = new HashMap<>();
+		Map<Class<? extends BcDescription>, Map<String, BcDescription>> bcDescriptionMap = new HashMap<>();
 		for (final BcSupplier bcSupplier : bcSuppliers) {
 			for (final String bcName : bcSupplier.getAllBcNames()) {
-				bcDescriptionMap.put(bcName, bcSupplier.getBcDescription(bcName));
+				BcDescription description = bcSupplier.getBcDescription(bcName);
+				Map<String, BcDescription> bcMap = bcDescriptionMap.computeIfAbsent(description.getClass(),
+																					c -> new HashMap<>());
+				bcMap.put(bcName, description);
 			}
 		}
 		for (final BcOverrider bcOverrider : bcOverriders) {
@@ -87,22 +92,43 @@ public class BcRegistryImpl implements BcRegistry {
 	@Override
 	public <T> Stream<T> select(Predicate<BcDescription> predicate, Function<BcDescription, T> transformer) {
 		return bcDescriptionMap.values().stream()
+				.flatMap(map -> map.values().stream())
 				.filter(predicate)
 				.map(transformer);
 	}
 
 	@Override
-	public Collection<String> getAllBcNames() {
-		return bcDescriptionMap.keySet();
+	public <T extends BcDescription> Stream<T> select(Class<T> cls) {
+		return Optional.ofNullable(bcDescriptionMap.get(cls))
+				.map(Map::values)
+				.map(c -> c.stream()
+						.map(cls::cast))
+				.orElseGet(Stream::empty);
 	}
 
 	@Override
-	public BcDescription getBcDescription(final String bcName) {
-		final BcDescription bcDescription = bcDescriptionMap.get(bcName);
-		if (bcDescription == null) {
-			throw new ClientException(String.format("BC не найден [%s]", bcName));
-		}
-		return bcDescription;
+	public Collection<String> getAllBcNames() {
+		return bcDescriptionMap.values().stream()
+				.map(Map::keySet)
+				.flatMap(Collection::stream)
+				.collect(Collectors.toList());
+	}
+
+	@Override
+	public BcDescription getBcDescription(String bcName) {
+		return bcDescriptionMap.values().stream()
+				.map(map -> map.get(bcName))
+				.filter(Objects::nonNull)
+				.findFirst()
+				.orElseThrow(() -> new ClientException(String.format("BC не найден [%s]", bcName)));
+	}
+
+	@Override
+	public <T extends BcDescription> T getBcDescription(String bcName, Class<T> dClass) {
+		return Optional.ofNullable(bcDescriptionMap.get(dClass))
+				.map(map -> map.get(bcName))
+				.map(dClass::cast)
+				.orElseThrow(() -> new ClientException(String.format("BC не найден [%s]", bcName)));
 	}
 
 	@Override
@@ -130,18 +156,25 @@ public class BcRegistryImpl implements BcRegistry {
 	}
 
 	private void overrideBc(
-			final Map<String, BcDescription> bcDescriptionMap,
+			final Map<Class<? extends BcDescription>, Map<String, BcDescription>> bcDescriptionMap,
 			final List<BcIdentifier> bcIdentifiers,
 			final Class<?> serviceClass) {
 		for (final BcIdentifier bcIdentifier : bcIdentifiers) {
-			bcDescriptionMap.put(
+			BcDescription oldDescription = bcDescriptionMap.values().stream()
+					.map(map -> map.get(bcIdentifier.getName()))
+					.filter(Objects::nonNull)
+					.findFirst()
+					.orElseThrow(() -> new IllegalArgumentException(bcIdentifier.getName() + " doesn't override any bc"));
+			BcDescription newDescription = BcDescriptionBuilder.build(
 					bcIdentifier.getName(),
-					BcDescriptionBuilder.build(
-							bcIdentifier.getName(),
-							bcIdentifier.getParentName(),
-							serviceClass,
-							bcDescriptionMap.get(bcIdentifier.getName()).isRefresh()
-					)
+					bcIdentifier.getParentName(),
+					serviceClass,
+					oldDescription.isRefresh()
+			);
+			bcDescriptionMap.get(oldDescription.getClass()).remove(bcIdentifier.getName());
+			bcDescriptionMap.computeIfAbsent(newDescription.getClass(), c -> new HashMap<>()).put(
+					bcIdentifier.getName(),
+					newDescription
 			);
 		}
 	}

@@ -93,7 +93,7 @@ public abstract class AbstractResponseService<T extends DataResponseDTO, E exten
 
 	protected final SingularAttribute<? super E, ? extends BaseEntity> parentSpec;
 
-	private final Class<? extends FieldMetaBuilder<T>> metaBuilder;
+	private final Class<? extends FieldMetaBuilder<T, InnerBcDescription>> metaBuilder;
 
 	@Autowired
 	private BcSpecificationBuilder specificationBuilder;
@@ -202,7 +202,7 @@ public abstract class AbstractResponseService<T extends DataResponseDTO, E exten
 	}
 
 	@Override
-	public boolean isDeferredCreationSupported(BusinessComponent bc) {
+	public boolean isDeferredCreationSupported(BusinessComponent<InnerBcDescription> bc) {
 		return true;
 	}
 
@@ -212,7 +212,7 @@ public abstract class AbstractResponseService<T extends DataResponseDTO, E exten
 	}
 
 	@Override
-	public E getOneAsEntity(BusinessComponent bc) {
+	public E getOneAsEntity(BusinessComponent<InnerBcDescription> bc) {
 		Specification<E> getOneSpecification = Specification.where(specificationBuilder.buildBcSpecification(bc, getParentSpecification(bc), getSpecification(bc)))
 				.and((root, cq, cb) -> cb.equal(root.get(BaseEntity_.id), bc.getIdAsLong()));
 		E entity = baseDAO.getFirstResultOrNull(typeOfEntity, getOneSpecification);
@@ -227,29 +227,29 @@ public abstract class AbstractResponseService<T extends DataResponseDTO, E exten
 			cacheNames = CacheConfig.REQUEST_CACHE,
 			key = "{#root.targetClass, #root.methodName, #bc.name, #bc.id}"
 	)
-	public T getOne(BusinessComponent bc) {
+	public T getOne(BusinessComponent<InnerBcDescription> bc) {
 		return doGetOne(bc);
 	}
 
-	protected T doGetOne(BusinessComponent bc) {
+	protected T doGetOne(BusinessComponent<InnerBcDescription> bc) {
 		return entityToDto(bc, getOneAsEntity(bc));
 	}
 
-	public ActionResultDTO<T> deleteEntity(BusinessComponent bc) {
+	public ActionResultDTO<T> deleteEntity(BusinessComponent<InnerBcDescription> bc) {
 		baseDAO.delete(getOneAsEntity(bc));
 		return new ActionResultDTO<>();
 	}
 
 	@Override
-	public ResultPage<T> getList(BusinessComponent bc) {
+	public ResultPage<T> getList(BusinessComponent<InnerBcDescription> bc) {
 		return getList(baseDAO, bc);
 	}
 
-	protected ResultPage<T> getList(BaseDAO dao, BusinessComponent bc) {
+	protected ResultPage<T> getList(BaseDAO dao, BusinessComponent<InnerBcDescription> bc) {
 		return getList(dao, bc, typeOfEntity, typeOfDTO);
 	}
 
-	protected final ResultPage<T> getList(BaseDAO dao, BusinessComponent bc, Class<E> typeOfEntity, Class<T> typeOfDTO) {
+	protected final ResultPage<T> getList(BaseDAO dao, BusinessComponent<InnerBcDescription> bc, Class<E> typeOfEntity, Class<T> typeOfDTO) {
 		return entitiesToDtos(
 				bc,
 				dao.getList(
@@ -262,15 +262,15 @@ public abstract class AbstractResponseService<T extends DataResponseDTO, E exten
 		);
 	}
 
-	protected final ResultPage<E> getPageEntities(BusinessComponent bc, QueryParameters queryParameters) {
+	protected final ResultPage<E> getPageEntities(BusinessComponent<InnerBcDescription> bc, QueryParameters queryParameters) {
 		return baseDAO.getList(typeOfEntity, typeOfDTO, getParentSpecification(bc), queryParameters);
 	}
 
-	protected String getFetchGraphName(BusinessComponent bc) {
+	protected String getFetchGraphName(BusinessComponent<InnerBcDescription> bc) {
 		return bc.getName();
 	}
 
-	protected EntityGraph<? super E> getFetchGraph(BusinessComponent bc) {
+	protected EntityGraph<? super E> getFetchGraph(BusinessComponent<InnerBcDescription> bc) {
 		String graphName = getFetchGraphName(bc);
 		if (graphName == null) {
 			return null;
@@ -279,18 +279,18 @@ public abstract class AbstractResponseService<T extends DataResponseDTO, E exten
 	}
 
 	@Override
-	public ActionsDTO getAvailableActions(RowMetaType metaType, DataResponseDTO data, BusinessComponent bc) {
+	public ActionsDTO getAvailableActions(RowMetaType metaType, DataResponseDTO data, BusinessComponent<InnerBcDescription> bc) {
 		return getActions().toDto(bc);
 	}
 
 	@Override
-	public ActionResultDTO onCancel(BusinessComponent bc) {
-		return new ActionResultDTO().setAction(PostAction.postDelete());
+	public ActionResultDTO<T> onCancel(BusinessComponent<InnerBcDescription> bc) {
+		return new ActionResultDTO<T>().setAction(PostAction.postDelete());
 	}
 
 	@Override
-	public ActionResultDTO<T> invokeAction(BusinessComponent bc, String actionName, DataResponseDTO data) {
-		ActionDescription<T> action = getActions().getAction(actionName);
+	public ActionResultDTO<T> invokeAction(BusinessComponent<InnerBcDescription> bc, String actionName, DataResponseDTO data) {
+		ActionDescription<T, InnerBcDescription> action = getActions().getAction(actionName);
 		if (action == null || !action.isAvailable(bc)) {
 			throw new BusinessException().addPopup(
 					errorMessage("error.action_unavailable", actionName)
@@ -318,7 +318,7 @@ public abstract class AbstractResponseService<T extends DataResponseDTO, E exten
 	}
 
 
-	private void preInvoke(BusinessComponent bc, List<PreActionEvent> preActionEvents, DataResponseDTO data, AssociateDTO associateDTO) {
+	private void preInvoke(BusinessComponent<InnerBcDescription> bc, List<PreActionEvent> preActionEvents, DataResponseDTO data, AssociateDTO associateDTO) {
 		List<String> preInvokeParameters = bc.getPreInvokeParameters();
 		List<PreInvokeEvent> preInvokeEvents = new ArrayList<>();
 		if (nonNull(preActionEvents)) {
@@ -374,15 +374,15 @@ public abstract class AbstractResponseService<T extends DataResponseDTO, E exten
 	}
 
 	@Override
-	public long count(BusinessComponent bc) {
+	public long count(BusinessComponent<InnerBcDescription> bc) {
 		return count(baseDAO, bc);
 	}
 
-	protected long count(BaseDAO dao, BusinessComponent bc) {
+	protected long count(BaseDAO dao, BusinessComponent<InnerBcDescription> bc) {
 		return count(dao, bc, typeOfEntity, typeOfDTO);
 	}
 
-	protected final long count(BaseDAO dao, BusinessComponent bc, Class<E> typeOfEntity, Class<T> typeOfDTO) {
+	protected final long count(BaseDAO dao, BusinessComponent<InnerBcDescription> bc, Class<E> typeOfEntity, Class<T> typeOfDTO) {
 		return dao.getCount(
 				typeOfEntity,
 				typeOfDTO,
@@ -396,10 +396,10 @@ public abstract class AbstractResponseService<T extends DataResponseDTO, E exten
 	}
 
 	@Override
-	public void validate(BusinessComponent bc, DataResponseDTO data) {
+	public void validate(BusinessComponent<InnerBcDescription> bc, DataResponseDTO data) {
 		T entityDto = entityToDto(bc, getOneAsEntity(bc));
 		updateDataDto(data, entityDto);
-		ActionDescription<T> save = getActions().getAction(ActionType.SAVE.getType());
+		ActionDescription<T, InnerBcDescription> save = getActions().getAction(ActionType.SAVE.getType());
 		if (nonNull(save)) {
 			popup(save.validate(bc, data, entityDto));
 			List<PreActionEvent> preActionEvents = save.withPreActionEvents(bc);
@@ -415,8 +415,8 @@ public abstract class AbstractResponseService<T extends DataResponseDTO, E exten
 		}
 	}
 
-	public Actions<T> getActions() {
-		return Actions.<T>builder()
+	public Actions<T, InnerBcDescription> getActions() {
+		return Actions.<T, InnerBcDescription>builder()
 				.action("drillDown", "Посмотреть форму")
 				.available(this::isDrillDownActionAvailable).invoker(this::actionOpenUrl).add(false)
 				.build();
@@ -426,11 +426,11 @@ public abstract class AbstractResponseService<T extends DataResponseDTO, E exten
 		return Collections.emptyList();
 	}
 
-	private boolean isDrillDownActionAvailable(BusinessComponent bc) {
+	private boolean isDrillDownActionAvailable(BusinessComponent<InnerBcDescription> bc) {
 		return outwardReportEngineService.map(service -> service.isOutwardsReportAvailable(bc)).orElse(false);
 	}
 
-	private ActionResultDTO<T> actionOpenUrl(final BusinessComponent bc, final T data) {
+	private ActionResultDTO<T> actionOpenUrl(final BusinessComponent<InnerBcDescription> bc, final T data) {
 		final ActionResultDTO<T> result = new ActionResultDTO<>(data);
 		outwardReportEngineService.ifPresent(service ->
 				result.setAction(
@@ -444,11 +444,11 @@ public abstract class AbstractResponseService<T extends DataResponseDTO, E exten
 		return result;
 	}
 
-	protected ResultPage<T> entitiesToDtos(BusinessComponent bc, ResultPage<E> entities) {
+	protected ResultPage<T> entitiesToDtos(BusinessComponent<InnerBcDescription> bc, ResultPage<E> entities) {
 		return ResultPage.of(entities, e -> entityToDto(bc, e));
 	}
 
-	protected T entityToDto(final BusinessComponent bc, final E entity) {
+	protected T entityToDto(final BusinessComponent<InnerBcDescription> bc, final E entity) {
 		return dtoMapper.entityToDto(bc, entity, typeOfDTO);
 	}
 
@@ -514,7 +514,7 @@ public abstract class AbstractResponseService<T extends DataResponseDTO, E exten
 		return new ResultPage<>(dtos, hasNext);
 	}
 
-	protected Specification<E> getParentSpecification(BusinessComponent bc) {
+	protected Specification<E> getParentSpecification(BusinessComponent<InnerBcDescription> bc) {
 		return (root, cq, cb) -> {
 			final Long parentId = bc.getParentIdAsLong();
 			if (parentSpec != null && parentId != null) {
@@ -533,32 +533,32 @@ public abstract class AbstractResponseService<T extends DataResponseDTO, E exten
 		return entity;
 	}
 
-	protected E loadEntity(BusinessComponent bc, DataResponseDTO data) {
+	protected E loadEntity(BusinessComponent<InnerBcDescription> bc, DataResponseDTO data) {
 		return getOneAsEntity(bc);
 	}
 
-	public Class<? extends FieldMetaBuilder<T>> getFieldMetaBuilder() {
+	public Class<? extends FieldMetaBuilder<T, InnerBcDescription>> getFieldMetaBuilder() {
 		return this.metaBuilder;
 	}
 
 	@Override
-	public ActionResultDTO<T> updateEntity(BusinessComponent bc, DataResponseDTO data) {
+	public ActionResultDTO<T> updateEntity(BusinessComponent<InnerBcDescription> bc, DataResponseDTO data) {
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public ActionResultDTO<T> preview(BusinessComponent bc, DataResponseDTO data) {
+	public ActionResultDTO<T> preview(BusinessComponent<InnerBcDescription> bc, DataResponseDTO data) {
 		return updateEntity(bc, data);
 	}
 
 	@Override
-	public CreateResult<T> createEntity(BusinessComponent bc) {
+	public CreateResult<T> createEntity(BusinessComponent<InnerBcDescription> bc) {
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public AssociateResultDTO associate(List<AssociateDTO> data, BusinessComponent bc) {
-		ActionDescription<T> associate = getActions().getAction(ActionType.ASSOCIATE.getType());
+	public AssociateResultDTO associate(List<AssociateDTO> data, BusinessComponent<InnerBcDescription> bc) {
+		ActionDescription<T, InnerBcDescription> associate = getActions().getAction(ActionType.ASSOCIATE.getType());
 		if (nonNull(associate)) {
 			data.stream().filter(AssociateDTO::getAssociated)
 					.forEach(dto -> preInvoke(bc, associate.withPreActionEvents(bc), null, dto));
@@ -566,11 +566,11 @@ public abstract class AbstractResponseService<T extends DataResponseDTO, E exten
 		return doAssociate(data, bc);
 	}
 
-	protected AssociateResultDTO doAssociate(List<AssociateDTO> data, BusinessComponent bc) {
+	protected AssociateResultDTO doAssociate(List<AssociateDTO> data, BusinessComponent<InnerBcDescription> bc) {
 		throw new UnsupportedOperationException();
 	}
 
-	protected Specification<E> getSpecification(BusinessComponent bc) {
+	protected Specification<E> getSpecification(BusinessComponent<InnerBcDescription> bc) {
 		return and(
 				getSecuritySpecification(bc.getDescription()),
 				getBcSpecification(bc.getDescription()),
@@ -606,7 +606,7 @@ public abstract class AbstractResponseService<T extends DataResponseDTO, E exten
 		).filter(Objects::nonNull).reduce(and()).orElse(trueSpecification());
 	}
 
-	protected Specification<E> getLinkSpecification(BusinessComponent bc) {
+	protected Specification<E> getLinkSpecification(BusinessComponent<InnerBcDescription> bc) {
 		if (linkSpecificationHolder == null) {
 			return trueSpecification();
 		}

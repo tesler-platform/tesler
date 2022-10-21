@@ -83,7 +83,7 @@ public class TaskChildBcServiceImpl extends AbstractResponseService<AdminBcDto, 
 	}
 
 	@Override
-	public ResultPage<AdminBcDto> getList(BusinessComponent bc) {
+	public ResultPage<AdminBcDto> getList(BusinessComponent<InnerBcDescription> bc) {
 		QueryParameters params = bc.getParameters();
 		List<BcDescription> saValues = getAllBusCompBelowTask();
 		Map<String, String> allViewsByBcNames = getAllViewsByBcNames(
@@ -208,7 +208,7 @@ public class TaskChildBcServiceImpl extends AbstractResponseService<AdminBcDto, 
 	}
 
 	@Override
-	public long count(BusinessComponent bc) {
+	public long count(BusinessComponent<InnerBcDescription> bc) {
 		return bcRegistry.select(this::isWorkflowBc).count();
 	}
 

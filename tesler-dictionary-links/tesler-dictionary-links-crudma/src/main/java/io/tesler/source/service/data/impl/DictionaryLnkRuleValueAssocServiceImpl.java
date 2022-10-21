@@ -30,6 +30,7 @@ import io.tesler.core.controller.param.FilterParameters;
 import io.tesler.core.controller.param.QueryParameters;
 import io.tesler.core.controller.param.SearchOperation;
 import io.tesler.core.crudma.bc.BusinessComponent;
+import io.tesler.core.crudma.bc.impl.InnerBcDescription;
 import io.tesler.core.crudma.impl.AbstractResponseService;
 import io.tesler.model.dictionary.links.entity.DictionaryLnkRule;
 import io.tesler.model.dictionary.links.entity.DictionaryLnkRuleValue;
@@ -60,7 +61,7 @@ public class DictionaryLnkRuleValueAssocServiceImpl extends
 	}
 
 	@Override
-	public ResultPage<DictionaryLnkRuleValueDto> getList(BusinessComponent bc) {
+	public ResultPage<DictionaryLnkRuleValueDto> getList(BusinessComponent<InnerBcDescription> bc) {
 		QueryParameters params = bc.getParameters();
 		DictionaryLnkRule parent = baseDAO.findById(DictionaryLnkRule.class, bc.getParentIdAsLong());
 		List<DictionaryLnkRuleValueDto> result = dictionaryCache
@@ -110,7 +111,7 @@ public class DictionaryLnkRuleValueAssocServiceImpl extends
 	}
 
 	@Override
-	public long count(BusinessComponent bc) {
+	public long count(BusinessComponent<InnerBcDescription> bc) {
 		DictionaryLnkRule parent = baseDAO.findById(DictionaryLnkRule.class, bc.getParentIdAsLong());
 		return dictionaryCache.getAll(parent.getType()).size();
 	}

@@ -22,32 +22,24 @@ package io.tesler.core.service.rowmeta;
 
 import io.tesler.api.data.dto.DataResponseDTO;
 import io.tesler.core.crudma.bc.BusinessComponent;
-import io.tesler.core.crudma.bc.impl.ExtremeBcDescription;
+import io.tesler.core.crudma.bc.impl.BcDescription;
 import io.tesler.core.crudma.bc.impl.InnerBcDescription;
 import io.tesler.core.dto.rowmeta.FieldsMeta;
 import io.tesler.core.dto.rowmeta.RowDependentFieldsMeta;
 
 
-public abstract class FieldMetaBuilder<T extends DataResponseDTO> {
+public abstract class FieldMetaBuilder<T extends DataResponseDTO, D extends BcDescription> {
 
-	public void buildRowDependentMeta(RowDependentFieldsMeta<T> fields, BusinessComponent bc) {
-		if (bc.getDescription() instanceof InnerBcDescription) {
-			buildRowDependentMeta(fields, bc.getDescription(), bc.getIdAsLong(), bc.getParentIdAsLong());
-		} else if (bc.getDescription() instanceof ExtremeBcDescription) {
-			buildExtremeRowDependentMeta(fields, bc.getDescription(), bc.getIdAsLong(), bc.getParentIdAsLong());
-		}
+	public void buildRowDependentMeta(RowDependentFieldsMeta<T> fields, BusinessComponent<D> bc) {
+		buildRowDependentMeta(fields, bc.getDescription(), bc.getIdAsLong(), bc.getParentIdAsLong());
 	}
 
-	public void buildIndependentMeta(FieldsMeta<T> fields, BusinessComponent bc) {
+	public void buildIndependentMeta(FieldsMeta<T> fields, BusinessComponent<InnerBcDescription> bc) {
 		buildIndependentMeta(fields, bc.getDescription(), bc.getParentIdAsLong());
 	}
 
-	public abstract void buildRowDependentMeta(RowDependentFieldsMeta<T> fields, InnerBcDescription bcDescription,
+	public abstract void buildRowDependentMeta(RowDependentFieldsMeta<T> fields, D bcDescription,
 			Long id, Long parentId);
-
-	public void buildExtremeRowDependentMeta(RowDependentFieldsMeta<T> fields, ExtremeBcDescription bcDescription,
-			Long id, Long parentId) {
-	}
 
 	public abstract void buildIndependentMeta(FieldsMeta<T> fields, InnerBcDescription bcDescription, Long parentId);
 

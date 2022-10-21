@@ -26,12 +26,12 @@ import static io.tesler.source.dto.WorkflowTaskFieldDto_.title;
 import io.tesler.core.crudma.bc.impl.InnerBcDescription;
 import io.tesler.core.dto.rowmeta.FieldsMeta;
 import io.tesler.core.dto.rowmeta.RowDependentFieldsMeta;
-import io.tesler.core.service.rowmeta.FieldMetaBuilder;
+import io.tesler.core.service.rowmeta.InnerFieldMetaBuilder;
 import io.tesler.source.dto.WorkflowTaskFieldDto;
 import org.springframework.stereotype.Service;
 
 @Service
-public class WorkflowTaskFieldsFieldMetaBuilder extends FieldMetaBuilder<WorkflowTaskFieldDto> {
+public class WorkflowTaskFieldsFieldMetaBuilder extends InnerFieldMetaBuilder<WorkflowTaskFieldDto> {
 
 	@Override
 	public void buildRowDependentMeta(RowDependentFieldsMeta<WorkflowTaskFieldDto> fields,

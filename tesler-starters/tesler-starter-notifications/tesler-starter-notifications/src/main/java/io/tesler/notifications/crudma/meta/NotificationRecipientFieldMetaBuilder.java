@@ -27,7 +27,7 @@ import io.tesler.api.data.dictionary.DictionaryType;
 import io.tesler.core.crudma.bc.impl.InnerBcDescription;
 import io.tesler.core.dto.rowmeta.FieldsMeta;
 import io.tesler.core.dto.rowmeta.RowDependentFieldsMeta;
-import io.tesler.core.service.rowmeta.FieldMetaBuilder;
+import io.tesler.core.service.rowmeta.InnerFieldMetaBuilder;
 import io.tesler.notifications.crudma.config.NotificationServiceAssociation;
 import io.tesler.notifications.crudma.dto.NotificationRecipientDTO;
 import io.tesler.notifications.crudma.dto.NotificationRecipientDTO_;
@@ -35,7 +35,7 @@ import org.springframework.stereotype.Service;
 
 
 @Service
-public class NotificationRecipientFieldMetaBuilder extends FieldMetaBuilder<NotificationRecipientDTO> {
+public class NotificationRecipientFieldMetaBuilder extends InnerFieldMetaBuilder<NotificationRecipientDTO> {
 
 	@Override
 	public void buildRowDependentMeta(RowDependentFieldsMeta<NotificationRecipientDTO> fields,

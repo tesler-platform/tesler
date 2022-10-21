@@ -24,6 +24,7 @@ import io.tesler.api.data.ResultPage;
 import io.tesler.api.data.dto.rowmeta.FieldDTO;
 import io.tesler.core.crudma.bc.BcRegistry;
 import io.tesler.core.crudma.bc.BusinessComponent;
+import io.tesler.core.crudma.bc.impl.ExtremeBcDescription;
 import io.tesler.core.crudma.impl.AbstractCrudmaService;
 import io.tesler.core.dto.data.BcDto;
 import io.tesler.core.dto.rowmeta.MetaDTO;
@@ -35,7 +36,7 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 
 @Service
-public class BcCrudmaService extends AbstractCrudmaService {
+public class BcCrudmaService extends AbstractCrudmaService<ExtremeBcDescription> {
 
 	private final List<BcDto> bcList;
 
@@ -49,22 +50,22 @@ public class BcCrudmaService extends AbstractCrudmaService {
 	}
 
 	@Override
-	public ResultPage<BcDto> getAll(final BusinessComponent bc) {
+	public ResultPage<BcDto> getAll(final BusinessComponent<ExtremeBcDescription> bc) {
 		return ListPaging.getResultPage(bcList, bc.getParameters());
 	}
 
 	@Override
-	public long count(final BusinessComponent bc) {
+	public long count(final BusinessComponent<ExtremeBcDescription> bc) {
 		return bcList.size();
 	}
 
 	@Override
-	public MetaDTO getMeta(final BusinessComponent bc) {
+	public MetaDTO getMeta(final BusinessComponent<ExtremeBcDescription> bc) {
 		return buildMeta(fieldDtoList);
 	}
 
 	@Override
-	public MetaDTO getMetaEmpty(BusinessComponent bc) {
+	public MetaDTO getMetaEmpty(BusinessComponent<ExtremeBcDescription> bc) {
 		return buildMeta(Collections.emptyList());
 	}
 

@@ -30,7 +30,7 @@ import java.util.List;
 
 import io.tesler.core.dto.rowmeta.FieldsMeta;
 import io.tesler.core.dto.rowmeta.RowDependentFieldsMeta;
-import io.tesler.core.service.rowmeta.FieldMetaBuilder;
+import io.tesler.core.service.rowmeta.InnerFieldMetaBuilder;
 import io.tesler.model.core.dao.JpaDao;
 import io.tesler.notifications.crudma.config.NotificationServiceAssociation;
 import io.tesler.notifications.crudma.dto.NotificationSettingsDTO;
@@ -43,7 +43,7 @@ import org.springframework.stereotype.Service;
 
 
 @Service
-public class NotificationSettingsFieldMetaBuilder extends FieldMetaBuilder<NotificationSettingsDTO> {
+public class NotificationSettingsFieldMetaBuilder extends InnerFieldMetaBuilder<NotificationSettingsDTO> {
 
 	@Autowired
 	private DeliveryServiceRegistry registry;

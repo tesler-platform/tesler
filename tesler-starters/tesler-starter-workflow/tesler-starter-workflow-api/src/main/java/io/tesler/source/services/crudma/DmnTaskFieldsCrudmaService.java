@@ -28,6 +28,7 @@ import io.tesler.api.data.dictionary.SimpleDictionary;
 import io.tesler.api.data.dto.DataResponseDTO;
 import io.tesler.api.data.dto.rowmeta.FieldDTO;
 import io.tesler.core.crudma.bc.BusinessComponent;
+import io.tesler.core.crudma.bc.impl.ExtremeBcDescription;
 import io.tesler.core.crudma.impl.AbstractCrudmaService;
 import io.tesler.core.dto.LovUtils;
 import io.tesler.core.dto.rowmeta.MetaDTO;
@@ -52,7 +53,7 @@ import org.springframework.stereotype.Service;
 
 @Slf4j
 @Service
-public class DmnTaskFieldsCrudmaService extends AbstractCrudmaService {
+public class DmnTaskFieldsCrudmaService extends AbstractCrudmaService<ExtremeBcDescription> {
 
 	private final Map<Class<?>, String> TYPES = ImmutableMap.<Class<?>, String>builder()
 			.put(String.class, "string")
@@ -86,22 +87,22 @@ public class DmnTaskFieldsCrudmaService extends AbstractCrudmaService {
 	}
 
 	@Override
-	public ResultPage<? extends DataResponseDTO> getAll(final BusinessComponent bc) {
+	public ResultPage<? extends DataResponseDTO> getAll(final BusinessComponent<ExtremeBcDescription> bc) {
 		return ListPaging.getResultPage(TASK_FIELDS, bc.getParameters());
 	}
 
 	@Override
-	public long count(final BusinessComponent bc) {
+	public long count(final BusinessComponent<ExtremeBcDescription> bc) {
 		return TASK_FIELDS.size();
 	}
 
 	@Override
-	public MetaDTO getMeta(final BusinessComponent bc) {
+	public MetaDTO getMeta(final BusinessComponent<ExtremeBcDescription> bc) {
 		return buildMeta(FIELD_DTO_LIST);
 	}
 
 	@Override
-	public MetaDTO getMetaEmpty(BusinessComponent bc) {
+	public MetaDTO getMetaEmpty(BusinessComponent<ExtremeBcDescription> bc) {
 		return buildMeta(Collections.emptyList());
 	}
 

@@ -34,6 +34,8 @@ public interface BcRegistry {
 
 	BcDescription getBcDescription(final String bcName);
 
+	<T extends BcDescription> T getBcDescription(final String bcName, Class<T> dClass);
+
 	String getUrlFromBc(final String bcName);
 
 	List<BcDescription> getBcHierarchy(final String bcName);
@@ -46,8 +48,6 @@ public interface BcRegistry {
 		return select(predicate, Function.identity());
 	}
 
-	default <T extends BcDescription> Stream<T> select(Class<T> cls) {
-		return select(cls::isInstance, cls::cast);
-	}
+	<T extends BcDescription> Stream<T> select(Class<T> cls);
 
 }

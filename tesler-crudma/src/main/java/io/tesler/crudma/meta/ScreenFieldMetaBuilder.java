@@ -25,12 +25,12 @@ import io.tesler.core.dto.data.view.ScreenDTO;
 import io.tesler.core.dto.data.view.ScreenDTO_;
 import io.tesler.core.dto.rowmeta.FieldsMeta;
 import io.tesler.core.dto.rowmeta.RowDependentFieldsMeta;
-import io.tesler.core.service.rowmeta.FieldMetaBuilder;
+import io.tesler.core.service.rowmeta.InnerFieldMetaBuilder;
 import org.springframework.stereotype.Service;
 
 
 @Service
-public class ScreenFieldMetaBuilder extends FieldMetaBuilder<ScreenDTO> {
+public class ScreenFieldMetaBuilder extends InnerFieldMetaBuilder<ScreenDTO> {
 
 	@Override
 	public void buildRowDependentMeta(RowDependentFieldsMeta<ScreenDTO> fields, InnerBcDescription bcDescription, Long id,

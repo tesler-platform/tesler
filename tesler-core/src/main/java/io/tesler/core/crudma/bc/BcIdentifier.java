@@ -20,7 +20,9 @@
 
 package io.tesler.core.crudma.bc;
 
-
+/**
+ * Something that has name and parentName, like you or me. Every human-being is an implementation of this interface.
+ */
 public interface BcIdentifier {
 
 	String getName();

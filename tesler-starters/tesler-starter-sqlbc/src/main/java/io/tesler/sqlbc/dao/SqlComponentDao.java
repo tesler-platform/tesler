@@ -54,7 +54,7 @@ public class SqlComponentDao {
 	}
 
 	@SuppressWarnings("unchecked")
-	public ResultPage<SqlComponentObject> getPage(BusinessComponent bc, QueryParameters queryParameters) {
+	public ResultPage<SqlComponentObject> getPage(BusinessComponent<SqlBcDescription> bc, QueryParameters queryParameters) {
 		SqlBcDescription bcDescription = bc.getDescription();
 		return jdbcTemplate.page(
 				bcDescription,
@@ -64,7 +64,7 @@ public class SqlComponentDao {
 		);
 	}
 
-	public SqlComponentObject getOne(BusinessComponent bc, QueryParameters queryParameters) {
+	public SqlComponentObject getOne(BusinessComponent<SqlBcDescription> bc, QueryParameters queryParameters) {
 		SqlBcDescription bcDescription = bc.getDescription();
 		return jdbcTemplate.one(
 				bcDescription,
@@ -75,7 +75,7 @@ public class SqlComponentDao {
 		);
 	}
 
-	public long count(BusinessComponent bc, QueryParameters queryParameters) {
+	public long count(BusinessComponent<SqlBcDescription> bc, QueryParameters queryParameters) {
 		SqlBcDescription bcDescription = bc.getDescription();
 		return jdbcTemplate.count(bcDescription, bc.getParentId(), queryParameters);
 	}

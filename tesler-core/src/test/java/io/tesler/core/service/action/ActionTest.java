@@ -20,6 +20,7 @@
 
 package io.tesler.core.service.action;
 
+import io.tesler.core.crudma.bc.impl.BcDescription;
 import io.tesler.core.test.util.TestResponseDto;
 import org.apache.commons.collections.map.SingletonMap;
 import org.junit.jupiter.api.Assertions;
@@ -30,7 +31,7 @@ class ActionTest {
 	@Test
 	void associateForTwoDifferentAssocsWithSameParent() throws Exception {
 
-		Actions<TestResponseDto> actions = Actions.<TestResponseDto>builder()
+		Actions<TestResponseDto, BcDescription> actions = Actions.<TestResponseDto, BcDescription>builder()
 				.save()
 				.withoutIcon()
 				.add()

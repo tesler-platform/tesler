@@ -26,6 +26,7 @@ import static io.tesler.api.util.i18n.LocalizationFormatter.uiMessage;
 import io.tesler.api.data.dictionary.DictionaryType;
 import io.tesler.api.data.dictionary.LOV;
 import io.tesler.core.crudma.bc.BusinessComponent;
+import io.tesler.core.crudma.bc.impl.InnerBcDescription;
 import io.tesler.core.crudma.impl.VersionAwareResponseService;
 import io.tesler.core.dto.rowmeta.ActionResultDTO;
 import io.tesler.core.dto.rowmeta.CreateResult;
@@ -55,7 +56,7 @@ public class ScheduledJobServiceImpl extends VersionAwareResponseService<Schedul
 	}
 
 	@Override
-	protected Specification<ScheduledJob> getParentSpecification(BusinessComponent bc) {
+	protected Specification<ScheduledJob> getParentSpecification(BusinessComponent<InnerBcDescription> bc) {
 		return (root, cq, cb) -> cb.and(
 				super.getParentSpecification(bc).toPredicate(root, cq, cb),
 				// не показываем совсем уж системные задачи
@@ -64,8 +65,8 @@ public class ScheduledJobServiceImpl extends VersionAwareResponseService<Schedul
 	}
 
 	@Override
-	public Actions<ScheduledJobDTO> getActions() {
-		return Actions.<ScheduledJobDTO>builder()
+	public Actions<ScheduledJobDTO, InnerBcDescription> getActions() {
+		return Actions.<ScheduledJobDTO, InnerBcDescription>builder()
 				.create().add()
 				.save().add()
 				.delete().add()
@@ -75,27 +76,27 @@ public class ScheduledJobServiceImpl extends VersionAwareResponseService<Schedul
 	}
 
 	@Override
-	protected CreateResult<ScheduledJobDTO> doCreateEntity(final ScheduledJob entity, final BusinessComponent bc) {
+	protected CreateResult<ScheduledJobDTO> doCreateEntity(final ScheduledJob entity, final BusinessComponent<InnerBcDescription> bc) {
 		baseDAO.save(entity);
 		return new CreateResult<>(entityToDto(bc, entity));
 	}
 
-	private boolean isServiceDefined(BusinessComponent bc) {
+	private boolean isServiceDefined(BusinessComponent<InnerBcDescription> bc) {
 		if (bc.getId() == null) {
 			return false;
 		}
 		return baseDAO.findById(ScheduledJob.class, bc.getIdAsLong()).getService() != null;
 	}
 
-	private ActionResultDTO<ScheduledJobDTO> launchNow(final BusinessComponent bc, final ScheduledJobDTO data) {
+	private ActionResultDTO<ScheduledJobDTO> launchNow(final BusinessComponent<?> bc, final ScheduledJobDTO data) {
 		ScheduledJob job = baseDAO.findById(ScheduledJob.class, bc.getIdAsLong());
 		schedulerService.launchNow(job);
-		return new ActionResultDTO<>(entityToDto(bc, job));
+		return new ActionResultDTO<>(entityToDto((BusinessComponent<InnerBcDescription>)bc, job));
 	}
 
 	@Override
 	protected ActionResultDTO<ScheduledJobDTO> doUpdateEntity(ScheduledJob job, ScheduledJobDTO data,
-			BusinessComponent bc) {
+			BusinessComponent<InnerBcDescription> bc) {
 		if (data.hasChangedFields()) {
 			if (data.isFieldChanged(ScheduledJobDTO_.serviceName)) {
 				onServiceChanged(job, validateServiceName(data.getServiceName()));
@@ -133,7 +134,7 @@ public class ScheduledJobServiceImpl extends VersionAwareResponseService<Schedul
 	}
 
 	@Override
-	public ActionResultDTO<ScheduledJobDTO> deleteEntity(BusinessComponent bc) {
+	public ActionResultDTO<ScheduledJobDTO> deleteEntity(BusinessComponent<InnerBcDescription> bc) {
 		ScheduledJob job = baseDAO.findById(ScheduledJob.class, bc.getIdAsLong());
 		schedulerService.removeJob(job);
 		job.getParams().forEach(param -> baseDAO.delete(param));

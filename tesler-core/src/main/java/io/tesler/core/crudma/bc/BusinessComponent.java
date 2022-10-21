@@ -32,7 +32,7 @@ import lombok.ToString;
 @Getter
 @ToString
 @EqualsAndHashCode
-public class BusinessComponent implements BcIdentifier {
+public class BusinessComponent<T extends BcDescription> implements BcIdentifier {
 
 	/**
 	 * Identifier
@@ -47,32 +47,32 @@ public class BusinessComponent implements BcIdentifier {
 	/**
 	 * Business component metadata
 	 */
-	private final BcDescription description;
+	private final T description;
 
 	private BcHierarchy hierarchy;
 
 	@Setter
 	private QueryParameters parameters = QueryParameters.emptyQueryParameters();
 
-	public BusinessComponent(String id, String parentId, BcDescription description) {
+	public BusinessComponent(String id, String parentId, T description) {
 		this.id = normalizeNullValue(id);
 		this.parentId = normalizeNullValue(parentId);
 		this.description = Objects.requireNonNull(description);
 	}
 
-	public BusinessComponent(String id, String parentId, BcDescription description, BcHierarchy hierarchy) {
+	public BusinessComponent(String id, String parentId, T description, BcHierarchy hierarchy) {
 		this(id, parentId, description);
 		this.hierarchy = hierarchy;
 	}
 
-	public BusinessComponent(String id, String parentId, BcDescription description,
+	public BusinessComponent(String id, String parentId, T description,
 			BcHierarchy hierarchy, QueryParameters parameters) {
 		this(id, parentId, description, hierarchy);
 		this.parameters = parameters;
 	}
 
-	public <T extends BcDescription> T getDescription() {
-		return (T) description;
+	public T getDescription() {
+		return description;
 	}
 
 	public Long getIdAsLong() {
@@ -101,8 +101,8 @@ public class BusinessComponent implements BcIdentifier {
 		return getParameters().getPreInvokeParameters();
 	}
 
-	public BusinessComponent withId(String id) {
-		return new BusinessComponent(
+	public BusinessComponent<T> withId(String id) {
+		return new BusinessComponent<>(
 				id,
 				parentId,
 				description,
@@ -111,8 +111,8 @@ public class BusinessComponent implements BcIdentifier {
 		);
 	}
 
-	public BusinessComponent withParentId(String parentId) {
-		return new BusinessComponent(
+	public BusinessComponent<T> withParentId(String parentId) {
+		return new BusinessComponent<>(
 				id,
 				parentId,
 				description,

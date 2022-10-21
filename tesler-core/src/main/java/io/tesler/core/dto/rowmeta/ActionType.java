@@ -26,6 +26,7 @@ import static io.tesler.core.service.action.ActionAvailableChecker.NOT_NULL_ID;
 import static io.tesler.core.service.action.ActionAvailableChecker.NOT_NULL_PARENT_ID;
 
 import io.tesler.api.data.dto.rowmeta.ActionDTO;
+import io.tesler.core.crudma.bc.impl.BcDescription;
 import io.tesler.core.service.action.ActionAvailableChecker;
 import io.tesler.core.service.action.TeslerActionIconSpecifier;
 
@@ -53,7 +54,7 @@ public enum ActionType {
 
 	private final TeslerActionIconSpecifier icon;
 
-	private final ActionAvailableChecker baseAvailableChecker;
+	private final ActionAvailableChecker<BcDescription> baseAvailableChecker;
 
 	public boolean isTypeOf(ActionDTO action) {
 		return action != null && Objects.equals(getType(), action.getType());

@@ -23,6 +23,7 @@ package io.tesler.crudma.impl;
 import static io.tesler.api.util.i18n.ErrorMessageSource.errorMessage;
 
 import io.tesler.core.crudma.bc.BusinessComponent;
+import io.tesler.core.crudma.bc.impl.InnerBcDescription;
 import io.tesler.core.crudma.impl.VersionAwareResponseService;
 import io.tesler.core.dto.rowmeta.ActionResultDTO;
 import io.tesler.core.dto.rowmeta.CreateResult;
@@ -46,7 +47,7 @@ public class BcPropertiesServiceImpl extends VersionAwareResponseService<BcPrope
 	}
 
 	@Override
-	protected CreateResult<BcPropertiesDTO> doCreateEntity(final BcProperties entity, final BusinessComponent bc) {
+	protected CreateResult<BcPropertiesDTO> doCreateEntity(final BcProperties entity, final BusinessComponent<InnerBcDescription> bc) {
 		entity.setBc("Ведите имя бизнес компонента");
 		baseDAO.save(entity);
 		return new CreateResult<>(entityToDto(bc, entity));
@@ -54,7 +55,7 @@ public class BcPropertiesServiceImpl extends VersionAwareResponseService<BcPrope
 
 	@Override
 	protected ActionResultDTO<BcPropertiesDTO> doUpdateEntity(BcProperties bcProperties, BcPropertiesDTO data,
-			BusinessComponent bc) {
+			BusinessComponent<InnerBcDescription> bc) {
 		String bcName = data.getBc();
 		List<BcProperties> existDefaultBcProperties = baseDAO.getList(BcProperties.class, BcProperties_.bc, bcName);
 		if (!existDefaultBcProperties.isEmpty()) {
@@ -82,8 +83,8 @@ public class BcPropertiesServiceImpl extends VersionAwareResponseService<BcPrope
 	}
 
 	@Override
-	public Actions<BcPropertiesDTO> getActions() {
-		return Actions.<BcPropertiesDTO>builder()
+	public Actions<BcPropertiesDTO, InnerBcDescription> getActions() {
+		return Actions.<BcPropertiesDTO, InnerBcDescription>builder()
 				.create().add()
 				.save().add()
 				.delete().add()

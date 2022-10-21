@@ -23,13 +23,13 @@ package io.tesler.source.service.meta;
 import io.tesler.core.crudma.bc.impl.InnerBcDescription;
 import io.tesler.core.dto.rowmeta.FieldsMeta;
 import io.tesler.core.dto.rowmeta.RowDependentFieldsMeta;
-import io.tesler.core.service.rowmeta.FieldMetaBuilder;
+import io.tesler.core.service.rowmeta.InnerFieldMetaBuilder;
 import io.tesler.source.dto.DictionaryLnkRuleValueDto;
 import io.tesler.source.dto.DictionaryLnkRuleValueDto_;
 import org.springframework.stereotype.Service;
 
 @Service
-public class DictionaryLnkRuleValueFieldMetaBuilder extends FieldMetaBuilder<DictionaryLnkRuleValueDto> {
+public class DictionaryLnkRuleValueFieldMetaBuilder extends InnerFieldMetaBuilder<DictionaryLnkRuleValueDto> {
 
 	@Override
 	public void buildRowDependentMeta(RowDependentFieldsMeta<DictionaryLnkRuleValueDto> fields,

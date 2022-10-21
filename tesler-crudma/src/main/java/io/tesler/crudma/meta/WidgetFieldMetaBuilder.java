@@ -25,12 +25,12 @@ import io.tesler.core.dto.data.view.WidgetDTO;
 import io.tesler.core.dto.data.view.WidgetDTO_;
 import io.tesler.core.dto.rowmeta.FieldsMeta;
 import io.tesler.core.dto.rowmeta.RowDependentFieldsMeta;
-import io.tesler.core.service.rowmeta.FieldMetaBuilder;
+import io.tesler.core.service.rowmeta.InnerFieldMetaBuilder;
 import org.springframework.stereotype.Service;
 
 
 @Service
-public class WidgetFieldMetaBuilder extends FieldMetaBuilder<WidgetDTO> {
+public class WidgetFieldMetaBuilder extends InnerFieldMetaBuilder<WidgetDTO> {
 
 	@Override
 	public void buildRowDependentMeta(RowDependentFieldsMeta<WidgetDTO> fields, InnerBcDescription bcDescription,

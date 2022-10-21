@@ -21,6 +21,7 @@
 package io.tesler.source.services.data.impl;
 
 import io.tesler.core.crudma.bc.BusinessComponent;
+import io.tesler.core.crudma.bc.impl.InnerBcDescription;
 import io.tesler.core.crudma.impl.VersionAwareResponseService;
 import io.tesler.core.dict.WorkflowDictionaryType;
 import io.tesler.core.dto.rowmeta.ActionResultDTO;
@@ -43,27 +44,27 @@ public abstract class BaseWorkflowAssigneeRecommendationServiceImpl<D extends Wo
 			final Class<D> typeOfDTO,
 			final Class<E> typeOfEntity,
 			final SingularAttribute<? super E, ? extends BaseEntity> parentSpec,
-			final Class<? extends FieldMetaBuilder<D>> metaBuilder) {
+			final Class<? extends FieldMetaBuilder<D, InnerBcDescription>> metaBuilder) {
 		super(typeOfDTO, typeOfEntity, parentSpec, metaBuilder);
 	}
 
 	@Override
-	protected final CreateResult<D> doCreateEntity(final E entity, final BusinessComponent bc) {
+	protected final CreateResult<D> doCreateEntity(final E entity, final BusinessComponent<InnerBcDescription> bc) {
 		entity.setConditionGroup(baseDAO.findById(WorkflowStepConditionGroup.class, bc.getParentIdAsLong()));
 		baseDAO.save(entity);
 		return new CreateResult<>(entityToDto(bc, entity));
 	}
 
 	@Override
-	protected abstract E create(BusinessComponent bc);
+	protected abstract E create(BusinessComponent<InnerBcDescription> bc);
 
 	@Override
-	protected final ActionResultDTO<D> doUpdateEntity(E entity, D dto, BusinessComponent bc) {
+	protected final ActionResultDTO<D> doUpdateEntity(E entity, D dto, BusinessComponent<InnerBcDescription> bc) {
 		update(entity, dto, bc);
 		return new ActionResultDTO<>(entityToDto(bc, entity));
 	}
 
-	protected void update(E entity, D dto, BusinessComponent bc) {
+	protected void update(E entity, D dto, BusinessComponent<InnerBcDescription> bc) {
 		if (dto.isFieldChanged(WorkflowAssigneeRecommendationDto_.condAssigneeCd)) {
 			entity.setCondAssigneeCd(WorkflowDictionaryType.WF_COND_ASSIGNEE.lookupName(dto.getCondAssigneeCd()));
 		}
@@ -77,8 +78,8 @@ public abstract class BaseWorkflowAssigneeRecommendationServiceImpl<D extends Wo
 	}
 
 	@Override
-	public Actions<D> getActions() {
-		return Actions.<D>builder()
+	public Actions<D, InnerBcDescription> getActions() {
+		return Actions.<D, InnerBcDescription>builder()
 				.create().add()
 				.save().add()
 				.delete().add()

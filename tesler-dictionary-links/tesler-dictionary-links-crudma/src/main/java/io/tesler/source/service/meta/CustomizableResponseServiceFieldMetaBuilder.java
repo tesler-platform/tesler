@@ -25,7 +25,7 @@ import io.tesler.core.crudma.bc.BcRegistry;
 import io.tesler.core.crudma.bc.impl.InnerBcDescription;
 import io.tesler.core.dto.rowmeta.FieldsMeta;
 import io.tesler.core.dto.rowmeta.RowDependentFieldsMeta;
-import io.tesler.core.service.rowmeta.FieldMetaBuilder;
+import io.tesler.core.service.rowmeta.InnerFieldMetaBuilder;
 import io.tesler.model.core.dao.JpaDao;
 import io.tesler.model.dictionary.links.entity.CustomizableResponseService;
 import io.tesler.source.dto.CustomizableResponseServiceDto;
@@ -37,7 +37,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class CustomizableResponseServiceFieldMetaBuilder extends FieldMetaBuilder<CustomizableResponseServiceDto> {
+public class CustomizableResponseServiceFieldMetaBuilder extends InnerFieldMetaBuilder<CustomizableResponseServiceDto> {
 
 	@Autowired
 	private JpaDao jpaDao;

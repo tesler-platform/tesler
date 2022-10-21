@@ -24,6 +24,7 @@ import io.tesler.api.data.dictionary.CoreDictionaries.SystemPref;
 import io.tesler.api.data.dto.DataResponseDTO;
 import io.tesler.api.system.SystemSettings;
 import io.tesler.core.crudma.bc.BusinessComponent;
+import io.tesler.core.crudma.bc.impl.InnerBcDescription;
 import io.tesler.core.dto.rowmeta.ActionResultDTO;
 import io.tesler.core.dto.rowmeta.CreateResult;
 import io.tesler.core.exception.UnableToLockException;
@@ -50,12 +51,12 @@ public abstract class VersionAwareResponseService<T extends DataResponseDTO, E e
 
 	public VersionAwareResponseService(Class<T> typeOfDTO, Class<E> typeOfEntity,
 			SingularAttribute<? super E, ? extends BaseEntity> parentSpec,
-			Class<? extends FieldMetaBuilder<T>> metaBuilder) {
+			Class<? extends FieldMetaBuilder<T, InnerBcDescription>> metaBuilder) {
 		super(typeOfDTO, typeOfEntity, parentSpec, metaBuilder);
 	}
 
 	@Override
-	public CreateResult<T> createEntity(BusinessComponent bc) {
+	public CreateResult<T> createEntity(BusinessComponent<InnerBcDescription> bc) {
 		// todo: add a check that the service returns actual data
 		final E entity = create(bc);
 		if (entity.getId() == null && bc.getId() != null) {
@@ -68,24 +69,24 @@ public abstract class VersionAwareResponseService<T extends DataResponseDTO, E e
 	}
 
 	@SneakyThrows
-	protected E create(BusinessComponent bc) {
+	protected E create(BusinessComponent<InnerBcDescription> bc) {
 		return typeOfEntity.newInstance();
 	}
 
 	@Override
-	public ActionResultDTO<T> updateEntity(BusinessComponent bc, DataResponseDTO data) {
+	public ActionResultDTO<T> updateEntity(BusinessComponent<InnerBcDescription> bc, DataResponseDTO data) {
 		// todo: добавить проверку что сервис возвращает актуальные данные
 		return doUpdateEntity(loadEntity(bc, data), typeOfDTO.cast(data), bc);
 	}
 
 	@Override
-	public ActionResultDTO<T> preview(BusinessComponent bc, DataResponseDTO data) {
+	public ActionResultDTO<T> preview(BusinessComponent<InnerBcDescription> bc, DataResponseDTO data) {
 		// todo: добавить проверку что сервис возвращает актуальные данные
 		return doPreview(loadEntity(bc, data), typeOfDTO.cast(data), bc);
 	}
 
 	@Override
-	protected E loadEntity(BusinessComponent bc, DataResponseDTO data) {
+	protected E loadEntity(BusinessComponent<InnerBcDescription> bc, DataResponseDTO data) {
 		E entity = isExist(bc.getIdAsLong());
 		if (!Objects.equals(data.getVstamp(), -1L) && !Objects.equals(entity.getVstamp(), data.getVstamp())) {
 			throw new VersionMismatchException(entity, data);
@@ -105,11 +106,11 @@ public abstract class VersionAwareResponseService<T extends DataResponseDTO, E e
 		return entity;
 	}
 
-	protected abstract CreateResult<T> doCreateEntity(E entity, BusinessComponent bc);
+	protected abstract CreateResult<T> doCreateEntity(E entity, BusinessComponent<InnerBcDescription> bc);
 
-	protected abstract ActionResultDTO<T> doUpdateEntity(E entity, T data, BusinessComponent bc);
+	protected abstract ActionResultDTO<T> doUpdateEntity(E entity, T data, BusinessComponent<InnerBcDescription> bc);
 
-	protected ActionResultDTO<T> doPreview(E entity, T data, BusinessComponent bc) {
+	protected ActionResultDTO<T> doPreview(E entity, T data, BusinessComponent<InnerBcDescription> bc) {
 		return doUpdateEntity(entity, data, bc);
 	}
 

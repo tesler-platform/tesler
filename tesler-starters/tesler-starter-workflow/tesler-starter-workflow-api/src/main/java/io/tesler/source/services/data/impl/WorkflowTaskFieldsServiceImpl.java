@@ -21,6 +21,7 @@
 package io.tesler.source.services.data.impl;
 
 import io.tesler.core.crudma.bc.BusinessComponent;
+import io.tesler.core.crudma.bc.impl.InnerBcDescription;
 import io.tesler.core.crudma.impl.VersionAwareResponseService;
 import io.tesler.core.dto.rowmeta.ActionResultDTO;
 import io.tesler.core.dto.rowmeta.CreateResult;
@@ -41,13 +42,13 @@ public class WorkflowTaskFieldsServiceImpl extends
 	}
 
 	@Override
-	protected CreateResult<WorkflowTaskFieldDto> doCreateEntity(final TaskField entity, final BusinessComponent bc) {
+	protected CreateResult<WorkflowTaskFieldDto> doCreateEntity(final TaskField entity, final BusinessComponent<InnerBcDescription> bc) {
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
 	protected ActionResultDTO<WorkflowTaskFieldDto> doUpdateEntity(TaskField entity, WorkflowTaskFieldDto dto,
-			BusinessComponent bc) {
+			BusinessComponent<InnerBcDescription> bc) {
 		if (dto.isFieldChanged(WorkflowTaskFieldDto_.title)) {
 			entity.setTitle(dto.getTitle());
 		}
@@ -55,8 +56,8 @@ public class WorkflowTaskFieldsServiceImpl extends
 	}
 
 	@Override
-	public Actions<WorkflowTaskFieldDto> getActions() {
-		return Actions.<WorkflowTaskFieldDto>builder()
+	public Actions<WorkflowTaskFieldDto, InnerBcDescription> getActions() {
+		return Actions.<WorkflowTaskFieldDto, InnerBcDescription>builder()
 				.save().add()
 				.build();
 	}

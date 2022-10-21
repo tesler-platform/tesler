@@ -26,6 +26,7 @@ import io.tesler.api.data.dto.DataResponseDTO;
 import io.tesler.api.data.dto.rowmeta.ActionDTO;
 import io.tesler.api.data.dto.rowmeta.PreActionDTO;
 import io.tesler.core.crudma.bc.BusinessComponent;
+import io.tesler.core.crudma.bc.impl.BcDescription;
 import io.tesler.core.dto.rowmeta.ActionResultDTO;
 import io.tesler.core.dto.rowmeta.PreAction;
 import java.util.List;
@@ -34,7 +35,7 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
-public final class ActionDescription<T extends DataResponseDTO> {
+public final class ActionDescription<T extends DataResponseDTO, D extends BcDescription> {
 
 	@Getter
 	private final String key;
@@ -45,9 +46,9 @@ public final class ActionDescription<T extends DataResponseDTO> {
 	@Getter
 	private final Map<String, String> customParameters;
 
-	private final ActionAvailableChecker actionAvailableChecker;
+	private final ActionAvailableChecker<D> actionAvailableChecker;
 
-	private final ActionInvoker<T> actionInvoker;
+	private final ActionInvoker<T, D> actionInvoker;
 
 	private final PreActionSpecifier preActionSpecifier;
 
@@ -67,11 +68,11 @@ public final class ActionDescription<T extends DataResponseDTO> {
 	@Getter
 	private final boolean autoSaveBefore;
 
-	public static <T extends DataResponseDTO> ActionDescriptionBuilder<T> builder() {
+	public static <T extends DataResponseDTO, D extends BcDescription> ActionDescriptionBuilder<T, D> builder() {
 		return new ActionDescriptionBuilder<>();
 	}
 
-	public boolean isAvailable(BusinessComponent bc) {
+	public boolean isAvailable(BusinessComponent<D> bc) {
 		return actionAvailableChecker.isAvailable(bc);
 	}
 
@@ -79,11 +80,11 @@ public final class ActionDescription<T extends DataResponseDTO> {
 		return actionInvoker.isUpdateRequired();
 	}
 
-	public ActionResultDTO<T> invoke(BusinessComponent bc, T data) {
+	public ActionResultDTO<T> invoke(BusinessComponent<D> bc, T data) {
 		return actionInvoker.invoke(bc, data);
 	}
 
-	public PreAction withPreAction(BusinessComponent bc) {
+	public PreAction withPreAction(BusinessComponent<D> bc) {
 		return preActionSpecifier.withPreAction(bc);
 	}
 

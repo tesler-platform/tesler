@@ -23,6 +23,7 @@ package io.tesler.core.service.linkedlov;
 import io.tesler.api.data.dictionary.LOV;
 import io.tesler.constgen.DtoField;
 import io.tesler.core.crudma.bc.BusinessComponent;
+import io.tesler.core.crudma.bc.impl.InnerBcDescription;
 import io.tesler.core.dto.rowmeta.EngineFieldsMeta;
 import java.util.Set;
 
@@ -31,6 +32,6 @@ public interface LinkedDictionaryService {
 
 	void fillRowMetaWithLinkedDictionaries(EngineFieldsMeta<?> meta, BusinessComponent bc, boolean filterValues);
 
-	Set<LOV> getDictionariesForField(DtoField field, BusinessComponent bc, boolean filterValues);
+	Set<LOV> getDictionariesForField(DtoField field, BusinessComponent<InnerBcDescription> bc, boolean filterValues);
 
 }

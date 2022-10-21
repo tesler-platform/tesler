@@ -31,7 +31,7 @@ import static io.tesler.source.dto.DictionaryItemDTO_.value;
 import io.tesler.core.crudma.bc.impl.InnerBcDescription;
 import io.tesler.core.dto.rowmeta.FieldsMeta;
 import io.tesler.core.dto.rowmeta.RowDependentFieldsMeta;
-import io.tesler.core.service.rowmeta.FieldMetaBuilder;
+import io.tesler.core.service.rowmeta.InnerFieldMetaBuilder;
 import io.tesler.model.core.dao.JpaDao;
 import io.tesler.model.dictionary.entity.DictionaryItem;
 import io.tesler.source.dto.DictionaryItemDTO;
@@ -40,7 +40,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class DictionaryItemsFieldMetaBuilder extends FieldMetaBuilder<DictionaryItemDTO> {
+public class DictionaryItemsFieldMetaBuilder extends InnerFieldMetaBuilder<DictionaryItemDTO> {
 
 	private final JpaDao jpaDao;
 

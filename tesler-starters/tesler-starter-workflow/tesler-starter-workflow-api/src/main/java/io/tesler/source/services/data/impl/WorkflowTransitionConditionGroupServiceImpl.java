@@ -27,6 +27,7 @@ import static io.tesler.core.dict.WorkflowDictionaries.ConditionGroupType.VALIDA
 import io.tesler.WorkflowServiceAssociation;
 import io.tesler.api.data.dictionary.LOV;
 import io.tesler.core.crudma.bc.BusinessComponent;
+import io.tesler.core.crudma.bc.impl.InnerBcDescription;
 import io.tesler.core.crudma.impl.VersionAwareResponseService;
 import io.tesler.core.dto.rowmeta.ActionResultDTO;
 import io.tesler.core.dto.rowmeta.CreateResult;
@@ -62,14 +63,14 @@ public class WorkflowTransitionConditionGroupServiceImpl extends
 	}
 
 	@Override
-	protected Specification<WorkflowTransitionConditionGroup> getParentSpecification(BusinessComponent bc) {
+	protected Specification<WorkflowTransitionConditionGroup> getParentSpecification(BusinessComponent<InnerBcDescription> bc) {
 		return (root, cq, cb) -> cb.and(
 				cb.equal(root.get(parentSpec).get(BaseEntity_.id), bc.getParentIdAsLong()),
 				cb.equal(root.get(WorkflowTransitionConditionGroup_.condGroupCd), getCondGroupCd(bc))
 		);
 	}
 
-	private LOV getCondGroupCd(BusinessComponent bc) {
+	private LOV getCondGroupCd(BusinessComponent<InnerBcDescription> bc) {
 		if (WorkflowServiceAssociation.wfTransitionCondGroup.isBc(bc)) {
 			return CONDITION;
 		}
@@ -84,7 +85,7 @@ public class WorkflowTransitionConditionGroupServiceImpl extends
 
 	@Override
 	protected CreateResult<WorkflowTransitionConditionGroupDto> doCreateEntity(
-			final WorkflowTransitionConditionGroup entity, final BusinessComponent bc) {
+			final WorkflowTransitionConditionGroup entity, final BusinessComponent<InnerBcDescription> bc) {
 		entity.setCondGroupCd(getCondGroupCd(bc));
 		entity.setTransition(baseDAO.findById(WorkflowTransition.class, bc.getParentIdAsLong()));
 		baseDAO.save(entity);
@@ -94,7 +95,7 @@ public class WorkflowTransitionConditionGroupServiceImpl extends
 
 	@Override
 	protected ActionResultDTO<WorkflowTransitionConditionGroupDto> doUpdateEntity(WorkflowTransitionConditionGroup entity,
-			WorkflowTransitionConditionGroupDto dto, BusinessComponent bc) {
+			WorkflowTransitionConditionGroupDto dto, BusinessComponent<InnerBcDescription> bc) {
 		if (dto.isFieldChanged(WorkflowTransitionConditionGroupDto_.seq)) {
 			entity.setSeq(dto.getSeq());
 		}
@@ -105,14 +106,14 @@ public class WorkflowTransitionConditionGroupServiceImpl extends
 	}
 
 	@Override
-	public ActionResultDTO<WorkflowTransitionConditionGroupDto> deleteEntity(BusinessComponent bc) {
+	public ActionResultDTO<WorkflowTransitionConditionGroupDto> deleteEntity(BusinessComponent<InnerBcDescription> bc) {
 		workflowDao.deleteTransitionConditionGroup(isExist(bc.getIdAsLong()));
 		return new ActionResultDTO<>();
 	}
 
 	@Override
-	public Actions<WorkflowTransitionConditionGroupDto> getActions() {
-		return Actions.<WorkflowTransitionConditionGroupDto>builder()
+	public Actions<WorkflowTransitionConditionGroupDto, InnerBcDescription> getActions() {
+		return Actions.<WorkflowTransitionConditionGroupDto, InnerBcDescription>builder()
 				.create().add()
 				.save().add()
 				.delete().add()

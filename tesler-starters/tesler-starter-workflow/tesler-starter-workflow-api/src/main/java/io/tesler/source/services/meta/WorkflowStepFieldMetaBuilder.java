@@ -27,12 +27,12 @@ import static io.tesler.source.dto.WorkflowStepDto_.overdueTransitionName;
 import io.tesler.core.crudma.bc.impl.InnerBcDescription;
 import io.tesler.core.dto.rowmeta.FieldsMeta;
 import io.tesler.core.dto.rowmeta.RowDependentFieldsMeta;
-import io.tesler.core.service.rowmeta.FieldMetaBuilder;
+import io.tesler.core.service.rowmeta.InnerFieldMetaBuilder;
 import io.tesler.source.dto.WorkflowStepDto;
 import org.springframework.stereotype.Service;
 
 @Service
-public class WorkflowStepFieldMetaBuilder extends FieldMetaBuilder<WorkflowStepDto> {
+public class WorkflowStepFieldMetaBuilder extends InnerFieldMetaBuilder<WorkflowStepDto> {
 
 	@Override
 	public void buildRowDependentMeta(RowDependentFieldsMeta<WorkflowStepDto> fields, InnerBcDescription bcDescription,

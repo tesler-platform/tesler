@@ -25,99 +25,100 @@ import static io.tesler.core.service.action.ActionAvailableChecker.ALWAYS_TRUE;
 import static java.util.Objects.nonNull;
 
 import io.tesler.api.data.dto.DataResponseDTO;
+import io.tesler.core.crudma.bc.impl.BcDescription;
 import io.tesler.core.dto.rowmeta.ActionType;
 import java.util.ArrayList;
 import java.util.List;
 
 
-public class ActionsBuilder<T extends DataResponseDTO> {
+public class ActionsBuilder<T extends DataResponseDTO, D extends BcDescription> {
 
-	private final List<ActionDescription<T>> actionDefinitions = new ArrayList<>();
+	private final List<ActionDescription<T, D>> actionDefinitions = new ArrayList<>();
 
-	private final List<ActionGroupDescription<T>> actionGroupDefinitions = new ArrayList<>();
+	private final List<ActionGroupDescription<T, D>> actionGroupDefinitions = new ArrayList<>();
 
-	private ActionDescriptionBuilder<T> actionDescriptionBuilder;
+	private ActionDescriptionBuilder<T, D> actionDescriptionBuilder;
 
 	ActionsBuilder() {
 
 	}
 
-	public ActionsBuilder<T> addAction(ActionDescription<T> actionDescription) {
+	public ActionsBuilder<T, D> addAction(ActionDescription<T, D> actionDescription) {
 		if (nonNull(actionDescription)) {
 			actionDefinitions.add(actionDescription);
 		}
 		return this;
 	}
 
-	public ActionDescriptionBuilder<T> newAction() {
-		actionDescriptionBuilder = ActionDescription.<T>builder().withBuilder(this);
+	public ActionDescriptionBuilder<T, D> newAction() {
+		actionDescriptionBuilder = ActionDescription.<T, D>builder().withBuilder(this);
 		actionDescriptionBuilder.available(ALWAYS_TRUE);
 		return actionDescriptionBuilder;
 	}
 
-	public ActionDescriptionBuilder<T> action(String type, String actionName) {
+	public ActionDescriptionBuilder<T, D> action(String type, String actionName) {
 		actionDescriptionBuilder = newAction();
 		actionDescriptionBuilder.action(type, actionName);
 		return actionDescriptionBuilder;
 	}
 
-	public ActionDescriptionBuilder<T> action(ActionType actionType) {
+	public ActionDescriptionBuilder<T, D> action(ActionType actionType) {
 		actionDescriptionBuilder = newAction().action(actionType);
 		return actionDescriptionBuilder;
 	}
 
-	public ActionDescriptionBuilder<T> create() {
+	public ActionDescriptionBuilder<T, D> create() {
 		actionDescriptionBuilder = action(ActionType.CREATE)
 				.scope(ActionScope.BC)
 				.withoutAutoSaveBefore();
 		return actionDescriptionBuilder;
 	}
 
-	public ActionDescriptionBuilder<T> save() {
+	public ActionDescriptionBuilder<T, D> save() {
 		actionDescriptionBuilder = action(ActionType.SAVE);
 		return actionDescriptionBuilder;
 	}
 
-	public ActionDescriptionBuilder<T> cancelCreate() {
+	public ActionDescriptionBuilder<T, D> cancelCreate() {
 		// по-умолчанию недоступно, а решается в io.tesler.core.crudma.CrudmaGateway
 		actionDescriptionBuilder = action(ActionType.CANCEL_CREATE).available(ALWAYS_FALSE)
 				.withoutAutoSaveBefore();
 		return actionDescriptionBuilder;
 	}
 
-	public ActionDescriptionBuilder<T> associate() {
+	public ActionDescriptionBuilder<T, D> associate() {
 		actionDescriptionBuilder = action(ActionType.ASSOCIATE)
 				.scope(ActionScope.BC);
 		return actionDescriptionBuilder;
 	}
 
-	public ActionDescriptionBuilder<T> delete() {
+	public ActionDescriptionBuilder<T, D> delete() {
 		actionDescriptionBuilder = action(ActionType.DELETE)
 				.withoutAutoSaveBefore();
 		return actionDescriptionBuilder;
 	}
 
-	public ActionsBuilder<T> addGroup(String type, String groupName, int maxGroupVisualButtonsCount,
-			Actions<T> groupActions) {
+	public ActionsBuilder<T, D> addGroup(String type, String groupName, int maxGroupVisualButtonsCount,
+			Actions<T, D> groupActions) {
 		actionGroupDefinitions.add(
 				new ActionGroupDescription<>(type, groupName, maxGroupVisualButtonsCount, groupActions.actionDefinitions)
 		);
 		return this;
 	}
 
-	public ActionsBuilder<T> withIcon(ActionIconSpecifier icon, boolean showOnlyIcon) {
+	public ActionsBuilder<T, D> withIcon(ActionIconSpecifier icon, boolean showOnlyIcon) {
 		this.actionGroupDefinitions.get(actionGroupDefinitions.size() - 1).setIconCode(icon);
 		this.actionGroupDefinitions.get(actionGroupDefinitions.size() - 1).setShowOnlyIcon(showOnlyIcon);
 		return this;
 	}
 
-	public ActionsBuilder<T> addAll(Actions<T> actions) {
+	public ActionsBuilder<T, D> addAll(Actions<T, D> actions) {
 		actionDefinitions.addAll(actions.actionDefinitions);
 		actionGroupDefinitions.addAll(actions.actionGroupDefinitions);
 		return this;
 	}
 
-	public ActionsBuilder<T> add(String key, ResponseServiceAction<T> responseServiceAction) {
+	public ActionsBuilder<T, D> add(String key, ResponseServiceAction<T> responseServiceAction) {
 		actionDefinitions.add(
 				new ActionDescription<>(
 						key,
@@ -137,7 +138,7 @@ public class ActionsBuilder<T extends DataResponseDTO> {
 		return this;
 	}
 
-	public Actions<T> build() {
+	public Actions<T, D> build() {
 		return new Actions<>(
 				actionDefinitions,
 				actionGroupDefinitions

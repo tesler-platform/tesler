@@ -21,16 +21,16 @@
 package io.tesler.source.services.meta;
 
 import io.tesler.core.crudma.bc.impl.InnerBcDescription;
+import io.tesler.core.service.rowmeta.InnerFieldMetaBuilder;
 import io.tesler.source.dto.AdminBcDto;
 import io.tesler.core.dto.rowmeta.FieldsMeta;
 import io.tesler.core.dto.rowmeta.RowDependentFieldsMeta;
-import io.tesler.core.service.rowmeta.FieldMetaBuilder;
 import io.tesler.source.dto.AdminBcDto_;
 import org.springframework.stereotype.Service;
 
 
 @Service
-public class TaskChildBcFieldMetaBuilder extends FieldMetaBuilder<AdminBcDto> {
+public class TaskChildBcFieldMetaBuilder extends InnerFieldMetaBuilder<AdminBcDto> {
 
 	@Override
 	public void buildRowDependentMeta(RowDependentFieldsMeta<AdminBcDto> fields, InnerBcDescription bcDescription,

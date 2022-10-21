@@ -41,7 +41,7 @@ import io.tesler.core.dto.rowmeta.MetaDTO;
 import io.tesler.core.dto.rowmeta.RowMetaDTO;
 import io.tesler.core.dto.rowmeta.SQLMetaDTO;
 import io.tesler.core.exception.BusinessException;
-import io.tesler.core.service.ResponseFactory;
+import io.tesler.core.service.DataResponseConverter;
 import io.tesler.core.service.action.ActionDescription;
 import io.tesler.core.service.action.Actions;
 import io.tesler.core.service.action.ActionsBuilder;
@@ -74,11 +74,11 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @Transactional
 @RequiredArgsConstructor
-public class SqlCrudmaService extends AbstractCrudmaService {
+public class SqlCrudmaService extends AbstractCrudmaService<SqlBcDescription> {
 
 	private final SqlComponentDao sqlComponentDao;
 
-	private final ResponseFactory respFactory;
+	private final DataResponseConverter responseConverter;
 
 	private final JpaDao jpaDao;
 
@@ -99,7 +99,7 @@ public class SqlCrudmaService extends AbstractCrudmaService {
 	private final Database primaryDatabase;
 
 	@Override
-	public SqlComponentObject get(BusinessComponent bc) {
+	public SqlComponentObject get(BusinessComponent<SqlBcDescription> bc) {
 		try {
 			return sqlComponentDao.getOne(bc, bc.getParameters());
 		} catch (NoResultException ex) {
@@ -108,17 +108,17 @@ public class SqlCrudmaService extends AbstractCrudmaService {
 	}
 
 	@Override
-	public ResultPage<SqlComponentObject> getAll(BusinessComponent bc) {
+	public ResultPage<SqlComponentObject> getAll(BusinessComponent<SqlBcDescription> bc) {
 		ResultPage<SqlComponentObject> page = sqlComponentDao.getPage(bc, bc.getParameters());
-		String fieldName = ((SqlBcDescription) bc.getDescription()).getReportDateField();
+		String fieldName = bc.getDescription().getReportDateField();
 		checkPivotFilters(page, bc.getParameters(), fieldName);
 		return page;
 	}
 
 	@Override
-	public ActionResultDTO update(BusinessComponent bc, Map<String, Object> data) {
+	public ActionResultDTO update(BusinessComponent<SqlBcDescription> bc, Map<String, Object> data) {
 
-		SqlBcEditFieldDTO dto = (SqlBcEditFieldDTO) respFactory.getDTOFromMap(data, SqlBcEditFieldDTO.class, bc);
+		SqlBcEditFieldDTO dto = (SqlBcEditFieldDTO) responseConverter.getDTOFromMap(data, SqlBcEditFieldDTO.class, bc);
 
 		SqlBcDescription sqlBcDesc = bc.getDescription();
 
@@ -257,7 +257,7 @@ public class SqlCrudmaService extends AbstractCrudmaService {
 		return DateTimeUtil.toLocalDateTime((Date) sqlComponent.get(fieldName));
 	}
 
-	private SQLMetaDTO buildMeta(BusinessComponent bc, List<FieldDTO> fields, ActionsDTO actions) {
+	private SQLMetaDTO buildMeta(BusinessComponent<SqlBcDescription> bc, List<FieldDTO> fields, ActionsDTO actions) {
 		SQLMetaDTO metaDTO = new SQLMetaDTO(new RowMetaDTO(actions, FieldsDTO.of(fields)));
 		if (bc.getParameters().isDebug()) {
 			setDebugParameters(bc, metaDTO);
@@ -266,9 +266,9 @@ public class SqlCrudmaService extends AbstractCrudmaService {
 	}
 
 	@Override
-	public SQLMetaDTO getMeta(BusinessComponent bc) {
+	public SQLMetaDTO getMeta(BusinessComponent<SqlBcDescription> bc) {
 		final Set<String> fieldsForCurrentScreen = bcUtils.getBcFieldsForCurrentScreen(bc);
-		final List<FieldDTO> fields = ((SqlBcDescription) bc.getDescription()).getFields().stream()
+		final List<FieldDTO> fields = bc.getDescription().getFields().stream()
 				.filter(field -> fieldsForCurrentScreen.contains(field.getFieldName()))
 				.map(field -> (field.getEditable() && isActionSaveAvailable(bc))
 						? FieldDTO.enabledField(field.getFieldName())
@@ -284,17 +284,17 @@ public class SqlCrudmaService extends AbstractCrudmaService {
 	}
 
 	@Override
-	public MetaDTO getMetaEmpty(BusinessComponent bc) {
+	public MetaDTO getMetaEmpty(BusinessComponent<SqlBcDescription> bc) {
 		return buildMeta(bc, Collections.emptyList(), getActions().toDto(bc));
 	}
 
 	@Override
-	public long count(BusinessComponent bc) {
+	public long count(BusinessComponent<SqlBcDescription> bc) {
 		return sqlComponentDao.count(bc, bc.getParameters());
 	}
 
 	@Override
-	public ActionResultDTO invokeAction(BusinessComponent bc,
+	public ActionResultDTO invokeAction(BusinessComponent<SqlBcDescription> bc,
 			String actionName,
 			Map<String, Object> data) {
 		final SqlComponentObject dto = getAll(bc).getResult()
@@ -302,29 +302,29 @@ public class SqlCrudmaService extends AbstractCrudmaService {
 				.filter(object -> Objects.equals(object.getId(), bc.getId()))
 				.findFirst().orElse(null);
 
-		ActionDescription<SqlComponentObject> action = getActions().getAction(actionName);
+		ActionDescription<SqlComponentObject, SqlBcDescription> action = getActions().getAction(actionName);
 		if (action == null || !action.isAvailable(bc)) {
 			throw new BusinessException().addPopup(ErrorMessageSource.errorMessage("error.action_unavailable", actionName));
 		}
 		return action.invoke(bc, dto);
 	}
 
-	private Actions<SqlComponentObject> getActions() {
-		ActionsBuilder<SqlComponentObject> builder = Actions.builder();
+	private Actions<SqlComponentObject, SqlBcDescription> getActions() {
+		ActionsBuilder<SqlComponentObject, SqlBcDescription> builder = Actions.builder();
 		sqlBcActions.ifPresent(sqlBcActions -> {
 			for (final SqlBcAction action : sqlBcActions) {
 				builder.action(action.getKey(), action.getText())
-						.available(action::isAvailable).invoker(action::invoke).add();
+						.available(action::isAvailable).invoker(action).add();
 			}
 		});
 		return builder.save().available(this::isActionSaveAvailable).add().build();
 	}
 
-	private boolean isActionSaveAvailable(BusinessComponent bc) {
-		return bc.<SqlBcDescription>getDescription().isEditable();
+	private boolean isActionSaveAvailable(BusinessComponent<SqlBcDescription> bc) {
+		return bc.getDescription().isEditable();
 	}
 
-	private void setDebugParameters(BusinessComponent bc, SQLMetaDTO metaDTO) {
+	private void setDebugParameters(BusinessComponent<SqlBcDescription> bc, SQLMetaDTO metaDTO) {
 		SqlBcDescription description = bc.getDescription();
 		metaDTO.setQuery(description.getQuery());
 		try {

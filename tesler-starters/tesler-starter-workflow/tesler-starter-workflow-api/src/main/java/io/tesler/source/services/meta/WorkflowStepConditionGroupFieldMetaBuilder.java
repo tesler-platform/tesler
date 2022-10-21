@@ -26,12 +26,12 @@ import static io.tesler.source.dto.WorkflowStepConditionGroupDto_.seq;
 import io.tesler.core.crudma.bc.impl.InnerBcDescription;
 import io.tesler.core.dto.rowmeta.FieldsMeta;
 import io.tesler.core.dto.rowmeta.RowDependentFieldsMeta;
-import io.tesler.core.service.rowmeta.FieldMetaBuilder;
+import io.tesler.core.service.rowmeta.InnerFieldMetaBuilder;
 import io.tesler.source.dto.WorkflowStepConditionGroupDto;
 import org.springframework.stereotype.Service;
 
 @Service
-public class WorkflowStepConditionGroupFieldMetaBuilder extends FieldMetaBuilder<WorkflowStepConditionGroupDto> {
+public class WorkflowStepConditionGroupFieldMetaBuilder extends InnerFieldMetaBuilder<WorkflowStepConditionGroupDto> {
 
 	@Override
 	public void buildRowDependentMeta(RowDependentFieldsMeta<WorkflowStepConditionGroupDto> fields,

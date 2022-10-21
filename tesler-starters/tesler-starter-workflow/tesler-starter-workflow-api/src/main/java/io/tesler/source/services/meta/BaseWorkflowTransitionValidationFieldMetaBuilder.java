@@ -32,13 +32,13 @@ import io.tesler.core.crudma.bc.impl.InnerBcDescription;
 import io.tesler.core.dict.WorkflowDictionaryType;
 import io.tesler.core.dto.rowmeta.FieldsMeta;
 import io.tesler.core.dto.rowmeta.RowDependentFieldsMeta;
-import io.tesler.core.service.rowmeta.FieldMetaBuilder;
+import io.tesler.core.service.rowmeta.InnerFieldMetaBuilder;
 import io.tesler.source.dto.WorkflowTransitionValidationDto;
 import io.tesler.source.dto.WorkflowTransitionValidationDto_;
 
 
 public abstract class BaseWorkflowTransitionValidationFieldMetaBuilder<D extends WorkflowTransitionValidationDto> extends
-		FieldMetaBuilder<D> {
+		InnerFieldMetaBuilder<D> {
 
 	@Override
 	public void buildRowDependentMeta(RowDependentFieldsMeta<D> fields, InnerBcDescription bcDescription, Long rowId,

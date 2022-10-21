@@ -21,6 +21,7 @@
 package io.tesler.source.services.data.impl;
 
 import io.tesler.core.crudma.bc.BusinessComponent;
+import io.tesler.core.crudma.bc.impl.InnerBcDescription;
 import io.tesler.core.crudma.impl.VersionAwareResponseService;
 import io.tesler.core.dict.WorkflowDictionaryType;
 import io.tesler.core.dto.rowmeta.ActionResultDTO;
@@ -52,17 +53,17 @@ public abstract class BaseWorkflowPostFunctionServiceImpl<D extends WorkflowPost
 			final Class<D> typeOfDTO,
 			final Class<E> typeOfEntity,
 			final SingularAttribute<? super E, ? extends BaseEntity> parentSpec,
-			final Class<? extends FieldMetaBuilder<D>> metaBuilder) {
+			final Class<? extends FieldMetaBuilder<D, InnerBcDescription>> metaBuilder) {
 		super(typeOfDTO, typeOfEntity, parentSpec, metaBuilder);
 	}
 
 	@Override
-	protected final ActionResultDTO<D> doUpdateEntity(E entity, D dto, BusinessComponent bc) {
+	protected final ActionResultDTO<D> doUpdateEntity(E entity, D dto, BusinessComponent<InnerBcDescription> bc) {
 		update(entity, dto, bc);
 		return new ActionResultDTO<>(entityToDto(bc, entity));
 	}
 
-	protected void update(E entity, D dto, BusinessComponent bc) {
+	protected void update(E entity, D dto, BusinessComponent<InnerBcDescription> bc) {
 		if (dto.isFieldChanged(WorkflowPostFunctionDto_.seq)) {
 			entity.setSeq(dto.getSeq());
 		}
@@ -75,7 +76,7 @@ public abstract class BaseWorkflowPostFunctionServiceImpl<D extends WorkflowPost
 	}
 
 	@Override
-	protected final CreateResult<D> doCreateEntity(final E entity, final BusinessComponent bc) {
+	protected final CreateResult<D> doCreateEntity(final E entity, final BusinessComponent<InnerBcDescription> bc) {
 		entity.setConditionGroup(
 				baseDAO.findById(WorkflowTransitionConditionGroup.class, bc.getParentIdAsLong())
 		);
@@ -94,24 +95,24 @@ public abstract class BaseWorkflowPostFunctionServiceImpl<D extends WorkflowPost
 	}
 
 	@Override
-	protected abstract E create(BusinessComponent bc);
+	protected abstract E create(BusinessComponent<InnerBcDescription> bc);
 
 	@Override
-	public ActionResultDTO<D> deleteEntity(final BusinessComponent bc) {
+	public ActionResultDTO<D> deleteEntity(final BusinessComponent<InnerBcDescription> bc) {
 		workflowDao.deletePostFunction(isExist(bc.getIdAsLong()));
 		return new ActionResultDTO<>();
 	}
 
 	@Override
-	public Actions<D> getActions() {
-		return Actions.<D>builder()
+	public Actions<D, InnerBcDescription> getActions() {
+		return Actions.<D, InnerBcDescription>builder()
 				.create().available(this::isCreateAvailable).add()
 				.save().add()
 				.delete().add()
 				.build();
 	}
 
-	protected boolean isCreateAvailable(BusinessComponent bc) {
+	protected boolean isCreateAvailable(BusinessComponent<InnerBcDescription> bc) {
 		return true;
 	}
 

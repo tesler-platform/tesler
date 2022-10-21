@@ -21,6 +21,7 @@
 package io.tesler.crudma.impl;
 
 import io.tesler.core.crudma.bc.BusinessComponent;
+import io.tesler.core.crudma.bc.impl.InnerBcDescription;
 import io.tesler.core.crudma.impl.VersionAwareResponseService;
 import io.tesler.core.dto.data.view.ScreenDTO;
 import io.tesler.core.dto.data.view.ScreenDTO_;
@@ -40,13 +41,13 @@ public class ScreenServiceImpl extends VersionAwareResponseService<ScreenDTO, Sc
 	}
 
 	@Override
-	protected CreateResult<ScreenDTO> doCreateEntity(final Screen entity, final BusinessComponent bc) {
+	protected CreateResult<ScreenDTO> doCreateEntity(final Screen entity, final BusinessComponent<InnerBcDescription> bc) {
 		Long id = baseDAO.save(entity);
 		return new CreateResult<>(entityToDto(bc, baseDAO.findById(Screen.class, id)));
 	}
 
 	@Override
-	protected ActionResultDTO<ScreenDTO> doUpdateEntity(Screen screen, ScreenDTO data, BusinessComponent bc) {
+	protected ActionResultDTO<ScreenDTO> doUpdateEntity(Screen screen, ScreenDTO data, BusinessComponent<InnerBcDescription> bc) {
 		if (data.hasChangedFields()) {
 			if (data.isFieldChanged(ScreenDTO_.name)) {
 				screen.setName(data.getName());

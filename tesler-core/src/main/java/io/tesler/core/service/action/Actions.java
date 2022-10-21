@@ -23,6 +23,7 @@ package io.tesler.core.service.action;
 import io.tesler.api.data.dto.DataResponseDTO;
 import io.tesler.api.data.dto.rowmeta.ActionDTO;
 import io.tesler.core.crudma.bc.BusinessComponent;
+import io.tesler.core.crudma.bc.impl.BcDescription;
 import io.tesler.core.dto.rowmeta.ActionsDTO;
 import java.util.ArrayList;
 import java.util.List;
@@ -30,31 +31,31 @@ import java.util.Objects;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
-public class Actions<T extends DataResponseDTO> {
+public class Actions<T extends DataResponseDTO, D extends BcDescription> {
 
-	final List<ActionDescription<T>> actionDefinitions;
+	final List<ActionDescription<T, D>> actionDefinitions;
 
-	final List<ActionGroupDescription<T>> actionGroupDefinitions;
+	final List<ActionGroupDescription<T, D>> actionGroupDefinitions;
 
-	public static <T extends DataResponseDTO> ActionsBuilder<T> builder() {
+	public static <T extends DataResponseDTO, D extends BcDescription> ActionsBuilder<T, D> builder() {
 		return new ActionsBuilder<>();
 	}
 
-	public ActionDescription<T> getAction(String key) {
-		List<ActionDescription<T>> allActions = new ArrayList<>(actionDefinitions);
+	public ActionDescription<T, D> getAction(String key) {
+		List<ActionDescription<T, D>> allActions = new ArrayList<>(actionDefinitions);
 		actionGroupDefinitions.forEach(group -> allActions.addAll(group.getActions()));
 		return allActions.stream()
 				.filter(actionDescription -> Objects.equals(key, actionDescription.getKey()))
 				.findFirst().orElse(null);
 	}
 
-	public ActionsDTO toDto(BusinessComponent bc) {
+	public ActionsDTO toDto(BusinessComponent<D> bc) {
 		ActionsDTO result = new ActionsDTO();
 		actionDefinitions.forEach(actionDescription -> result.addMethod(actionDescription, bc));
 
-		for (ActionGroupDescription<T> group : actionGroupDefinitions) {
+		for (ActionGroupDescription<T, D> group : actionGroupDefinitions) {
 			List<ActionDTO> groupActionDtos = new ArrayList<>();
-			List<ActionDescription<T>> groupActions = group.getActions();
+			List<ActionDescription<T, D>> groupActions = group.getActions();
 			groupActions.forEach(actionDescription -> groupActionDtos.add(actionDescription.toDto(bc)));
 			result.addGroup(group.getKey(), group.getText(), group.getMaxGroupVisualButtonsCount(), groupActionDtos, group.getIconCode(), group.isShowOnlyIcon());
 		}

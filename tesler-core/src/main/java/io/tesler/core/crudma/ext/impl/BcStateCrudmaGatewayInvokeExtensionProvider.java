@@ -39,8 +39,8 @@ import io.tesler.core.crudma.state.BcState;
 import io.tesler.core.crudma.state.BcStateAware;
 import io.tesler.core.dto.rowmeta.*;
 import io.tesler.core.dto.rowmeta.PostAction.BasePostActionField;
-import io.tesler.core.service.ResponseFactory;
 import io.tesler.core.service.ResponseService;
+import io.tesler.core.service.ResponseServiceHolder;
 import io.tesler.core.service.action.ActionAvailableChecker;
 import io.tesler.core.service.action.ActionDescriptionBuilder;
 import lombok.RequiredArgsConstructor;
@@ -66,9 +66,9 @@ public class BcStateCrudmaGatewayInvokeExtensionProvider implements CrudmaGatewa
 
 	private final BCFactory bcFactory;
 
-	private final ResponseFactory respFactory;
-
 	private final BcStateAware bcStateAware;
+
+	private final ResponseServiceHolder responseServiceHolder;
 
 	@Override
 	public <T> Invoker<T, RuntimeException> extendInvoker(CrudmaAction crudmaAction, Invoker<T, RuntimeException> invoker, boolean readOnly) {
@@ -81,7 +81,7 @@ public class BcStateCrudmaGatewayInvokeExtensionProvider implements CrudmaGatewa
 				bcStateAware.clear();
 				BcDescription description = bc.getDescription();
 				if (description instanceof InnerBcDescription) {
-					return (T) getResponseService(bc).onCancel(bc);
+					return (T) getResponseService((InnerBcDescription) description).onCancel(bc);
 				}
 				return (T) new ActionResultDTO().setAction(PostAction.postDelete());
 			}
@@ -181,7 +181,7 @@ public class BcStateCrudmaGatewayInvokeExtensionProvider implements CrudmaGatewa
 				originalParameters.setParameter("_action", state.getPendingAction());
 				bc.setParameters(originalParameters);
 			}
-			final ResponseService<?, ?> responseService = getResponseService(bc);
+			final ResponseService<?, ?> responseService = getResponseService((InnerBcDescription) bc.getDescription());
 			if (!bcStateAware.isPersisted(bc)) {
 				responseService.createEntity(bc);
 			}
@@ -204,8 +204,8 @@ public class BcStateCrudmaGatewayInvokeExtensionProvider implements CrudmaGatewa
 		);
 	}
 
-	private ResponseService<?, ?> getResponseService(BusinessComponent bc) {
-		return respFactory.getService(bc.getDescription());
+	private ResponseService<?, ?> getResponseService(InnerBcDescription bcDescription) {
+		return responseServiceHolder.getService(bcDescription.getServiceClass());
 	}
 
 	private void addActionCancel(BusinessComponent bc, final ActionsDTO actions) {

@@ -25,6 +25,7 @@ import static java.util.Optional.ofNullable;
 import io.tesler.WorkflowServiceAssociation;
 import io.tesler.api.data.dictionary.LOV;
 import io.tesler.core.crudma.bc.BusinessComponent;
+import io.tesler.core.crudma.bc.impl.InnerBcDescription;
 import io.tesler.core.crudma.impl.VersionAwareResponseService;
 import io.tesler.core.dto.rowmeta.ActionResultDTO;
 import io.tesler.core.dto.rowmeta.CreateResult;
@@ -62,7 +63,7 @@ public class WorkflowStepServiceImpl extends VersionAwareResponseService<Workflo
 	}
 
 	@Override
-	protected Specification<WorkflowStep> getParentSpecification(BusinessComponent bc) {
+	protected Specification<WorkflowStep> getParentSpecification(BusinessComponent<InnerBcDescription> bc) {
 		if (WorkflowServiceAssociation.wfStepAutoClosed.isBc(bc)) {
 			return (root, query, cb) -> cb.and(
 					cb.equal(root.get(WorkflowStep_.workflowVersion).get(BaseEntity_.id), bc.getParentIdAsLong()),
@@ -92,7 +93,7 @@ public class WorkflowStepServiceImpl extends VersionAwareResponseService<Workflo
 		};
 	}
 
-	protected Long getWorkflowVersionId(BusinessComponent bc) {
+	protected Long getWorkflowVersionId(BusinessComponent<InnerBcDescription> bc) {
 		if (WorkflowServiceAssociation.wfTransitionDestStep.isBc(bc)) {
 			return ofNullable(baseDAO.findById(WorkflowTransition.class, bc.getParentIdAsLong()))
 					.map(WorkflowTransition::getSourceStep)
@@ -114,7 +115,7 @@ public class WorkflowStepServiceImpl extends VersionAwareResponseService<Workflo
 
 	@Override
 	protected ActionResultDTO<WorkflowStepDto> doUpdateEntity(WorkflowStep entity, WorkflowStepDto dto,
-			BusinessComponent bc) {
+			BusinessComponent<InnerBcDescription> bc) {
 		if (dto.isFieldChanged(WorkflowStepDto_.name)) {
 			entity.setName(dto.getName());
 		}
@@ -132,21 +133,21 @@ public class WorkflowStepServiceImpl extends VersionAwareResponseService<Workflo
 	}
 
 	@Override
-	public ActionResultDTO<WorkflowStepDto> deleteEntity(BusinessComponent bc) {
+	public ActionResultDTO<WorkflowStepDto> deleteEntity(BusinessComponent<InnerBcDescription> bc) {
 		baseDAO.delete(WorkflowStep.class, bc.getIdAsLong());
 		return new ActionResultDTO<>();
 	}
 
 	@Override
-	protected CreateResult<WorkflowStepDto> doCreateEntity(final WorkflowStep entity, final BusinessComponent bc) {
+	protected CreateResult<WorkflowStepDto> doCreateEntity(final WorkflowStep entity, final BusinessComponent<InnerBcDescription> bc) {
 		entity.setWorkflowVersion(baseDAO.findById(WorkflowVersion.class, bc.getParentIdAsLong()));
 		baseDAO.save(entity);
 		return new CreateResult<>(entityToDto(bc, entity));
 	}
 
 	@Override
-	public Actions<WorkflowStepDto> getActions() {
-		return Actions.<WorkflowStepDto>builder()
+	public Actions<WorkflowStepDto, InnerBcDescription> getActions() {
+		return Actions.<WorkflowStepDto, InnerBcDescription>builder()
 				.create().add()
 				.save().add()
 				.delete().add()

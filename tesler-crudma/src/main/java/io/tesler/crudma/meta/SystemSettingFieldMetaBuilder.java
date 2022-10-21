@@ -28,7 +28,7 @@ import io.tesler.core.crudma.bc.impl.InnerBcDescription;
 import io.tesler.core.dto.data.SystemSettingDTO;
 import io.tesler.core.dto.rowmeta.FieldsMeta;
 import io.tesler.core.dto.rowmeta.RowDependentFieldsMeta;
-import io.tesler.core.service.rowmeta.FieldMetaBuilder;
+import io.tesler.core.service.rowmeta.InnerFieldMetaBuilder;
 import io.tesler.model.core.dao.JpaDao;
 import io.tesler.model.core.entity.SystemSetting;
 import lombok.RequiredArgsConstructor;
@@ -36,7 +36,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class SystemSettingFieldMetaBuilder extends FieldMetaBuilder<SystemSettingDTO> {
+public class SystemSettingFieldMetaBuilder extends InnerFieldMetaBuilder<SystemSettingDTO> {
 
 	private final JpaDao jpaDao;
 

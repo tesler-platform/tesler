@@ -21,7 +21,7 @@
 package io.tesler.core.service.rowmeta;
 
 import io.tesler.core.crudma.bc.BusinessComponent;
-import io.tesler.core.crudma.bc.impl.ExtremeBcDescription;
+import io.tesler.core.crudma.bc.impl.BcDescription;
 import io.tesler.core.crudma.bc.impl.InnerBcDescription;
 import io.tesler.core.dto.data.HistoricityDto;
 import io.tesler.core.dto.rowmeta.FieldsMeta;
@@ -32,7 +32,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 
 
-public abstract class HistoricityFieldMetaBuilder<T extends HistoricityDto> extends FieldMetaBuilder<T> {
+public abstract class HistoricityFieldMetaBuilder<T extends HistoricityDto, D extends BcDescription> extends FieldMetaBuilder<T, D> {
 
 	private final Class<? extends HistoricityKey<?, T>> historicityKeyClass;
 
@@ -48,22 +48,13 @@ public abstract class HistoricityFieldMetaBuilder<T extends HistoricityDto> exte
 	}
 
 	@Override
-	public final void buildRowDependentMeta(final RowDependentFieldsMeta<T> fields, final BusinessComponent bc) {
+	public final void buildRowDependentMeta(final RowDependentFieldsMeta<T> fields, final BusinessComponent<D> bc) {
 		super.buildRowDependentMeta(fields, bc);
 	}
 
 	@Override
-	public final void buildIndependentMeta(final FieldsMeta<T> fields, final BusinessComponent bc) {
+	public final void buildIndependentMeta(final FieldsMeta<T> fields, final BusinessComponent<InnerBcDescription> bc) {
 		super.buildIndependentMeta(fields, bc);
-	}
-
-	@Override
-	public final void buildExtremeRowDependentMeta(
-			final RowDependentFieldsMeta<T> fields,
-			final ExtremeBcDescription bcDescription,
-			final Long id,
-			final Long parentId) {
-		super.buildExtremeRowDependentMeta(fields, bcDescription, id, parentId);
 	}
 
 	public final void buildRowDependentMeta(

@@ -27,7 +27,7 @@ import io.tesler.core.crudma.bc.impl.InnerBcDescription;
 import io.tesler.core.dto.LovUtils;
 import io.tesler.core.dto.rowmeta.FieldsMeta;
 import io.tesler.core.dto.rowmeta.RowDependentFieldsMeta;
-import io.tesler.core.service.rowmeta.FieldMetaBuilder;
+import io.tesler.core.service.rowmeta.InnerFieldMetaBuilder;
 import io.tesler.model.core.dao.JpaDao;
 import io.tesler.model.dictionary.links.entity.CustomizableResponseService;
 import io.tesler.source.dto.DictionaryLnkRuleDto;
@@ -42,7 +42,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class DictionaryLnkRuleFieldMetaBuilder extends FieldMetaBuilder<DictionaryLnkRuleDto> {
+public class DictionaryLnkRuleFieldMetaBuilder extends InnerFieldMetaBuilder<DictionaryLnkRuleDto> {
 
 	private final JpaDao jpaDao;
 

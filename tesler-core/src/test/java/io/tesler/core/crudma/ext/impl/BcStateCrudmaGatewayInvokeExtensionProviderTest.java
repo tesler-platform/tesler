@@ -50,8 +50,8 @@ import io.tesler.core.dto.rowmeta.ActionsDTO;
 import io.tesler.core.dto.rowmeta.MetaDTO;
 import io.tesler.core.dto.rowmeta.PostAction;
 import io.tesler.core.dto.rowmeta.RowMetaDTO;
-import io.tesler.core.service.ResponseFactory;
 import io.tesler.core.service.ResponseService;
+import io.tesler.core.service.ResponseServiceHolder;
 import io.tesler.core.test.util.TestResponseDto;
 import java.util.Collections;
 import org.junit.jupiter.api.Assertions;
@@ -70,7 +70,7 @@ class BcStateCrudmaGatewayInvokeExtensionProviderTest {
 	BCFactory bcFactory;
 
 	@Mock
-	ResponseFactory respFactory;
+	ResponseServiceHolder responseServiceHolder;
 
 	@Mock
 	BcStateAware bcStateAware;
@@ -92,7 +92,7 @@ class BcStateCrudmaGatewayInvokeExtensionProviderTest {
 		interimResult = new InterimResult(bc, null, null);
 		ResponseService<?, ?> responseService = mock(ResponseService.class);
 		when(responseService.onCancel(any())).thenReturn(new ActionResultDTO<>());
-		when(respFactory.getService(any())).thenReturn(responseService);
+		when(responseServiceHolder.getService(any())).thenReturn(responseService);
 		when(bcRegistry.getBcDescription(anyString())).thenReturn(bcDescription);
 		when(bcFactory.getBusinessComponent(any(), any())).thenReturn(bc);
 		when(bcStateAware.getState(any())).thenReturn(new BcState(new TestDto(), true, null));

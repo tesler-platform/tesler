@@ -50,7 +50,7 @@ public class ResponseServiceExtractor {
 		if (!(bc.getDescription() instanceof InnerBcDescription)) {
 			return null;
 		}
-		InnerBcDescription innerBcDescription = bc.getDescription();
+		InnerBcDescription innerBcDescription = (InnerBcDescription) bc.getDescription();
 		Class<? extends ResponseService> serviceClass = innerBcDescription.getServiceClass();
 		return applicationContext.getBean(serviceClass);
 	}
