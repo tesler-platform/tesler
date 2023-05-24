@@ -1,3 +1,5 @@
+# Framework is no longer supported. 
+
 Tesler ![Build Status](https://github.com/tesler-platform/tesler/actions/workflows/build.yml/badge.svg) [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=tesler-platform_tesler&metric=alert_status)](https://sonarcloud.io/dashboard?id=tesler-platform_tesler) 
 =========
 Tesler is a framework that allows you to quickly develop applications using the full power of existing enterprise Java solutions. 
