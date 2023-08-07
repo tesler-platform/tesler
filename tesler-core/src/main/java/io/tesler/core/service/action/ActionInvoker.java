@@ -22,12 +22,13 @@ package io.tesler.core.service.action;
 
 import io.tesler.api.data.dto.DataResponseDTO;
 import io.tesler.core.crudma.bc.BusinessComponent;
+import io.tesler.core.crudma.bc.impl.BcDescription;
 import io.tesler.core.dto.rowmeta.ActionResultDTO;
 
 @FunctionalInterface
-public interface ActionInvoker<T extends DataResponseDTO> {
+public interface ActionInvoker<T extends DataResponseDTO, D extends BcDescription> {
 
-	ActionInvoker UNSUPPORTED_OPERATION = new ActionInvoker() {
+	ActionInvoker UNSUPPORTED_OPERATION = new ActionInvoker<DataResponseDTO, BcDescription>() {
 
 		@Override
 		public ActionResultDTO invoke(BusinessComponent bc, DataResponseDTO data) {
@@ -45,6 +46,6 @@ public interface ActionInvoker<T extends DataResponseDTO> {
 		return true;
 	}
 
-	ActionResultDTO<T> invoke(BusinessComponent bc, T data);
+	ActionResultDTO<T> invoke(BusinessComponent<D> bc, T data);
 
 }

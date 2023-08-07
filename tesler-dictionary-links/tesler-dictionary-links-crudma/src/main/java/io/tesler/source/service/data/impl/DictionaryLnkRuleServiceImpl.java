@@ -23,6 +23,7 @@ package io.tesler.source.service.data.impl;
 import static io.tesler.api.util.i18n.ErrorMessageSource.errorMessage;
 
 import io.tesler.core.crudma.bc.BusinessComponent;
+import io.tesler.core.crudma.bc.impl.InnerBcDescription;
 import io.tesler.core.crudma.impl.VersionAwareResponseService;
 import io.tesler.core.dto.DTOUtils;
 import io.tesler.core.dto.rowmeta.ActionResultDTO;
@@ -54,7 +55,7 @@ public class DictionaryLnkRuleServiceImpl extends
 
 	@Override
 	protected CreateResult<DictionaryLnkRuleDto> doCreateEntity(final DictionaryLnkRule entity,
-			final BusinessComponent bc) {
+			final BusinessComponent<InnerBcDescription> bc) {
 		entity.setService(baseDAO.findById(CustomizableResponseService.class, bc.getParentIdAsLong()));
 		Long id = baseDAO.save(entity);
 		return new CreateResult<>(entityToDto(bc, baseDAO.findById(DictionaryLnkRule.class, id)));
@@ -62,7 +63,7 @@ public class DictionaryLnkRuleServiceImpl extends
 
 	@Override
 	protected ActionResultDTO<DictionaryLnkRuleDto> doUpdateEntity(DictionaryLnkRule entity, DictionaryLnkRuleDto data,
-			BusinessComponent bc) {
+			BusinessComponent<InnerBcDescription> bc) {
 		boolean needChildDeletion = false;
 		boolean isSqlService = "SqlCrudmaService".equals(entity.getService().getServiceName());
 		if (data.hasChangedFields()) {
@@ -109,7 +110,7 @@ public class DictionaryLnkRuleServiceImpl extends
 	}
 
 	@Override
-	public ActionResultDTO<DictionaryLnkRuleDto> deleteEntity(BusinessComponent bc) {
+	public ActionResultDTO<DictionaryLnkRuleDto> deleteEntity(BusinessComponent<InnerBcDescription> bc) {
 		DictionaryLnkRule entity = baseDAO.findById(DictionaryLnkRule.class, bc.getIdAsLong());
 		baseDAO.getList(DictionaryLnkRuleValue.class, (root, cq, cb) ->
 				cb.equal(root.get(DictionaryLnkRuleValue_.dictionaryLnkRule), entity)
@@ -122,8 +123,8 @@ public class DictionaryLnkRuleServiceImpl extends
 	}
 
 	@Override
-	public Actions<DictionaryLnkRuleDto> getActions() {
-		return Actions.<DictionaryLnkRuleDto>builder()
+	public Actions<DictionaryLnkRuleDto, InnerBcDescription> getActions() {
+		return Actions.<DictionaryLnkRuleDto, InnerBcDescription>builder()
 				.create().add()
 				.save().add()
 				.delete().add()

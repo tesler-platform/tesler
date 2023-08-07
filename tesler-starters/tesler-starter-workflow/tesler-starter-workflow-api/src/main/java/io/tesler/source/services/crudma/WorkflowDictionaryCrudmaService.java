@@ -28,6 +28,7 @@ import io.tesler.api.data.dictionary.SimpleDictionary;
 import io.tesler.api.data.dto.DataResponseDTO;
 import io.tesler.api.data.dto.rowmeta.FieldDTO;
 import io.tesler.core.crudma.bc.BusinessComponent;
+import io.tesler.core.crudma.bc.impl.ExtremeBcDescription;
 import io.tesler.core.crudma.impl.AbstractCrudmaService;
 import io.tesler.core.dto.rowmeta.MetaDTO;
 import io.tesler.core.util.ListPaging;
@@ -44,7 +45,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class WorkflowDictionaryCrudmaService extends AbstractCrudmaService {
+public class WorkflowDictionaryCrudmaService extends AbstractCrudmaService<ExtremeBcDescription> {
 
 	private final List<FieldDTO> FIELD_DTO_LIST = ImmutableList.<FieldDTO>builder()
 			.add(FieldDTO.disabledFilterableField(DictionaryDto_.key))
@@ -54,7 +55,7 @@ public class WorkflowDictionaryCrudmaService extends AbstractCrudmaService {
 
 	private final DictionaryCache dictionaryCache;
 
-	private Collection<SimpleDictionary> getDictionaries(BusinessComponent bc) {
+	private Collection<SimpleDictionary> getDictionaries(BusinessComponent<ExtremeBcDescription> bc) {
 		if (WorkflowServiceAssociation.wfStepType.isBc(bc)) {
 			return dictionaryCache.getAll(DictionaryType.TASK_STATUS);
 		}
@@ -62,7 +63,7 @@ public class WorkflowDictionaryCrudmaService extends AbstractCrudmaService {
 	}
 
 	@Override
-	public ResultPage<? extends DataResponseDTO> getAll(BusinessComponent bc) {
+	public ResultPage<? extends DataResponseDTO> getAll(BusinessComponent<ExtremeBcDescription> bc) {
 		final List<DictionaryDto> dictionaries = getDictionaries(bc).stream()
 				.map(DictionaryDto::new)
 				.collect(Collectors.toList());
@@ -70,17 +71,17 @@ public class WorkflowDictionaryCrudmaService extends AbstractCrudmaService {
 	}
 
 	@Override
-	public long count(BusinessComponent bc) {
+	public long count(BusinessComponent<ExtremeBcDescription> bc) {
 		return getDictionaries(bc).size();
 	}
 
 	@Override
-	public MetaDTO getMeta(BusinessComponent bc) {
+	public MetaDTO getMeta(BusinessComponent<ExtremeBcDescription> bc) {
 		return buildMeta(FIELD_DTO_LIST);
 	}
 
 	@Override
-	public MetaDTO getMetaEmpty(BusinessComponent bc) {
+	public MetaDTO getMetaEmpty(BusinessComponent<ExtremeBcDescription> bc) {
 		return buildMeta(Collections.emptyList());
 	}
 

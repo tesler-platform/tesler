@@ -20,7 +20,6 @@
 
 package io.tesler.engine.workflow.services;
 
-import io.tesler.core.bc.InnerBcTypeAware;
 import io.tesler.core.crudma.bc.BcIdentifier;
 import io.tesler.core.crudma.bc.BcRegistry;
 import io.tesler.core.crudma.bc.BusinessComponent;
@@ -54,14 +53,13 @@ public class WorkflowTaskChildBcDisabler extends BcDisabler {
 
 	public WorkflowTaskChildBcDisabler(
 			final WorkflowEngine workflowEngine, final BcRegistry bcRegistry,
-			final WorkflowableTaskDao<?> workflowableTaskDao,
-			final InnerBcTypeAware innerBcTypeAware) {
+			final WorkflowableTaskDao<?> workflowableTaskDao) {
 		this.workflowEngine = workflowEngine;
 		this.bcRegistry = bcRegistry;
 		this.workflowableTaskDao = workflowableTaskDao;
 		final Set<String> taskBcNames = bcRegistry.select(InnerBcDescription.class)
 				.filter(bcDescription -> WorkflowableTask.class.isAssignableFrom(
-						innerBcTypeAware.getTypeOfEntity(bcDescription)
+						bcDescription.getEntity()
 				))
 				.map(BcDescription::getName)
 				.collect(Collectors.toSet());

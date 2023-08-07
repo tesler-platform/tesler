@@ -27,6 +27,7 @@ import io.tesler.api.data.dictionary.DictionaryCache;
 import io.tesler.api.data.dictionary.DictionaryType;
 import io.tesler.api.data.dictionary.LOV;
 import io.tesler.core.crudma.bc.BusinessComponent;
+import io.tesler.core.crudma.bc.impl.InnerBcDescription;
 import io.tesler.core.crudma.impl.VersionAwareResponseService;
 import io.tesler.core.dto.rowmeta.ActionResultDTO;
 import io.tesler.core.dto.rowmeta.CreateResult;
@@ -71,7 +72,7 @@ public class NotificationRecipientServiceImpl extends
 	}
 
 	@Override
-	protected ResultPage<NotificationRecipientDTO> entitiesToDtos(BusinessComponent bc,
+	protected ResultPage<NotificationRecipientDTO> entitiesToDtos(BusinessComponent<InnerBcDescription> bc,
 			ResultPage<NotificationRecipient> entities) {
 		if (NotificationServiceAssociation.notificationRecipients.isBc(bc)) {
 			return super.entitiesToDtos(bc, entities);
@@ -81,13 +82,13 @@ public class NotificationRecipientServiceImpl extends
 		return ResultPage.of(entities, entity -> entityToDto(bc, entity, excluded));
 	}
 
-	private NotificationRecipientDTO entityToDto(BusinessComponent bc, NotificationRecipient entity, Set<LOV> excluded) {
+	private NotificationRecipientDTO entityToDto(BusinessComponent<InnerBcDescription> bc, NotificationRecipient entity, Set<LOV> excluded) {
 		NotificationRecipientDTO dto = super.entityToDto(bc, entity);
 		dto.setEnabled(!excluded.contains(entity.getRecipientType()));
 		return dto;
 	}
 
-	private Set<LOV> getExclusions(BusinessComponent bc) {
+	private Set<LOV> getExclusions(BusinessComponent<InnerBcDescription> bc) {
 		NotificationSettings settings = baseDAO.findById(NotificationSettings.class, bc.getParentIdAsLong());
 		NotificationSettings userSettings = notificationSettingsService.getUserSettings(settings.getEventName());
 		Set<LOV> exclusions = new HashSet<>();
@@ -103,20 +104,20 @@ public class NotificationRecipientServiceImpl extends
 	}
 
 	@Override
-	protected NotificationRecipientDTO entityToDto(BusinessComponent bc, NotificationRecipient entity) {
+	protected NotificationRecipientDTO entityToDto(BusinessComponent<InnerBcDescription> bc, NotificationRecipient entity) {
 		return entityToDto(bc, entity, getExclusions(bc));
 	}
 
 	@Override
-	public Actions<NotificationRecipientDTO> getActions() {
-		return Actions.<NotificationRecipientDTO>builder()
+	public Actions<NotificationRecipientDTO, InnerBcDescription> getActions() {
+		return Actions.<NotificationRecipientDTO, InnerBcDescription>builder()
 				.create().available(this::isActionCreateAvailable).add()
 				.save().add()
 				.delete().available(NotificationServiceAssociation.notificationRecipients::isBc).add()
 				.build();
 	}
 
-	private boolean isActionCreateAvailable(BusinessComponent bc) {
+	private boolean isActionCreateAvailable(BusinessComponent<InnerBcDescription> bc) {
 		if (NotificationServiceAssociation.notificationRecipients.isNotBc(bc)) {
 			return false;
 		}
@@ -135,7 +136,7 @@ public class NotificationRecipientServiceImpl extends
 
 	@Override
 	protected CreateResult<NotificationRecipientDTO> doCreateEntity(final NotificationRecipient entity,
-			final BusinessComponent bc) {
+			final BusinessComponent<InnerBcDescription> bc) {
 		if (NotificationServiceAssociation.notificationRecipients.isNotBc(bc)) {
 			throw new UnsupportedOperationException();
 		}
@@ -148,7 +149,7 @@ public class NotificationRecipientServiceImpl extends
 	}
 
 	@Override
-	public ActionResultDTO<NotificationRecipientDTO> deleteEntity(BusinessComponent bc) {
+	public ActionResultDTO<NotificationRecipientDTO> deleteEntity(BusinessComponent<InnerBcDescription> bc) {
 		if (NotificationServiceAssociation.notificationRecipients.isNotBc(bc)) {
 			throw new UnsupportedOperationException();
 		}
@@ -158,7 +159,7 @@ public class NotificationRecipientServiceImpl extends
 
 	@Override
 	protected ActionResultDTO<NotificationRecipientDTO> doUpdateEntity(NotificationRecipient recipient,
-			NotificationRecipientDTO data, BusinessComponent bc) {
+			NotificationRecipientDTO data, BusinessComponent<InnerBcDescription> bc) {
 		if (NotificationServiceAssociation.notificationRecipients.isBc(bc)) {
 			if (data.isFieldChanged(NotificationRecipientDTO_.recipientType)) {
 				LOV recipientType = DictionaryType.NOTIFICATION_RECIPIENT_TYPE.lookupName(data.getRecipientType());
@@ -186,7 +187,7 @@ public class NotificationRecipientServiceImpl extends
 		return new ActionResultDTO<>(entityToDto(bc, recipient));
 	}
 
-	private boolean checkDuplicates(BusinessComponent bc, NotificationRecipient entity, LOV recipientType) {
+	private boolean checkDuplicates(BusinessComponent<InnerBcDescription> bc, NotificationRecipient entity, LOV recipientType) {
 		return !baseDAO.exists(
 				NotificationRecipient.class,
 				(root, cq, cb) -> cb.and(

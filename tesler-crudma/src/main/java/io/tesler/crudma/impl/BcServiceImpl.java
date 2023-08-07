@@ -24,6 +24,7 @@ import io.tesler.api.service.tx.TransactionService;
 import io.tesler.api.util.Invoker;
 import io.tesler.core.crudma.bc.BcRegistry;
 import io.tesler.core.crudma.bc.BusinessComponent;
+import io.tesler.core.crudma.bc.impl.InnerBcDescription;
 import io.tesler.core.crudma.impl.VersionAwareResponseService;
 import io.tesler.core.dto.data.view.BcDTO;
 import io.tesler.core.dto.data.view.BcDTO_;
@@ -52,13 +53,13 @@ public class BcServiceImpl extends VersionAwareResponseService<BcDTO, Bc> implem
 	}
 
 	@Override
-	protected CreateResult<BcDTO> doCreateEntity(final Bc entity, final BusinessComponent bc) {
+	protected CreateResult<BcDTO> doCreateEntity(final Bc entity, final BusinessComponent<InnerBcDescription> bc) {
 		Long id = baseDAO.save(entity);
 		return new CreateResult<>(entityToDto(bc, baseDAO.findById(Bc.class, id)));
 	}
 
 	@Override
-	protected ActionResultDTO<BcDTO> doUpdateEntity(Bc entity, BcDTO data, BusinessComponent bc) {
+	protected ActionResultDTO<BcDTO> doUpdateEntity(Bc entity, BcDTO data, BusinessComponent<InnerBcDescription> bc) {
 		if (data.hasChangedFields()) {
 			if (data.isFieldChanged(BcDTO_.name)) {
 				entity.setName(data.getName());

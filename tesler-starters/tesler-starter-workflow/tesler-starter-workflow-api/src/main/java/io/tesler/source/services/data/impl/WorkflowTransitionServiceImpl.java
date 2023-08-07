@@ -22,6 +22,7 @@ package io.tesler.source.services.data.impl;
 
 import io.tesler.WorkflowServiceAssociation;
 import io.tesler.core.crudma.bc.BusinessComponent;
+import io.tesler.core.crudma.bc.impl.InnerBcDescription;
 import io.tesler.core.crudma.impl.VersionAwareResponseService;
 import io.tesler.core.dict.WorkflowDictionaries;
 import io.tesler.core.dto.rowmeta.ActionResultDTO;
@@ -69,7 +70,7 @@ public class WorkflowTransitionServiceImpl extends
 	}
 
 	@Override
-	protected Specification<WorkflowTransition> getParentSpecification(BusinessComponent bc) {
+	protected Specification<WorkflowTransition> getParentSpecification(BusinessComponent<InnerBcDescription> bc) {
 		if (WorkflowServiceAssociation.wfTemplateMigrationNewAutomaticTransition.isBc(bc)) {
 			final WorkflowableTask task = workflowableTaskDao.getTask(bc.getParentIdAsLong());
 			return (root, query, cb) -> cb.and(
@@ -107,13 +108,13 @@ public class WorkflowTransitionServiceImpl extends
 		};
 	}
 
-	private Long getSourceStepId(BusinessComponent bc) {
+	private Long getSourceStepId(BusinessComponent<InnerBcDescription> bc) {
 		return bc.getParentIdAsLong();
 	}
 
 	@Override
 	protected ActionResultDTO<WorkflowTransitionDto> doUpdateEntity(WorkflowTransition entity, WorkflowTransitionDto dto,
-			BusinessComponent bc) {
+			BusinessComponent<InnerBcDescription> bc) {
 		if (dto.isFieldChanged(WorkflowTransitionDto_.name)) {
 			entity.setName(dto.getName());
 		}
@@ -135,7 +136,7 @@ public class WorkflowTransitionServiceImpl extends
 	}
 
 	@Override
-	public ActionResultDTO<WorkflowTransitionDto> deleteEntity(BusinessComponent bc) {
+	public ActionResultDTO<WorkflowTransitionDto> deleteEntity(BusinessComponent<InnerBcDescription> bc) {
 		WorkflowTransitionConditionGroup workflowGroup = baseDAO.getSingleResultOrNull(
 				WorkflowTransitionConditionGroup.class,
 				(root, cq, cb) -> cb.equal(root.get(WorkflowTransitionConditionGroup_.transition)
@@ -160,7 +161,7 @@ public class WorkflowTransitionServiceImpl extends
 
 	@Override
 	protected CreateResult<WorkflowTransitionDto> doCreateEntity(final WorkflowTransition entity,
-			final BusinessComponent bc) {
+			final BusinessComponent<InnerBcDescription> bc) {
 		entity.setSourceStep(baseDAO.findById(WorkflowStep.class, bc.getParentIdAsLong()));
 		entity.setDestinationStep(baseDAO.findById(WorkflowStep.class, bc.getParentIdAsLong()));
 		entity.setCheckRequiredFields(Boolean.TRUE);
@@ -181,8 +182,8 @@ public class WorkflowTransitionServiceImpl extends
 	}
 
 	@Override
-	public Actions<WorkflowTransitionDto> getActions() {
-		return Actions.<WorkflowTransitionDto>builder()
+	public Actions<WorkflowTransitionDto, InnerBcDescription> getActions() {
+		return Actions.<WorkflowTransitionDto, InnerBcDescription>builder()
 				.create().add()
 				.save().add()
 				.delete().add()

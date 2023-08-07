@@ -21,6 +21,7 @@
 package io.tesler.source.services.data.impl;
 
 import io.tesler.core.crudma.bc.BusinessComponent;
+import io.tesler.core.crudma.bc.impl.InnerBcDescription;
 import io.tesler.model.workflow.entity.WorkflowTransitionValidation;
 import io.tesler.model.workflow.entity.WorkflowTransitionValidation_;
 import io.tesler.source.dto.WorkflowTransitionValidationDto;
@@ -43,7 +44,7 @@ public class WorkflowTransitionValidationServiceImpl extends
 	}
 
 	@Override
-	protected WorkflowTransitionValidation create(BusinessComponent bc) {
+	protected WorkflowTransitionValidation create(BusinessComponent<InnerBcDescription> bc) {
 		return new WorkflowTransitionValidation();
 	}
 

@@ -28,7 +28,7 @@ import io.tesler.api.data.dictionary.SimpleDictionary;
 import io.tesler.core.crudma.bc.impl.InnerBcDescription;
 import io.tesler.core.dto.rowmeta.FieldsMeta;
 import io.tesler.core.dto.rowmeta.RowDependentFieldsMeta;
-import io.tesler.core.service.rowmeta.FieldMetaBuilder;
+import io.tesler.core.service.rowmeta.InnerFieldMetaBuilder;
 import io.tesler.model.core.dao.JpaDao;
 import java.util.ArrayList;
 import java.util.List;
@@ -42,7 +42,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class ScheduledJobFieldMetaBuilder extends FieldMetaBuilder<ScheduledJobDTO> {
+public class ScheduledJobFieldMetaBuilder extends InnerFieldMetaBuilder<ScheduledJobDTO> {
 
 	private final DictionaryCache dictionaryCache;
 

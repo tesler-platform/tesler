@@ -21,6 +21,7 @@
 package io.tesler.source.services.data.impl;
 
 import io.tesler.core.crudma.bc.BusinessComponent;
+import io.tesler.core.crudma.bc.impl.InnerBcDescription;
 import io.tesler.core.crudma.impl.VersionAwareResponseService;
 import io.tesler.core.dto.rowmeta.ActionResultDTO;
 import io.tesler.core.dto.rowmeta.CreateResult;
@@ -43,14 +44,14 @@ public class DictionaryTypeDescServiceImpl extends
 
 	@Override
 	protected CreateResult<DictionaryTypeDescDTO> doCreateEntity(final DictionaryTypeDesc entity,
-			final BusinessComponent bc) {
+			final BusinessComponent<InnerBcDescription> bc) {
 		baseDAO.save(entity);
 		return new CreateResult<>(entityToDto(bc, entity));
 	}
 
 	@Override
 	protected ActionResultDTO<DictionaryTypeDescDTO> doUpdateEntity(DictionaryTypeDesc item,
-			DictionaryTypeDescDTO data, BusinessComponent bc) {
+			DictionaryTypeDescDTO data, BusinessComponent<InnerBcDescription> bc) {
 		if (data.isFieldChanged(DictionaryTypeDescDTO_.type)) {
 			item.setType(data.getType());
 		}
@@ -61,8 +62,8 @@ public class DictionaryTypeDescServiceImpl extends
 	}
 
 	@Override
-	public Actions<DictionaryTypeDescDTO> getActions() {
-		return Actions.<DictionaryTypeDescDTO>builder()
+	public Actions<DictionaryTypeDescDTO, InnerBcDescription> getActions() {
+		return Actions.<DictionaryTypeDescDTO, InnerBcDescription>builder()
 				.create().add()
 				.save().add()
 				.build();

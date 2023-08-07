@@ -28,13 +28,14 @@ import io.tesler.api.data.dto.UniversalDTO_;
 import io.tesler.api.data.dto.rowmeta.FieldDTO;
 import io.tesler.core.crudma.bc.BcIdentifier;
 import io.tesler.core.crudma.bc.BusinessComponent;
+import io.tesler.core.crudma.bc.impl.ExtremeBcDescription;
 import io.tesler.core.crudma.impl.AbstractCrudmaService;
 import io.tesler.core.dto.rowmeta.ActionResultDTO;
 import io.tesler.core.dto.rowmeta.CreateResult;
 import io.tesler.core.dto.rowmeta.EngineFieldsMeta;
 import io.tesler.core.dto.rowmeta.MetaDTO;
 import io.tesler.core.dto.rowmeta.RowMetaDTO;
-import io.tesler.core.service.ResponseFactory;
+import io.tesler.core.service.DataResponseConverter;
 import io.tesler.core.service.action.Actions;
 import io.tesler.core.service.rowmeta.RowMetaType;
 import io.tesler.core.ui.BcUtils;
@@ -64,13 +65,13 @@ import org.springframework.cglib.beans.BeanGenerator;
 
 
 @RequiredArgsConstructor
-public abstract class UniversalCrudmaService<D extends UniversalDTO, E> extends AbstractCrudmaService {
+public abstract class UniversalCrudmaService<D extends UniversalDTO, E> extends AbstractCrudmaService<ExtremeBcDescription> {
 
 	@Autowired
 	protected JpaDao jpaDao;
 
 	@Autowired
-	protected ResponseFactory responseFactory;
+	protected DataResponseConverter responseFactory;
 
 	@Autowired
 	private BcUtils bcUtils;
@@ -81,7 +82,7 @@ public abstract class UniversalCrudmaService<D extends UniversalDTO, E> extends 
 
 	protected abstract Class<D> getDtoClass();
 
-	protected abstract Class<? extends E> getEntityClass(BusinessComponent bc);
+	protected abstract Class<? extends E> getEntityClass(BusinessComponent<ExtremeBcDescription> bc);
 
 	@SneakyThrows
 	protected D entityToDto(E entity, Class<? extends D> dtoClass, Set<String> attributes) {
@@ -92,7 +93,7 @@ public abstract class UniversalCrudmaService<D extends UniversalDTO, E> extends 
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public ActionResultDTO update(BusinessComponent bc, Map<String, Object> data) {
+	public ActionResultDTO update(BusinessComponent<ExtremeBcDescription> bc, Map<String, Object> data) {
 		List<Attribute<?, ?>> attributes = getAttributes(bc);
 		E entity = getEntity(bc);
 		Class<? extends D> dtoClass = createDTOClass(attributes);
@@ -109,7 +110,7 @@ public abstract class UniversalCrudmaService<D extends UniversalDTO, E> extends 
 
 	@SneakyThrows
 	@Override
-	public MetaDTO getMeta(BusinessComponent bc) {
+	public MetaDTO getMeta(BusinessComponent<ExtremeBcDescription> bc) {
 		List<Attribute<?, ?>> attributes = getAttributes(bc);
 		D data;
 		if (bc.getId() != null) {
@@ -157,12 +158,12 @@ public abstract class UniversalCrudmaService<D extends UniversalDTO, E> extends 
 	}
 
 	@Override
-	public MetaDTO getMetaEmpty(BusinessComponent bc) {
+	public MetaDTO getMetaEmpty(BusinessComponent<ExtremeBcDescription> bc) {
 		return buildMeta(Collections.emptyList(), getActions().toDto(bc));
 	}
 
-	public Actions<D> getActions() {
-		return Actions.<D>builder()
+	public Actions<D, ExtremeBcDescription> getActions() {
+		return Actions.<D, ExtremeBcDescription>builder()
 				.save().available(this::isSaveAvailable).add()
 				.create().available(this::isCreateAvailable).add()
 				.delete().available(this::isDeleteAvailable).add()
@@ -170,33 +171,33 @@ public abstract class UniversalCrudmaService<D extends UniversalDTO, E> extends 
 	}
 
 	@Override
-	public ActionResultDTO invokeAction(BusinessComponent bc, String actionName, Map<String, Object> data) {
+	public ActionResultDTO invokeAction(BusinessComponent<ExtremeBcDescription> bc, String actionName, Map<String, Object> data) {
 		return super.invokeAction(bc, actionName, data);
 	}
 
-	protected boolean isSaveAvailable(BusinessComponent bc) {
+	protected boolean isSaveAvailable(BusinessComponent<ExtremeBcDescription> bc) {
 		return false;
 	}
 
-	protected boolean isCreateAvailable(BusinessComponent bc) {
+	protected boolean isCreateAvailable(BusinessComponent<ExtremeBcDescription> bc) {
 		return false;
 	}
 
-	protected boolean isDeleteAvailable(BusinessComponent bc) {
+	protected boolean isDeleteAvailable(BusinessComponent<ExtremeBcDescription> bc) {
 		return false;
 	}
 
 	@Override
-	public D get(BusinessComponent bc) {
+	public D get(BusinessComponent<ExtremeBcDescription> bc) {
 		List<Attribute<?, ?>> attributes = getAttributes(bc);
 		Class<? extends D> dtoClass = createDTOClass(attributes);
 		return entityToDto(getEntity(bc), dtoClass, extractNames(attributes));
 	}
 
-	protected abstract E getEntity(BusinessComponent bc);
+	protected abstract E getEntity(BusinessComponent<ExtremeBcDescription> bc);
 
 	@Override
-	public ResultPage<D> getAll(BusinessComponent bc) {
+	public ResultPage<D> getAll(BusinessComponent<ExtremeBcDescription> bc) {
 		List<Attribute<?, ?>> attributes = getAttributes(bc);
 		Class<? extends D> dtoClass = createDTOClass(attributes);
 		Collection<? extends E> entities = getEntities(bc);
@@ -214,7 +215,7 @@ public abstract class UniversalCrudmaService<D extends UniversalDTO, E> extends 
 		return ListPaging.getResultPage(result, bc.getParameters());
 	}
 
-	protected abstract Collection<? extends E> getEntities(BusinessComponent bc);
+	protected abstract Collection<? extends E> getEntities(BusinessComponent<ExtremeBcDescription> bc);
 
 
 	@SuppressWarnings("unchecked")
@@ -227,7 +228,7 @@ public abstract class UniversalCrudmaService<D extends UniversalDTO, E> extends 
 		return (Class<? extends D>) generator.createClass();
 	}
 
-	protected List<Attribute<?, ?>> getAttributes(BusinessComponent bc) {
+	protected List<Attribute<?, ?>> getAttributes(BusinessComponent<ExtremeBcDescription> bc) {
 		return getEntityAttributes(getEntityClass(bc));
 	}
 

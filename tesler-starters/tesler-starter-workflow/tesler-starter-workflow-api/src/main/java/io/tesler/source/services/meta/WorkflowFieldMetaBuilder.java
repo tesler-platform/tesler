@@ -31,12 +31,12 @@ import io.tesler.api.data.dictionary.DictionaryType;
 import io.tesler.core.crudma.bc.impl.InnerBcDescription;
 import io.tesler.core.dto.rowmeta.FieldsMeta;
 import io.tesler.core.dto.rowmeta.RowDependentFieldsMeta;
-import io.tesler.core.service.rowmeta.FieldMetaBuilder;
+import io.tesler.core.service.rowmeta.InnerFieldMetaBuilder;
 import io.tesler.source.dto.WorkflowDto;
 import org.springframework.stereotype.Service;
 
 @Service
-public class WorkflowFieldMetaBuilder extends FieldMetaBuilder<WorkflowDto> {
+public class WorkflowFieldMetaBuilder extends InnerFieldMetaBuilder<WorkflowDto> {
 
 	@Override
 	public void buildRowDependentMeta(RowDependentFieldsMeta<WorkflowDto> fields, InnerBcDescription bcDescription,

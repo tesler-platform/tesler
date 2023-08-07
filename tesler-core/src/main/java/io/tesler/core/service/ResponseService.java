@@ -24,6 +24,7 @@ import io.tesler.api.data.ResultPage;
 import io.tesler.api.data.dto.AssociateDTO;
 import io.tesler.api.data.dto.DataResponseDTO;
 import io.tesler.core.crudma.bc.BusinessComponent;
+import io.tesler.core.crudma.bc.impl.InnerBcDescription;
 import io.tesler.core.dto.rowmeta.ActionResultDTO;
 import io.tesler.core.dto.rowmeta.ActionsDTO;
 import io.tesler.core.dto.rowmeta.AssociateResultDTO;
@@ -44,7 +45,7 @@ public interface ResponseService<T extends DataResponseDTO, E extends BaseEntity
 	 * @param bc businessComponent
 	 * @return {@link BaseEntity} entity
 	 */
-	BaseEntity getOneAsEntity(BusinessComponent bc);
+	BaseEntity getOneAsEntity(BusinessComponent<InnerBcDescription> bc);
 
 	/**
 	 * Returns object based on a business component
@@ -52,7 +53,7 @@ public interface ResponseService<T extends DataResponseDTO, E extends BaseEntity
 	 * @param bc businessComponent
 	 * @return object
 	 */
-	T getOne(BusinessComponent bc);
+	T getOne(BusinessComponent<InnerBcDescription> bc);
 
 	/**
 	 * Determines whether the service interacts with an entity from the database
@@ -67,7 +68,7 @@ public interface ResponseService<T extends DataResponseDTO, E extends BaseEntity
 	 * @param bc businessComponent
 	 * @return list of matched objects
 	 */
-	ResultPage<T> getList(BusinessComponent bc);
+	ResultPage<T> getList(BusinessComponent<InnerBcDescription> bc);
 
 	/**
 	 * Creates an entity based on a business component
@@ -75,7 +76,7 @@ public interface ResponseService<T extends DataResponseDTO, E extends BaseEntity
 	 * @param bc businessComponent
 	 * @return {@link CreateResult} class with DataResponseDTO and postactions
 	 */
-	CreateResult<T> createEntity(BusinessComponent bc);
+	CreateResult<T> createEntity(BusinessComponent<InnerBcDescription> bc);
 
 	/**
 	 * Updates an entity based on a business component by DTO
@@ -84,7 +85,7 @@ public interface ResponseService<T extends DataResponseDTO, E extends BaseEntity
 	 * @param data information about entity, it's changed fields, errors
 	 * @return {@link ActionResultDTO} class with DataResponseDTO and postactions
 	 */
-	ActionResultDTO<T> updateEntity(BusinessComponent bc, DataResponseDTO data);
+	ActionResultDTO<T> updateEntity(BusinessComponent<InnerBcDescription> bc, DataResponseDTO data);
 
 	/**
 	 * Updates an entity based on a business component by DTO
@@ -94,7 +95,7 @@ public interface ResponseService<T extends DataResponseDTO, E extends BaseEntity
 	 * @param data information about entity, it's changed fields, errors
 	 * @return {@link ActionResultDTO} class with DataResponseDTO and postactions
 	 */
-	ActionResultDTO<T> preview(BusinessComponent bc, DataResponseDTO data);
+	ActionResultDTO<T> preview(BusinessComponent<InnerBcDescription> bc, DataResponseDTO data);
 
 	/**
 	 * Deletes an entity based on a business component
@@ -102,7 +103,7 @@ public interface ResponseService<T extends DataResponseDTO, E extends BaseEntity
 	 * @param bc businessComponent
 	 * @return {@link ActionResultDTO} class with DataResponseDTO and postactions
 	 */
-	ActionResultDTO<T> deleteEntity(BusinessComponent bc);
+	ActionResultDTO<T> deleteEntity(BusinessComponent<InnerBcDescription> bc);
 
 	/**
 	 * Invokes action with given name, add preactions, loads or updates entity if necessary
@@ -112,7 +113,7 @@ public interface ResponseService<T extends DataResponseDTO, E extends BaseEntity
 	 * @param data information about entity, it's changed fields, errors
 	 * @return {@link ActionResultDTO} class with DataResponseDTO and postactions
 	 */
-	ActionResultDTO<T> invokeAction(BusinessComponent bc, String actionName, DataResponseDTO data);
+	ActionResultDTO<T> invokeAction(BusinessComponent<InnerBcDescription> bc, String actionName, DataResponseDTO data);
 
 	/**
 	 * Сreates links between entities
@@ -121,7 +122,7 @@ public interface ResponseService<T extends DataResponseDTO, E extends BaseEntity
 	 * @param bc businessComponent
 	 * @return {@link AssociateResultDTO} class with DataResponseDTO and postactions
 	 */
-	AssociateResultDTO associate(List<AssociateDTO> data, BusinessComponent bc);
+	AssociateResultDTO associate(List<AssociateDTO> data, BusinessComponent<InnerBcDescription> bc);
 
 	/**
 	 * Returns actions for entity with conditions of their availability
@@ -132,7 +133,7 @@ public interface ResponseService<T extends DataResponseDTO, E extends BaseEntity
 	 * @param bc businessComponent
 	 * @return {@link AssociateResultDTO} class with DataResponseDTO and postactions
 	 */
-	ActionsDTO getAvailableActions(RowMetaType metaType, DataResponseDTO data, BusinessComponent bc);
+	ActionsDTO getAvailableActions(RowMetaType metaType, DataResponseDTO data, BusinessComponent<InnerBcDescription> bc);
 
 	/**
 	 * Returns actions for entity with conditions of their availability
@@ -140,7 +141,7 @@ public interface ResponseService<T extends DataResponseDTO, E extends BaseEntity
 	 *
 	 * @return {@link AssociateResultDTO} class with DataResponseDTO and postactions
 	 */
-	Actions<T> getActions();
+	Actions<T, InnerBcDescription> getActions();
 
 	/**
 	 * Returns actions invoked with cancel
@@ -148,14 +149,14 @@ public interface ResponseService<T extends DataResponseDTO, E extends BaseEntity
 	 * @param bc businessComponent
 	 * @return {@link AssociateResultDTO} class with DataResponseDTO and postactions
 	 */
-	ActionResultDTO onCancel(BusinessComponent bc);
+	ActionResultDTO onCancel(BusinessComponent<InnerBcDescription> bc);
 
 	/**
 	 * Returns FieldMetaBuilder for class
 	 *
 	 * @return {@link FieldMetaBuilder} class for building field meta
 	 */
-	Class<? extends FieldMetaBuilder<T>> getFieldMetaBuilder();
+	Class<? extends FieldMetaBuilder<T, InnerBcDescription>> getFieldMetaBuilder();
 
 	/**
 	 * Returns the number of matching entities
@@ -163,7 +164,7 @@ public interface ResponseService<T extends DataResponseDTO, E extends BaseEntity
 	 * @param bc businessComponent
 	 * @return count
 	 */
-	long count(BusinessComponent bc);
+	long count(BusinessComponent<InnerBcDescription> bc);
 
 	/**
 	 * Returns the number of matching entities
@@ -185,7 +186,7 @@ public interface ResponseService<T extends DataResponseDTO, E extends BaseEntity
 	 * @param bc businessComponent
 	 * @param data information about entity, it's changed fields, errors
 	 */
-	void validate(BusinessComponent bc, DataResponseDTO data);
+	void validate(BusinessComponent<InnerBcDescription> bc, DataResponseDTO data);
 
 	@Deprecated
 	<V> V unwrap(Class<V> cls);
@@ -195,6 +196,6 @@ public interface ResponseService<T extends DataResponseDTO, E extends BaseEntity
 	 *
 	 * @param bc businessComponent
 	 */
-	boolean isDeferredCreationSupported(BusinessComponent bc);
+	boolean isDeferredCreationSupported(BusinessComponent<InnerBcDescription> bc);
 
 }

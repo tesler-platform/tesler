@@ -21,6 +21,7 @@
 package io.tesler.source.services.data.impl;
 
 import io.tesler.core.crudma.bc.BusinessComponent;
+import io.tesler.core.crudma.bc.impl.InnerBcDescription;
 import io.tesler.model.workflow.entity.WorkflowCondition;
 import io.tesler.source.dto.WorkflowConditionDto;
 import io.tesler.source.services.data.WorkflowConditionService;
@@ -36,7 +37,7 @@ public class WorkflowConditionServiceImpl extends
 	}
 
 	@Override
-	protected WorkflowCondition create(BusinessComponent bc) {
+	protected WorkflowCondition create(BusinessComponent<InnerBcDescription> bc) {
 		return new WorkflowCondition();
 	}
 

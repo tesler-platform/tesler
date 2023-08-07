@@ -23,14 +23,14 @@ package io.tesler.source.services.meta;
 import io.tesler.core.crudma.bc.impl.InnerBcDescription;
 import io.tesler.core.dto.rowmeta.FieldsMeta;
 import io.tesler.core.dto.rowmeta.RowDependentFieldsMeta;
-import io.tesler.core.service.rowmeta.FieldMetaBuilder;
+import io.tesler.core.service.rowmeta.InnerFieldMetaBuilder;
 import io.tesler.source.dto.WorkflowTaskChildBcAvailabilityDto;
 import io.tesler.source.dto.WorkflowTaskChildBcAvailabilityDto_;
 import org.springframework.stereotype.Service;
 
 @Service
 public class WorkflowTaskChildBcAvailabilityFieldMetaBuilder extends
-		FieldMetaBuilder<WorkflowTaskChildBcAvailabilityDto> {
+		InnerFieldMetaBuilder<WorkflowTaskChildBcAvailabilityDto> {
 
 	@Override
 	public void buildRowDependentMeta(RowDependentFieldsMeta<WorkflowTaskChildBcAvailabilityDto> fields,

@@ -25,6 +25,7 @@ import static io.tesler.api.util.i18n.LocalizationFormatter.uiMessage;
 
 import io.tesler.api.data.dictionary.DictionaryCache;
 import io.tesler.core.crudma.bc.BusinessComponent;
+import io.tesler.core.crudma.bc.impl.InnerBcDescription;
 import io.tesler.core.crudma.impl.VersionAwareResponseService;
 import io.tesler.core.dto.rowmeta.ActionResultDTO;
 import io.tesler.core.dto.rowmeta.CreateResult;
@@ -57,7 +58,7 @@ public class DictionaryItemsServiceImpl extends
 	}
 
 	@Override
-	protected Specification<DictionaryItem> getParentSpecification(BusinessComponent bc) {
+	protected Specification<DictionaryItem> getParentSpecification(BusinessComponent<InnerBcDescription> bc) {
 		if (DictionaryServiceAssociation.adminDictionaryItem.isBc(bc)) {
 			return (root, cq, cb) -> cb.and(
 					cb.equal(
@@ -72,7 +73,7 @@ public class DictionaryItemsServiceImpl extends
 
 	@Override
 	protected ActionResultDTO<DictionaryItemDTO> doUpdateEntity(DictionaryItem item, DictionaryItemDTO data,
-			BusinessComponent bc) {
+			BusinessComponent<InnerBcDescription> bc) {
 		DictionaryTypeDesc dictionaryTypeDesc = baseDAO
 				.findById(DictionaryTypeDesc.class, item.getDictionaryTypeId().getId());
 		item.setType(dictionaryTypeDesc.getType());
@@ -96,7 +97,7 @@ public class DictionaryItemsServiceImpl extends
 	}
 
 	@Override
-	protected CreateResult<DictionaryItemDTO> doCreateEntity(final DictionaryItem entity, final BusinessComponent bc) {
+	protected CreateResult<DictionaryItemDTO> doCreateEntity(final DictionaryItem entity, final BusinessComponent<InnerBcDescription> bc) {
 		DictionaryTypeDesc dictionaryTypeDesc = baseDAO.findById(DictionaryTypeDesc.class, bc.getParentIdAsLong());
 		entity.setDictionaryTypeId(dictionaryTypeDesc);
 		entity.setType(dictionaryTypeDesc.getType());
@@ -104,8 +105,8 @@ public class DictionaryItemsServiceImpl extends
 	}
 
 	@Override
-	public Actions<DictionaryItemDTO> getActions() {
-		return Actions.<DictionaryItemDTO>builder()
+	public Actions<DictionaryItemDTO, InnerBcDescription> getActions() {
+		return Actions.<DictionaryItemDTO, InnerBcDescription>builder()
 				.create().add()
 				.save().add()
 				.delete().add()
@@ -113,7 +114,7 @@ public class DictionaryItemsServiceImpl extends
 				.build();
 	}
 
-	private ActionResultDTO<DictionaryItemDTO> actionReloadCache(final BusinessComponent bc,
+	private ActionResultDTO<DictionaryItemDTO> actionReloadCache(final BusinessComponent<?> bc,
 			final DictionaryItemDTO data) {
 		dictionaryCache.reload();
 		return new ActionResultDTO<>();

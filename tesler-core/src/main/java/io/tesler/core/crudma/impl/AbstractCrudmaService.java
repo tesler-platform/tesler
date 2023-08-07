@@ -30,6 +30,7 @@ import io.tesler.api.data.dto.rowmeta.FieldsDTO;
 import io.tesler.api.data.dto.rowmeta.PreviewResult;
 import io.tesler.core.crudma.Crudma;
 import io.tesler.core.crudma.bc.BusinessComponent;
+import io.tesler.core.crudma.bc.impl.BcDescription;
 import io.tesler.core.dto.rowmeta.ActionResultDTO;
 import io.tesler.core.dto.rowmeta.ActionsDTO;
 import io.tesler.core.dto.rowmeta.AssociateResultDTO;
@@ -40,73 +41,72 @@ import java.util.List;
 import java.util.Map;
 
 
-public abstract class AbstractCrudmaService implements Crudma {
-
+public abstract class AbstractCrudmaService<T extends BcDescription> implements Crudma<T> {
 
 	@Override
-	public DataResponseDTO get(BusinessComponent bc) {
+	public DataResponseDTO get(BusinessComponent<T> bc) {
 		throw new UnsupportedOperationException(errorMessage("error.unsupported_operation"));
 	}
 
 	@Override
-	public ResultPage<? extends DataResponseDTO> getAll(BusinessComponent bc) {
+	public ResultPage<? extends DataResponseDTO> getAll(BusinessComponent<T> bc) {
 		throw new UnsupportedOperationException(errorMessage("error.unsupported_operation"));
 	}
 
 	@Override
-	public CreateResult create(BusinessComponent bc) {
+	public CreateResult create(BusinessComponent<T> bc) {
 		throw new UnsupportedOperationException(errorMessage("error.unsupported_operation"));
 	}
 
 	@Override
-	public PreviewResult preview(BusinessComponent bc, Map<String, Object> data) {
+	public PreviewResult preview(BusinessComponent<T> bc, Map<String, Object> data) {
 		throw new UnsupportedOperationException(errorMessage("error.unsupported_operation"));
 	}
 
 	@Override
-	public ActionResultDTO update(BusinessComponent bc, Map<String, Object> data) {
+	public ActionResultDTO update(BusinessComponent<T> bc, Map<String, Object> data) {
 		throw new UnsupportedOperationException(errorMessage("error.unsupported_operation"));
 	}
 
 	@Override
-	public ActionResultDTO delete(BusinessComponent bc) {
+	public ActionResultDTO delete(BusinessComponent<T> bc) {
 		throw new UnsupportedOperationException(errorMessage("error.unsupported_operation"));
 	}
 
 	@Override
-	public ActionResultDTO invokeAction(BusinessComponent bc,
+	public ActionResultDTO invokeAction(BusinessComponent<T> bc,
 			String actionName,
 			Map<String, Object> data) {
 		throw new UnsupportedOperationException(errorMessage("error.unsupported_operation"));
 	}
 
 	@Override
-	public AssociateResultDTO associate(BusinessComponent bc, List<AssociateDTO> data) {
+	public AssociateResultDTO associate(BusinessComponent<T> bc, List<AssociateDTO> data) {
 		throw new UnsupportedOperationException(errorMessage("error.unsupported_operation"));
 	}
 
 	@Override
-	public MetaDTO getMetaNew(BusinessComponent bc, CreateResult data) {
+	public MetaDTO getMetaNew(BusinessComponent<T> bc, CreateResult data) {
 		throw new UnsupportedOperationException(errorMessage("error.unsupported_operation"));
 	}
 
 	@Override
-	public MetaDTO getMeta(BusinessComponent bc) {
+	public MetaDTO getMeta(BusinessComponent<T> bc) {
 		throw new UnsupportedOperationException(errorMessage("error.unsupported_operation"));
 	}
 
 	@Override
-	public MetaDTO getMetaEmpty(BusinessComponent bc) {
+	public MetaDTO getMetaEmpty(BusinessComponent<T> bc) {
 		throw new UnsupportedOperationException(errorMessage("error.unsupported_operation"));
 	}
 
 	@Override
-	public MetaDTO getOnFieldUpdateMeta(BusinessComponent bc, DataResponseDTO dto) {
+	public MetaDTO getOnFieldUpdateMeta(BusinessComponent<T> bc, DataResponseDTO dto) {
 		throw new UnsupportedOperationException(errorMessage("error.unsupported_operation"));
 	}
 
 	@Override
-	public long count(BusinessComponent bc) {
+	public long count(BusinessComponent<T> bc) {
 		throw new UnsupportedOperationException(errorMessage("error.unsupported_operation"));
 	}
 

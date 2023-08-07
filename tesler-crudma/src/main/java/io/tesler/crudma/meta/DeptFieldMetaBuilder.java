@@ -24,14 +24,14 @@ package io.tesler.crudma.meta;
 import io.tesler.core.crudma.bc.impl.InnerBcDescription;
 import io.tesler.core.dto.rowmeta.FieldsMeta;
 import io.tesler.core.dto.rowmeta.RowDependentFieldsMeta;
-import io.tesler.core.service.rowmeta.FieldMetaBuilder;
+import io.tesler.core.service.rowmeta.InnerFieldMetaBuilder;
 import io.tesler.crudma.dto.DepartmentDTO;
 import io.tesler.crudma.dto.DepartmentDTO_;
 import org.springframework.stereotype.Service;
 
 
 @Service
-public class DeptFieldMetaBuilder extends FieldMetaBuilder<DepartmentDTO> {
+public class DeptFieldMetaBuilder extends InnerFieldMetaBuilder<DepartmentDTO> {
 
 	@Override
 	public void buildRowDependentMeta(RowDependentFieldsMeta<DepartmentDTO> fields, InnerBcDescription bcDescription,

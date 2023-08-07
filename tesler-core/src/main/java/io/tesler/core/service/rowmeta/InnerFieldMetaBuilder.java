@@ -18,22 +18,10 @@
  * #L%
  */
 
-package io.tesler.sqlbc.crudma;
+package io.tesler.core.service.rowmeta;
 
-import io.tesler.core.crudma.bc.BusinessComponent;
-import io.tesler.core.service.action.ActionInvoker;
+import io.tesler.api.data.dto.DataResponseDTO;
+import io.tesler.core.crudma.bc.impl.InnerBcDescription;
 
-public interface SqlBcAction extends ActionInvoker<SqlComponentObject, SqlBcDescription> {
-
-	String getKey();
-
-	String getText();
-
-	boolean isAvailable(BusinessComponent<SqlBcDescription> bc);
-
-	@Override
-	default boolean isUpdateRequired() {
-		throw new UnsupportedOperationException();
-	}
-
+public abstract class InnerFieldMetaBuilder<T extends DataResponseDTO> extends FieldMetaBuilder<T, InnerBcDescription> {
 }

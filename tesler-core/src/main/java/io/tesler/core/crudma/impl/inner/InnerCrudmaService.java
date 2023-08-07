@@ -30,11 +30,13 @@ import io.tesler.core.crudma.bc.impl.InnerBcDescription;
 import io.tesler.core.crudma.impl.AbstractCrudmaService;
 import io.tesler.core.dto.rowmeta.*;
 import io.tesler.core.exception.BusinessException;
-import io.tesler.core.service.ResponseFactory;
+import io.tesler.core.service.DataResponseConverter;
 import io.tesler.core.service.ResponseService;
+import io.tesler.core.service.ResponseServiceHolder;
 import io.tesler.core.service.action.ActionDescription;
 import io.tesler.core.service.rowmeta.RowMetaType;
 import io.tesler.core.service.rowmeta.RowResponseService;
+import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
@@ -46,40 +48,42 @@ import java.util.Map;
 import static io.tesler.api.util.i18n.ErrorMessageSource.errorMessage;
 
 @Service
-public class InnerCrudmaService extends AbstractCrudmaService {
+@RequiredArgsConstructor
+public class InnerCrudmaService extends AbstractCrudmaService<InnerBcDescription> {
+
+	private final ResponseServiceHolder responseServiceHolder;
 
 	@Autowired
-	private ResponseFactory respFactory;
-
+	private DataResponseConverter respFactory;
 	@Lazy
 	@Autowired
 	private RowResponseService rowMeta;
 
 	@Override
-	public CreateResult create(BusinessComponent bc) {
+	public CreateResult create(BusinessComponent<InnerBcDescription> bc) {
 		ResponseService<?, ?> responseService = getResponseService(bc.getDescription());
 		availabilityCheck(responseService, ActionType.CREATE.getType(), bc);
 		return responseService.createEntity(bc);
 	}
 
 	@Override
-	public DataResponseDTO get(BusinessComponent bc) {
+	public DataResponseDTO get(BusinessComponent<InnerBcDescription> bc) {
 		ResponseService<?, ?> responseService = getResponseService(bc.getDescription());
 		return responseService.getOne(bc);
 	}
 
 	@Override
-	public ResultPage<? extends DataResponseDTO> getAll(BusinessComponent bc) {
+	public ResultPage<? extends DataResponseDTO> getAll(BusinessComponent<InnerBcDescription> bc) {
 		ResponseService<?, ?> responseService = getResponseService(bc.getDescription());
 		return responseService.getList(bc);
 	}
 
 	@Override
-	public PreviewResult preview(BusinessComponent bc, Map<String, Object> data) {
+	public PreviewResult preview(BusinessComponent<InnerBcDescription> bc, Map<String, Object> data) {
 		final InnerBcDescription bcDescription = bc.getDescription();
-		final ResponseService<?, ?> responseService = respFactory.getService(bcDescription);
+		final ResponseService<?, ?> responseService = getResponseService(bcDescription);
 		final DataResponseDTO requestDto = respFactory.getDTOFromMapIgnoreBusinessErrors(
-				data, respFactory.getDTOFromService(bcDescription), bc
+				data, bcDescription.getDto(), bc
 		);
 		final DataResponseDTO responseDto = responseService.preview(bc, requestDto).getRecord();
 
@@ -88,48 +92,48 @@ public class InnerCrudmaService extends AbstractCrudmaService {
 	}
 
 	@Override
-	public ActionResultDTO update(BusinessComponent bc, Map<String, Object> data) {
+	public ActionResultDTO update(BusinessComponent<InnerBcDescription> bc, Map<String, Object> data) {
 		final InnerBcDescription bcDescription = bc.getDescription();
-		ResponseService<?, ?> responseService = respFactory.getService(bcDescription);
+		ResponseService<?, ?> responseService = getResponseService(bcDescription);
 		availabilityCheck(responseService, ActionType.SAVE.getType(), bc);
-		DataResponseDTO requestDTO = respFactory.getDTOFromMap(data, respFactory.getDTOFromService(bcDescription), bc);
+		DataResponseDTO requestDTO = respFactory.getDTOFromMap(data, bcDescription.getDto(), bc);
 		responseService.validate(bc, requestDTO);
 		return responseService.updateEntity(bc, requestDTO);
 	}
 
 	@Override
-	public ActionResultDTO delete(BusinessComponent bc) {
+	public ActionResultDTO delete(BusinessComponent<InnerBcDescription> bc) {
 		ResponseService<?, ?> responseService = getResponseService(bc.getDescription());
 		availabilityCheck(responseService, ActionType.DELETE.getType(), bc);
 		return responseService.deleteEntity(bc);
 	}
 
 	@Override
-	public AssociateResultDTO associate(BusinessComponent bc, List<AssociateDTO> data) {
+	public AssociateResultDTO associate(BusinessComponent<InnerBcDescription> bc, List<AssociateDTO> data) {
 		ResponseService<?, ?> responseService = getResponseService(bc.getDescription());
 		availabilityCheck(responseService, ActionType.ASSOCIATE.getType(), bc);
 		return responseService.associate(data, bc);
 	}
 
 	@Override
-	public ActionResultDTO invokeAction(BusinessComponent bc, String actionName, Map<String, Object> data) {
+	public ActionResultDTO<?> invokeAction(BusinessComponent<InnerBcDescription> bc, String actionName, Map<String, Object> data) {
 		final InnerBcDescription bcDescription = bc.getDescription();
-		ResponseService<?, ?> responseService = respFactory.getService(bcDescription);
-		DataResponseDTO requestDTO = respFactory.getDTOFromMap(data, respFactory.getDTOFromService(bcDescription), bc);
+		ResponseService<?, ?> responseService = getResponseService(bcDescription);
+		DataResponseDTO requestDTO = respFactory.getDTOFromMap(data, bcDescription.getDto(), bc);
 		return responseService.invokeAction(bc, actionName, requestDTO);
 	}
 
 	@Override
-	public MetaDTO getMetaNew(BusinessComponent bc, CreateResult createResult) {
+	public MetaDTO getMetaNew(BusinessComponent<InnerBcDescription> bc, CreateResult createResult) {
 		final InnerBcDescription bcDescription = bc.getDescription();
 		ResponseService<?, ?> responseService = getResponseService(bcDescription);
 		return rowMeta.getResponse(RowMetaType.META_NEW, createResult, bc, responseService);
 	}
 
 	@Override
-	public MetaDTO getMeta(BusinessComponent bc) {
+	public MetaDTO getMeta(BusinessComponent<InnerBcDescription> bc) {
 		final InnerBcDescription bcDescription = bc.getDescription();
-		ResponseService<?, ?> service = respFactory.getService(bcDescription);
+		ResponseService<?, ?> service = getResponseService(bcDescription);
 		try {
 			return rowMeta.getResponse(RowMetaType.META, getDto(service, bc), bc, service);
 		} catch (BusinessException e) {
@@ -140,9 +144,9 @@ public class InnerCrudmaService extends AbstractCrudmaService {
 	}
 
 	@Override
-	public MetaDTO getMetaEmpty(BusinessComponent bc) {
+	public MetaDTO getMetaEmpty(BusinessComponent<InnerBcDescription> bc) {
 		final InnerBcDescription bcDescription = bc.getDescription();
-		ResponseService<?, ?> service = respFactory.getService(bcDescription);
+		ResponseService<?, ?> service = getResponseService(bcDescription);
 		try {
 			return rowMeta.getResponse(RowMetaType.META_EMPTY, getDto(service, bc), bc, service);
 		} catch (BusinessException e) {
@@ -153,33 +157,31 @@ public class InnerCrudmaService extends AbstractCrudmaService {
 	}
 
 	@Override
-	public MetaDTO getOnFieldUpdateMeta(BusinessComponent bc, DataResponseDTO dto) {
-		final InnerBcDescription bcDescription = bc.getDescription();
-		final ResponseService<?, ?> service = respFactory.getService(bcDescription);
+	public MetaDTO getOnFieldUpdateMeta(BusinessComponent<InnerBcDescription> bc, DataResponseDTO dto) {
+		final ResponseService<?, ?> service = getResponseService(bc.getDescription());
 		return rowMeta.getResponse(RowMetaType.ON_FIELD_UPDATE_META, dto, bc, service);
 	}
 
 	@Override
-	public long count(BusinessComponent bc) {
+	public long count(BusinessComponent<InnerBcDescription> bc) {
 		ResponseService<?, ?> responseService = getResponseService(bc.getDescription());
 		return responseService.count(bc);
 	}
 
 	private ResponseService<?, ?> getResponseService(InnerBcDescription innerBcDescription) {
-		return respFactory.getService(innerBcDescription);
+		return responseServiceHolder.getService(innerBcDescription.getServiceClass());
 	}
 
 	@SneakyThrows
-	private DataResponseDTO getDto(ResponseService<?, ?> service, BusinessComponent bc) {
+	private DataResponseDTO getDto(ResponseService<?, ?> service, BusinessComponent<InnerBcDescription> bc) {
 		if (bc.getId() != null && service.hasPersister()) {
 			return service.getOne(bc);
 		}
-		Class<?> dto = respFactory.getDTOFromService(bc.getDescription());
-		return (DataResponseDTO) dto.getConstructor().newInstance();
+		return bc.getDescription().getDto().getConstructor().newInstance();
 	}
 
-	private void availabilityCheck(ResponseService<?, ?> service, String actionName, BusinessComponent bc) {
-		ActionDescription<?> action = service.getActions().getAction(actionName);
+	private void availabilityCheck(ResponseService<?, ?> service, String actionName, BusinessComponent<InnerBcDescription> bc) {
+		ActionDescription<?, InnerBcDescription> action = service.getActions().getAction(actionName);
 		if (action == null || !action.isAvailable(bc)) {
 			throw new BusinessException().addPopup(
 					errorMessage("error.action_unavailable", actionName)

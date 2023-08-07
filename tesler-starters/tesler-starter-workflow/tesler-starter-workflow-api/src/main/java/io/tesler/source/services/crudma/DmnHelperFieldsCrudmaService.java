@@ -24,6 +24,7 @@ import io.tesler.api.data.ResultPage;
 import io.tesler.api.data.dto.DataResponseDTO;
 import io.tesler.api.data.dto.rowmeta.FieldDTO;
 import io.tesler.core.crudma.bc.BusinessComponent;
+import io.tesler.core.crudma.bc.impl.ExtremeBcDescription;
 import io.tesler.core.crudma.impl.AbstractCrudmaService;
 import io.tesler.core.dto.rowmeta.MetaDTO;
 import io.tesler.core.util.ListPaging;
@@ -34,7 +35,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 @Service
-public class DmnHelperFieldsCrudmaService extends AbstractCrudmaService {
+public class DmnHelperFieldsCrudmaService extends AbstractCrudmaService<ExtremeBcDescription> {
 
 	private static final List<DmnTaskFieldsDto> HELPER_FIELDS = ImmutableList.<DmnTaskFieldsDto>builder()
 			.add(new DmnTaskFieldsDto("1", "Сегодняшний день", "helper.today", "date"))
@@ -48,22 +49,22 @@ public class DmnHelperFieldsCrudmaService extends AbstractCrudmaService {
 			.build();
 
 	@Override
-	public ResultPage<? extends DataResponseDTO> getAll(BusinessComponent bc) {
+	public ResultPage<? extends DataResponseDTO> getAll(BusinessComponent<ExtremeBcDescription> bc) {
 		return ListPaging.getResultPage(HELPER_FIELDS, bc.getParameters());
 	}
 
 	@Override
-	public long count(BusinessComponent bc) {
+	public long count(BusinessComponent<ExtremeBcDescription> bc) {
 		return HELPER_FIELDS.size();
 	}
 
 	@Override
-	public MetaDTO getMeta(BusinessComponent bc) {
+	public MetaDTO getMeta(BusinessComponent<ExtremeBcDescription> bc) {
 		return buildMeta(FIELD_DTO_LIST);
 	}
 
 	@Override
-	public MetaDTO getMetaEmpty(BusinessComponent bc) {
+	public MetaDTO getMetaEmpty(BusinessComponent<ExtremeBcDescription> bc) {
 		return buildMeta(Collections.emptyList());
 	}
 

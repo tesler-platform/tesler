@@ -23,7 +23,6 @@ package io.tesler.source.service.data.impl;
 import static io.tesler.api.util.i18n.ErrorMessageSource.errorMessage;
 import static io.tesler.api.util.i18n.LocalizationFormatter.uiMessage;
 
-import io.tesler.core.bc.InnerBcTypeAware;
 import io.tesler.core.crudma.bc.BcRegistry;
 import io.tesler.core.crudma.bc.BusinessComponent;
 import io.tesler.core.crudma.bc.impl.InnerBcDescription;
@@ -57,9 +56,6 @@ public class CustomizableRespSrvsServiceImpl extends
 	@Autowired
 	private BcRegistry bcRegistry;
 
-	@Autowired
-	private InnerBcTypeAware innerBcTypeAware;
-
 	public CustomizableRespSrvsServiceImpl() {
 		super(
 				CustomizableResponseServiceDto.class,
@@ -70,7 +66,7 @@ public class CustomizableRespSrvsServiceImpl extends
 	}
 
 	@Override
-	public ActionResultDTO<CustomizableResponseServiceDto> deleteEntity(BusinessComponent bc) {
+	public ActionResultDTO<CustomizableResponseServiceDto> deleteEntity(BusinessComponent<InnerBcDescription> bc) {
 		if (bc.getIdAsLong() != null) {
 			Long rulesCount = baseDAO.getCount(DictionaryLnkRule.class, (root, cq, cb) ->
 					cb.equal(
@@ -86,8 +82,8 @@ public class CustomizableRespSrvsServiceImpl extends
 	}
 
 	@Override
-	public Actions<CustomizableResponseServiceDto> getActions() {
-		return Actions.<CustomizableResponseServiceDto>builder()
+	public Actions<CustomizableResponseServiceDto, InnerBcDescription> getActions() {
+		return Actions.<CustomizableResponseServiceDto, InnerBcDescription>builder()
 				.create().add()
 				.save().add()
 				.delete().add()
@@ -102,14 +98,14 @@ public class CustomizableRespSrvsServiceImpl extends
 
 	@Override
 	protected CreateResult<CustomizableResponseServiceDto> doCreateEntity(final CustomizableResponseService entity,
-			final BusinessComponent bc) {
+			final BusinessComponent<InnerBcDescription> bc) {
 		baseDAO.save(entity);
 		return new CreateResult<>(entityToDto(bc, entity));
 	}
 
 	@Override
 	protected ActionResultDTO<CustomizableResponseServiceDto> doUpdateEntity(CustomizableResponseService entity,
-			CustomizableResponseServiceDto data, BusinessComponent bc) {
+			CustomizableResponseServiceDto data, BusinessComponent<InnerBcDescription> bc) {
 		if (data.isFieldChanged(CustomizableResponseServiceDto_.serviceName)) {
 			if (!entity.getRules().isEmpty()) {
 				throw new BusinessException().addPopup(errorMessage("error.cant_modify_service_rules_exist"));
@@ -123,7 +119,7 @@ public class CustomizableRespSrvsServiceImpl extends
 					.findFirst().orElse(null);
 
 			if (bcDescription != null && ResponseService.class.isAssignableFrom(bcDescription.getServiceClass())) {
-				entity.setDtoClass(innerBcTypeAware.getTypeOfDto(bcDescription).getName());
+				entity.setDtoClass(bcDescription.getDto().getName());
 			}
 		}
 		return new ActionResultDTO<>(entityToDto(bc, entity));

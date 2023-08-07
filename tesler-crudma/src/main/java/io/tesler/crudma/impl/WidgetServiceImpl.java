@@ -21,6 +21,7 @@
 package io.tesler.crudma.impl;
 
 import io.tesler.core.crudma.bc.BusinessComponent;
+import io.tesler.core.crudma.bc.impl.InnerBcDescription;
 import io.tesler.core.crudma.impl.VersionAwareResponseService;
 import io.tesler.core.dto.data.view.WidgetDTO;
 import io.tesler.core.dto.data.view.WidgetDTO_;
@@ -40,13 +41,13 @@ public class WidgetServiceImpl extends VersionAwareResponseService<WidgetDTO, Wi
 	}
 
 	@Override
-	protected CreateResult<WidgetDTO> doCreateEntity(final Widget entity, final BusinessComponent bc) {
+	protected CreateResult<WidgetDTO> doCreateEntity(final Widget entity, final BusinessComponent<InnerBcDescription> bc) {
 		Long id = baseDAO.save(entity);
 		return new CreateResult<>(entityToDto(bc, baseDAO.findById(Widget.class, id)));
 	}
 
 	@Override
-	protected ActionResultDTO<WidgetDTO> doUpdateEntity(Widget widget, WidgetDTO data, BusinessComponent bc) {
+	protected ActionResultDTO<WidgetDTO> doUpdateEntity(Widget widget, WidgetDTO data, BusinessComponent<InnerBcDescription> bc) {
 		if (data.hasChangedFields()) {
 			if (data.isFieldChanged(WidgetDTO_.name)) {
 				widget.setName(data.getName());

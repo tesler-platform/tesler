@@ -26,6 +26,7 @@ import io.tesler.WorkflowServiceAssociation;
 import io.tesler.api.data.ResultPage;
 import io.tesler.api.data.dto.DataResponseDTO;
 import io.tesler.core.crudma.bc.BusinessComponent;
+import io.tesler.core.crudma.bc.impl.InnerBcDescription;
 import io.tesler.core.crudma.impl.AbstractResponseService;
 import io.tesler.core.dao.BaseDAO;
 import io.tesler.core.dto.rowmeta.ActionResultDTO;
@@ -72,27 +73,27 @@ public class WorkflowTaskMigrationServiceImpl extends
 	}
 
 	@Override
-	protected String getFetchGraphName(BusinessComponent bc) {
+	protected String getFetchGraphName(BusinessComponent<InnerBcDescription> bc) {
 		return null;
 	}
 
 	@Override
-	public WorkflowableTask getOneAsEntity(final BusinessComponent bc) {
+	public WorkflowableTask getOneAsEntity(final BusinessComponent<InnerBcDescription> bc) {
 		return workflowableTaskDao.getTask(bc.getIdAsLong());
 	}
 
 	@Override
-	public ResultPage<WorkflowTaskMigrationDto> getList(final BaseDAO dao, final BusinessComponent bc) {
+	public ResultPage<WorkflowTaskMigrationDto> getList(final BaseDAO dao, final BusinessComponent<InnerBcDescription> bc) {
 		return getList(dao, bc, (Class<WorkflowableTask>) workflowSettings.getEntityClass(), typeOfDTO);
 	}
 
 	@Override
-	public long count(final BaseDAO dao, final BusinessComponent bc) {
+	public long count(final BaseDAO dao, final BusinessComponent<InnerBcDescription> bc) {
 		return count(dao, bc, (Class<WorkflowableTask>) workflowSettings.getEntityClass(), typeOfDTO);
 	}
 
 	@Override
-	protected Specification<WorkflowableTask> getParentSpecification(final BusinessComponent bc) {
+	protected Specification<WorkflowableTask> getParentSpecification(final BusinessComponent<InnerBcDescription> bc) {
 		final WorkflowVersion version = baseDAO.findById(WorkflowVersion.class, bc.getParentIdAsLong());
 		return (root, query, cb) -> cb.and(
 				cb.equal(
@@ -112,7 +113,7 @@ public class WorkflowTaskMigrationServiceImpl extends
 	}
 
 	@Override
-	public ActionResultDTO<WorkflowTaskMigrationDto> updateEntity(final BusinessComponent bc,
+	public ActionResultDTO<WorkflowTaskMigrationDto> updateEntity(final BusinessComponent<InnerBcDescription> bc,
 			final DataResponseDTO data) {
 		final WorkflowableTask entity = workflowableTaskDao.getTask(bc.getIdAsLong());
 		final WorkflowTaskMigrationDto dto = (WorkflowTaskMigrationDto) data;
@@ -135,8 +136,8 @@ public class WorkflowTaskMigrationServiceImpl extends
 	}
 
 	@Override
-	public Actions<WorkflowTaskMigrationDto> getActions() {
-		return Actions.<WorkflowTaskMigrationDto>builder()
+	public Actions<WorkflowTaskMigrationDto, InnerBcDescription> getActions() {
+		return Actions.<WorkflowTaskMigrationDto, InnerBcDescription>builder()
 				.save().add()
 				.build();
 	}

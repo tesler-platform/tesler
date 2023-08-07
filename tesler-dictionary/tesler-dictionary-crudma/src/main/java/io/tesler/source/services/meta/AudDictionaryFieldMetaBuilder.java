@@ -23,14 +23,14 @@ package io.tesler.source.services.meta;
 import io.tesler.core.crudma.bc.impl.InnerBcDescription;
 import io.tesler.core.dto.rowmeta.FieldsMeta;
 import io.tesler.core.dto.rowmeta.RowDependentFieldsMeta;
-import io.tesler.core.service.rowmeta.FieldMetaBuilder;
+import io.tesler.core.service.rowmeta.InnerFieldMetaBuilder;
 import io.tesler.source.dto.AudDictionaryDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class AudDictionaryFieldMetaBuilder extends FieldMetaBuilder<AudDictionaryDto> {
+public class AudDictionaryFieldMetaBuilder extends InnerFieldMetaBuilder<AudDictionaryDto> {
 
 	@Override
 	public void buildRowDependentMeta(RowDependentFieldsMeta<AudDictionaryDto> fields, InnerBcDescription bc,

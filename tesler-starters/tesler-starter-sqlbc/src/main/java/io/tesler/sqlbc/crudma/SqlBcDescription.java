@@ -54,6 +54,15 @@ public final class SqlBcDescription extends BcDescription {
 	@Getter
 	private final List<Bind> binds;
 
+	@Getter
+	private final Long id;
+
+	@Getter
+	private final String bindsString;
+
+	@Getter
+	private final Long pageLimit;
+
 	public SqlBcDescription(Bc bc, List<Bind> binds, LazyInitializer<List<Field>> fieldsInitializer) {
 		super(bc.getName(), bc.getParentName(), SqlCrudmaService.class, Boolean.TRUE.equals(bc.getRefresh()));
 		this.id = bc.getId();

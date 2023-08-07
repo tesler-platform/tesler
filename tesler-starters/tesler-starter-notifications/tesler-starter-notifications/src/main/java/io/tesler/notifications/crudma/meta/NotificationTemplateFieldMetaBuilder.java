@@ -24,14 +24,14 @@ import io.tesler.api.data.dictionary.DictionaryType;
 import io.tesler.core.crudma.bc.impl.InnerBcDescription;
 import io.tesler.core.dto.rowmeta.FieldsMeta;
 import io.tesler.core.dto.rowmeta.RowDependentFieldsMeta;
-import io.tesler.core.service.rowmeta.FieldMetaBuilder;
+import io.tesler.core.service.rowmeta.InnerFieldMetaBuilder;
 import io.tesler.notifications.crudma.dto.NotificationTemplateDTO;
 import org.springframework.stereotype.Service;
 
 import static io.tesler.notifications.crudma.dto.NotificationTemplateDTO_.*;
 
 @Service
-public class NotificationTemplateFieldMetaBuilder extends FieldMetaBuilder<NotificationTemplateDTO> {
+public class NotificationTemplateFieldMetaBuilder extends InnerFieldMetaBuilder<NotificationTemplateDTO> {
 
 	@Override
 	public void buildRowDependentMeta(RowDependentFieldsMeta<NotificationTemplateDTO> fields,

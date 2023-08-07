@@ -27,12 +27,12 @@ import static io.tesler.source.dto.WorkflowTransitionGroupDto_.nameButtonYet;
 import io.tesler.core.crudma.bc.impl.InnerBcDescription;
 import io.tesler.core.dto.rowmeta.FieldsMeta;
 import io.tesler.core.dto.rowmeta.RowDependentFieldsMeta;
-import io.tesler.core.service.rowmeta.FieldMetaBuilder;
+import io.tesler.core.service.rowmeta.InnerFieldMetaBuilder;
 import io.tesler.source.dto.WorkflowTransitionGroupDto;
 import org.springframework.stereotype.Service;
 
 @Service
-public class WorkflowTransitionGroupMetaBuilder extends FieldMetaBuilder<WorkflowTransitionGroupDto> {
+public class WorkflowTransitionGroupMetaBuilder extends InnerFieldMetaBuilder<WorkflowTransitionGroupDto> {
 
 	@Override
 	public void buildRowDependentMeta(RowDependentFieldsMeta<WorkflowTransitionGroupDto> fields,

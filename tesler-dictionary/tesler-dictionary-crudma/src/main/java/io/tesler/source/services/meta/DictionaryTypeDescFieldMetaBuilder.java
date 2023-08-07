@@ -24,7 +24,7 @@ package io.tesler.source.services.meta;
 import io.tesler.core.crudma.bc.impl.InnerBcDescription;
 import io.tesler.core.dto.rowmeta.FieldsMeta;
 import io.tesler.core.dto.rowmeta.RowDependentFieldsMeta;
-import io.tesler.core.service.rowmeta.FieldMetaBuilder;
+import io.tesler.core.service.rowmeta.InnerFieldMetaBuilder;
 import io.tesler.source.dto.DictionaryTypeDescDTO;
 import io.tesler.source.dto.DictionaryTypeDescDTO_;
 import lombok.RequiredArgsConstructor;
@@ -32,7 +32,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class DictionaryTypeDescFieldMetaBuilder extends FieldMetaBuilder<DictionaryTypeDescDTO> {
+public class DictionaryTypeDescFieldMetaBuilder extends InnerFieldMetaBuilder<DictionaryTypeDescDTO> {
 
 	@Override
 	public void buildRowDependentMeta(RowDependentFieldsMeta<DictionaryTypeDescDTO> fields,

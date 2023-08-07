@@ -21,9 +21,10 @@
 package io.tesler.core.service.action;
 
 import io.tesler.core.crudma.bc.BusinessComponent;
+import io.tesler.core.crudma.bc.impl.BcDescription;
 
 @FunctionalInterface
-public interface ActionAvailableChecker {
+public interface ActionAvailableChecker<D extends BcDescription> {
 
 	ActionAvailableChecker NOT_NULL_ID = (bc) -> bc.getId() != null;
 
@@ -33,23 +34,25 @@ public interface ActionAvailableChecker {
 
 	ActionAvailableChecker ALWAYS_FALSE = (bc) -> false;
 
-	static ActionAvailableChecker and(ActionAvailableChecker... checkers) {
-		return new And(checkers);
+	@SafeVarargs
+	static <T extends BcDescription> ActionAvailableChecker<T> and(ActionAvailableChecker<T>... checkers) {
+		return new And<>(checkers);
 	}
 
-	boolean isAvailable(BusinessComponent bc);
+	boolean isAvailable(BusinessComponent<D> bc);
 
-	class And implements ActionAvailableChecker {
+	class And<D extends BcDescription> implements ActionAvailableChecker<D> {
 
-		private final ActionAvailableChecker[] availableCheckers;
+		private final ActionAvailableChecker<D>[] availableCheckers;
 
-		public And(final ActionAvailableChecker... availableCheckers) {
+		@SafeVarargs
+		public And(final ActionAvailableChecker<D>... availableCheckers) {
 			this.availableCheckers = availableCheckers;
 		}
 
 		@Override
-		public boolean isAvailable(final BusinessComponent bc) {
-			for (final ActionAvailableChecker availableChecker : availableCheckers) {
+		public boolean isAvailable(final BusinessComponent<D> bc) {
+			for (final ActionAvailableChecker<D> availableChecker : availableCheckers) {
 				if (!availableChecker.isAvailable(bc)) {
 					return false;
 				}

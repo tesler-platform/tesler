@@ -23,6 +23,7 @@ package io.tesler.source.service.data.impl;
 import io.tesler.api.data.dictionary.LOV;
 import io.tesler.api.data.dto.AssociateDTO;
 import io.tesler.core.crudma.bc.BusinessComponent;
+import io.tesler.core.crudma.bc.impl.InnerBcDescription;
 import io.tesler.core.crudma.impl.AbstractResponseService;
 import io.tesler.core.dto.rowmeta.AssociateResultDTO;
 import io.tesler.core.dto.rowmeta.PostAction;
@@ -53,15 +54,15 @@ public class DictionaryLnkRuleValueServiceImpl extends
 	}
 
 	@Override
-	public Actions<DictionaryLnkRuleValueDto> getActions() {
-		return Actions.<DictionaryLnkRuleValueDto>builder()
+	public Actions<DictionaryLnkRuleValueDto, InnerBcDescription> getActions() {
+		return Actions.<DictionaryLnkRuleValueDto, InnerBcDescription>builder()
 				.associate().add()
 				.delete().add()
 				.build();
 	}
 
 	@Override
-	protected AssociateResultDTO doAssociate(List<AssociateDTO> data, BusinessComponent bc) {
+	protected AssociateResultDTO doAssociate(List<AssociateDTO> data, BusinessComponent<InnerBcDescription> bc) {
 		DictionaryLnkRule parent = baseDAO.findById(DictionaryLnkRule.class, bc.getParentIdAsLong());
 		for (AssociateDTO dto : data) {
 			if (dto.getAssociated()) {

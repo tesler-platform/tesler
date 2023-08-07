@@ -22,6 +22,7 @@ package io.tesler.quartz.crudma.service;
 
 import io.tesler.api.data.dictionary.LOV;
 import io.tesler.core.crudma.bc.BusinessComponent;
+import io.tesler.core.crudma.bc.impl.InnerBcDescription;
 import io.tesler.core.crudma.impl.VersionAwareResponseService;
 import io.tesler.core.dto.rowmeta.ActionResultDTO;
 import io.tesler.core.dto.rowmeta.CreateResult;
@@ -50,7 +51,7 @@ public class ScheduledJobParamServiceImpl extends
 	}
 
 	@Override
-	protected Specification<ScheduledJobParam> getParentSpecification(BusinessComponent bc) {
+	protected Specification<ScheduledJobParam> getParentSpecification(BusinessComponent<InnerBcDescription> bc) {
 		return (root, query, cb) -> cb.and(
 				cb.equal(root.get(ScheduledJobParam_.job).get(ScheduledJob_.service), getServiceName()),
 				cb.isNotNull(root.get(ScheduledJobParam_.job).get(ScheduledJob_.service)),
@@ -64,13 +65,13 @@ public class ScheduledJobParamServiceImpl extends
 
 	@Override
 	protected CreateResult<ScheduledJobParamDTO> doCreateEntity(final ScheduledJobParam entity,
-			final BusinessComponent bc) {
+			final BusinessComponent<InnerBcDescription> bc) {
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
 	protected ActionResultDTO<ScheduledJobParamDTO> doUpdateEntity(ScheduledJobParam entity, ScheduledJobParamDTO data,
-			BusinessComponent bc) {
+			BusinessComponent<InnerBcDescription> bc) {
 		if (entity == null) {
 			throw new IllegalArgumentException("Не удалось найти параметр с id: ".concat(bc.getId()));
 		}
@@ -92,8 +93,8 @@ public class ScheduledJobParamServiceImpl extends
 	}
 
 	@Override
-	public Actions<ScheduledJobParamDTO> getActions() {
-		return Actions.<ScheduledJobParamDTO>builder()
+	public Actions<ScheduledJobParamDTO, InnerBcDescription> getActions() {
+		return Actions.<ScheduledJobParamDTO, InnerBcDescription>builder()
 				.save().add()
 				.addAll(super.getActions())
 				.build();

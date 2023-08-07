@@ -28,11 +28,11 @@ import io.tesler.core.crudma.bc.impl.InnerBcDescription;
 import io.tesler.core.dto.rowmeta.FieldsMeta;
 import io.tesler.core.dto.rowmeta.FilterGroupDTO;
 import io.tesler.core.dto.rowmeta.RowDependentFieldsMeta;
-import io.tesler.core.service.rowmeta.FieldMetaBuilder;
+import io.tesler.core.service.rowmeta.InnerFieldMetaBuilder;
 import org.springframework.stereotype.Service;
 
 @Service
-public class FilterGroupMetaBuilder extends FieldMetaBuilder<FilterGroupDTO> {
+public class FilterGroupMetaBuilder extends InnerFieldMetaBuilder<FilterGroupDTO> {
 
 	@Override
 	public void buildRowDependentMeta(RowDependentFieldsMeta<FilterGroupDTO> fields, InnerBcDescription bcDescription,

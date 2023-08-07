@@ -26,6 +26,7 @@ import io.tesler.WorkflowServiceAssociation;
 import io.tesler.api.data.dictionary.DictionaryType;
 import io.tesler.api.data.dictionary.LOV;
 import io.tesler.core.crudma.bc.BusinessComponent;
+import io.tesler.core.crudma.bc.impl.InnerBcDescription;
 import io.tesler.core.crudma.impl.VersionAwareResponseService;
 import io.tesler.core.dto.rowmeta.ActionResultDTO;
 import io.tesler.core.dto.rowmeta.CreateResult;
@@ -59,7 +60,7 @@ public class WorkflowServiceImpl extends VersionAwareResponseService<WorkflowDto
 	}
 
 	@Override
-	protected Specification<Workflow> getParentSpecification(BusinessComponent bc) {
+	protected Specification<Workflow> getParentSpecification(BusinessComponent<InnerBcDescription> bc) {
 		if (WorkflowServiceAssociation.pfChildWorkflow.isBc(bc)) {
 			return (root, cq, cb) -> cb.and();
 		}
@@ -67,7 +68,7 @@ public class WorkflowServiceImpl extends VersionAwareResponseService<WorkflowDto
 	}
 
 	@Override
-	protected ActionResultDTO<WorkflowDto> doUpdateEntity(Workflow entity, WorkflowDto dto, BusinessComponent bc) {
+	protected ActionResultDTO<WorkflowDto> doUpdateEntity(Workflow entity, WorkflowDto dto, BusinessComponent<InnerBcDescription> bc) {
 		if (dto.isFieldChanged(WorkflowDto_.deptId)) {
 			entity.setDepartment(baseDAO.findById(Department.class, dto.getDeptId()));
 		}
@@ -89,13 +90,13 @@ public class WorkflowServiceImpl extends VersionAwareResponseService<WorkflowDto
 	}
 
 	@Override
-	public ActionResultDTO<WorkflowDto> deleteEntity(BusinessComponent bc) {
+	public ActionResultDTO<WorkflowDto> deleteEntity(BusinessComponent<InnerBcDescription> bc) {
 		baseDAO.delete(Workflow.class, bc.getIdAsLong());
 		return new ActionResultDTO<>();
 	}
 
 	@Override
-	protected CreateResult<WorkflowDto> doCreateEntity(final Workflow entity, final BusinessComponent bc) {
+	protected CreateResult<WorkflowDto> doCreateEntity(final Workflow entity, final BusinessComponent<InnerBcDescription> bc) {
 		List<LOV> taskTypes = workflowDao.getTaskTypesNotInWf();
 		if (taskTypes.isEmpty()) {
 			throw new BusinessException().addPopup(errorMessage("error.no_task_type_available"));
@@ -107,19 +108,19 @@ public class WorkflowServiceImpl extends VersionAwareResponseService<WorkflowDto
 	}
 
 	@Override
-	public Actions<WorkflowDto> getActions() {
-		return Actions.<WorkflowDto>builder()
+	public Actions<WorkflowDto, InnerBcDescription> getActions() {
+		return Actions.<WorkflowDto, InnerBcDescription>builder()
 				.create().available(this::hasTaskTypesNotInWf).add()
 				.save().available(this::isEditable).add()
 				.delete().available(this::isEditable).add()
 				.build();
 	}
 
-	private boolean hasTaskTypesNotInWf(final BusinessComponent bc) {
+	private boolean hasTaskTypesNotInWf(final BusinessComponent<InnerBcDescription> bc) {
 		return isEditable(bc) && !workflowDao.getTaskTypesNotInWf().isEmpty();
 	}
 
-	private boolean isEditable(final BusinessComponent bc) {
+	private boolean isEditable(final BusinessComponent<InnerBcDescription> bc) {
 		return WorkflowServiceAssociation.migrationWf.isNotBc(bc);
 	}
 

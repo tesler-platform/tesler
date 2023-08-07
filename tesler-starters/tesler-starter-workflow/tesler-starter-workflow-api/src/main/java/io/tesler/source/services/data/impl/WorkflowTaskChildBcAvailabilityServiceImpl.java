@@ -21,6 +21,7 @@
 package io.tesler.source.services.data.impl;
 
 import io.tesler.core.crudma.bc.BusinessComponent;
+import io.tesler.core.crudma.bc.impl.InnerBcDescription;
 import io.tesler.core.crudma.impl.VersionAwareResponseService;
 import io.tesler.core.dto.rowmeta.ActionResultDTO;
 import io.tesler.core.dto.rowmeta.CreateResult;
@@ -50,7 +51,7 @@ public class WorkflowTaskChildBcAvailabilityServiceImpl extends
 
 	@Override
 	protected CreateResult<WorkflowTaskChildBcAvailabilityDto> doCreateEntity(
-			final WorkflowTaskChildBcAvailability entity, final BusinessComponent bc) {
+			final WorkflowTaskChildBcAvailability entity, final BusinessComponent<InnerBcDescription> bc) {
 		entity.setWorkflowStep(baseDAO.findById(WorkflowStep.class, bc.getParentIdAsLong()));
 		baseDAO.save(entity);
 		return new CreateResult<>(entityToDto(bc, entity));
@@ -58,7 +59,7 @@ public class WorkflowTaskChildBcAvailabilityServiceImpl extends
 
 	@Override
 	protected ActionResultDTO<WorkflowTaskChildBcAvailabilityDto> doUpdateEntity(WorkflowTaskChildBcAvailability entity,
-			WorkflowTaskChildBcAvailabilityDto dto, BusinessComponent bc) {
+			WorkflowTaskChildBcAvailabilityDto dto, BusinessComponent<InnerBcDescription> bc) {
 		if (dto.isFieldChanged(WorkflowTaskChildBcAvailabilityDto_.bcName)) {
 			entity.setBcName(dto.getBcName());
 		}
@@ -69,8 +70,8 @@ public class WorkflowTaskChildBcAvailabilityServiceImpl extends
 	}
 
 	@Override
-	public Actions<WorkflowTaskChildBcAvailabilityDto> getActions() {
-		return Actions.<WorkflowTaskChildBcAvailabilityDto>builder()
+	public Actions<WorkflowTaskChildBcAvailabilityDto, InnerBcDescription> getActions() {
+		return Actions.<WorkflowTaskChildBcAvailabilityDto, InnerBcDescription>builder()
 				.create().add()
 				.save().add()
 				.delete().add()

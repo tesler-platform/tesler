@@ -21,6 +21,7 @@
 package io.tesler.source.services.data.impl;
 
 import io.tesler.core.crudma.bc.BusinessComponent;
+import io.tesler.core.crudma.bc.impl.InnerBcDescription;
 import io.tesler.model.workflow.entity.WorkflowAssigneeRecommendation;
 import io.tesler.model.workflow.entity.WorkflowAssigneeRecommendation_;
 import io.tesler.source.dto.WorkflowAssigneeRecommendationDto;
@@ -43,7 +44,7 @@ public class WorkflowAssigneeRecommendationServiceImpl extends
 	}
 
 	@Override
-	protected WorkflowAssigneeRecommendation create(BusinessComponent bc) {
+	protected WorkflowAssigneeRecommendation create(BusinessComponent<InnerBcDescription> bc) {
 		return new WorkflowAssigneeRecommendation();
 	}
 

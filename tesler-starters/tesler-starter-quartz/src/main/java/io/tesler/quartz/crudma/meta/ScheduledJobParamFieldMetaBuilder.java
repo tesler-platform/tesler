@@ -24,7 +24,7 @@ package io.tesler.quartz.crudma.meta;
 import io.tesler.core.crudma.bc.impl.InnerBcDescription;
 import io.tesler.core.dto.rowmeta.FieldsMeta;
 import io.tesler.core.dto.rowmeta.RowDependentFieldsMeta;
-import io.tesler.core.service.rowmeta.FieldMetaBuilder;
+import io.tesler.core.service.rowmeta.InnerFieldMetaBuilder;
 import io.tesler.quartz.crudma.dto.ScheduledJobParamDTO;
 import io.tesler.quartz.crudma.dto.ScheduledJobParamDTO_;
 import lombok.RequiredArgsConstructor;
@@ -32,7 +32,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class ScheduledJobParamFieldMetaBuilder extends FieldMetaBuilder<ScheduledJobParamDTO> {
+public class ScheduledJobParamFieldMetaBuilder extends InnerFieldMetaBuilder<ScheduledJobParamDTO> {
 
 	@Override
 	public void buildRowDependentMeta(RowDependentFieldsMeta<ScheduledJobParamDTO> fields,

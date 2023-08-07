@@ -24,13 +24,15 @@ import static io.tesler.core.service.action.TeslerActionIconSpecifier.WITHOUT_IC
 
 import io.tesler.api.data.dto.DataResponseDTO;
 import java.util.List;
+
+import io.tesler.core.crudma.bc.impl.BcDescription;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
 @RequiredArgsConstructor
 @Getter
-public final class ActionGroupDescription<T extends DataResponseDTO> {
+public final class ActionGroupDescription<T extends DataResponseDTO, D extends BcDescription> {
 
 	private final String key;
 
@@ -38,7 +40,7 @@ public final class ActionGroupDescription<T extends DataResponseDTO> {
 
 	private final int maxGroupVisualButtonsCount;
 
-	private final List<ActionDescription<T>> actions;
+	private final List<ActionDescription<T, D>> actions;
 
 	@Setter
 	private ActionIconSpecifier iconCode = WITHOUT_ICON;

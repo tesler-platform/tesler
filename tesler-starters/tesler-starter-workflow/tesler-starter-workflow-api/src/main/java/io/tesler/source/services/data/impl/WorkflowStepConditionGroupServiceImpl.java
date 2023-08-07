@@ -21,6 +21,7 @@
 package io.tesler.source.services.data.impl;
 
 import io.tesler.core.crudma.bc.BusinessComponent;
+import io.tesler.core.crudma.bc.impl.InnerBcDescription;
 import io.tesler.core.crudma.impl.VersionAwareResponseService;
 import io.tesler.core.dto.rowmeta.ActionResultDTO;
 import io.tesler.core.dto.rowmeta.CreateResult;
@@ -50,7 +51,7 @@ public class WorkflowStepConditionGroupServiceImpl extends
 
 	@Override
 	protected CreateResult<WorkflowStepConditionGroupDto> doCreateEntity(final WorkflowStepConditionGroup entity,
-			final BusinessComponent bc) {
+			final BusinessComponent<InnerBcDescription> bc) {
 		entity.setStep(baseDAO.findById(WorkflowStep.class, bc.getParentIdAsLong()));
 		baseDAO.save(entity);
 		return new CreateResult<>(entityToDto(bc, entity));
@@ -58,7 +59,7 @@ public class WorkflowStepConditionGroupServiceImpl extends
 
 	@Override
 	protected ActionResultDTO<WorkflowStepConditionGroupDto> doUpdateEntity(WorkflowStepConditionGroup entity,
-			WorkflowStepConditionGroupDto dto, BusinessComponent bc) {
+			WorkflowStepConditionGroupDto dto, BusinessComponent<InnerBcDescription> bc) {
 		if (dto.isFieldChanged(WorkflowStepConditionGroupDto_.seq)) {
 			entity.setSeq(dto.getSeq());
 		}
@@ -69,8 +70,8 @@ public class WorkflowStepConditionGroupServiceImpl extends
 	}
 
 	@Override
-	public Actions<WorkflowStepConditionGroupDto> getActions() {
-		return Actions.<WorkflowStepConditionGroupDto>builder()
+	public Actions<WorkflowStepConditionGroupDto, InnerBcDescription> getActions() {
+		return Actions.<WorkflowStepConditionGroupDto, InnerBcDescription>builder()
 				.create().add()
 				.save().add()
 				.delete().add()

@@ -40,10 +40,11 @@ import io.tesler.core.dto.rowmeta.CreateResult;
 import io.tesler.core.dto.rowmeta.MetaDTO;
 import io.tesler.core.dto.rowmeta.PostAction;
 import io.tesler.core.exception.BusinessIntermediateException;
-import io.tesler.core.service.ResponseFactory;
 import io.tesler.core.service.ResponseService;
 import java.util.List;
 import java.util.Map;
+
+import io.tesler.core.service.ResponseServiceHolder;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -55,9 +56,9 @@ public class CrudmaGateway {
 
 	private final CrudmaFactory crudmaFactory;
 
-	private final ResponseFactory respFactory;
-
 	private final List<CrudmaGatewayInvokeExtensionProvider> extensionProviders;
+
+	private final ResponseServiceHolder responseServiceHolder;
 
 	public DataResponseDTO get(CrudmaAction crudmaAction) {
 		BusinessComponent bc = crudmaAction.getBc();
@@ -184,7 +185,7 @@ public class CrudmaGateway {
 		boolean readOnly = false;
 		if (description instanceof InnerBcDescription) {
 			readOnly = actionType != null && actionType.isReadOnly();
-			ResponseService<?, ?> responseService = getResponseService(bc);
+			ResponseService<?, ?> responseService = getResponseService((InnerBcDescription)description);
 			if (CrudmaActionType.CREATE == actionType) {
 				readOnly &= responseService.isDeferredCreationSupported(bc);
 			}
@@ -192,8 +193,8 @@ public class CrudmaGateway {
 		return readOnly;
 	}
 
-	private ResponseService<?, ?> getResponseService(BusinessComponent bc) {
-		return respFactory.getService(bc.getDescription());
+	private ResponseService<?, ?> getResponseService(InnerBcDescription bcDescription) {
+		return responseServiceHolder.getService(bcDescription.getServiceClass());
 	}
 
 	private Crudma getCrudmaService(final BusinessComponent bc) {

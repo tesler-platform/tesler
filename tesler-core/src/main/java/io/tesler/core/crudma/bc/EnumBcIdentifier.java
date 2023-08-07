@@ -30,7 +30,7 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 
 public interface EnumBcIdentifier extends BcIdentifier {
 
-	BcDescription getBcDescription();
+	<T extends BcDescription> T getBcDescription();
 
 	@Override
 	default String getName() {

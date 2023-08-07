@@ -22,7 +22,6 @@ package io.tesler.core.ui;
 
 import io.tesler.api.data.dto.DataResponseDTO;
 import io.tesler.constgen.DtoField;
-import io.tesler.core.bc.InnerBcTypeAware;
 import io.tesler.core.config.cache.CacheConfig;
 import io.tesler.core.crudma.bc.BcIdentifier;
 import io.tesler.core.crudma.bc.BcRegistry;
@@ -57,8 +56,6 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class BcUtils {
-
-	private final InnerBcTypeAware innerBcTypeAware;
 
 	private final JpaDao jpaDao;
 
@@ -145,7 +142,7 @@ public class BcUtils {
 		if (bcDescription instanceof InnerBcDescription) {
 			try {
 				final InnerBcDescription innerBcDescription = (InnerBcDescription) bcDescription;
-				final Class dtoClass = innerBcTypeAware.getTypeOfDto(innerBcDescription);
+				final Class dtoClass = innerBcDescription.getDto();
 				return dtoFieldsCache.get(dtoClass);
 			} catch (ExecutionException e) {
 				return Collections.emptySet();
@@ -203,7 +200,7 @@ public class BcUtils {
 	public Set<String> getBcByDto(final Class<? extends DataResponseDTO> dtoClass) {
 		return bcRegistry.select(InnerBcDescription.class)
 				.filter(bcDescription -> Objects.equals(
-						innerBcTypeAware.getTypeOfDto(bcDescription),
+						bcDescription.getDto(),
 						dtoClass
 				))
 				.map(BcDescription::getName)

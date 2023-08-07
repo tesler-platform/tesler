@@ -25,6 +25,7 @@ import io.tesler.api.data.dto.AssociateDTO;
 import io.tesler.api.data.dto.DataResponseDTO;
 import io.tesler.api.data.dto.rowmeta.PreviewResult;
 import io.tesler.core.crudma.bc.BusinessComponent;
+import io.tesler.core.crudma.bc.impl.BcDescription;
 import io.tesler.core.dto.rowmeta.ActionResultDTO;
 import io.tesler.core.dto.rowmeta.AssociateResultDTO;
 import io.tesler.core.dto.rowmeta.CreateResult;
@@ -33,7 +34,7 @@ import java.util.List;
 import java.util.Map;
 
 
-public interface Crudma {
+public interface Crudma<T extends BcDescription> {
 
 	/**
 	 * Returns object based on a business component
@@ -41,7 +42,7 @@ public interface Crudma {
 	 * @param bc businessComponent
 	 * @return {@link DataResponseDTO} information about entity, it's changed fields, errors
 	 */
-	DataResponseDTO get(BusinessComponent bc);
+	DataResponseDTO get(BusinessComponent<T> bc);
 
 	/**
 	 * Returns all matched objects based on a business component
@@ -49,7 +50,7 @@ public interface Crudma {
 	 * @param bc businessComponent
 	 * @return {@link ResultPage} class with list of objects
 	 */
-	ResultPage<? extends DataResponseDTO> getAll(BusinessComponent bc);
+	ResultPage<? extends DataResponseDTO> getAll(BusinessComponent<T> bc);
 
 	/**
 	 * Creates an entity based on a business component
@@ -57,7 +58,7 @@ public interface Crudma {
 	 * @param bc businessComponent
 	 * @return {@link CreateResult} class with DataResponseDTO and postactions
 	 */
-	CreateResult create(BusinessComponent bc);
+	CreateResult create(BusinessComponent<T> bc);
 
 	/**
 	 * Updates an entity based on a business component by map
@@ -67,7 +68,7 @@ public interface Crudma {
 	 * @param data information about entity
 	 * @return {@link PreviewResult} class with DataResponseDTO
 	 */
-	PreviewResult preview(BusinessComponent bc, Map<String, Object> data);
+	PreviewResult preview(BusinessComponent<T> bc, Map<String, Object> data);
 
 	/**
 	 * Updates an entity based on a business component by map
@@ -76,7 +77,7 @@ public interface Crudma {
 	 * @param data information about entity
 	 * @return {@link ActionResultDTO} class with DataResponseDTO and postactions
 	 */
-	ActionResultDTO update(BusinessComponent bc, Map<String, Object> data);
+	ActionResultDTO update(BusinessComponent<T> bc, Map<String, Object> data);
 
 	/**
 	 * Deletes an entity based on a business component
@@ -84,7 +85,7 @@ public interface Crudma {
 	 * @param bc businessComponent
 	 * @return {@link ActionResultDTO} class with DataResponseDTO and postactions
 	 */
-	ActionResultDTO delete(BusinessComponent bc);
+	ActionResultDTO delete(BusinessComponent<T> bc);
 
 	/**
 	 * Invokes action with given name, add preactions, loads or updates entity if necessary
@@ -94,7 +95,7 @@ public interface Crudma {
 	 * @param data information about entity
 	 * @return {@link ActionResultDTO} class with DataResponseDTO and postactions
 	 */
-	ActionResultDTO invokeAction(BusinessComponent bc, String actionName, Map<String, Object> data);
+	ActionResultDTO invokeAction(BusinessComponent<T> bc, String actionName, Map<String, Object> data);
 
 	/**
 	 * Creates links between entities
@@ -103,7 +104,7 @@ public interface Crudma {
 	 * @param bc businessComponent
 	 * @return {@link AssociateResultDTO} class with DataResponseDTO and postactions
 	 */
-	AssociateResultDTO associate(BusinessComponent bc, List<AssociateDTO> data);
+	AssociateResultDTO associate(BusinessComponent<T> bc, List<AssociateDTO> data);
 
 	/**
 	 * Returns new meta for entity based on a business component
@@ -112,7 +113,7 @@ public interface Crudma {
 	 * @param bc businessComponent
 	 * @return {@link MetaDTO} class with meta DTO and postactions
 	 */
-	MetaDTO getMetaNew(BusinessComponent bc, CreateResult data);
+	MetaDTO getMetaNew(BusinessComponent<T> bc, CreateResult data);
 
 	/**
 	 * Returns meta for entity based on a business component
@@ -120,7 +121,7 @@ public interface Crudma {
 	 * @param bc businessComponent
 	 * @return {@link MetaDTO} class with meta DTO and postactions
 	 */
-	MetaDTO getMeta(BusinessComponent bc);
+	MetaDTO getMeta(BusinessComponent<T> bc);
 
 	/**
 	 * Returns empty meta for entity based on a business component
@@ -128,7 +129,7 @@ public interface Crudma {
 	 * @param bc businessComponent
 	 * @return {@link MetaDTO} class with meta DTO and postactions
 	 */
-	MetaDTO getMetaEmpty(BusinessComponent bc);
+	MetaDTO getMetaEmpty(BusinessComponent<T> bc);
 
 	/**
 	 * Returns on-field-update meta for entity based on a business component
@@ -137,7 +138,7 @@ public interface Crudma {
 	 * @param dto information about entity, it's changed fields, errors
 	 * @return {@link MetaDTO} class with meta DTO and postactions
 	 */
-	MetaDTO getOnFieldUpdateMeta(BusinessComponent bc, DataResponseDTO dto);
+	MetaDTO getOnFieldUpdateMeta(BusinessComponent<T> bc, DataResponseDTO dto);
 
 	/**
 	 * Returns the number of matching entities
@@ -145,6 +146,6 @@ public interface Crudma {
 	 * @param bc businessComponent
 	 * @return count
 	 */
-	long count(BusinessComponent bc);
+	long count(BusinessComponent<T> bc);
 
 }

@@ -28,6 +28,7 @@ import io.tesler.api.data.ResultPage;
 import io.tesler.api.exception.ServerException;
 import io.tesler.constgen.DtoField;
 import io.tesler.core.crudma.bc.BusinessComponent;
+import io.tesler.core.crudma.bc.impl.InnerBcDescription;
 import io.tesler.core.dto.data.HistoricityDto;
 import io.tesler.core.dto.rowmeta.ActionResultDTO;
 import io.tesler.core.dto.rowmeta.ActionType;
@@ -62,7 +63,7 @@ public abstract class HistoricityResponseService<T extends HistoricityDto, E ext
 			final Class<T> typeOfDTO,
 			final Class<E> typeOfEntity,
 			final Class<? extends HistoricityKey<E, T>> historicityKeyClass,
-			final Class<? extends HistoricityFieldMetaBuilder<T>> metaBuilder) {
+			final Class<? extends HistoricityFieldMetaBuilder<T, InnerBcDescription>> metaBuilder) {
 		super(typeOfDTO, typeOfEntity, null, metaBuilder);
 		this.historicityKeyClass = historicityKeyClass;
 	}
@@ -72,7 +73,7 @@ public abstract class HistoricityResponseService<T extends HistoricityDto, E ext
 	}
 
 	@Override
-	public final ResultPage<T> getList(final BusinessComponent bc) {
+	public final ResultPage<T> getList(final BusinessComponent<InnerBcDescription> bc) {
 		final ResultPage<T> resultPage = super.getList(bc);
 		if (resultPage.getResult().size() > 1) {
 			throw new ServerException(errorMessage("error.duplicate_key"));
@@ -81,7 +82,7 @@ public abstract class HistoricityResponseService<T extends HistoricityDto, E ext
 	}
 
 	@Override
-	protected final Specification<E> getParentSpecification(final BusinessComponent bc) {
+	protected final Specification<E> getParentSpecification(final BusinessComponent<InnerBcDescription> bc) {
 		return (root, query, cb) -> {
 			final LocalDateTime redDate = bc.getParameters().getDateTo().with(asStartOfDay());
 			return cb.and(
@@ -95,7 +96,7 @@ public abstract class HistoricityResponseService<T extends HistoricityDto, E ext
 		};
 	}
 
-	private Specification<E> getKeySpecification(final BusinessComponent bc) {
+	private Specification<E> getKeySpecification(final BusinessComponent<InnerBcDescription> bc) {
 		return (root, query, cb) -> cb.and(getHistoricityKey().getAttributes().stream()
 				.map(keyAttribute -> cb.equal(
 						root.get(keyAttribute.getAttribute()),
@@ -106,7 +107,7 @@ public abstract class HistoricityResponseService<T extends HistoricityDto, E ext
 	}
 
 	@Override
-	protected final CreateResult<T> doCreateEntity(final E entity, final BusinessComponent bc) {
+	protected final CreateResult<T> doCreateEntity(final E entity, final BusinessComponent<InnerBcDescription> bc) {
 		if (super.getList(bc).getResult().size() > 0) {
 			throw new VersionMismatchException();
 		}
@@ -124,14 +125,14 @@ public abstract class HistoricityResponseService<T extends HistoricityDto, E ext
 	}
 
 	@SneakyThrows
-	private void fillKey(final BusinessComponent bc, final E entity) {
+	private void fillKey(final BusinessComponent<InnerBcDescription> bc, final E entity) {
 		for (final KeyAttribute<E, T, ?> attribute : getHistoricityKey().getAttributes()) {
 			PropertyUtils.setSimpleProperty(entity, attribute.getAttribute().getName(), attribute.getValueSupplier().get(bc));
 		}
 	}
 
 	@Override
-	public final ActionResultDTO<T> deleteEntity(final BusinessComponent bc) {
+	public final ActionResultDTO<T> deleteEntity(final BusinessComponent<InnerBcDescription> bc) {
 		final E entity = isExist(bc.getIdAsLong());
 		if (isSameDay(bc.getParameters().getDateTo(), entity.getStartDate())) {
 			baseDAO.delete(entity);
@@ -142,13 +143,13 @@ public abstract class HistoricityResponseService<T extends HistoricityDto, E ext
 	}
 
 	@Override
-	protected final ActionResultDTO<T> doUpdateEntity(final E entity, final T data, final BusinessComponent bc) {
+	protected final ActionResultDTO<T> doUpdateEntity(final E entity, final T data, final BusinessComponent<InnerBcDescription> bc) {
 		final E entityForUpdate = getEntityForUpdate(entity, data, bc);
 		update(entityForUpdate, data, bc);
 		return new ActionResultDTO<>(entityToDto(bc, entityForUpdate)).setAction(PostAction.refreshBc(bc));
 	}
 
-	private E getEntityForUpdate(final E entity, final T data, final BusinessComponent bc) {
+	private E getEntityForUpdate(final E entity, final T data, final BusinessComponent<InnerBcDescription> bc) {
 		if (isKeyChanged(data)) {
 			return copyEntity(entity);
 		} else if (isSameDay(bc.getParameters().getDateTo(), entity.getStartDate())) {
@@ -187,15 +188,15 @@ public abstract class HistoricityResponseService<T extends HistoricityDto, E ext
 		return false;
 	}
 
-	protected abstract void update(E e, T dto, BusinessComponent bc);
+	protected abstract void update(E e, T dto, BusinessComponent<InnerBcDescription> bc);
 
-	protected ActionResultDTO<T> copy(BusinessComponent bc, T dto) {
+	protected ActionResultDTO<T> copy(BusinessComponent<?> bc, T dto) {
 		return null;
 	}
 
 	@Override
-	public final Actions<T> getActions() {
-		return Actions.<T>builder()
+	public final Actions<T, InnerBcDescription> getActions() {
+		return Actions.<T, InnerBcDescription>builder()
 				.addAll(actions())
 				.create().available(bc -> bc.getId() == null && isActionCreateAvailable(bc)).add()
 				.save().available(this::isActionSaveAvailable).add()
@@ -204,27 +205,27 @@ public abstract class HistoricityResponseService<T extends HistoricityDto, E ext
 				.build();
 	}
 
-	protected Actions<T> actions() {
+	protected Actions<T, InnerBcDescription> actions() {
 		return new Actions<>(Collections.emptyList(), Collections.emptyList());
 	}
 
-	protected boolean isActionCreateAvailable(final BusinessComponent bc) {
+	protected boolean isActionCreateAvailable(final BusinessComponent<InnerBcDescription> bc) {
 		return true;
 	}
 
-	protected boolean isActionSaveAvailable(final BusinessComponent bc) {
+	protected boolean isActionSaveAvailable(final BusinessComponent<InnerBcDescription> bc) {
 		return true;
 	}
 
-	protected boolean isActionDeleteAvailable(final BusinessComponent bc) {
+	protected boolean isActionDeleteAvailable(final BusinessComponent<InnerBcDescription> bc) {
 		return false;
 	}
 
-	protected boolean isActionCopyAvailable(final BusinessComponent bc) {
+	protected boolean isActionCopyAvailable(final BusinessComponent<InnerBcDescription> bc) {
 		return false;
 	}
 
-	private Optional<E> findNextEntry(final BusinessComponent bc) {
+	private Optional<E> findNextEntry(final BusinessComponent<InnerBcDescription> bc) {
 		return Optional.ofNullable(
 				baseDAO.getFirstResultOrNull(typeOfEntity, (root, query, cb) -> {
 					query.orderBy(cb.asc(root.get(HistoricityEntity_.startDate)));

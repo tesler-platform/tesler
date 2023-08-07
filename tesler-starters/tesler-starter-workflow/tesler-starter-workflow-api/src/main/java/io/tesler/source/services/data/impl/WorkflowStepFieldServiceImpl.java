@@ -21,6 +21,7 @@
 package io.tesler.source.services.data.impl;
 
 import io.tesler.core.crudma.bc.BusinessComponent;
+import io.tesler.core.crudma.bc.impl.InnerBcDescription;
 import io.tesler.core.crudma.impl.VersionAwareResponseService;
 import io.tesler.core.dto.rowmeta.ActionResultDTO;
 import io.tesler.core.dto.rowmeta.CreateResult;
@@ -50,7 +51,7 @@ public class WorkflowStepFieldServiceImpl extends
 
 	@Override
 	protected CreateResult<WorkflowStepFieldDto> doCreateEntity(final WorkflowStepField entity,
-			final BusinessComponent bc) {
+			final BusinessComponent<InnerBcDescription> bc) {
 		entity.setStep(baseDAO.findById(WorkflowStep.class, bc.getParentIdAsLong()));
 		baseDAO.save(entity);
 		return new CreateResult<>(entityToDto(bc, entity));
@@ -58,7 +59,7 @@ public class WorkflowStepFieldServiceImpl extends
 
 	@Override
 	public ActionResultDTO<WorkflowStepFieldDto> doUpdateEntity(WorkflowStepField entity, WorkflowStepFieldDto dto,
-			BusinessComponent bc) {
+			BusinessComponent<InnerBcDescription> bc) {
 		if (dto.isFieldChanged(WorkflowStepFieldDto_.fieldId)) {
 			entity.setTaskField(dto.getFieldId() == null ? null : baseDAO.findById(TaskField.class, dto.getFieldId()));
 		}
@@ -66,8 +67,8 @@ public class WorkflowStepFieldServiceImpl extends
 	}
 
 	@Override
-	public Actions<WorkflowStepFieldDto> getActions() {
-		return Actions.<WorkflowStepFieldDto>builder()
+	public Actions<WorkflowStepFieldDto, InnerBcDescription> getActions() {
+		return Actions.<WorkflowStepFieldDto, InnerBcDescription>builder()
 				.create().add()
 				.save().add()
 				.delete().add()

@@ -119,15 +119,15 @@ public class LinkedDictionaryServiceImpl implements LinkedDictionaryService {
 
 	private String getServiceName(BusinessComponent bc) {
 		if (bc.getDescription() instanceof InnerBcDescription) {
-			InnerBcDescription innerBcDescription = bc.getDescription();
+			InnerBcDescription innerBcDescription = (InnerBcDescription) bc.getDescription();
 			return innerBcDescription.getServiceClass().getSimpleName();
 		}
 		return bc.getDescription().getCrudmaService().getSimpleName();
 	}
 
 	@Override
-	public Set<LOV> getDictionariesForField(DtoField field, BusinessComponent bc, boolean filterValues) {
-		String serviceName = bc.<InnerBcDescription>getDescription().getServiceClass().getSimpleName();
+	public Set<LOV> getDictionariesForField(DtoField field, BusinessComponent<InnerBcDescription> bc, boolean filterValues) {
+		String serviceName = bc.getDescription().getServiceClass().getSimpleName();
 		List<DictionaryLnkRule> rules = linkedDictionaryCache.getRules(serviceName)
 				.getOrDefault(field.getName(), Collections.emptyList())
 				.stream().filter(rule -> filterValues == rule.isFilterableField())

@@ -25,6 +25,7 @@ import static io.tesler.api.data.dictionary.CoreDictionaries.DictionaryTermType.
 import io.tesler.api.data.dictionary.DictionaryCache;
 import io.tesler.api.data.dictionary.DictionaryType;
 import io.tesler.core.crudma.bc.BusinessComponent;
+import io.tesler.core.crudma.bc.impl.InnerBcDescription;
 import io.tesler.core.crudma.impl.VersionAwareResponseService;
 import io.tesler.core.dto.DTOUtils;
 import io.tesler.core.dto.rowmeta.ActionResultDTO;
@@ -51,19 +52,19 @@ public abstract class BaseDictionaryLnkRuleCondServiceImpl<D extends DictionaryL
 
 	public BaseDictionaryLnkRuleCondServiceImpl(Class<D> typeOfDTO, Class<E> typeOfEntity,
 			SingularAttribute<? super E, ? extends BaseEntity> parentSpec,
-			Class<? extends FieldMetaBuilder<D>> metaBuilder) {
+			Class<? extends FieldMetaBuilder<D, InnerBcDescription>> metaBuilder) {
 		super(typeOfDTO, typeOfEntity, parentSpec, metaBuilder);
 	}
 
 	@Override
-	protected CreateResult<D> doCreateEntity(final E entity, final BusinessComponent bc) {
+	protected CreateResult<D> doCreateEntity(final E entity, final BusinessComponent<InnerBcDescription> bc) {
 		entity.setDictionaryLnkRule(baseDAO.findById(DictionaryLnkRule.class, bc.getParentIdAsLong()));
 		baseDAO.save(entity);
 		return new CreateResult<>(entityToDto(bc, entity));
 	}
 
 	@Override
-	protected final ActionResultDTO<D> doUpdateEntity(E entity, D data, BusinessComponent bc) {
+	protected final ActionResultDTO<D> doUpdateEntity(E entity, D data, BusinessComponent<InnerBcDescription> bc) {
 		boolean isSqlService = "SqlCrudmaService"
 				.equals(entity.getDictionaryLnkRule().getService().getServiceName());
 		if (data.hasChangedFields()) {
@@ -83,7 +84,7 @@ public abstract class BaseDictionaryLnkRuleCondServiceImpl<D extends DictionaryL
 	}
 
 
-	protected ActionResultDTO<D> doUpdateEntity(E entity, D data, boolean isSqlService, BusinessComponent bc) {
+	protected ActionResultDTO<D> doUpdateEntity(E entity, D data, boolean isSqlService, BusinessComponent<InnerBcDescription> bc) {
 		if (data.hasChangedFields()) {
 			if (data.isFieldChanged(DictionaryLnkRuleCondDto_.fieldName)) {
 				entity.setFieldName(data.getFieldName());
@@ -117,8 +118,8 @@ public abstract class BaseDictionaryLnkRuleCondServiceImpl<D extends DictionaryL
 	}
 
 	@Override
-	public Actions<D> getActions() {
-		return Actions.<D>builder()
+	public Actions<D, InnerBcDescription> getActions() {
+		return Actions.<D, InnerBcDescription>builder()
 				.create().add()
 				.save().add()
 				.delete().add()

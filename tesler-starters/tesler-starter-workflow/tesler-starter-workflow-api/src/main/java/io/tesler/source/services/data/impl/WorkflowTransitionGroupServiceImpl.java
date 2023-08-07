@@ -25,6 +25,7 @@ import static java.util.Optional.ofNullable;
 
 import io.tesler.WorkflowServiceAssociation;
 import io.tesler.core.crudma.bc.BusinessComponent;
+import io.tesler.core.crudma.bc.impl.InnerBcDescription;
 import io.tesler.core.crudma.impl.VersionAwareResponseService;
 import io.tesler.core.dto.rowmeta.ActionResultDTO;
 import io.tesler.core.dto.rowmeta.CreateResult;
@@ -59,7 +60,7 @@ public class WorkflowTransitionGroupServiceImpl extends
 	}
 
 	@Override
-	protected Specification<WorkflowTransitionGroup> getParentSpecification(BusinessComponent bc) {
+	protected Specification<WorkflowTransitionGroup> getParentSpecification(BusinessComponent<InnerBcDescription> bc) {
 		return (root, cq, cb) -> {
 			final Long parentId = getParentId(bc);
 			return parentId == null
@@ -68,7 +69,7 @@ public class WorkflowTransitionGroupServiceImpl extends
 		};
 	}
 
-	private Long getParentId(BusinessComponent bc) {
+	private Long getParentId(BusinessComponent<InnerBcDescription> bc) {
 		if (WorkflowServiceAssociation.wfTransitionGroupPopup.isBc(bc)) {
 			return ofNullable(baseDAO.findById(WorkflowTransition.class, bc.getParentIdAsLong()))
 					.map(WorkflowTransition::getSourceStep)
@@ -80,7 +81,7 @@ public class WorkflowTransitionGroupServiceImpl extends
 
 	@Override
 	protected CreateResult<WorkflowTransitionGroupDto> doCreateEntity(final WorkflowTransitionGroup entity,
-			final BusinessComponent bc) {
+			final BusinessComponent<InnerBcDescription> bc) {
 		WorkflowStep workflowStep = Optional.ofNullable(baseDAO.findById(WorkflowStep.class, bc.getParentIdAsLong()))
 				.orElseThrow(() -> new BusinessException().addPopup(errorMessage("error.no_parent_workflow_step")));
 
@@ -92,7 +93,7 @@ public class WorkflowTransitionGroupServiceImpl extends
 
 	@Override
 	protected ActionResultDTO<WorkflowTransitionGroupDto> doUpdateEntity(WorkflowTransitionGroup entity,
-			WorkflowTransitionGroupDto dto, BusinessComponent bc) {
+			WorkflowTransitionGroupDto dto, BusinessComponent<InnerBcDescription> bc) {
 		if (dto.isFieldChanged(WorkflowTransitionGroupDto_.maxShowButtonsInGroup)) {
 			entity.setMaxShowButtonsInGroup(dto.getMaxShowButtonsInGroup());
 		}
@@ -106,8 +107,8 @@ public class WorkflowTransitionGroupServiceImpl extends
 	}
 
 	@Override
-	public Actions<WorkflowTransitionGroupDto> getActions() {
-		return Actions.<WorkflowTransitionGroupDto>builder()
+	public Actions<WorkflowTransitionGroupDto, InnerBcDescription> getActions() {
+		return Actions.<WorkflowTransitionGroupDto, InnerBcDescription>builder()
 				.create().add()
 				.save().add()
 				.delete().add()

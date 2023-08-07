@@ -27,6 +27,7 @@ import io.tesler.api.data.dictionary.LOV;
 import io.tesler.api.service.tx.TransactionService;
 import io.tesler.api.util.Invoker;
 import io.tesler.core.crudma.bc.BusinessComponent;
+import io.tesler.core.crudma.bc.impl.InnerBcDescription;
 import io.tesler.core.crudma.impl.VersionAwareResponseService;
 import io.tesler.core.dto.rowmeta.ActionResultDTO;
 import io.tesler.core.dto.rowmeta.CreateResult;
@@ -89,7 +90,7 @@ public class NotificationSettingsServiceImpl extends
 
 
 	@Override
-	protected ResultPage<NotificationSettingsDTO> entitiesToDtos(BusinessComponent bc,
+	protected ResultPage<NotificationSettingsDTO> entitiesToDtos(BusinessComponent<InnerBcDescription> bc,
 			ResultPage<NotificationSettings> entities) {
 		if (NotificationServiceAssociation.notificationGlobalSettings.isBc(bc)) {
 			return ResultPage.of(entities, entity -> entityToDto(bc, entity, (NotificationSettings) null));
@@ -105,7 +106,7 @@ public class NotificationSettingsServiceImpl extends
 		return ResultPage.of(entities, entity -> entityToDto(bc, entity, userSettings.get(entity.getEventName())));
 	}
 
-	protected NotificationSettingsDTO entityToDto(BusinessComponent bc, NotificationSettings entity,
+	protected NotificationSettingsDTO entityToDto(BusinessComponent<InnerBcDescription> bc, NotificationSettings entity,
 			NotificationSettings userSettings) {
 		if (userSettings == null) {
 			userSettings = entity;
@@ -121,7 +122,7 @@ public class NotificationSettingsServiceImpl extends
 	}
 
 	@Override
-	protected NotificationSettingsDTO entityToDto(BusinessComponent bc, NotificationSettings entity) {
+	protected NotificationSettingsDTO entityToDto(BusinessComponent<InnerBcDescription> bc, NotificationSettings entity) {
 		NotificationSettings userSettings = null;
 		if (NotificationServiceAssociation.notificationGlobalSettings.isNotBc(bc)) {
 			userSettings = getUserSettings(entity.getEventName());
@@ -131,7 +132,7 @@ public class NotificationSettingsServiceImpl extends
 
 
 	@Override
-	protected Specification<NotificationSettings> getParentSpecification(BusinessComponent bc) {
+	protected Specification<NotificationSettings> getParentSpecification(BusinessComponent<InnerBcDescription> bc) {
 		// глобальные настройки
 		if (NotificationServiceAssociation.notificationGlobalSettings.isBc(bc)) {
 			return (root, query, cb) -> cb.equal(
@@ -147,7 +148,7 @@ public class NotificationSettingsServiceImpl extends
 
 	@Override
 	protected CreateResult<NotificationSettingsDTO> doCreateEntity(final NotificationSettings entity,
-			final BusinessComponent bc) {
+			final BusinessComponent<InnerBcDescription> bc) {
 		if (NotificationServiceAssociation.notificationGlobalSettings.isNotBc(bc)) {
 			throw new UnsupportedOperationException();
 		}
@@ -158,7 +159,7 @@ public class NotificationSettingsServiceImpl extends
 
 	@Override
 	protected ActionResultDTO<NotificationSettingsDTO> doUpdateEntity(final NotificationSettings entity,
-			NotificationSettingsDTO dto, BusinessComponent bc) {
+			NotificationSettingsDTO dto, BusinessComponent<InnerBcDescription> bc) {
 		// пытаемся менять глобальные настройки из пользовательских - нужно создать копию
 		NotificationSettings mutable = entity;
 		if (NotificationServiceAssociation.notificationGlobalSettings.isNotBc(bc)) {
@@ -190,8 +191,8 @@ public class NotificationSettingsServiceImpl extends
 	}
 
 	@Override
-	public Actions<NotificationSettingsDTO> getActions() {
-		return Actions.<NotificationSettingsDTO>builder()
+	public Actions<NotificationSettingsDTO, InnerBcDescription> getActions() {
+		return Actions.<NotificationSettingsDTO, InnerBcDescription>builder()
 				.create().available(this::isActionCreateAvailable).add()
 				.save().add()
 				.delete().available(NotificationServiceAssociation.notificationGlobalSettings::isBc).add()
@@ -202,7 +203,7 @@ public class NotificationSettingsServiceImpl extends
 				.build();
 	}
 
-	private boolean isActionResetAvailable(BusinessComponent bc) {
+	private boolean isActionResetAvailable(BusinessComponent<InnerBcDescription> bc) {
 		Long id = bc.getIdAsLong();
 		if (id == null || NotificationServiceAssociation.notificationGlobalSettings.isBc(bc)) {
 			return false;
@@ -211,7 +212,7 @@ public class NotificationSettingsServiceImpl extends
 		return getUserSettings(entity.getEventName()) != null;
 	}
 
-	private ActionResultDTO<NotificationSettingsDTO> resetAllSettings(final BusinessComponent bc,
+	private ActionResultDTO<NotificationSettingsDTO> resetAllSettings(final BusinessComponent<?> bc,
 			final NotificationSettingsDTO data) {
 		if (NotificationServiceAssociation.notificationGlobalSettings.isBc(bc)) {
 			throw new UnsupportedOperationException();
@@ -225,7 +226,7 @@ public class NotificationSettingsServiceImpl extends
 		return new ActionResultDTO<NotificationSettingsDTO>().setAction(PostAction.refreshBc(bc));
 	}
 
-	private ActionResultDTO<NotificationSettingsDTO> resetSettings(final BusinessComponent bc,
+	private ActionResultDTO<NotificationSettingsDTO> resetSettings(final BusinessComponent<?> bc,
 			final NotificationSettingsDTO data) {
 		if (NotificationServiceAssociation.notificationGlobalSettings.isBc(bc)) {
 			throw new UnsupportedOperationException();
@@ -239,7 +240,7 @@ public class NotificationSettingsServiceImpl extends
 		return new ActionResultDTO<NotificationSettingsDTO>().setAction(PostAction.refreshBc(bc));
 	}
 
-	private boolean isActionCreateAvailable(BusinessComponent bc) {
+	private boolean isActionCreateAvailable(BusinessComponent<InnerBcDescription> bc) {
 		// создавать можно только глобальные
 		if (NotificationServiceAssociation.notificationGlobalSettings.isNotBc(bc)) {
 			return false;
@@ -260,7 +261,7 @@ public class NotificationSettingsServiceImpl extends
 	}
 
 	@Override
-	public ActionResultDTO<NotificationSettingsDTO> deleteEntity(BusinessComponent bc) {
+	public ActionResultDTO<NotificationSettingsDTO> deleteEntity(BusinessComponent<InnerBcDescription> bc) {
 		NotificationSettings settings = isExist(bc.getIdAsLong());
 		delete(settings);
 		return new ActionResultDTO<>();

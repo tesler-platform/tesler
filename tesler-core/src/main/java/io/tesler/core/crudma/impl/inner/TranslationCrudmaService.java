@@ -23,6 +23,7 @@ package io.tesler.core.crudma.impl.inner;
 import io.tesler.api.data.dto.UniversalDTO;
 import io.tesler.core.crudma.bc.BcRegistry;
 import io.tesler.core.crudma.bc.BusinessComponent;
+import io.tesler.core.crudma.bc.impl.ExtremeBcDescription;
 import io.tesler.core.crudma.bc.impl.InnerBcDescription;
 import io.tesler.core.dto.rowmeta.CreateResult;
 import io.tesler.core.dto.rowmeta.PostAction;
@@ -53,12 +54,12 @@ public class TranslationCrudmaService extends UniversalCrudmaService<UniversalDT
 	}
 
 	@Override
-	public CreateResult<UniversalDTO> create(BusinessComponent bc) {
+	public CreateResult<UniversalDTO> create(BusinessComponent<ExtremeBcDescription> bc) {
 		return doCreate(bc);
 	}
 
 	private <L extends Translation<E, L>, E extends BaseEntity & Translatable<E, L>> CreateResult<UniversalDTO> doCreate(
-			BusinessComponent bc) {
+			BusinessComponent<ExtremeBcDescription> bc) {
 		E parent = getParentEntity(bc);
 		List<L> created = translationService.populate(parent);
 		return new CreateResult<>(entityToDto(
@@ -77,47 +78,47 @@ public class TranslationCrudmaService extends UniversalCrudmaService<UniversalDT
 	}
 
 	@Override
-	protected Translation getEntity(BusinessComponent bc) {
+	protected Translation getEntity(BusinessComponent<ExtremeBcDescription> bc) {
 		Translatable<?, ?> parent = getParentEntity(bc);
 		return parent.getTranslation(bc.getId(), null).orElseThrow(IllegalArgumentException::new);
 	}
 
 	@Override
-	protected Collection<? extends Translation> getEntities(BusinessComponent bc) {
+	protected Collection<? extends Translation> getEntities(BusinessComponent<ExtremeBcDescription> bc) {
 		Translatable<?, ?> parent = getParentEntity(bc);
 		return parent.getTranslations().values();
 	}
 
 	@Override
-	public long count(BusinessComponent bc) {
+	public long count(BusinessComponent<ExtremeBcDescription> bc) {
 		return getEntities(bc).size();
 	}
 
 	@Override
-	protected Class<? extends Translation> getEntityClass(BusinessComponent bc) {
+	protected Class<? extends Translation> getEntityClass(BusinessComponent<ExtremeBcDescription> bc) {
 		return getParentEntity(bc).getTranslationType();
 	}
 
 	@Override
-	protected List<Attribute<?, ?>> getAttributes(BusinessComponent bc) {
+	protected List<Attribute<?, ?>> getAttributes(BusinessComponent<ExtremeBcDescription> bc) {
 		return super.getAttributes(getEntityClass(bc), a -> String.class.isAssignableFrom(a.getJavaType()));
 	}
 
 	@SuppressWarnings("unchecked")
 	protected <E extends BaseEntity & Translatable<?, ? extends Translation<?, ?>>> E getParentEntity(
-			BusinessComponent bc) {
+			BusinessComponent<ExtremeBcDescription> bc) {
 		InnerBcDescription bcDescription = (InnerBcDescription) bcRegistry.getBcDescription(bc.getParentName());
-		Class<? extends BaseEntity> entityClass = responseFactory.getEntityFromService(bcDescription);
+		Class<? extends BaseEntity> entityClass = bcDescription.getEntity();
 		return (E) jpaDao.findById(entityClass, bc.getParentIdAsLong());
 	}
 
 	@Override
-	protected boolean isSaveAvailable(BusinessComponent bc) {
+	protected boolean isSaveAvailable(BusinessComponent<ExtremeBcDescription> bc) {
 		return true;
 	}
 
 	@Override
-	protected boolean isCreateAvailable(BusinessComponent bc) {
+	protected boolean isCreateAvailable(BusinessComponent<ExtremeBcDescription> bc) {
 		return !translationService.getMissingTranslations(getParentEntity(bc)).isEmpty();
 	}
 

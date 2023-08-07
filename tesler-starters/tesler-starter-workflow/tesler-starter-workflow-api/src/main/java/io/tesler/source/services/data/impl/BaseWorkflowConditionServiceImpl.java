@@ -27,6 +27,7 @@ import static io.tesler.source.dto.WorkflowConditionDto_.seq;
 import io.tesler.WorkflowServiceAssociation;
 import io.tesler.api.data.dictionary.CoreDictionaries.WorkflowConditionType;
 import io.tesler.core.crudma.bc.BusinessComponent;
+import io.tesler.core.crudma.bc.impl.InnerBcDescription;
 import io.tesler.core.crudma.impl.VersionAwareResponseService;
 import io.tesler.core.dict.WorkflowDictionaries;
 import io.tesler.core.dict.WorkflowDictionaryType;
@@ -57,12 +58,12 @@ public abstract class BaseWorkflowConditionServiceImpl<D extends WorkflowConditi
 			final Class<D> typeOfDTO,
 			final Class<E> typeOfEntity,
 			final SingularAttribute<? super E, ? extends BaseEntity> parentSpec,
-			final Class<? extends FieldMetaBuilder<D>> metaBuilder) {
+			final Class<? extends FieldMetaBuilder<D, InnerBcDescription>> metaBuilder) {
 		super(typeOfDTO, typeOfEntity, parentSpec, metaBuilder);
 	}
 
 	@Override
-	protected Specification<E> getParentSpecification(BusinessComponent bc) {
+	protected Specification<E> getParentSpecification(BusinessComponent<InnerBcDescription> bc) {
 		final Long parentId = bc.getParentIdAsLong();
 		if (WorkflowServiceAssociation.wfStepCondRecommendedAssignee.isBc(bc)) {
 			return (root, cq, cb) -> cb.equal(
@@ -87,7 +88,7 @@ public abstract class BaseWorkflowConditionServiceImpl<D extends WorkflowConditi
 	}
 
 	@Override
-	protected final CreateResult<D> doCreateEntity(final E entity, final BusinessComponent bc) {
+	protected final CreateResult<D> doCreateEntity(final E entity, final BusinessComponent<InnerBcDescription> bc) {
 		if (WorkflowServiceAssociation.wfStepCondRecommendedAssignee.isBc(bc)) {
 			entity.setStepConditionGroup(baseDAO.findById(WorkflowStepConditionGroup.class, bc.getParentIdAsLong()));
 			entity.setCondLinkType(WorkflowConditionType.STEP_CONDITION);
@@ -110,15 +111,15 @@ public abstract class BaseWorkflowConditionServiceImpl<D extends WorkflowConditi
 	}
 
 	@Override
-	protected abstract E create(BusinessComponent bc);
+	protected abstract E create(BusinessComponent<InnerBcDescription> bc);
 
 	@Override
-	protected final ActionResultDTO<D> doUpdateEntity(E entity, D dto, BusinessComponent bc) {
+	protected final ActionResultDTO<D> doUpdateEntity(E entity, D dto, BusinessComponent<InnerBcDescription> bc) {
 		update(entity, dto, bc);
 		return new ActionResultDTO<>(entityToDto(bc, entity));
 	}
 
-	protected void update(E entity, D dto, BusinessComponent bc) {
+	protected void update(E entity, D dto, BusinessComponent<InnerBcDescription> bc) {
 		if (dto.isFieldChanged(seq)) {
 			entity.setSeq(dto.getSeq());
 		}
@@ -131,8 +132,8 @@ public abstract class BaseWorkflowConditionServiceImpl<D extends WorkflowConditi
 	}
 
 	@Override
-	public Actions<D> getActions() {
-		return Actions.<D>builder()
+	public Actions<D, InnerBcDescription> getActions() {
+		return Actions.<D, InnerBcDescription>builder()
 				.create().add()
 				.save().add()
 				.delete().add()

@@ -27,6 +27,7 @@ import static org.apache.commons.lang3.ObjectUtils.defaultIfNull;
 
 import io.tesler.api.data.dto.DataResponseDTO;
 import io.tesler.core.crudma.bc.BusinessComponent;
+import io.tesler.core.crudma.bc.impl.BcDescription;
 import io.tesler.core.dto.rowmeta.ActionResultDTO;
 import io.tesler.core.dto.rowmeta.ActionType;
 import io.tesler.core.dto.rowmeta.PreAction;
@@ -36,17 +37,17 @@ import java.util.Map;
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor
-public class ActionDescriptionBuilder<T extends DataResponseDTO> {
+public class ActionDescriptionBuilder<T extends DataResponseDTO, D extends BcDescription> {
 
 	private String key;
 
 	private String text;
 
-	private ActionAvailableChecker baseActionAvailableChecker;
+	private ActionAvailableChecker<D> baseActionAvailableChecker;
 
-	private ActionAvailableChecker actionAvailableChecker;
+	private ActionAvailableChecker<D> actionAvailableChecker;
 
-	private ActionInvoker<T> actionInvoker;
+	private ActionInvoker<T, D> actionInvoker;
 
 	private PreActionSpecifier preActionSpecifier;
 
@@ -54,7 +55,7 @@ public class ActionDescriptionBuilder<T extends DataResponseDTO> {
 
 	private DataValidator<T> dataValidator;
 
-	private ActionsBuilder<T> actionsBuilder;
+	private ActionsBuilder<T, D> actionsBuilder;
 
 	private ActionIconSpecifier iconCode = WITHOUT_ICON;
 
@@ -66,11 +67,11 @@ public class ActionDescriptionBuilder<T extends DataResponseDTO> {
 
 	private boolean autoSaveBefore = true;
 
-	private static <T extends DataResponseDTO> ActionInvoker<T> withoutUpdate(ActionInvoker<T> wrapped) {
+	private static <T extends DataResponseDTO, D extends BcDescription> ActionInvoker<T, D> withoutUpdate(ActionInvoker<T, D> wrapped) {
 
-		return new ActionInvoker<T>() {
+		return new ActionInvoker<T, D>() {
 			@Override
-			public ActionResultDTO<T> invoke(BusinessComponent bc, T data) {
+			public ActionResultDTO<T> invoke(BusinessComponent<D> bc, T data) {
 				return wrapped.invoke(bc, data);
 			}
 
@@ -83,11 +84,11 @@ public class ActionDescriptionBuilder<T extends DataResponseDTO> {
 
 	}
 
-	private static <T extends DataResponseDTO> ActionInvoker<T> withUpdate(ActionInvoker<T> wrapped) {
+	private static <T extends DataResponseDTO, D extends BcDescription> ActionInvoker<T, D> withUpdate(ActionInvoker<T, D> wrapped) {
 
-		return new ActionInvoker<T>() {
+		return new ActionInvoker<T, D>() {
 			@Override
-			public ActionResultDTO<T> invoke(BusinessComponent bc, T data) {
+			public ActionResultDTO<T> invoke(BusinessComponent<D> bc, T data) {
 				return wrapped.invoke(bc, data);
 			}
 
@@ -100,112 +101,112 @@ public class ActionDescriptionBuilder<T extends DataResponseDTO> {
 
 	}
 
-	public ActionDescriptionBuilder<T> action(String key, String text) {
+	public ActionDescriptionBuilder<T, D> action(String key, String text) {
 		this.key = key;
 		this.text = text;
 		return this;
 	}
 
-	public ActionDescriptionBuilder<T> action(ActionType actionType) {
+	public ActionDescriptionBuilder<T, D> action(ActionType actionType) {
 		if (nonNull(actionType)) {
 			this.key = actionType.getType();
 			this.text = actionType.getText().get();
 			this.iconCode = actionType.getIcon();
 			this.showOnlyIcon = true;
-			this.baseActionAvailableChecker = actionType.getBaseAvailableChecker();
+			this.baseActionAvailableChecker = (ActionAvailableChecker<D>) actionType.getBaseAvailableChecker();
 		}
 		return this;
 	}
 
-	public ActionDescriptionBuilder<T> available(ActionAvailableChecker actionAvailableChecker) {
+	public ActionDescriptionBuilder<T, D> available(ActionAvailableChecker<D> actionAvailableChecker) {
 		this.actionAvailableChecker = actionAvailableChecker;
 		return this;
 	}
 
-	public ActionDescriptionBuilder<T> invoker(ActionInvoker<T> actionInvoker) {
+	public ActionDescriptionBuilder<T, D> invoker(ActionInvoker<T, D> actionInvoker) {
 		this.actionInvoker = actionInvoker;
 		return this;
 	}
 
-	public ActionDescriptionBuilder<T> text(String text) {
+	public ActionDescriptionBuilder<T, D> text(String text) {
 		this.text = text;
 		return this;
 	}
 
-	public ActionDescriptionBuilder<T> withPreAction(PreActionSpecifier preActionSpecifier) {
+	public ActionDescriptionBuilder<T, D> withPreAction(PreActionSpecifier preActionSpecifier) {
 		this.preActionSpecifier = preActionSpecifier;
 		return this;
 	}
 
-	public ActionDescriptionBuilder<T> withPreAction(PreAction preAction) {
+	public ActionDescriptionBuilder<T, D> withPreAction(PreAction preAction) {
 		this.preActionSpecifier = bc -> preAction;
 		return this;
 	}
 
-	public ActionDescriptionBuilder<T> withIcon(ActionIconSpecifier icon, boolean showOnlyIcon) {
+	public ActionDescriptionBuilder<T, D> withIcon(ActionIconSpecifier icon, boolean showOnlyIcon) {
 		this.iconCode = icon;
 		this.showOnlyIcon = showOnlyIcon;
 		return this;
 	}
 
-	public ActionDescriptionBuilder<T> scope(ActionScope actionScope) {
+	public ActionDescriptionBuilder<T, D> scope(ActionScope actionScope) {
 		this.actionScope = actionScope;
 		return this;
 	}
 
-	public ActionDescriptionBuilder<T> withCustomParameter(Map<String, String> parametersTuple) {
+	public ActionDescriptionBuilder<T, D> withCustomParameter(Map<String, String> parametersTuple) {
 		this.customParameter = parametersTuple;
 		return this;
 	}
 
-	public ActionDescriptionBuilder<T> withAutoSaveBefore() {
+	public ActionDescriptionBuilder<T, D> withAutoSaveBefore() {
 		this.autoSaveBefore = true;
 		return this;
 	}
 
-	public ActionDescriptionBuilder<T> withoutAutoSaveBefore() {
+	public ActionDescriptionBuilder<T, D> withoutAutoSaveBefore() {
 		this.autoSaveBefore = false;
 		return this;
 	}
 
-	public ActionDescriptionBuilder<T> withoutIcon() {
+	public ActionDescriptionBuilder<T, D> withoutIcon() {
 		this.iconCode = WITHOUT_ICON;
 		this.showOnlyIcon = false;
 		return this;
 	}
 
-	public ActionDescriptionBuilder<T> withPreActionEvents(PreActionEventSpecifier preActionEventSpecifier) {
+	public ActionDescriptionBuilder<T, D> withPreActionEvents(PreActionEventSpecifier preActionEventSpecifier) {
 		this.preActionEventSpecifier = preActionEventSpecifier;
 		return this;
 	}
 
-	public ActionDescriptionBuilder<T> withPreActionEvents(PreActionEvent... preActionEvents) {
+	public ActionDescriptionBuilder<T, D> withPreActionEvents(PreActionEvent... preActionEvents) {
 		this.preActionEventSpecifier = bc -> nonNull(preActionEvents) ? Arrays.asList(preActionEvents) : null;
 		return this;
 	}
 
-	public ActionDescriptionBuilder<T> validator(DataValidator<T> dataValidator) {
+	public ActionDescriptionBuilder<T, D> validator(DataValidator<T> dataValidator) {
 		this.dataValidator = dataValidator;
 		return this;
 	}
 
-	ActionDescriptionBuilder<T> withBuilder(ActionsBuilder<T> actionsBuilder) {
+	ActionDescriptionBuilder<T, D> withBuilder(ActionsBuilder<T, D> actionsBuilder) {
 		this.actionsBuilder = actionsBuilder;
 		return this;
 	}
 
-	public ActionsBuilder<T> add(Boolean updateRequired) {
-		ActionDescription<T> actionDescription = this.build(updateRequired);
+	public ActionsBuilder<T, D> add(Boolean updateRequired) {
+		ActionDescription<T, D> actionDescription = this.build(updateRequired);
 		this.actionsBuilder.addAction(actionDescription);
 		return this.actionsBuilder;
 	}
 
-	public ActionsBuilder<T> add() {
+	public ActionsBuilder<T, D> add() {
 		return add(null);
 	}
 
-	public ActionDescription<T> build(Boolean updateRequired) {
-		ActionInvoker<T> invoker;
+	public ActionDescription<T, D> build(Boolean updateRequired) {
+		ActionInvoker<T, D> invoker;
 		if (actionInvoker == null) {
 			invoker = ActionInvoker.UNSUPPORTED_OPERATION;
 		} else if (updateRequired == null) {

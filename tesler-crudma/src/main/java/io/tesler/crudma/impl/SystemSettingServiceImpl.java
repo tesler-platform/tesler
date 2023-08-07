@@ -21,6 +21,7 @@
 package io.tesler.crudma.impl;
 
 import io.tesler.core.crudma.bc.BusinessComponent;
+import io.tesler.core.crudma.bc.impl.InnerBcDescription;
 import io.tesler.core.crudma.impl.VersionAwareResponseService;
 import io.tesler.core.dto.data.SystemSettingDTO;
 import io.tesler.core.dto.data.SystemSettingDTO_;
@@ -43,13 +44,13 @@ public class SystemSettingServiceImpl extends
 	}
 
 	@Override
-	protected Specification<SystemSetting> getParentSpecification(BusinessComponent bc) {
+	protected Specification<SystemSetting> getParentSpecification(BusinessComponent<InnerBcDescription> bc) {
 		return (root, cq, cb) -> cb.and();
 	}
 
 	@Override
 	protected ActionResultDTO<SystemSettingDTO> doUpdateEntity(SystemSetting item, SystemSettingDTO data,
-			BusinessComponent bc) {
+			BusinessComponent<InnerBcDescription> bc) {
 		if (data.isFieldChanged(SystemSettingDTO_.key)) {
 			item.setKey(data.getKey());
 		}
@@ -60,13 +61,13 @@ public class SystemSettingServiceImpl extends
 	}
 
 	@Override
-	protected CreateResult<SystemSettingDTO> doCreateEntity(final SystemSetting entity, final BusinessComponent bc) {
+	protected CreateResult<SystemSettingDTO> doCreateEntity(final SystemSetting entity, final BusinessComponent<InnerBcDescription> bc) {
 		return new CreateResult<>(entityToDto(bc, baseDAO.findById(SystemSetting.class, baseDAO.save(entity))));
 	}
 
 	@Override
-	public Actions<SystemSettingDTO> getActions() {
-		return Actions.<SystemSettingDTO>builder()
+	public Actions<SystemSettingDTO, InnerBcDescription> getActions() {
+		return Actions.<SystemSettingDTO, InnerBcDescription>builder()
 				.create().add()
 				.save().add()
 				.delete().add()

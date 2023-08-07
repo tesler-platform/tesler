@@ -42,7 +42,7 @@ import static org.mockito.Mockito.mock;
 
 @DirtiesContext
 @SpringJUnitConfig({
-		ResponseFactory.class,
+		DataResponseConverter.class,
 		ValidatorsProviderImpl.class,
 		JacksonConfig.class
 })
@@ -50,7 +50,7 @@ class ResponseFactoryTest {
 
 	@InjectMocks
 	@Autowired
-	private ResponseFactory responseFactory;
+	private DataResponseConverter responseFactory;
 
 	private LinkedHashMap<String, Object> map;
 	private BusinessComponent bc;

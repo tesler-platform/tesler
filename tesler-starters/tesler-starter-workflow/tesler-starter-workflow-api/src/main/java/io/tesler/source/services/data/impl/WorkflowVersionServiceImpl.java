@@ -25,6 +25,7 @@ import static org.apache.commons.lang3.StringUtils.joinWith;
 
 import io.tesler.WorkflowServiceAssociation;
 import io.tesler.core.crudma.bc.BusinessComponent;
+import io.tesler.core.crudma.bc.impl.InnerBcDescription;
 import io.tesler.core.crudma.impl.VersionAwareResponseService;
 import io.tesler.core.dto.DrillDownType;
 import io.tesler.core.dto.rowmeta.ActionResultDTO;
@@ -74,7 +75,7 @@ public class WorkflowVersionServiceImpl extends
 	}
 
 	@Override
-	protected Specification<WorkflowVersion> getParentSpecification(BusinessComponent bc) {
+	protected Specification<WorkflowVersion> getParentSpecification(BusinessComponent<InnerBcDescription> bc) {
 		if (WorkflowServiceAssociation.wfActiveVersion.isBc(bc)) {
 			return (root, query, cb) -> cb.and(
 					cb.equal(root.get(WorkflowVersion_.workflow).get(BaseEntity_.id), bc.getParentIdAsLong()),
@@ -86,7 +87,7 @@ public class WorkflowVersionServiceImpl extends
 
 	@Override
 	protected ActionResultDTO<WorkflowVersionDto> doUpdateEntity(WorkflowVersion entity, WorkflowVersionDto dto,
-			BusinessComponent bc) {
+			BusinessComponent<InnerBcDescription> bc) {
 		if (dto.isFieldChanged(WorkflowVersionDto_.description)) {
 			entity.setDescription(dto.getDescription());
 		}
@@ -105,7 +106,7 @@ public class WorkflowVersionServiceImpl extends
 
 	@Override
 	protected CreateResult<WorkflowVersionDto> doCreateEntity(final WorkflowVersion entity,
-			final BusinessComponent bc) {
+			final BusinessComponent<InnerBcDescription> bc) {
 		final Workflow workflow = baseDAO.findById(Workflow.class, bc.getParentIdAsLong());
 		entity.setWorkflow(workflow);
 		entity.setVersion(workflowDao.getNextVersion(workflow, false).doubleValue());
@@ -115,8 +116,8 @@ public class WorkflowVersionServiceImpl extends
 	}
 
 	@Override
-	public Actions<WorkflowVersionDto> getActions() {
-		return Actions.<WorkflowVersionDto>builder()
+	public Actions<WorkflowVersionDto, InnerBcDescription> getActions() {
+		return Actions.<WorkflowVersionDto, InnerBcDescription>builder()
 				.create().available(this::isEditable).add()
 				.save().available(this::isEditable).add()
 				.action(ActionType.COPY).available(and(
@@ -133,12 +134,12 @@ public class WorkflowVersionServiceImpl extends
 				.build();
 	}
 
-	private ActionResultDTO<WorkflowVersionDto> exportNewVersion(BusinessComponent bc, WorkflowVersionDto data) {
+	private ActionResultDTO<WorkflowVersionDto> exportNewVersion(BusinessComponent<?> bc, WorkflowVersionDto data) {
 		final TeslerFile fileEntity = workflowExporter.exportNewVersion(bc, data);
 		return new ActionResultDTO<>(data).setAction(PostAction.downloadFile(String.valueOf(fileEntity.getId())));
 	}
 
-	private ActionResultDTO<WorkflowVersionDto> copyNewVersion(BusinessComponent bc, WorkflowVersionDto data) {
+	private ActionResultDTO<WorkflowVersionDto> copyNewVersion(BusinessComponent<?> bc, WorkflowVersionDto data) {
 		final WorkflowVersion newVersion = workflowExporter.copyNewVersion(bc, data);
 		return new ActionResultDTO<>(data).setAction(PostAction.drillDown(
 				DrillDownType.INNER,
@@ -153,23 +154,23 @@ public class WorkflowVersionServiceImpl extends
 		));
 	}
 
-	private boolean isEditable(final BusinessComponent bc) {
+	private boolean isEditable(final BusinessComponent<InnerBcDescription> bc) {
 		return WorkflowServiceAssociation.migrationWfVersion.isNotBc(bc);
 	}
 
-	private boolean versionIsNotDraft(final BusinessComponent bc) {
+	private boolean versionIsNotDraft(final BusinessComponent<InnerBcDescription> bc) {
 		return isEditable(bc) && bc.getId() != null && !baseDAO.findById(WorkflowVersion.class, bc.getIdAsLong()).isDraft();
 	}
 
-	private boolean versionIsDraft(final BusinessComponent bc) {
+	private boolean versionIsDraft(final BusinessComponent<InnerBcDescription> bc) {
 		return isEditable(bc) && bc.getId() != null && baseDAO.findById(WorkflowVersion.class, bc.getIdAsLong()).isDraft();
 	}
 
-	private ActionResultDTO<WorkflowVersionDto> activateVersion(final BusinessComponent bc,
+	private ActionResultDTO<WorkflowVersionDto> activateVersion(final BusinessComponent<?> bc,
 			final WorkflowVersionDto data) {
 		final WorkflowVersion version = baseDAO.findById(WorkflowVersion.class, bc.getIdAsLong());
 		version.setDraft(false);
-		return new ActionResultDTO<>(entityToDto(bc, version));
+		return new ActionResultDTO<>(entityToDto((BusinessComponent<InnerBcDescription>)bc, version));
 	}
 
 }

@@ -21,6 +21,7 @@
 package io.tesler.crudma.impl;
 
 import io.tesler.core.crudma.bc.BusinessComponent;
+import io.tesler.core.crudma.bc.impl.InnerBcDescription;
 import io.tesler.core.crudma.impl.AbstractResponseService;
 import io.tesler.core.dto.rowmeta.ActionResultDTO;
 import io.tesler.crudma.api.DeptService;
@@ -37,7 +38,7 @@ public class DeptServiceImpl extends AbstractResponseService<DepartmentDTO, Depa
 	}
 
 	@Override
-	public ActionResultDTO<DepartmentDTO> deleteEntity(BusinessComponent businessComponent) {
+	public ActionResultDTO<DepartmentDTO> deleteEntity(BusinessComponent<InnerBcDescription> businessComponent) {
 		throw new UnsupportedOperationException();
 	}
 
